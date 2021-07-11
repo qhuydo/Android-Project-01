@@ -153,8 +153,7 @@ fun ContentResolver.getItems(collectionId: Long? = null) : List<Item> {
             MediaStore.Files.FileColumns.DISPLAY_NAME,
             MediaStore.Files.FileColumns.DATE_MODIFIED,
             MediaStore.Files.FileColumns.SIZE,
-            MediaStore.Files.FileColumns.RESOLUTION,
-            MediaStore.Files.FileColumns.RELATIVE_PATH
+            MediaStore.Files.FileColumns.DATA
         ),
         customSelection,
         null,
@@ -167,8 +166,7 @@ fun ContentResolver.getItems(collectionId: Long? = null) : List<Item> {
                 id = it.getLong(it.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
                 dateModified=it.getLong(it.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_MODIFIED)),
                 fileName = it.getString(it.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME)),
-                filePath = it.getString(it.getColumnIndexOrThrow(MediaStore.Files.FileColumns.RELATIVE_PATH)),
-                width=it.getInt(it.getColumnIndexOrThrow(MediaStore.Files.FileColumns.RESOLUTION)),
+                filePath = it.getString(it.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)),
                 fileSize = it.getLong(it.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE))
             )
             c.getUri()

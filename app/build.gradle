@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'ly.img.android.sdk'
 }
 
 android {
@@ -72,38 +71,4 @@ dependencies {
     // SubsamplingScaleImageView
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
 
-}
-
-imglyConfig {
-    pesdk {
-        enabled true
-        licencePath 'pesdk_android_license'
-    }
-
-    modules {
-        // UI modules
-        include 'ui:core'
-        include 'ui:text'
-        include 'ui:focus'
-        include 'ui:frame'
-        include 'ui:brush'
-        include 'ui:filter'
-        include 'ui:camera'
-        include 'ui:sticker'
-        include 'ui:overlay'
-        include 'ui:transform'
-        include 'ui:adjustment'
-        include 'ui:text-design'
-
-        // Backend serializer
-        include 'backend:serializer'
-
-        // Asset packs
-        include 'assets:font-basic'
-        include 'assets:frame-basic'
-        include 'assets:filter-basic'
-        include 'assets:overlay-basic'
-        include 'assets:sticker-shapes'
-        include 'assets:sticker-emoticons'
-    }
 }

@@ -2,28 +2,18 @@ package hcmus.android.gallery1
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
-
 import android.widget.TextView
-
 import android.widget.Toast
-
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.data.Item
-import org.w3c.dom.Text
 
 class ViewImageActivity : AppCompatActivity() {
     var bottomSheetBehavior: BottomSheetBehavior<BottomNavigationView>? = null
@@ -31,8 +21,6 @@ class ViewImageActivity : AppCompatActivity() {
     var bottomDrawerDim: View? = null
     private lateinit var item: Item
     private val CREATE_FILE: Int = 1
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Reset: splash screen "theme" -> default theme
@@ -114,17 +102,13 @@ class ViewImageActivity : AppCompatActivity() {
 
         val imageHolder = findViewById<ImageView>(R.id.image)
 
-
-
         val itemId = intent.getLongExtra("id", 0)
         val itemFileName = intent.getStringExtra("filename")
         val itemUri = intent.getStringExtra("uri")
-        val itemSize=intent.getLongExtra("size",0)
-        val itemTime=intent.getLongExtra("time",0)
-        val itemResolution=intent.getIntExtra("resolution",0)
-        val itemPath=intent.getStringExtra("path")
-
-
+        val itemSize = intent.getLongExtra("size", 0)
+        val itemTime = intent.getLongExtra("time", 0)
+        val itemResolution = intent.getIntExtra("resolution", 0)
+        val itemPath = intent.getStringExtra("path")
 
         item = Item(
             id = itemId,
@@ -136,33 +120,25 @@ class ViewImageActivity : AppCompatActivity() {
             width = itemResolution
         )
 
-
-
         Glide.with(imageHolder.context)
             .load(item.getUri())
             .error(R.drawable.placeholder_item)
             .into(imageHolder)
 
+        val imageName = findViewById<TextView>(R.id.info_file_name)
+        imageName.text = item.fileName
 
+        val imageTime = findViewById<TextView>(R.id.info_timestamp)
+        imageTime.text = item.dateModified.toString()
 
-        val image_name=findViewById<TextView>(R.id.info_file_name)
-        image_name.text=item.fileName
+        val imageResolution = findViewById<TextView>(R.id.info_resolution)
+        imageResolution.text = item.width.toString()
 
+        val imageFilesize = findViewById<TextView>(R.id.info_file_size)
+        imageFilesize.text = "${item.fileSize} Bytes"
 
-        val image_time=findViewById<TextView>(R.id.info_timestamp)
-        image_time.text=item.dateModified.toString()
-
-        val image_resolution=findViewById<TextView>(R.id.info_resolution)
-        image_resolution.text=item.width.toString()
-
-
-
-
-        val image_fileSize=findViewById<TextView>(R.id.info_file_size)
-        image_fileSize.text=item.fileSize.toString() +"Byte"
-
-        val image_filePath=findViewById<TextView>(R.id.info_file_path)
-        image_filePath.text=item.filePath
+        val imageFilepath = findViewById<TextView>(R.id.info_file_path)
+        imageFilepath.text = item.filePath
 
     }
 
@@ -174,12 +150,12 @@ class ViewImageActivity : AppCompatActivity() {
     }
 
     fun openEditor(view: View) {
-        if (view.id == R.id.btn_edit) {
-            setLowProfileUI(false)
-            val intent = Intent(this, EditImageActivity::class.java)
-            intent.putExtra("uri", item.getUri())
-            startActivity(intent)
-        }
+//        if (view.id == R.id.btn_edit) {
+//            setLowProfileUI(false)
+//            val intent = Intent(this, EditImageActivity::class.java)
+//            intent.putExtra("uri", item.getUri())
+//            startActivity(intent)
+//        }
     }
 
     fun shareImage(view: View) {
@@ -254,6 +230,5 @@ class ViewImageActivity : AppCompatActivity() {
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         }
     }
-
 
 }

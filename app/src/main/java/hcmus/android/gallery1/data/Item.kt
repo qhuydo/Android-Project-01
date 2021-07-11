@@ -1,6 +1,6 @@
 package hcmus.android.gallery1.data
 
-data class Item (
+data class Item(
     val id: Long,
     var isPopulated: Boolean = false,
 
@@ -12,11 +12,9 @@ data class Item (
     var filePath: String = "",
     var width: Int = 0,
     var height: Int = 0
-)
-
-{
+) {
     // Fetch URI
-    fun getUri() : String {
+    fun getUri(): String {
         if (uri.isEmpty()) {
             uri = "$DEFAULT_CONTENT_URI/$id"
         }
