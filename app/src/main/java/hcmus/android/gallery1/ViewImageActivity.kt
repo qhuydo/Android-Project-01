@@ -122,7 +122,7 @@ class ViewImageActivity : AppCompatActivity() {
 
         val imageHolder = findViewById<ImageView>(R.id.image)
 
-        val item = intent.getParcelableExtra<Item>("item")!!
+        item = intent.getParcelableExtra<Item>("item")!!
 
         Glide.with(imageHolder.context)
             .load(item.getUri())
