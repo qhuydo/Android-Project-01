@@ -1,5 +1,9 @@
 package hcmus.android.gallery1.data
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Item(
     val id: Long,
     var isPopulated: Boolean = false,
@@ -12,7 +16,7 @@ data class Item(
     var filePath: String = "",
     var width: Int = 0,
     var height: Int = 0
-) {
+) : Parcelable {
     // Fetch URI
     fun getUri(): String {
         if (uri.isEmpty()) {

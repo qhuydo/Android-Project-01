@@ -16,13 +16,16 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.data.Item
 
 class ViewImageActivity : AppCompatActivity() {
-    var bottomSheetBehavior: BottomSheetBehavior<BottomNavigationView>? = null
-    var bottomSheetExpandButton: ImageButton? = null
-    var bottomDrawerDim: View? = null
+    lateinit var bottomSheetBehavior: BottomSheetBehavior<BottomNavigationView>
+    lateinit var bottomSheetExpandButton: ImageButton
+    lateinit var bottomDrawerDim: View
+
     private lateinit var item: Item
     private val CREATE_FILE: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         // Reset: splash screen "theme" -> default theme
         setTheme(R.style.Theme_GalleryOne)
 
@@ -32,55 +35,72 @@ class ViewImageActivity : AppCompatActivity() {
         // Hide status bar icons
         setLowProfileUI(true)
 
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_view_image_nopager)
 
+        initBottomSheet()
+        // Populate
+        populateImageAndInfo()
+    }
+
+    private fun initBottomSheet() {
         bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bdrawer_view_image))
         bottomSheetExpandButton = findViewById(R.id.btn_bdrawer_view_image_expand)
         bottomDrawerDim = findViewById(R.id.bdrawer_view_image_dim)
 
         // Behavior
-        bottomSheetBehavior?.apply { isFitToContents = true }
-        bottomSheetBehavior!!.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.apply { isFitToContents = true }
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
-                        bottomDrawerDim?.visibility = View.GONE
-                        bottomSheetExpandButton?.setImageDrawable(ContextCompat.getDrawable(this@ViewImageActivity, R.drawable.ic_bdrawer_up))
+                        bottomDrawerDim.visibility = View.GONE
+                        bottomSheetExpandButton.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this@ViewImageActivity,
+                                R.drawable.ic_bdrawer_up
+                            )
+                        )
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
-                        bottomDrawerDim?.visibility = View.VISIBLE
-                        bottomSheetExpandButton?.setImageDrawable(ContextCompat.getDrawable(this@ViewImageActivity, R.drawable.ic_bdrawer_down))
+                        bottomDrawerDim.visibility = View.VISIBLE
+                        bottomSheetExpandButton.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this@ViewImageActivity,
+                                R.drawable.ic_bdrawer_down
+                            )
+                        )
                     }
-                    else -> { }
+                    else -> {
+                    }
                 }
             }
+
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                bottomDrawerDim?.visibility = View.VISIBLE
-                bottomDrawerDim?.alpha = slideOffset / 2f
+                bottomDrawerDim.visibility = View.VISIBLE
+                bottomDrawerDim.alpha = slideOffset / 2f
             }
         })
 
-        bottomDrawerDim?.setOnClickListener {
-            bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomDrawerDim.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
         // Button expansion behavior
-        bottomSheetExpandButton!!.apply {
+        bottomSheetExpandButton.apply {
             setOnClickListener {
-                when (bottomSheetBehavior!!.state) {
-                    BottomSheetBehavior.STATE_COLLAPSED     -> bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
-                    BottomSheetBehavior.STATE_EXPANDED      -> bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
-                    else -> { }
+                when (bottomSheetBehavior.state) {
+                    BottomSheetBehavior.STATE_COLLAPSED -> bottomSheetBehavior.state =
+                        BottomSheetBehavior.STATE_EXPANDED
+
+                    BottomSheetBehavior.STATE_EXPANDED -> bottomSheetBehavior.state =
+                        BottomSheetBehavior.STATE_COLLAPSED
+                    else -> {
+                    }
                 }
             }
         }
-
-        // Populate
-        populateImageAndInfo()
-
     }
-
 
     // A dirty workaround to disable (nearly) all buttons when an external URI is detected
     // (i.e. an image was opened but NOT from the gallery)
@@ -102,23 +122,7 @@ class ViewImageActivity : AppCompatActivity() {
 
         val imageHolder = findViewById<ImageView>(R.id.image)
 
-        val itemId = intent.getLongExtra("id", 0)
-        val itemFileName = intent.getStringExtra("filename")
-        val itemUri = intent.getStringExtra("uri")
-        val itemSize = intent.getLongExtra("size", 0)
-        val itemTime = intent.getLongExtra("time", 0)
-        val itemResolution = intent.getIntExtra("resolution", 0)
-        val itemPath = intent.getStringExtra("path")
-
-        item = Item(
-            id = itemId,
-            fileName = itemFileName!!,
-            uri = itemUri!!,
-            fileSize=itemSize,
-            filePath = itemPath.toString(),
-            dateModified = itemTime,
-            width = itemResolution
-        )
+        val item = intent.getParcelableExtra<Item>("item")!!
 
         Glide.with(imageHolder.context)
             .load(item.getUri())
@@ -134,8 +138,8 @@ class ViewImageActivity : AppCompatActivity() {
         val imageResolution = findViewById<TextView>(R.id.info_resolution)
         imageResolution.text = item.width.toString()
 
-        val imageFilesize = findViewById<TextView>(R.id.info_file_size)
-        imageFilesize.text = "${item.fileSize} Bytes"
+        val imageFileSize = findViewById<TextView>(R.id.info_file_size)
+        imageFileSize.text = "${item.fileSize} Bytes"
 
         val imageFilepath = findViewById<TextView>(R.id.info_file_path)
         imageFilepath.text = item.filePath
@@ -165,7 +169,12 @@ class ViewImageActivity : AppCompatActivity() {
                 putExtra(Intent.EXTRA_STREAM, Uri.parse(item.getUri()))
                 type = "image/*"
             }
-            startActivity(Intent.createChooser(intent, resources.getString(R.string.action_send_to_header)))
+            startActivity(
+                Intent.createChooser(
+                    intent,
+                    resources.getString(R.string.action_send_to_header)
+                )
+            )
         }
     }
 
@@ -177,14 +186,23 @@ class ViewImageActivity : AppCompatActivity() {
                 setDataAndType(Uri.parse(item.getUri()), "image/*")
                 putExtra("mimeType", "image/*")
             }
-            startActivity(Intent.createChooser(intent, resources.getString(R.string.action_set_as_header)))
+            startActivity(
+                Intent.createChooser(
+                    intent,
+                    resources.getString(R.string.action_set_as_header)
+                )
+            )
         }
     }
 
     fun deleteImage(view: View) {
         if (view.id == R.id.btn_delete) {
             contentResolver.delete(Uri.parse(item.getUri()), null, null)
-            Toast.makeText(this, resources.getString(R.string.action_delete_confirm), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                resources.getString(R.string.action_delete_confirm),
+                Toast.LENGTH_SHORT
+            ).show()
             finish()
         }
     }
@@ -211,11 +229,18 @@ class ViewImageActivity : AppCompatActivity() {
         if (view.id == R.id.btn_favorite) {
             if (!globalPrefs.isInFavorite(item.id)) {
                 globalPrefs.addFavorite(item.id)
-                Toast.makeText(globalContext, resources.getString(R.string.action_favorite_add_confirm), Toast.LENGTH_SHORT).show()
-            }
-            else {
+                Toast.makeText(
+                    globalContext,
+                    resources.getString(R.string.action_favorite_add_confirm),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
                 globalPrefs.removeFavorite(item.id)
-                Toast.makeText(globalContext, resources.getString(R.string.action_favorite_remove_confirm), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    globalContext,
+                    resources.getString(R.string.action_favorite_remove_confirm),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

@@ -32,7 +32,7 @@ class Activity2 : AppCompatActivity() {
         globalPrefs = PreferenceFacility(
             PreferenceManager.getDefaultSharedPreferences(this)
         )
-        globalContext = baseContext
+        globalContext = applicationContext
 
         // Theme and language
         setTheme(globalPrefs.themeR)
