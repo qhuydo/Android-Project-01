@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.ItemListAdapter
 import hcmus.android.gallery1.globalPrefs
+import hcmus.android.gallery1.helpers.*
 
 open class ImageListFragment(
     private var itemListAdapter: ItemListAdapter,
-    private val tabName: String = "all"
+    private val tabName: String = TAB_ALL
 ) : Fragment() {
 
     override fun onCreateView(
@@ -33,10 +34,10 @@ open class ImageListFragment(
         fragmentView.findViewById<RecyclerView>(R.id.recycler_view).apply {
             adapter = itemListAdapter
             layoutManager = when (globalPrefs.getViewMode(tabName)) {
-                "list"   -> LinearLayoutManager(requireContext())
-                "grid_3" -> GridLayoutManager(requireContext(), 3)
-                "grid_4" -> GridLayoutManager(requireContext(), 4)
-                "grid_5" -> GridLayoutManager(requireContext(), 5)
+                VIEW_LIST   -> LinearLayoutManager(requireContext())
+                VIEW_GRID_3 -> GridLayoutManager(requireContext(), 3)
+                VIEW_GRID_4 -> GridLayoutManager(requireContext(), 4)
+                VIEW_GRID_5 -> GridLayoutManager(requireContext(), 5)
                 else     -> GridLayoutManager(requireContext(), 3)
             }
         }

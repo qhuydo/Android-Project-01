@@ -12,6 +12,7 @@ import hcmus.android.gallery1.adapters.ItemListAdapter
 import hcmus.android.gallery1.data.getItems
 import hcmus.android.gallery1.fragments.base.ImageListFragment
 import hcmus.android.gallery1.globalPrefs
+import hcmus.android.gallery1.helpers.*
 
 /* class ViewCollectionFragment(private val collectionId: Long): ImageListFragment() {
     private lateinit var itemAdapter: ItemListAdapter
@@ -22,17 +23,17 @@ import hcmus.android.gallery1.globalPrefs
 
         itemAdapter = ItemListAdapter(
             items = requireContext().contentResolver.getItems(collectionId),
-            isCompactLayout = globalPrefs.getViewMode("all") == "list"
+            isCompactLayout = globalPrefs.getViewMode(TAB_ALL) == VIEW_LIST
         )
 
         // Init that RecyclerView
         fragmentView.findViewById<RecyclerView>(R.id.recycler_view).apply {
             adapter = itemAdapter
-            layoutManager = when (globalPrefs.getViewMode("all")) {
-                "list"   -> LinearLayoutManager(requireContext())
-                "grid_3" -> GridLayoutManager(requireContext(), 3)
-                "grid_4" -> GridLayoutManager(requireContext(), 4)
-                "grid_5" -> GridLayoutManager(requireContext(), 5)
+            layoutManager = when (globalPrefs.getViewMode(TAB_ALL)) {
+                VIEW_LIST   -> LinearLayoutManager(requireContext())
+                VIEW_GRID_3 -> GridLayoutManager(requireContext(), 3)
+                VIEW_GRID_4 -> GridLayoutManager(requireContext(), 4)
+                VIEW_GRID_5 -> GridLayoutManager(requireContext(), 5)
                 else     -> GridLayoutManager(requireContext(), 3)
             }
         }

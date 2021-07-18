@@ -23,6 +23,7 @@ import hcmus.android.gallery1.fragments.collection.TabAlbumFragment
 import hcmus.android.gallery1.fragments.collection.TabAllFragment
 import hcmus.android.gallery1.fragments.collection.TabDateFragment
 import hcmus.android.gallery1.fragments.collection.TabFavoritesFragment
+import hcmus.android.gallery1.helpers.*
 
 class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -161,37 +162,37 @@ class MainFragment : Fragment() {
         // Set initial state from globalPrefs
 
         viewModeSelectorAll.check(
-            when(globalPrefs.getViewMode("all")) {
-                "list" -> R.id.btn_viewmode_all_list
-                "grid_3" -> R.id.btn_viewmode_all_grid_3
-                "grid_4" -> R.id.btn_viewmode_all_grid_4
-                "grid_5" -> R.id.btn_viewmode_all_grid_5
+            when(globalPrefs.getViewMode(TAB_ALL)) {
+                VIEW_LIST -> R.id.btn_viewmode_all_list
+                VIEW_GRID_3 -> R.id.btn_viewmode_all_grid_3
+                VIEW_GRID_4 -> R.id.btn_viewmode_all_grid_4
+                VIEW_GRID_5 -> R.id.btn_viewmode_all_grid_5
                 else -> R.id.btn_viewmode_all_grid_3
             }
         )
 
         viewModeSelectorAlbum.check(
-            when(globalPrefs.getViewMode("album")) {
-                "list" -> R.id.btn_viewmode_album_list
-                "grid_2" -> R.id.btn_viewmode_album_grid_2
+            when(globalPrefs.getViewMode(TAB_ALBUM)) {
+                VIEW_LIST -> R.id.btn_viewmode_album_list
+                VIEW_GRID_2 -> R.id.btn_viewmode_album_grid_2
                 else -> R.id.btn_viewmode_album_grid_2
             }
         )
 
         viewModeSelectorDate.check(
-            when(globalPrefs.getViewMode("date")) {
-                "list" -> R.id.btn_viewmode_date_list
-                "grid_2" -> R.id.btn_viewmode_date_grid_2
+            when(globalPrefs.getViewMode(TAB_DATE)) {
+                VIEW_LIST -> R.id.btn_viewmode_date_list
+                VIEW_GRID_2 -> R.id.btn_viewmode_date_grid_2
                 else -> R.id.btn_viewmode_date_grid_2
             }
         )
 
         viewModeSelectorFav.check(
-            when(globalPrefs.getViewMode("fav")) {
-                "list" -> R.id.btn_viewmode_fav_list
-                "grid_3" -> R.id.btn_viewmode_fav_grid_3
-                "grid_4" -> R.id.btn_viewmode_fav_grid_4
-                "grid_5" -> R.id.btn_viewmode_fav_grid_5
+            when(globalPrefs.getViewMode(TAB_FAV)) {
+                VIEW_LIST -> R.id.btn_viewmode_fav_list
+                VIEW_GRID_3 -> R.id.btn_viewmode_fav_grid_3
+                VIEW_GRID_4 -> R.id.btn_viewmode_fav_grid_4
+                VIEW_GRID_5 -> R.id.btn_viewmode_fav_grid_5
                 else -> R.id.btn_viewmode_fav_grid_3
             }
         )
@@ -202,16 +203,16 @@ class MainFragment : Fragment() {
             // Write to settings
             when (checkedId) {
                 R.id.btn_viewmode_all_list -> {
-                    globalPrefs.setViewMode("all", "list")
+                    globalPrefs.setViewMode(TAB_ALL, VIEW_LIST)
                 }
                 R.id.btn_viewmode_all_grid_3 -> {
-                    globalPrefs.setViewMode("all", "grid_3")
+                    globalPrefs.setViewMode(TAB_ALL, VIEW_GRID_3)
                 }
                 R.id.btn_viewmode_all_grid_4 -> {
-                    globalPrefs.setViewMode("all", "grid_4")
+                    globalPrefs.setViewMode(TAB_ALL, VIEW_GRID_4)
                 }
                 R.id.btn_viewmode_all_grid_5 -> {
-                    globalPrefs.setViewMode("all", "grid_5")
+                    globalPrefs.setViewMode(TAB_ALL, VIEW_GRID_5)
                 }
             }
 
@@ -224,10 +225,10 @@ class MainFragment : Fragment() {
         viewModeSelectorAlbum.addOnButtonCheckedListener { _, checkedId, _ ->
             when (checkedId) {
                 R.id.btn_viewmode_album_list -> {
-                    globalPrefs.setViewMode("album", "list")
+                    globalPrefs.setViewMode(TAB_ALBUM, VIEW_LIST)
                 }
                 R.id.btn_viewmode_album_grid_2 -> {
-                    globalPrefs.setViewMode("album", "grid_2")
+                    globalPrefs.setViewMode(TAB_ALBUM, VIEW_GRID_2)
                 }
             }
 
@@ -240,10 +241,10 @@ class MainFragment : Fragment() {
         viewModeSelectorDate.addOnButtonCheckedListener { _, checkedId, _ ->
             when (checkedId) {
                 R.id.btn_viewmode_date_list -> {
-                    globalPrefs.setViewMode("date", "list")
+                    globalPrefs.setViewMode(TAB_DATE, VIEW_LIST)
                 }
                 R.id.btn_viewmode_date_grid_2 -> {
-                    globalPrefs.setViewMode("date", "grid_2")
+                    globalPrefs.setViewMode(TAB_DATE, VIEW_GRID_2)
                 }
             }
 
@@ -257,16 +258,16 @@ class MainFragment : Fragment() {
             // Write to settings
             when (checkedId) {
                 R.id.btn_viewmode_fav_list -> {
-                    globalPrefs.setViewMode("fav", "list")
+                    globalPrefs.setViewMode(TAB_FAV, VIEW_LIST)
                 }
                 R.id.btn_viewmode_fav_grid_3 -> {
-                    globalPrefs.setViewMode("fav", "grid_3")
+                    globalPrefs.setViewMode(TAB_FAV, VIEW_GRID_3)
                 }
                 R.id.btn_viewmode_fav_grid_4 -> {
-                    globalPrefs.setViewMode("fav", "grid_4")
+                    globalPrefs.setViewMode(TAB_FAV, VIEW_GRID_4)
                 }
                 R.id.btn_viewmode_fav_grid_5 -> {
-                    globalPrefs.setViewMode("fav", "grid_5")
+                    globalPrefs.setViewMode(TAB_FAV, VIEW_GRID_5)
                 }
             }
 
@@ -335,13 +336,13 @@ class MainFragment : Fragment() {
             .setTitle(R.string.bdrawer_more_theme)
             .setSingleChoiceItems(resources.getStringArray(R.array.settings_theme), globalPrefs.validThemes.indexOf(globalPrefs.theme)) { _, which ->
                 when (globalPrefs.validThemes[which]) {
-                    "follow_system" -> {
+                    THEME_FOLLOW_SYSTEM -> {
                         Toast.makeText(requireContext(), "You chose to follow the system", Toast.LENGTH_SHORT).show()
                     }
-                    "day" -> {
+                    THEME_DAY -> {
                         Toast.makeText(requireContext(), "You chose day mode", Toast.LENGTH_SHORT).show()
                     }
-                    "night" -> {
+                    THEME_NIGHT -> {
                         Toast.makeText(requireContext(), "You chose night mode", Toast.LENGTH_SHORT).show()
                     }
                     else -> {
@@ -358,10 +359,10 @@ class MainFragment : Fragment() {
             .setTitle(R.string.bdrawer_more_language)
             .setSingleChoiceItems(resources.getStringArray(R.array.settings_language), globalPrefs.validLanguages.indexOf(globalPrefs.language)) { _, which ->
                 when (globalPrefs.validLanguages[which]) {
-                    "en" -> {
+                    LANG_EN -> {
                         Toast.makeText(requireContext(), "You chose English", Toast.LENGTH_SHORT).show()
                     }
-                    "vi" -> {
+                    LANG_VI -> {
                         Toast.makeText(requireContext(), "Bạn đã chọn Tiếng Việt", Toast.LENGTH_SHORT).show()
                     }
                     else -> {
