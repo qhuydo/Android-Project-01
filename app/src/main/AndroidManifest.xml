@@ -8,14 +8,14 @@
         android:maxSdkVersion="28" />
 
     <application
-        android:requestLegacyExternalStorage="true"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GalleryOne">
-        <activity android:name=".ViewCollectionActivity2"></activity>
+        <activity android:name=".ViewCollectionActivity2" />
         <activity android:name=".ViewCollectionActivity" /> <!-- Splash screen -->
         <activity
             android:name=".SplashActivity"
@@ -26,9 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- Actual main activity -->
+
         <activity
             android:name=".Activity2"
             android:configChanges="keyboard|orientation|screenSize" /> <!-- Image Viewer -->
+
         <activity android:name=".ViewImageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -40,7 +42,9 @@
                     android:scheme="content" />
             </intent-filter>
         </activity> <!-- Image Editor -->
+
         <activity android:name=".EditImageActivity" />
+
     </application>
 
 </manifest>

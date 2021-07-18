@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButtonToggleGroup
@@ -357,19 +356,11 @@ class MainFragment : Fragment() {
     private fun handleBtnSetLanguage() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.bdrawer_more_language)
-            .setSingleChoiceItems(resources.getStringArray(R.array.settings_language), globalPrefs.validLanguages.indexOf(globalPrefs.language)) { _, which ->
-                when (globalPrefs.validLanguages[which]) {
-                    LANG_EN -> {
-                        Toast.makeText(requireContext(), "You chose English", Toast.LENGTH_SHORT).show()
-                    }
-                    LANG_VI -> {
-                        Toast.makeText(requireContext(), "Bạn đã chọn Tiếng Việt", Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {
-                        Toast.makeText(requireContext(), "This should not happen", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                globalPrefs.language = globalPrefs.validLanguages[which]
+            .setSingleChoiceItems(resources.getStringArray(R.array.settings_language),
+                globalPrefs.validLanguages.indexOf(globalPrefs.language)
+            ) { _, which ->
+                val language = globalPrefs.validLanguages[which]
+                (activity as? Activity2)?.changeLanguage(language)
             }
             .show()
     }

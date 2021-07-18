@@ -10,7 +10,7 @@ class PreferenceFacility(private val prefs: SharedPreferences) {
     val validViews          = arrayOf(VIEW_LIST, VIEW_GRID_3, VIEW_GRID_4, VIEW_GRID_5)
     val validViewsLimited   = arrayOf(VIEW_LIST, VIEW_GRID_2)
     val validThemes         = arrayOf(THEME_FOLLOW_SYSTEM, THEME_DAY, THEME_NIGHT)
-    val validLanguages      = arrayOf(LANG_EN, LANG_VI)
+    val validLanguages      = arrayOf(LANG_FOLLOW_SYSTEM, LANG_EN, LANG_VI, LANG_JA)
 
     fun isValidViewMode(tab: String, mode: String): Boolean {
         if (tab !in validTabs) return false

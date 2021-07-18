@@ -4,16 +4,16 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.preference.PreferenceManager
 import hcmus.android.gallery1.fragments.MainFragment
+import hcmus.android.gallery1.helpers.LANG_FOLLOW_SYSTEM
 import hcmus.android.gallery1.helpers.PreferenceFacility
 import java.util.*
 
@@ -46,13 +46,21 @@ class Activity2 : AppCompatActivity() {
 
         // A really simple check. Part of the permission workaround.
         // (the official method always return Permission Denied, yet the app actually has the permission.)
-        if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+        if (ContextCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                 PERMISSION_REQUEST_CODE
             )
-            Toast.makeText(this, resources.getString(R.string.please_grant_permission), Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this,
+                resources.getString(R.string.please_grant_permission),
+                Toast.LENGTH_LONG
+            ).show()
         }
 
         // Set animations between fragments
@@ -88,17 +96,19 @@ class Activity2 : AppCompatActivity() {
         // super.onBackPressed()
         if (globalFragmentManager.backStackEntryCount > 0) {
             globalFragmentManager.popBackStack()
-        }
-        else {
+        } else {
             super.onBackPressed()
         }
     }
 
     // https://stackoverflow.com/a/2900144
     fun setLanguageOnActivityRestart() {
-//        val newConfig = resources.configuration
-//        newConfig.setLocale(Locale.ENGLISH)
-//        resources.updateConfiguration(newConfig, resources.displayMetrics)
+        val newConfig = resources.configuration
+        val languageOption = globalPrefs.language
+        if (languageOption != LANG_FOLLOW_SYSTEM) {
+            newConfig.setLocale(Locale(languageOption.toLowerCase(Locale.ROOT)))
+            resources.updateConfiguration(newConfig, resources.displayMetrics)
+        }
     }
 
     fun changeLanguage(lang: String) {
