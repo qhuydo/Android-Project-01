@@ -1,5 +1,6 @@
 package hcmus.android.gallery1.fragments.collection
 
+/*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,7 @@ import hcmus.android.gallery1.fragments.base.ImageListFragment
 import hcmus.android.gallery1.globalPrefs
 import hcmus.android.gallery1.helpers.*
 
-/* class ViewCollectionFragment(private val collectionId: Long): ImageListFragment() {
+class ViewCollectionFragment(private val collectionId: Long): ImageListFragment() {
     private lateinit var itemAdapter: ItemListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

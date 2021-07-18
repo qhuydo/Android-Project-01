@@ -13,7 +13,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import hcmus.android.gallery1.*
 import hcmus.android.gallery1.data.Collection
 
-class CollectionListAdapter(private val items: List<Collection>, private val isCompactLayout: Boolean = false)
+class CollectionListAdapter(private val items: List<Collection>,
+                            private val isCompactLayout: Boolean = false)
     : RecyclerView.Adapter<CollectionListAdapter.ViewHolder>() {
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view)
@@ -45,13 +46,13 @@ class CollectionListAdapter(private val items: List<Collection>, private val isC
 
         holder.itemView.setOnClickListener {
             val intent = Intent().apply {
-                setClass(globalContext, ViewCollectionActivity::class.java)
+                setClass(it.context, ViewCollectionActivity::class.java)
                 putExtra("collectionId", item.id)
                 putExtra("collectionName", item.name)
                 putExtra("collectionType", item.type)
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
-            globalContext.startActivity(intent)
+            it.context.startActivity(intent)
         }
     }
 }

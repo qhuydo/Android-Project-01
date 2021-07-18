@@ -10,7 +10,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.fragments.base.ImageListFragment
-import hcmus.android.gallery1.globalFragmentManager
 
 /*
 class SecretAlbumFragment: ImageListFragment() {
@@ -91,7 +90,7 @@ class SecretAlbumFragment: ImageListFragment() {
 
     private fun bindButtons() {
         btnClose.setOnClickListener {
-            globalFragmentManager.popBackStack()
+            activity?.supportFragmentManager?.popBackStack()
         }
     }
 }

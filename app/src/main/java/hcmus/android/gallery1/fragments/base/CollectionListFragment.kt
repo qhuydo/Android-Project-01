@@ -11,11 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.CollectionListAdapter
 import hcmus.android.gallery1.globalPrefs
+import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.VIEW_GRID_2
 import hcmus.android.gallery1.helpers.VIEW_LIST
 
-open class CollectionListFragment(private var collectionListAdapter: CollectionListAdapter, private val tabName: String = "album") : Fragment() {
+abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM) : Fragment() {
+
+    private lateinit var collectionListAdapter: CollectionListAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        collectionListAdapter = getCollectionListAdapter()
         // Inflate the root view
         val fragmentView = inflater.inflate(R.layout.fragment_main_album, container, false)
 
@@ -36,4 +41,6 @@ open class CollectionListFragment(private var collectionListAdapter: CollectionL
         super.onResume()
         collectionListAdapter.notifyDataSetChanged()
     }
+
+    abstract fun getCollectionListAdapter(): CollectionListAdapter
 }

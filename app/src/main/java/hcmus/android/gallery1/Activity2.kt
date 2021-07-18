@@ -1,38 +1,33 @@
 package hcmus.android.gallery1
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.preference.PreferenceManager
 import hcmus.android.gallery1.fragments.MainFragment
 import hcmus.android.gallery1.helpers.LANG_FOLLOW_SYSTEM
 import hcmus.android.gallery1.helpers.PreferenceFacility
+import hcmus.android.gallery1.helpers.configTheme
 import java.util.*
 
-lateinit var globalFragmentManager: FragmentManager
 lateinit var globalPrefs: PreferenceFacility
-lateinit var globalContext: Context
 
 const val PERMISSION_REQUEST_CODE = 100
 
 class Activity2 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Late init but quite early
-        globalFragmentManager = supportFragmentManager
         //globalPrefs = PreferenceFacility(getPreferences(MODE_PRIVATE))
         globalPrefs = PreferenceFacility(
             PreferenceManager.getDefaultSharedPreferences(this)
         )
-        globalContext = applicationContext
 
         // Theme and language
         setTheme(globalPrefs.themeR)
@@ -74,8 +69,7 @@ class Activity2 : AppCompatActivity() {
         } */
 
         // Insert first piece of fragment
-        globalFragmentManager.commit {
-            setReorderingAllowed(true)
+        supportFragmentManager.commit {
             add(R.id.fragment_container, MainFragment())
         }
     }
@@ -94,8 +88,8 @@ class Activity2 : AppCompatActivity() {
 
     override fun onBackPressed() {
         // super.onBackPressed()
-        if (globalFragmentManager.backStackEntryCount > 0) {
-            globalFragmentManager.popBackStack()
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
         } else {
             super.onBackPressed()
         }

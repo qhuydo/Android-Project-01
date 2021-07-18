@@ -13,16 +13,17 @@ import hcmus.android.gallery1.adapters.ItemListAdapter
 import hcmus.android.gallery1.globalPrefs
 import hcmus.android.gallery1.helpers.*
 
-open class ImageListFragment(
-    private var itemListAdapter: ItemListAdapter,
-    private val tabName: String = TAB_ALL
-) : Fragment() {
+abstract class ImageListFragment(private val tabName: String = TAB_ALL) : Fragment() {
+
+    private lateinit var itemListAdapter: ItemListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        itemListAdapter = getItemListAdapter()
         // Inflate the root view
         val fragmentView = inflater.inflate(
             R.layout.fragment_main_all_photos,
@@ -49,4 +50,6 @@ open class ImageListFragment(
         super.onResume()
         itemListAdapter.notifyDataSetChanged()
     }
+
+    abstract fun getItemListAdapter(): ItemListAdapter
 }

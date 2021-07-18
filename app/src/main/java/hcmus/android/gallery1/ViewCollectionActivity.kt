@@ -15,6 +15,7 @@ import com.google.android.material.button.MaterialButtonToggleGroup
 import hcmus.android.gallery1.adapters.ItemListAdapter
 import hcmus.android.gallery1.data.getItems
 import hcmus.android.gallery1.data.getItemsByDate
+import hcmus.android.gallery1.helpers.*
 import kotlin.properties.Delegates
 
 class ViewCollectionActivity : AppCompatActivity() {
@@ -63,11 +64,19 @@ class ViewCollectionActivity : AppCompatActivity() {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
                         bDrawerDim.visibility = View.GONE
-                        bDrawerBtnExpand.setImageDrawable(ContextCompat.getDrawable(globalContext, R.drawable.ic_bdrawer_up))
+                        val drawable = ContextCompat.getDrawable(
+                            this@ViewCollectionActivity,
+                            R.drawable.ic_bdrawer_up
+                        )
+                        bDrawerBtnExpand.setImageDrawable(drawable)
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         bDrawerDim.visibility = View.VISIBLE
-                        bDrawerBtnExpand.setImageDrawable(ContextCompat.getDrawable(globalContext, R.drawable.ic_bdrawer_down))
+                        val drawable = ContextCompat.getDrawable(
+                            this@ViewCollectionActivity,
+                            R.drawable.ic_bdrawer_down
+                        )
+                        bDrawerBtnExpand.setImageDrawable(drawable)
                     }
                     else -> { }
                 }
@@ -94,11 +103,11 @@ class ViewCollectionActivity : AppCompatActivity() {
         }
 
         viewModeSelector.check(
-            when(globalPrefs.getViewMode("all")) {
-                "list" -> R.id.btn_viewmode_all_list
-                "grid_3" -> R.id.btn_viewmode_all_grid_3
-                "grid_4" -> R.id.btn_viewmode_all_grid_4
-                "grid_5" -> R.id.btn_viewmode_all_grid_5
+            when(globalPrefs.getViewMode(TAB_ALL)) {
+                VIEW_LIST -> R.id.btn_viewmode_all_list
+                VIEW_GRID_3 -> R.id.btn_viewmode_all_grid_3
+                VIEW_GRID_4 -> R.id.btn_viewmode_all_grid_4
+                VIEW_GRID_5 -> R.id.btn_viewmode_all_grid_5
                 else -> R.id.btn_viewmode_all_grid_3
             }
         )

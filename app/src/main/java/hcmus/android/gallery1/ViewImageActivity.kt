@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.helpers.configTheme
 
 class ViewImageActivity : AppCompatActivity() {
     lateinit var bottomSheetBehavior: BottomSheetBehavior<BottomNavigationView>
@@ -230,14 +231,14 @@ class ViewImageActivity : AppCompatActivity() {
             if (!globalPrefs.isInFavorite(item.id)) {
                 globalPrefs.addFavorite(item.id)
                 Toast.makeText(
-                    globalContext,
+                    this,
                     resources.getString(R.string.action_favorite_add_confirm),
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
                 globalPrefs.removeFavorite(item.id)
                 Toast.makeText(
-                    globalContext,
+                    this,
                     resources.getString(R.string.action_favorite_remove_confirm),
                     Toast.LENGTH_SHORT
                 ).show()

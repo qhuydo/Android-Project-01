@@ -25,7 +25,10 @@ import hcmus.android.gallery1.fragments.collection.TabFavoritesFragment
 import hcmus.android.gallery1.helpers.*
 
 class MainFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.activity_main, container, false)
     }
 
@@ -372,7 +375,7 @@ class MainFragment : Fragment() {
     }
 
     private fun handleBtnSecret() {
-        globalFragmentManager.commit {
+        activity?.supportFragmentManager?.commit {
             addToBackStack("main")
             // replace(R.id.fragment_container, SecretAlbumFragment(), "CURRENT")
         }
