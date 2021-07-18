@@ -105,10 +105,14 @@ class Activity2 : AppCompatActivity() {
     fun setLanguageOnActivityRestart() {
         val newConfig = resources.configuration
         val languageOption = globalPrefs.language
-        if (languageOption != LANG_FOLLOW_SYSTEM) {
-            newConfig.setLocale(Locale(languageOption.toLowerCase(Locale.ROOT)))
-            resources.updateConfiguration(newConfig, resources.displayMetrics)
+        val locale = if (languageOption != LANG_FOLLOW_SYSTEM) {
+            Locale(languageOption.lowercase())
         }
+        else {
+            Locale.getDefault()
+        }
+        newConfig.setLocale(locale)
+        resources.updateConfiguration(newConfig, resources.displayMetrics)
     }
 
     fun changeLanguage(lang: String) {
@@ -126,7 +130,7 @@ class Activity2 : AppCompatActivity() {
     }
 
     private fun restartSelf() {
+        startActivity(Intent(this, SplashActivity::class.java))
         finish()
-        startActivity(Intent(this, this::class.java))
     }
 }

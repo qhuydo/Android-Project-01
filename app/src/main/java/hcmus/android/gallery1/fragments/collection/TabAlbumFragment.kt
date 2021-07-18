@@ -13,5 +13,5 @@ class TabAlbumFragment: CollectionListFragment(
         items = globalContext.contentResolver.getCollections(),
         isCompactLayout = globalPrefs.getViewMode(TAB_ALBUM) == VIEW_LIST
     ),
-    tabName = "album"
+    tabName = TAB_ALBUM
 )

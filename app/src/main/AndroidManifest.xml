@@ -29,7 +29,7 @@
 
         <activity
             android:name=".Activity2"
-            android:configChanges="keyboard|orientation|screenSize" /> <!-- Image Viewer -->
+            android:configChanges="uiMode|locale|keyboard|orientation|screenSize" /> <!-- Image Viewer -->
 
         <activity android:name=".ViewImageActivity">
             <intent-filter>
