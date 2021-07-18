@@ -96,9 +96,9 @@ class Activity2 : AppCompatActivity() {
 
     // https://stackoverflow.com/a/2900144
     fun setLanguageOnActivityRestart() {
-        val newConfig = resources.configuration
-        newConfig.setLocale(Locale.ENGLISH)
-        resources.updateConfiguration(newConfig, resources.displayMetrics)
+//        val newConfig = resources.configuration
+//        newConfig.setLocale(Locale.ENGLISH)
+//        resources.updateConfiguration(newConfig, resources.displayMetrics)
     }
 
     fun changeLanguage(lang: String) {

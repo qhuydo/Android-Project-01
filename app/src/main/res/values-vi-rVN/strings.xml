@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gallery One</string>
     <string name="secret_album">Album bí mật</string>
     <string name="bdrawer_secret_header_more">Thêm</string>
     <string name="btn_secret_album_exit">Đóng album bí mật</string>
