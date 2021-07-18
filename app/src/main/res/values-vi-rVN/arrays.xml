@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_theme">
+        <item>Mặc định</item>
+        <item>Sáng</item>
+        <item>Tối</item>
+    </string-array>
+
+    <string-array name="settings_language">
+        <item>Mặc định</item>
+        <item>Tiếng Anh (English)</item>
+        <item>Tiếng Việt</item>
+        <item>Tiếng Nhật (日本語)</item>
+    </string-array>
+</resources>

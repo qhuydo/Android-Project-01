@@ -8,7 +8,7 @@
     <string-array name="settings_language">
         <item>Follow System</item>
         <item>English</item>
-        <item>Vietnamese</item>
-        <item>Japanese</item>
+        <item>Vietnamese (Tiếng Việt)</item>
+        <item>Japanese (日本語)</item>
     </string-array>
 </resources>
