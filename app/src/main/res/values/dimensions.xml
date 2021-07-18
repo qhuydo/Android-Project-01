@@ -4,4 +4,5 @@
     <dimen name="divider_large">16dp</dimen>
     <dimen name="bdrawer_peek_height">72dp</dimen>
     <dimen name="bdrawer_toolbar_height">60dp</dimen>
+    <dimen name="btn_icon_padding">16dp</dimen>
 </resources>
