@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bdrawer_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -28,23 +29,41 @@
         android:weightSum="5">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/main_navbar"
+            android:id="@+id/main_navbar_fake"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="4"
+            android:layout_weight="4.25"
             app:backgroundTint="@color/background2"
             app:elevation="0dp"
             app:labelVisibilityMode="selected"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_drawer_navbar" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/main_navbar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4.25"
+            android:background="@color/background2"
+            app:elevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tabBackground="@android:color/transparent"
+            app:tabGravity="fill"
+            app:tabIndicator="@android:color/transparent"
+            app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            tools:visibility="gone" />
 
         <ImageButton
             android:id="@+id/btn_bottom_sheet_expand"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.75"
             android:background="@drawable/ripple_rect"
             android:src="@drawable/ic_bdrawer_up" />
 

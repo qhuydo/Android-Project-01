@@ -17,11 +17,14 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import hcmus.android.gallery1.*
-import hcmus.android.gallery1.fragments.collection.TabAlbumFragment
-import hcmus.android.gallery1.fragments.collection.TabAllFragment
-import hcmus.android.gallery1.fragments.collection.TabDateFragment
-import hcmus.android.gallery1.fragments.collection.TabFavoritesFragment
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import hcmus.android.gallery1.Activity2
+import hcmus.android.gallery1.R
+import hcmus.android.gallery1.adapters.TabFragmentAdapter
+import hcmus.android.gallery1.fragments.base.CollectionListFragment
+import hcmus.android.gallery1.fragments.base.ImageListFragment
+import hcmus.android.gallery1.globalPrefs
 import hcmus.android.gallery1.helpers.*
 
 class MainFragment : Fragment() {
@@ -82,8 +85,8 @@ class MainFragment : Fragment() {
     ////////////////////////////////////////////////////////////////////////////////
 
     // Hold all references to elements on screen
-    private lateinit var bDrawerNavbar: BottomNavigationView
-    private lateinit var bDrawerBehavior: BottomSheetBehavior<BottomNavigationView>
+    private lateinit var bDrawerNavbar: TabLayout
+    private lateinit var bDrawerBehavior: BottomSheetBehavior<TabLayout>
     private lateinit var bDrawerBtnExpand: ImageButton
     private lateinit var bDrawerDim: View
     private lateinit var viewModeSelectorAll: MaterialButtonToggleGroup
@@ -193,19 +196,53 @@ class MainFragment : Fragment() {
     // Bottom drawer: navbar
     private fun initNavbar() {
         // Navbar behavior
-        bDrawerNavbar.setOnNavigationItemSelectedListener {
-            bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            childFragmentManager.commit {
-                when (it.itemId) {
-                    R.id.tab_all -> replace(R.id.main_fragment_container, TabAllFragment())
-                    R.id.tab_album -> replace(R.id.main_fragment_container, TabAlbumFragment())
-                    R.id.tab_date -> replace(R.id.main_fragment_container, TabDateFragment())
-                    R.id.tab_favorites -> replace(R.id.main_fragment_container, TabFavoritesFragment())
+        TabLayoutMediator(bDrawerNavbar, viewPager2) { tab, position ->
+            if (position == currentPosition) {
+                tab.text = when (tab.position) {
+                    TAB.ALBUM.ordinal -> getText(R.string.tab_album)
+                    TAB.DATE.ordinal -> getText(R.string.tab_date)
+                    TAB.FAV.ordinal -> getText(R.string.tab_favorites)
+                    else -> getText(R.string.tab_all)
                 }
             }
-            setVisibleViewModeSelector(it.itemId)
-            true
-        }
+            else {
+                tab.text = null
+            }
+            val iconIdRes =  when(position) {
+                TAB.ALBUM.ordinal -> R.drawable.ic_tab_album
+                TAB.DATE.ordinal -> R.drawable.ic_tab_date
+                TAB.FAV.ordinal -> R.drawable.ic_favorite
+                else -> R.drawable.ic_tab_all
+            }
+            tab.setIcon(iconIdRes)
+        }.attach()
+
+        bDrawerNavbar.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.let {
+                    tab.text = when (tab.position) {
+                        TAB.ALBUM.ordinal -> getText(R.string.tab_album)
+                        TAB.DATE.ordinal -> getText(R.string.tab_date)
+                        TAB.FAV.ordinal -> getText(R.string.tab_favorites)
+                        else -> getText(R.string.tab_all)
+                    }
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.text = null
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) { }
+
+        })
+
+    }
+
+    private fun onNavigationItemSelected(itemId: Int) {
+        bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        setVisibleViewModeSelector(itemId)
+
     }
 
     // Bottom drawer: view mode selectors
