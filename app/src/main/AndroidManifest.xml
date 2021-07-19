@@ -16,7 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GalleryOne">
         <activity android:name=".ViewCollectionActivity2" />
-        <activity android:name=".ViewCollectionActivity" /> <!-- Splash screen -->
+
+        <activity
+            android:name=".ViewCollectionActivity"
+            android:configChanges="uiMode" />
+
+        <!-- Splash screen -->
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.GalleryOne.SplashScreen">
@@ -25,13 +30,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Actual main activity -->
+        </activity>
 
+        <!-- Actual main activity -->
         <activity
             android:name=".Activity2"
-            android:configChanges="uiMode|locale|keyboard|orientation|screenSize" /> <!-- Image Viewer -->
+            android:configChanges="uiMode|locale|keyboard|orientation|screenSize" />
 
-        <activity android:name=".ViewImageActivity">
+        <!-- Image Viewer -->
+        <activity
+            android:name=".ViewImageActivity"
+            android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -41,8 +50,9 @@
                     android:mimeType="image/*"
                     android:scheme="content" />
             </intent-filter>
-        </activity> <!-- Image Editor -->
+        </activity>
 
+        <!-- Image Editor -->
         <activity android:name=".EditImageActivity" />
 
     </application>

@@ -1,5 +1,6 @@
 package hcmus.android.gallery1
 
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -32,6 +33,8 @@ class ViewCollectionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        configTheme(globalPrefs, null)
         supportActionBar?.hide()
         setContentView(R.layout.image_list_standalone)
         // layoutInflater.inflate(R.layout.image_list_standalone, null, false)
@@ -44,6 +47,14 @@ class ViewCollectionActivity : AppCompatActivity() {
 
         initBottomDrawer()
         refreshCollection()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.uiMode != resources.configuration.uiMode) {
+            configTheme(globalPrefs, newConfig.uiMode)
+        }
+        recreate()
     }
 
     private fun initBottomDrawer() {

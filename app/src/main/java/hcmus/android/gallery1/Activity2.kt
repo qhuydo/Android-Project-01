@@ -29,6 +29,7 @@ class Activity2 : AppCompatActivity() {
             PreferenceManager.getDefaultSharedPreferences(this)
         )
 
+        configTheme(globalPrefs, null)
         // Theme and language
         setTheme(globalPrefs.themeR)
         setLanguageOnActivityRestart()
@@ -68,10 +69,13 @@ class Activity2 : AppCompatActivity() {
             )
         } */
 
-        // Insert first piece of fragment
-        supportFragmentManager.commit {
-            add(R.id.fragment_container, MainFragment())
+        if (savedInstanceState == null) {
+            // Insert first piece of fragment
+            supportFragmentManager.commit {
+                add(R.id.fragment_container, MainFragment(), MainFragment::class.java.name)
+            }
         }
+
     }
 
     /* override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -93,6 +97,12 @@ class Activity2 : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        configTheme(globalPrefs, newConfig.uiMode)
+        recreate()
     }
 
     // https://stackoverflow.com/a/2900144
@@ -119,6 +129,7 @@ class Activity2 : AppCompatActivity() {
     fun changeTheme(theme: String) {
         if (theme in globalPrefs.validThemes && globalPrefs.theme != theme) {
             globalPrefs.theme = theme
+            configTheme(globalPrefs, null)
             restartSelf()
         }
     }
