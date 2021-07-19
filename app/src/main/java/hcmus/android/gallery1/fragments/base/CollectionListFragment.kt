@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.CollectionListAdapter
+import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.globalPrefs
 import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.VIEW_GRID_2
@@ -20,21 +21,42 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM) :
     private lateinit var collectionListAdapter: CollectionListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        collectionListAdapter = getCollectionListAdapter()
+        collectionListAdapter = CollectionListAdapter(
+            items = getCollectionList(),
+            isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST
+        )
+
         // Inflate the root view
         val fragmentView = inflater.inflate(R.layout.fragment_main_album, container, false)
 
+        return fragmentView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Init that RecyclerView
-        fragmentView.findViewById<RecyclerView>(R.id.recycler_view).apply {
+        initRecyclerView()
+
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    fun notifyViewTypeChanged() {
+        collectionListAdapter = CollectionListAdapter(
+            items = getCollectionList(),
+            isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST
+        )
+
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        requireView().findViewById<RecyclerView>(R.id.recycler_view).apply {
             adapter = collectionListAdapter
             layoutManager = when (globalPrefs.getViewMode(tabName)) {
                 VIEW_LIST -> LinearLayoutManager(requireContext())
                 VIEW_GRID_2 -> GridLayoutManager(requireContext(), 2)
-                else     -> GridLayoutManager(requireContext(), 2)
+                else -> GridLayoutManager(requireContext(), 2)
             }
         }
-
-        return fragmentView
     }
 
     override fun onResume() {
@@ -42,5 +64,6 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM) :
         collectionListAdapter.notifyDataSetChanged()
     }
 
-    abstract fun getCollectionListAdapter(): CollectionListAdapter
+    abstract fun getCollectionList(): List<Collection>
+
 }

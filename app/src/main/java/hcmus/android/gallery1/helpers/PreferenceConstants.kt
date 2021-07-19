@@ -29,3 +29,10 @@ const val LANG_VI = "vi"
 const val LANG_JA = "ja"
 
 const val NOT_EXIST = ""
+
+enum class TAB {
+    ALL,
+    ALBUM,
+    DATE,
+    FAV,
+}

@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -29,21 +29,53 @@ class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
         return inflater.inflate(R.layout.activity_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
+        if (savedInstanceState != null) {
+            currentPosition = savedInstanceState.getInt("pos")
+        }
         findElements()
+        initViewPager()
         initBottomDrawer()
         initNavbar()
         initViewModeSelectors()
         bindButtons()
 
-        // Insert first fragment into view
-        childFragmentManager.commit {
-            setReorderingAllowed(true)
-            add(R.id.main_fragment_container, TabAllFragment())
+    }
+
+    override fun onDestroy() {
+        viewPager2.unregisterOnPageChangeCallback(onPageChangeCallback)
+        super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("pos", currentPosition)
+    }
+
+    private val tabFragmentAdapter by lazy { TabFragmentAdapter(this) }
+
+    private var currentPosition = TAB.ALL.ordinal
+
+    private val onPageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
+
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+
+            currentPosition = position
+
+            val itemId = when (position) {
+                TAB.ALBUM.ordinal -> R.id.tab_album
+                TAB.DATE.ordinal -> R.id.tab_date
+                TAB.FAV.ordinal -> R.id.tab_favorites
+                else -> R.id.tab_all
+            }
+            onNavigationItemSelected(itemId)
         }
     }
 
@@ -64,32 +96,42 @@ class MainFragment : Fragment() {
     private lateinit var btnSetTheme: Button
     private lateinit var btnSetLanguage: Button
     private lateinit var btnSetAbout: Button
+    private lateinit var viewPager2: ViewPager2
 
     ////////////////////////////////////////////////////////////////////////////////
 
     // Find all elements on screen
     private fun findElements() {
-        val view = requireView()
+        requireView().apply {
 
-        // Bottom drawer
-        bDrawerNavbar    = view.findViewById(R.id.main_navbar)
-        bDrawerBehavior  = BottomSheetBehavior.from(view.findViewById(R.id.bdrawer_main))
-        bDrawerBtnExpand = view.findViewById(R.id.btn_bottom_sheet_expand)
-        bDrawerDim       = view.findViewById(R.id.bdrawer_dim)
+            // Bottom drawer
+            bDrawerNavbar    = findViewById(R.id.main_navbar)
+            bDrawerBehavior  = BottomSheetBehavior.from(findViewById(R.id.bdrawer_main))
+            bDrawerBtnExpand = findViewById(R.id.btn_bottom_sheet_expand)
+            bDrawerDim       = findViewById(R.id.bdrawer_dim)
 
-        // Bottom drawer -> View mode selectors
-        viewModeSelectorAll   = view.findViewById(R.id.viewmode_all)
-        viewModeSelectorAlbum = view.findViewById(R.id.viewmode_album)
-        viewModeSelectorDate  = view.findViewById(R.id.viewmode_date)
-        viewModeSelectorFav   = view.findViewById(R.id.viewmode_fav)
+            // Bottom drawer -> View mode selectors
+            viewModeSelectorAll   = findViewById(R.id.viewmode_all)
+            viewModeSelectorAlbum = findViewById(R.id.viewmode_album)
+            viewModeSelectorDate  = findViewById(R.id.viewmode_date)
+            viewModeSelectorFav   = findViewById(R.id.viewmode_fav)
 
-        // Bottom drawer -> Buttons
-        btnNewAlbum = view.findViewById(R.id.btn_new_album)
-        btnNewPhoto = view.findViewById(R.id.btn_new_photo)
-        btnNewVideo = view.findViewById(R.id.btn_new_video)
-        btnSetAbout = view.findViewById(R.id.btn_more_about)
-        btnSetTheme = view.findViewById(R.id.btn_more_theme)
-        btnSetLanguage = view.findViewById(R.id.btn_more_language)
+            // Bottom drawer -> Buttons
+            btnNewAlbum = findViewById(R.id.btn_new_album)
+            btnNewPhoto = findViewById(R.id.btn_new_photo)
+            btnNewVideo = findViewById(R.id.btn_new_video)
+            btnSetAbout = findViewById(R.id.btn_more_about)
+            btnSetTheme = findViewById(R.id.btn_more_theme)
+            btnSetLanguage = findViewById(R.id.btn_more_language)
+
+            viewPager2 = findViewById<ViewPager2>(R.id.main_fragment_container)
+        }
+
+    }
+
+    private fun initViewPager() {
+        viewPager2.adapter = tabFragmentAdapter
+        viewPager2.registerOnPageChangeCallback(onPageChangeCallback)
     }
 
     // Bottom drawer: behavior
@@ -107,11 +149,21 @@ class MainFragment : Fragment() {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
                         bDrawerDim.visibility = View.GONE
-                        bDrawerBtnExpand.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_bdrawer_up))
+                        bDrawerBtnExpand.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_bdrawer_up
+                            )
+                        )
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         bDrawerDim.visibility = View.VISIBLE
-                        bDrawerBtnExpand.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_bdrawer_down))
+                        bDrawerBtnExpand.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_bdrawer_down
+                            )
+                        )
                     }
                     else -> { }
                 }
@@ -219,9 +271,8 @@ class MainFragment : Fragment() {
             }
 
             // Dirty reload current fragment
-            childFragmentManager.commit {
-                replace(R.id.main_fragment_container, TabAllFragment())
-            }
+            (tabFragmentAdapter.fragmentAt(TAB.ALL.ordinal) as? ImageListFragment)?.notifyViewTypeChanged()
+            tabFragmentAdapter.notifyItemChanged(TAB.ALL.ordinal)
         }
 
         viewModeSelectorAlbum.addOnButtonCheckedListener { _, checkedId, _ ->
@@ -235,9 +286,8 @@ class MainFragment : Fragment() {
             }
 
             // Dirty reload current fragment
-            childFragmentManager.commit {
-                replace(R.id.main_fragment_container, TabAlbumFragment())
-            }
+            (tabFragmentAdapter.fragmentAt(TAB.ALBUM.ordinal) as? CollectionListFragment)?.notifyViewTypeChanged()
+            tabFragmentAdapter.notifyItemChanged(TAB.ALBUM.ordinal)
         }
 
         viewModeSelectorDate.addOnButtonCheckedListener { _, checkedId, _ ->
@@ -251,9 +301,8 @@ class MainFragment : Fragment() {
             }
 
             // Dirty reload current fragment
-            childFragmentManager.commit {
-                replace(R.id.main_fragment_container, TabDateFragment())
-            }
+            (tabFragmentAdapter.fragmentAt(TAB.DATE.ordinal) as? CollectionListFragment)?.notifyViewTypeChanged()
+            tabFragmentAdapter.notifyItemChanged(TAB.DATE.ordinal)
         }
 
         viewModeSelectorFav.addOnButtonCheckedListener { _, checkedId, _ ->
@@ -274,9 +323,8 @@ class MainFragment : Fragment() {
             }
 
             // Dirty reload current fragment
-            childFragmentManager.commit {
-                replace(R.id.main_fragment_container, TabFavoritesFragment())
-            }
+            (tabFragmentAdapter.fragmentAt(TAB.FAV.ordinal) as? ImageListFragment)?.notifyViewTypeChanged()
+            tabFragmentAdapter.notifyItemChanged(TAB.FAV.ordinal)
         }
     }
 
@@ -337,21 +385,7 @@ class MainFragment : Fragment() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.bdrawer_more_theme)
             .setSingleChoiceItems(resources.getStringArray(R.array.settings_theme), globalPrefs.validThemes.indexOf(globalPrefs.theme)) { _, which ->
-                when (globalPrefs.validThemes[which]) {
-                    THEME_FOLLOW_SYSTEM -> {
-                        Toast.makeText(requireContext(), "You chose to follow the system", Toast.LENGTH_SHORT).show()
-                    }
-                    THEME_DAY -> {
-                        Toast.makeText(requireContext(), "You chose day mode", Toast.LENGTH_SHORT).show()
-                    }
-                    THEME_NIGHT -> {
-                        Toast.makeText(requireContext(), "You chose night mode", Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {
-                        Toast.makeText(requireContext(), "This should not happen", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                globalPrefs.theme = globalPrefs.validThemes[which]
+                (activity as? Activity2)?.changeTheme(globalPrefs.validThemes[which])
             }
             .show()
     }
