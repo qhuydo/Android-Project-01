@@ -28,25 +28,25 @@
         android:orientation="horizontal"
         android:weightSum="5">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/main_navbar_fake"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            app:backgroundTint="@color/background2"
-            app:elevation="0dp"
-            app:labelVisibilityMode="selected"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"
-            tools:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_drawer_navbar" />
+<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--            android:id="@+id/main_navbar_fake"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="4"-->
+<!--            app:backgroundTint="@color/background2"-->
+<!--            app:elevation="0dp"-->
+<!--            app:labelVisibilityMode="selected"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            android:visibility="gone"-->
+<!--            tools:visibility="visible"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:menu="@menu/bottom_drawer_navbar" />-->
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/main_navbar"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="4"
             android:background="@color/background2"
             app:tabMode="fixed"

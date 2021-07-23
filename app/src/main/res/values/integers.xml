@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="item_grid_s">3</integer>
+    <integer name="item_grid_m">4</integer>
+    <integer name="item_grid_l">5</integer>
+    <integer name="collection_grid">2</integer>
+</resources>

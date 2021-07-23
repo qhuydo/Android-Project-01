@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Activity2">
+    android:layout_height="match_parent">
 
-    <!--    <androidx.fragment.app.FragmentContainerView-->
-    <!--        android:id="@+id/main_fragment_container"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:layout_marginBottom="@dimen/bdrawer_peek_height"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+<!--    <include layout="@layout/fragment_main_album"-->
+<!--        android:id="@+id/main_fragment_container_dummy"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginBottom="@dimen/bdrawer_peek_height"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/main_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/bdrawer_peek_height"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <View
         android:id="@+id/bdrawer_dim"

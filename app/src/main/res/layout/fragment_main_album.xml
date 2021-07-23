@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:listitem="@layout/list_collection"
+        tools:spanCount="@integer/collection_grid" />
 
-        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:spanCount="2"
-        tools:listitem="@layout/list_collection_compact"
-        />
-
-    <!-- <LinearLayout
+    <LinearLayout
         android:id="@+id/placeholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:alpha="0.5"
+        android:divider="@drawable/empty_8dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:divider="@drawable/empty_8dp"
         android:showDividers="middle"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +40,6 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/placeholder_tab_album" />
-    </LinearLayout> -->
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
