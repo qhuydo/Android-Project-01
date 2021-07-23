@@ -24,7 +24,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bdrawer_toolbar_height"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="5">
 
@@ -32,7 +32,7 @@
             android:id="@+id/main_navbar_fake"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="4.25"
+            android:layout_weight="4"
             app:backgroundTint="@color/background2"
             app:elevation="0dp"
             app:labelVisibilityMode="selected"
@@ -46,9 +46,10 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/main_navbar"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4.25"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:background="@color/background2"
+            app:tabMode="fixed"
             app:elevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +64,7 @@
             android:id="@+id/btn_bottom_sheet_expand"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.75"
+            android:layout_weight="1"
             android:background="@drawable/ripple_rect"
             android:src="@drawable/ic_bdrawer_up" />
 

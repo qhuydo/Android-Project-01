@@ -211,7 +211,7 @@ class MainFragment : Fragment() {
             val iconIdRes =  when(position) {
                 TAB.ALBUM.ordinal -> R.drawable.ic_tab_album
                 TAB.DATE.ordinal -> R.drawable.ic_tab_date
-                TAB.FAV.ordinal -> R.drawable.ic_favorite
+                TAB.FAV.ordinal -> R.drawable.ic_tab_favorite
                 else -> R.drawable.ic_tab_all
             }
             tab.setIcon(iconIdRes)
