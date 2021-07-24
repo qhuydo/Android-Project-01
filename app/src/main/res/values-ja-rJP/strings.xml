@@ -19,10 +19,9 @@
     <string name="bdrawer_action_new_video">動画</string>
     <string name="bdrawer_action_secret">ヒミツアルバム</string>
     <string name="bdrawer_viewmode_list">リスト</string>
-    <string name="bdrawer_viewmode_grid_2">２</string>
-    <string name="bdrawer_viewmode_grid_3">３</string>
-    <string name="bdrawer_viewmode_grid_4">４</string>
-    <string name="bdrawer_viewmode_grid_5">５</string>
+    <string name="bdrawer_viewmode_grid_3">大</string>
+    <string name="bdrawer_viewmode_grid_4">中</string>
+    <string name="bdrawer_viewmode_grid_5">小</string>
     <string name="bdrawer_more_theme">テーマ</string>
     <string name="bdrawer_more_language">言語</string>
     <string name="bdrawer_more_about">このアプリについて</string>
@@ -49,4 +48,5 @@
     <string name="tab_favorites">お気に入り</string>
     <string name="secret_passcode_enter">パスコードを入力</string>
     <string name="bdrawer_header_viewmode">表示形式</string>
+    <string name="bdrawer_viewmode_grid_2">"グリッド "</string>
 </resources>

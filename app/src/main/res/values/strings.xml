@@ -35,10 +35,10 @@
 
     <!-- Bottom drawer: View modes -->
     <string name="bdrawer_viewmode_list">List</string>
-    <string name="bdrawer_viewmode_grid_2">2</string>
-    <string name="bdrawer_viewmode_grid_3">3</string>
-    <string name="bdrawer_viewmode_grid_4">4</string>
-    <string name="bdrawer_viewmode_grid_5">5</string>
+    <string name="bdrawer_viewmode_grid_2">Grid</string>
+    <string name="bdrawer_viewmode_grid_3">L</string>
+    <string name="bdrawer_viewmode_grid_4">M</string>
+    <string name="bdrawer_viewmode_grid_5">S</string>
 
     <!-- Bottom drawer: More -->
     <string name="bdrawer_more_theme">Theme</string>

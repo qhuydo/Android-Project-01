@@ -21,10 +21,9 @@
     <string name="bdrawer_action_new_video">Video</string>
     <string name="bdrawer_action_secret">Bí mật</string>
     <string name="bdrawer_viewmode_list">List</string>
-    <string name="bdrawer_viewmode_grid_2">2</string>
-    <string name="bdrawer_viewmode_grid_3">3</string>
-    <string name="bdrawer_viewmode_grid_4">4</string>
-    <string name="bdrawer_viewmode_grid_5">5</string>
+    <string name="bdrawer_viewmode_grid_2">Lưới</string>
+    <string name="bdrawer_viewmode_grid_3">L</string>
+    <string name="bdrawer_viewmode_grid_5">S</string>
     <string name="bdrawer_more_theme">Giao diện</string>
     <string name="bdrawer_more_language">Ngôn ngữ</string>
     <string name="bdrawer_more_about">Thông tin</string>
@@ -66,4 +65,5 @@
     <string name="action_set_as_header">Đặt làm…</string>
     <string name="action_send_to_header">Gửi tới…</string>
     <string name="please_grant_permission">Vui lòng cấp quyền bộ nhớ để xem ảnh.</string>
+    <string name="bdrawer_viewmode_grid_4">M</string>
 </resources>
