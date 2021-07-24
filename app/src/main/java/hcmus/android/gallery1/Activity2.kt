@@ -120,14 +120,14 @@ class Activity2 : AppCompatActivity() {
     }
 
     fun changeLanguage(lang: String) {
-        if (lang in globalPrefs.validLanguages && globalPrefs.language != lang) {
+        if (lang in PreferenceFacility.validLanguages && globalPrefs.language != lang) {
             globalPrefs.language = lang
             restartSelf()
         }
     }
 
     fun changeTheme(theme: String) {
-        if (theme in globalPrefs.validThemes && globalPrefs.theme != theme) {
+        if (theme in PreferenceFacility.validThemes && globalPrefs.theme != theme) {
             globalPrefs.theme = theme
             configTheme(globalPrefs, null)
             restartSelf()

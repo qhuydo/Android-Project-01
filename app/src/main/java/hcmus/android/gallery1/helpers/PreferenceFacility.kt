@@ -5,12 +5,16 @@ import androidx.core.content.edit
 import hcmus.android.gallery1.R
 
 class PreferenceFacility(private val prefs: SharedPreferences) {
-    // Sanity check
-    val validTabs           = arrayOf(TAB_ALL, TAB_ALBUM, TAB_DATE, TAB_FACE, TAB_SECRET, TAB_FAV)
-    val validViews          = arrayOf(VIEW_LIST, VIEW_GRID_3, VIEW_GRID_4, VIEW_GRID_5)
-    val validViewsLimited   = arrayOf(VIEW_LIST, VIEW_GRID_2)
-    val validThemes         = arrayOf(THEME_FOLLOW_SYSTEM, THEME_DAY, THEME_NIGHT)
-    val validLanguages      = arrayOf(LANG_FOLLOW_SYSTEM, LANG_EN, LANG_VI, LANG_JA)
+
+    companion object {
+        // Sanity check
+        val validTabs           = arrayOf(TAB_ALL, TAB_ALBUM, TAB_DATE, TAB_FACE, TAB_SECRET, TAB_FAV)
+        val validViews          = arrayOf(VIEW_LIST, VIEW_ITEM_GRID_L, VIEW_ITEM_GRID_M, VIEW_ITEM_GRID_S)
+        val validViewsLimited   = arrayOf(VIEW_LIST, VIEW_COLLECTION_GRID)
+        val validThemes         = arrayOf(THEME_FOLLOW_SYSTEM, THEME_DAY, THEME_NIGHT)
+        val validLanguages      = arrayOf(LANG_FOLLOW_SYSTEM, LANG_EN, LANG_VI, LANG_JA)
+
+    }
 
     fun isValidViewMode(tab: String, mode: String): Boolean {
         if (tab !in validTabs) return false

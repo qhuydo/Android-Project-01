@@ -255,9 +255,9 @@ class MainFragment : Fragment() {
         viewModeSelectorAll.check(
             when(globalPrefs.getViewMode(TAB_ALL)) {
                 VIEW_LIST -> R.id.btn_viewmode_all_list
-                VIEW_GRID_3 -> R.id.btn_viewmode_all_grid_3
-                VIEW_GRID_4 -> R.id.btn_viewmode_all_grid_4
-                VIEW_GRID_5 -> R.id.btn_viewmode_all_grid_5
+                VIEW_ITEM_GRID_L -> R.id.btn_viewmode_all_grid_3
+                VIEW_ITEM_GRID_M -> R.id.btn_viewmode_all_grid_4
+                VIEW_ITEM_GRID_S -> R.id.btn_viewmode_all_grid_5
                 else -> R.id.btn_viewmode_all_grid_3
             }
         )
@@ -265,7 +265,7 @@ class MainFragment : Fragment() {
         viewModeSelectorAlbum.check(
             when(globalPrefs.getViewMode(TAB_ALBUM)) {
                 VIEW_LIST -> R.id.btn_viewmode_album_list
-                VIEW_GRID_2 -> R.id.btn_viewmode_album_grid_2
+                VIEW_COLLECTION_GRID -> R.id.btn_viewmode_album_grid_2
                 else -> R.id.btn_viewmode_album_grid_2
             }
         )
@@ -273,7 +273,7 @@ class MainFragment : Fragment() {
         viewModeSelectorDate.check(
             when(globalPrefs.getViewMode(TAB_DATE)) {
                 VIEW_LIST -> R.id.btn_viewmode_date_list
-                VIEW_GRID_2 -> R.id.btn_viewmode_date_grid_2
+                VIEW_COLLECTION_GRID -> R.id.btn_viewmode_date_grid_2
                 else -> R.id.btn_viewmode_date_grid_2
             }
         )
@@ -281,9 +281,9 @@ class MainFragment : Fragment() {
         viewModeSelectorFav.check(
             when(globalPrefs.getViewMode(TAB_FAV)) {
                 VIEW_LIST -> R.id.btn_viewmode_fav_list
-                VIEW_GRID_3 -> R.id.btn_viewmode_fav_grid_3
-                VIEW_GRID_4 -> R.id.btn_viewmode_fav_grid_4
-                VIEW_GRID_5 -> R.id.btn_viewmode_fav_grid_5
+                VIEW_ITEM_GRID_L -> R.id.btn_viewmode_fav_grid_3
+                VIEW_ITEM_GRID_M -> R.id.btn_viewmode_fav_grid_4
+                VIEW_ITEM_GRID_S -> R.id.btn_viewmode_fav_grid_5
                 else -> R.id.btn_viewmode_fav_grid_3
             }
         )
@@ -297,13 +297,13 @@ class MainFragment : Fragment() {
                     globalPrefs.setViewMode(TAB_ALL, VIEW_LIST)
                 }
                 R.id.btn_viewmode_all_grid_3 -> {
-                    globalPrefs.setViewMode(TAB_ALL, VIEW_GRID_3)
+                    globalPrefs.setViewMode(TAB_ALL, VIEW_ITEM_GRID_L)
                 }
                 R.id.btn_viewmode_all_grid_4 -> {
-                    globalPrefs.setViewMode(TAB_ALL, VIEW_GRID_4)
+                    globalPrefs.setViewMode(TAB_ALL, VIEW_ITEM_GRID_M)
                 }
                 R.id.btn_viewmode_all_grid_5 -> {
-                    globalPrefs.setViewMode(TAB_ALL, VIEW_GRID_5)
+                    globalPrefs.setViewMode(TAB_ALL, VIEW_ITEM_GRID_S)
                 }
             }
 
@@ -318,7 +318,7 @@ class MainFragment : Fragment() {
                     globalPrefs.setViewMode(TAB_ALBUM, VIEW_LIST)
                 }
                 R.id.btn_viewmode_album_grid_2 -> {
-                    globalPrefs.setViewMode(TAB_ALBUM, VIEW_GRID_2)
+                    globalPrefs.setViewMode(TAB_ALBUM, VIEW_COLLECTION_GRID)
                 }
             }
 
@@ -333,7 +333,7 @@ class MainFragment : Fragment() {
                     globalPrefs.setViewMode(TAB_DATE, VIEW_LIST)
                 }
                 R.id.btn_viewmode_date_grid_2 -> {
-                    globalPrefs.setViewMode(TAB_DATE, VIEW_GRID_2)
+                    globalPrefs.setViewMode(TAB_DATE, VIEW_COLLECTION_GRID)
                 }
             }
 
@@ -349,13 +349,13 @@ class MainFragment : Fragment() {
                     globalPrefs.setViewMode(TAB_FAV, VIEW_LIST)
                 }
                 R.id.btn_viewmode_fav_grid_3 -> {
-                    globalPrefs.setViewMode(TAB_FAV, VIEW_GRID_3)
+                    globalPrefs.setViewMode(TAB_FAV, VIEW_ITEM_GRID_L)
                 }
                 R.id.btn_viewmode_fav_grid_4 -> {
-                    globalPrefs.setViewMode(TAB_FAV, VIEW_GRID_4)
+                    globalPrefs.setViewMode(TAB_FAV, VIEW_ITEM_GRID_M)
                 }
                 R.id.btn_viewmode_fav_grid_5 -> {
-                    globalPrefs.setViewMode(TAB_FAV, VIEW_GRID_5)
+                    globalPrefs.setViewMode(TAB_FAV, VIEW_ITEM_GRID_S)
                 }
             }
 
@@ -421,8 +421,9 @@ class MainFragment : Fragment() {
     private fun handleBtnSetTheme() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.bdrawer_more_theme)
-            .setSingleChoiceItems(resources.getStringArray(R.array.settings_theme), globalPrefs.validThemes.indexOf(globalPrefs.theme)) { _, which ->
-                (activity as? Activity2)?.changeTheme(globalPrefs.validThemes[which])
+            .setSingleChoiceItems(resources.getStringArray(R.array.settings_theme),
+                PreferenceFacility.validThemes.indexOf(globalPrefs.theme)) { _, which ->
+                (activity as? Activity2)?.changeTheme(PreferenceFacility.validThemes[which])
             }
             .show()
     }
@@ -431,9 +432,9 @@ class MainFragment : Fragment() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.bdrawer_more_language)
             .setSingleChoiceItems(resources.getStringArray(R.array.settings_language),
-                globalPrefs.validLanguages.indexOf(globalPrefs.language)
+                PreferenceFacility.validLanguages.indexOf(globalPrefs.language)
             ) { _, which ->
-                val language = globalPrefs.validLanguages[which]
+                val language = PreferenceFacility.validLanguages[which]
                 (activity as? Activity2)?.changeLanguage(language)
             }
             .show()

@@ -116,9 +116,9 @@ class ViewCollectionActivity : AppCompatActivity() {
         viewModeSelector.check(
             when(globalPrefs.getViewMode(TAB_ALL)) {
                 VIEW_LIST -> R.id.btn_viewmode_all_list
-                VIEW_GRID_3 -> R.id.btn_viewmode_all_grid_3
-                VIEW_GRID_4 -> R.id.btn_viewmode_all_grid_4
-                VIEW_GRID_5 -> R.id.btn_viewmode_all_grid_5
+                VIEW_ITEM_GRID_L -> R.id.btn_viewmode_all_grid_3
+                VIEW_ITEM_GRID_M -> R.id.btn_viewmode_all_grid_4
+                VIEW_ITEM_GRID_S -> R.id.btn_viewmode_all_grid_5
                 else -> R.id.btn_viewmode_all_grid_3
             }
         )

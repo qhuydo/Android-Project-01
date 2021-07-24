@@ -6,15 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.CollectionListAdapter
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.globalPrefs
 import hcmus.android.gallery1.helpers.TAB_ALBUM
-import hcmus.android.gallery1.helpers.VIEW_GRID_2
 import hcmus.android.gallery1.helpers.VIEW_LIST
+import hcmus.android.gallery1.helpers.getSpanCountOf
 
 abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM) : Fragment() {
 
@@ -51,11 +50,8 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM) :
     private fun initRecyclerView() {
         requireView().findViewById<RecyclerView>(R.id.recycler_view).apply {
             adapter = collectionListAdapter
-            layoutManager = when (globalPrefs.getViewMode(tabName)) {
-                VIEW_LIST -> LinearLayoutManager(requireContext())
-                VIEW_GRID_2 -> GridLayoutManager(requireContext(), 2)
-                else -> GridLayoutManager(requireContext(), 2)
-            }
+            val spanCount = requireContext().getSpanCountOf(tabName, globalPrefs.getViewMode(tabName))
+            layoutManager = GridLayoutManager(requireContext(), spanCount)
         }
     }
 
