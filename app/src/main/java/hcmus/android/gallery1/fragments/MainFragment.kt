@@ -251,45 +251,77 @@ class MainFragment : Fragment() {
         setVisibleViewModeSelector(R.id.tab_all)
 
         // Set initial state from globalPrefs
+        initButtonStateFromGlobalPrefs()
 
+        // Add listeners
+        initSelectors()
+    }
+
+    private fun initButtonStateFromGlobalPrefs() {
         viewModeSelectorAll.check(
-            when(globalPrefs.getViewMode(TAB_ALL)) {
+            when (globalPrefs.getViewMode(TAB_ALL)) {
                 VIEW_LIST -> R.id.btn_viewmode_all_list
                 VIEW_ITEM_GRID_L -> R.id.btn_viewmode_all_grid_3
                 VIEW_ITEM_GRID_M -> R.id.btn_viewmode_all_grid_4
                 VIEW_ITEM_GRID_S -> R.id.btn_viewmode_all_grid_5
-                else -> R.id.btn_viewmode_all_grid_3
+                else -> {
+                    globalPrefs.setViewMode(TAB_ALL, VIEW_TAB_ALL_FALLBACK)
+                    BTN_TAB_ALL_FALLBACK
+                }
             }
         )
 
         viewModeSelectorAlbum.check(
-            when(globalPrefs.getViewMode(TAB_ALBUM)) {
+            when (globalPrefs.getViewMode(TAB_ALBUM)) {
                 VIEW_LIST -> R.id.btn_viewmode_album_list
                 VIEW_COLLECTION_GRID -> R.id.btn_viewmode_album_grid_2
-                else -> R.id.btn_viewmode_album_grid_2
+                else -> {
+                    globalPrefs.setViewMode(TAB_ALBUM, VIEW_TAB_ALBUM_FALLBACK)
+                    BTN_TAB_ALBUM_FALLBACK
+                }
             }
         )
 
         viewModeSelectorDate.check(
-            when(globalPrefs.getViewMode(TAB_DATE)) {
+            when (globalPrefs.getViewMode(TAB_DATE)) {
                 VIEW_LIST -> R.id.btn_viewmode_date_list
                 VIEW_COLLECTION_GRID -> R.id.btn_viewmode_date_grid_2
-                else -> R.id.btn_viewmode_date_grid_2
+                else -> {
+                    globalPrefs.setViewMode(TAB_DATE, VIEW_TAB_DATE_FALLBACK)
+                    BTN_TAB_DATE_FALLBACK
+                }
             }
         )
 
         viewModeSelectorFav.check(
-            when(globalPrefs.getViewMode(TAB_FAV)) {
+            when (globalPrefs.getViewMode(TAB_FAV)) {
                 VIEW_LIST -> R.id.btn_viewmode_fav_list
                 VIEW_ITEM_GRID_L -> R.id.btn_viewmode_fav_grid_3
                 VIEW_ITEM_GRID_M -> R.id.btn_viewmode_fav_grid_4
                 VIEW_ITEM_GRID_S -> R.id.btn_viewmode_fav_grid_5
-                else -> R.id.btn_viewmode_fav_grid_3
+                else -> {
+                    globalPrefs.setViewMode(TAB_FAV, VIEW_TAB_FAV_FALLBACK)
+                    BTN_TAB_FAV_FALLBACK
+                }
             }
         )
+    }
 
-        // Add listeners
+    private fun setVisibleViewModeSelector(itemId: Int) {
+        viewModeSelectorAll.visibility = View.GONE
+        viewModeSelectorAlbum.visibility = View.GONE
+        viewModeSelectorDate.visibility = View.GONE
+        viewModeSelectorFav.visibility = View.GONE
+        when(itemId) {
+            R.id.tab_all -> viewModeSelectorAll.visibility = View.VISIBLE
+            R.id.tab_album -> viewModeSelectorAlbum.visibility = View.VISIBLE
+            R.id.tab_date -> viewModeSelectorDate.visibility = View.VISIBLE
+            R.id.tab_favorites -> viewModeSelectorFav.visibility = View.VISIBLE
+            else -> {}
+        }
+    }
 
+    private fun initSelectors() {
         viewModeSelectorAll.addOnButtonCheckedListener { _, checkedId, _ ->
             // Write to settings
             when (checkedId) {
@@ -362,20 +394,6 @@ class MainFragment : Fragment() {
             // Dirty reload current fragment
             (tabFragmentAdapter.fragmentAt(TAB.FAV.ordinal) as? ImageListFragment)?.notifyViewTypeChanged()
             tabFragmentAdapter.notifyItemChanged(TAB.FAV.ordinal)
-        }
-    }
-
-    private fun setVisibleViewModeSelector(itemId: Int) {
-        viewModeSelectorAll.visibility = View.GONE
-        viewModeSelectorAlbum.visibility = View.GONE
-        viewModeSelectorDate.visibility = View.GONE
-        viewModeSelectorFav.visibility = View.GONE
-        when(itemId) {
-            R.id.tab_all -> viewModeSelectorAll.visibility = View.VISIBLE
-            R.id.tab_album -> viewModeSelectorAlbum.visibility = View.VISIBLE
-            R.id.tab_date -> viewModeSelectorDate.visibility = View.VISIBLE
-            R.id.tab_favorites -> viewModeSelectorFav.visibility = View.VISIBLE
-            else -> {}
         }
     }
 

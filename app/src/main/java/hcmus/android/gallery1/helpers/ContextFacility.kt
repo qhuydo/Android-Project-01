@@ -7,7 +7,7 @@ import hcmus.android.gallery1.helpers.PreferenceFacility.Companion.validViews
 import hcmus.android.gallery1.helpers.PreferenceFacility.Companion.validViewsLimited
 
 fun Context.getSpanCountOf(tab: String, viewMode: String): Int {
-    if (tab !in validTabs || (viewMode !in validViews && viewMode !in validViewsLimited)) return 0
+    if (tab !in validTabs || (viewMode !in validViews && viewMode !in validViewsLimited)) return 1
 
     return when (viewMode) {
         VIEW_COLLECTION_GRID -> resources.getInteger(R.integer.collection_grid)
