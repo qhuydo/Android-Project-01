@@ -13,25 +13,31 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import hcmus.android.gallery1.Activity2
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.adapters.ButtonGroupViewModeAdapter
+import hcmus.android.gallery1.adapters.OnViewModeSelectedCallback
 import hcmus.android.gallery1.adapters.TabFragmentAdapter
 import hcmus.android.gallery1.fragments.base.CollectionListFragment
 import hcmus.android.gallery1.fragments.base.ImageListFragment
 import hcmus.android.gallery1.globalPrefs
-import hcmus.android.gallery1.helpers.*
+import hcmus.android.gallery1.helpers.PreferenceFacility
+import hcmus.android.gallery1.helpers.TAB
+import hcmus.android.gallery1.helpers.toTabKey
 
 class MainFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
@@ -65,7 +71,7 @@ class MainFragment : Fragment() {
 
     private var currentPosition = TAB.ALL.ordinal
 
-    private val onPageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
+    private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
 
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
@@ -78,7 +84,25 @@ class MainFragment : Fragment() {
                 TAB.FAV.ordinal -> R.id.tab_favorites
                 else -> R.id.tab_all
             }
-            onNavigationItemSelected(itemId)
+
+            // bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            viewModeRecyclerView.smoothScrollToPosition(position)
+        }
+    }
+
+    private val onViewModeSelectedCallback = object : OnViewModeSelectedCallback {
+        override fun onViewModeSelected(tab: TAB, viewMode: String) {
+            globalPrefs.setViewMode(tab.toTabKey(), viewMode)
+
+            if (tab == TAB.ALL || tab == TAB.FAV) {
+                (tabFragmentAdapter.fragmentAt(tab.ordinal) as? ImageListFragment)
+                    ?.notifyViewTypeChanged()
+            } else {
+                (tabFragmentAdapter.fragmentAt(tab.ordinal) as? CollectionListFragment)
+                    ?.notifyViewTypeChanged()
+            }
+
+            tabFragmentAdapter.notifyItemChanged(tab.ordinal)
         }
     }
 
@@ -89,10 +113,6 @@ class MainFragment : Fragment() {
     private lateinit var bDrawerBehavior: BottomSheetBehavior<TabLayout>
     private lateinit var bDrawerBtnExpand: ImageButton
     private lateinit var bDrawerDim: View
-    private lateinit var viewModeSelectorAll: MaterialButtonToggleGroup
-    private lateinit var viewModeSelectorAlbum: MaterialButtonToggleGroup
-    private lateinit var viewModeSelectorDate: MaterialButtonToggleGroup
-    private lateinit var viewModeSelectorFav: MaterialButtonToggleGroup
     private lateinit var btnNewAlbum: Button
     private lateinit var btnNewPhoto: Button
     private lateinit var btnNewVideo: Button
@@ -100,6 +120,7 @@ class MainFragment : Fragment() {
     private lateinit var btnSetLanguage: Button
     private lateinit var btnSetAbout: Button
     private lateinit var viewPager2: ViewPager2
+    private lateinit var viewModeRecyclerView: RecyclerView
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -108,16 +129,10 @@ class MainFragment : Fragment() {
         requireView().apply {
 
             // Bottom drawer
-            bDrawerNavbar    = findViewById(R.id.main_navbar)
-            bDrawerBehavior  = BottomSheetBehavior.from(findViewById(R.id.bdrawer_main))
+            bDrawerNavbar = findViewById(R.id.main_navbar)
+            bDrawerBehavior = BottomSheetBehavior.from(findViewById(R.id.bdrawer_main))
             bDrawerBtnExpand = findViewById(R.id.btn_bottom_sheet_expand)
-            bDrawerDim       = findViewById(R.id.bdrawer_dim)
-
-            // Bottom drawer -> View mode selectors
-            viewModeSelectorAll   = findViewById(R.id.viewmode_all)
-            viewModeSelectorAlbum = findViewById(R.id.viewmode_album)
-            viewModeSelectorDate  = findViewById(R.id.viewmode_date)
-            viewModeSelectorFav   = findViewById(R.id.viewmode_fav)
+            bDrawerDim = findViewById(R.id.bdrawer_dim)
 
             // Bottom drawer -> Buttons
             btnNewAlbum = findViewById(R.id.btn_new_album)
@@ -127,7 +142,8 @@ class MainFragment : Fragment() {
             btnSetTheme = findViewById(R.id.btn_more_theme)
             btnSetLanguage = findViewById(R.id.btn_more_language)
 
-            viewPager2 = findViewById<ViewPager2>(R.id.main_fragment_container)
+            viewPager2 = findViewById(R.id.main_fragment_container)
+            viewModeRecyclerView = findViewById(R.id.viewmode)
         }
 
     }
@@ -168,9 +184,11 @@ class MainFragment : Fragment() {
                             )
                         )
                     }
-                    else -> { }
+                    else -> {
+                    }
                 }
             }
+
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 bDrawerDim.visibility = View.VISIBLE
                 bDrawerDim.alpha = 0.5f * slideOffset
@@ -185,9 +203,12 @@ class MainFragment : Fragment() {
         bDrawerBtnExpand.apply {
             setOnClickListener {
                 when (bDrawerBehavior.state) {
-                    BottomSheetBehavior.STATE_COLLAPSED     -> bDrawerBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                    BottomSheetBehavior.STATE_EXPANDED      -> bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                    else -> { }
+                    BottomSheetBehavior.STATE_COLLAPSED -> bDrawerBehavior.state =
+                        BottomSheetBehavior.STATE_EXPANDED
+                    BottomSheetBehavior.STATE_EXPANDED -> bDrawerBehavior.state =
+                        BottomSheetBehavior.STATE_COLLAPSED
+                    else -> {
+                    }
                 }
             }
         }
@@ -204,11 +225,10 @@ class MainFragment : Fragment() {
                     TAB.FAV.ordinal -> getText(R.string.tab_favorites)
                     else -> getText(R.string.tab_all)
                 }
-            }
-            else {
+            } else {
                 tab.text = null
             }
-            val iconIdRes =  when(position) {
+            val iconIdRes = when (position) {
                 TAB.ALBUM.ordinal -> R.drawable.ic_tab_album
                 TAB.DATE.ordinal -> R.drawable.ic_tab_date
                 TAB.FAV.ordinal -> R.drawable.ic_tab_favorite
@@ -217,7 +237,7 @@ class MainFragment : Fragment() {
             tab.setIcon(iconIdRes)
         }.attach()
 
-        bDrawerNavbar.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+        bDrawerNavbar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
                     tab.text = when (tab.position) {
@@ -233,168 +253,15 @@ class MainFragment : Fragment() {
                 tab?.text = null
             }
 
-            override fun onTabReselected(tab: TabLayout.Tab?) { }
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
 
         })
 
     }
 
-    private fun onNavigationItemSelected(itemId: Int) {
-        bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        setVisibleViewModeSelector(itemId)
-
-    }
-
     // Bottom drawer: view mode selectors
     private fun initViewModeSelectors() {
-        // View mode: all
-        setVisibleViewModeSelector(R.id.tab_all)
-
-        // Set initial state from globalPrefs
-        initButtonStateFromGlobalPrefs()
-
-        // Add listeners
-        initSelectors()
-    }
-
-    private fun initButtonStateFromGlobalPrefs() {
-        viewModeSelectorAll.check(
-            when (globalPrefs.getViewMode(TAB_ALL)) {
-                VIEW_LIST -> R.id.btn_viewmode_all_list
-                VIEW_ITEM_GRID_L -> R.id.btn_viewmode_all_grid_3
-                VIEW_ITEM_GRID_M -> R.id.btn_viewmode_all_grid_4
-                VIEW_ITEM_GRID_S -> R.id.btn_viewmode_all_grid_5
-                else -> {
-                    globalPrefs.setViewMode(TAB_ALL, VIEW_TAB_ALL_FALLBACK)
-                    BTN_TAB_ALL_FALLBACK
-                }
-            }
-        )
-
-        viewModeSelectorAlbum.check(
-            when (globalPrefs.getViewMode(TAB_ALBUM)) {
-                VIEW_LIST -> R.id.btn_viewmode_album_list
-                VIEW_COLLECTION_GRID -> R.id.btn_viewmode_album_grid_2
-                else -> {
-                    globalPrefs.setViewMode(TAB_ALBUM, VIEW_TAB_ALBUM_FALLBACK)
-                    BTN_TAB_ALBUM_FALLBACK
-                }
-            }
-        )
-
-        viewModeSelectorDate.check(
-            when (globalPrefs.getViewMode(TAB_DATE)) {
-                VIEW_LIST -> R.id.btn_viewmode_date_list
-                VIEW_COLLECTION_GRID -> R.id.btn_viewmode_date_grid_2
-                else -> {
-                    globalPrefs.setViewMode(TAB_DATE, VIEW_TAB_DATE_FALLBACK)
-                    BTN_TAB_DATE_FALLBACK
-                }
-            }
-        )
-
-        viewModeSelectorFav.check(
-            when (globalPrefs.getViewMode(TAB_FAV)) {
-                VIEW_LIST -> R.id.btn_viewmode_fav_list
-                VIEW_ITEM_GRID_L -> R.id.btn_viewmode_fav_grid_3
-                VIEW_ITEM_GRID_M -> R.id.btn_viewmode_fav_grid_4
-                VIEW_ITEM_GRID_S -> R.id.btn_viewmode_fav_grid_5
-                else -> {
-                    globalPrefs.setViewMode(TAB_FAV, VIEW_TAB_FAV_FALLBACK)
-                    BTN_TAB_FAV_FALLBACK
-                }
-            }
-        )
-    }
-
-    private fun setVisibleViewModeSelector(itemId: Int) {
-        viewModeSelectorAll.visibility = View.GONE
-        viewModeSelectorAlbum.visibility = View.GONE
-        viewModeSelectorDate.visibility = View.GONE
-        viewModeSelectorFav.visibility = View.GONE
-        when(itemId) {
-            R.id.tab_all -> viewModeSelectorAll.visibility = View.VISIBLE
-            R.id.tab_album -> viewModeSelectorAlbum.visibility = View.VISIBLE
-            R.id.tab_date -> viewModeSelectorDate.visibility = View.VISIBLE
-            R.id.tab_favorites -> viewModeSelectorFav.visibility = View.VISIBLE
-            else -> {}
-        }
-    }
-
-    private fun initSelectors() {
-        viewModeSelectorAll.addOnButtonCheckedListener { _, checkedId, _ ->
-            // Write to settings
-            when (checkedId) {
-                R.id.btn_viewmode_all_list -> {
-                    globalPrefs.setViewMode(TAB_ALL, VIEW_LIST)
-                }
-                R.id.btn_viewmode_all_grid_3 -> {
-                    globalPrefs.setViewMode(TAB_ALL, VIEW_ITEM_GRID_L)
-                }
-                R.id.btn_viewmode_all_grid_4 -> {
-                    globalPrefs.setViewMode(TAB_ALL, VIEW_ITEM_GRID_M)
-                }
-                R.id.btn_viewmode_all_grid_5 -> {
-                    globalPrefs.setViewMode(TAB_ALL, VIEW_ITEM_GRID_S)
-                }
-            }
-
-            // Dirty reload current fragment
-            (tabFragmentAdapter.fragmentAt(TAB.ALL.ordinal) as? ImageListFragment)?.notifyViewTypeChanged()
-            tabFragmentAdapter.notifyItemChanged(TAB.ALL.ordinal)
-        }
-
-        viewModeSelectorAlbum.addOnButtonCheckedListener { _, checkedId, _ ->
-            when (checkedId) {
-                R.id.btn_viewmode_album_list -> {
-                    globalPrefs.setViewMode(TAB_ALBUM, VIEW_LIST)
-                }
-                R.id.btn_viewmode_album_grid_2 -> {
-                    globalPrefs.setViewMode(TAB_ALBUM, VIEW_COLLECTION_GRID)
-                }
-            }
-
-            // Dirty reload current fragment
-            (tabFragmentAdapter.fragmentAt(TAB.ALBUM.ordinal) as? CollectionListFragment)?.notifyViewTypeChanged()
-            tabFragmentAdapter.notifyItemChanged(TAB.ALBUM.ordinal)
-        }
-
-        viewModeSelectorDate.addOnButtonCheckedListener { _, checkedId, _ ->
-            when (checkedId) {
-                R.id.btn_viewmode_date_list -> {
-                    globalPrefs.setViewMode(TAB_DATE, VIEW_LIST)
-                }
-                R.id.btn_viewmode_date_grid_2 -> {
-                    globalPrefs.setViewMode(TAB_DATE, VIEW_COLLECTION_GRID)
-                }
-            }
-
-            // Dirty reload current fragment
-            (tabFragmentAdapter.fragmentAt(TAB.DATE.ordinal) as? CollectionListFragment)?.notifyViewTypeChanged()
-            tabFragmentAdapter.notifyItemChanged(TAB.DATE.ordinal)
-        }
-
-        viewModeSelectorFav.addOnButtonCheckedListener { _, checkedId, _ ->
-            // Write to settings
-            when (checkedId) {
-                R.id.btn_viewmode_fav_list -> {
-                    globalPrefs.setViewMode(TAB_FAV, VIEW_LIST)
-                }
-                R.id.btn_viewmode_fav_grid_3 -> {
-                    globalPrefs.setViewMode(TAB_FAV, VIEW_ITEM_GRID_L)
-                }
-                R.id.btn_viewmode_fav_grid_4 -> {
-                    globalPrefs.setViewMode(TAB_FAV, VIEW_ITEM_GRID_M)
-                }
-                R.id.btn_viewmode_fav_grid_5 -> {
-                    globalPrefs.setViewMode(TAB_FAV, VIEW_ITEM_GRID_S)
-                }
-            }
-
-            // Dirty reload current fragment
-            (tabFragmentAdapter.fragmentAt(TAB.FAV.ordinal) as? ImageListFragment)?.notifyViewTypeChanged()
-            tabFragmentAdapter.notifyItemChanged(TAB.FAV.ordinal)
-        }
+        viewModeRecyclerView.adapter = ButtonGroupViewModeAdapter(onViewModeSelectedCallback)
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -419,9 +286,12 @@ class MainFragment : Fragment() {
     private fun handleBtnNewPhoto() {
         try {
             startActivity(Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA))
-        }
-        catch (e: ActivityNotFoundException) {
-            Toast.makeText(requireContext(), "Failed to open camera (do you have camera app installed?)", Toast.LENGTH_LONG).show()
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(
+                requireContext(),
+                "Failed to open camera (do you have camera app installed?)",
+                Toast.LENGTH_LONG
+            ).show()
         }
         bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
@@ -429,9 +299,12 @@ class MainFragment : Fragment() {
     private fun handleBtnNewVideo() {
         try {
             startActivity(Intent(MediaStore.INTENT_ACTION_VIDEO_CAMERA))
-        }
-        catch (e: ActivityNotFoundException) {
-            Toast.makeText(requireContext(), "Failed to open camera (do you have camera app installed?)", Toast.LENGTH_LONG).show()
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(
+                requireContext(),
+                "Failed to open camera (do you have camera app installed?)",
+                Toast.LENGTH_LONG
+            ).show()
         }
         bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
@@ -439,8 +312,10 @@ class MainFragment : Fragment() {
     private fun handleBtnSetTheme() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.bdrawer_more_theme)
-            .setSingleChoiceItems(resources.getStringArray(R.array.settings_theme),
-                PreferenceFacility.validThemes.indexOf(globalPrefs.theme)) { _, which ->
+            .setSingleChoiceItems(
+                resources.getStringArray(R.array.settings_theme),
+                PreferenceFacility.validThemes.indexOf(globalPrefs.theme)
+            ) { _, which ->
                 (activity as? Activity2)?.changeTheme(PreferenceFacility.validThemes[which])
             }
             .show()
@@ -449,7 +324,8 @@ class MainFragment : Fragment() {
     private fun handleBtnSetLanguage() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.bdrawer_more_language)
-            .setSingleChoiceItems(resources.getStringArray(R.array.settings_language),
+            .setSingleChoiceItems(
+                resources.getStringArray(R.array.settings_language),
                 PreferenceFacility.validLanguages.indexOf(globalPrefs.language)
             ) { _, which ->
                 val language = PreferenceFacility.validLanguages[which]
@@ -460,7 +336,9 @@ class MainFragment : Fragment() {
 
     private fun handleBtnAbout() {
         MaterialAlertDialogBuilder(requireContext())
-            .setView(LayoutInflater.from(requireContext()).inflate(R.layout.about_dialog, null, false))
+            .setView(
+                LayoutInflater.from(requireContext()).inflate(R.layout.about_dialog, null, false)
+            )
             .show()
     }
 

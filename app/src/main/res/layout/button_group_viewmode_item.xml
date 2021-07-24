@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButtonToggleGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewmode_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:visibility="visible"
+    app:selectionRequired="true"
+    app:singleSelection="true">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_viewmode_item_list"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/bdrawer_viewmode_list" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_viewmode_item_grid_3"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/bdrawer_viewmode_grid_3"
+        app:icon="@drawable/ic_view_grid" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_viewmode_item_grid_4"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/bdrawer_viewmode_grid_4"
+        app:icon="@drawable/ic_view_grid" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_viewmode_item_grid_5"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/bdrawer_viewmode_grid_5"
+        app:icon="@drawable/ic_view_grid" />
+
+</com.google.android.material.button.MaterialButtonToggleGroup>

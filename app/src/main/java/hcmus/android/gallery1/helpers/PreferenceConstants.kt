@@ -21,15 +21,11 @@ const val VIEW_ITEM_GRID_L = "grid_3"
 const val VIEW_ITEM_GRID_M = "grid_4"
 const val VIEW_ITEM_GRID_S = "grid_5"
 
-const val BTN_TAB_ALL_FALLBACK = R.id.btn_viewmode_all_grid_3
-const val BTN_TAB_FAV_FALLBACK = R.id.btn_viewmode_fav_grid_3
-const val BTN_TAB_ALBUM_FALLBACK = R.id.btn_viewmode_album_grid_2
-const val BTN_TAB_DATE_FALLBACK = R.id.btn_viewmode_date_grid_2
+const val BTN_TAB_ITEM_FALLBACK = R.id.btn_viewmode_item_grid_3
+const val BTN_TAB_COLLECTION_FALLBACK = R.id.btn_viewmode_collection_grid_2
 
-const val VIEW_TAB_ALL_FALLBACK = VIEW_ITEM_GRID_L
-const val VIEW_TAB_FAV_FALLBACK = VIEW_ITEM_GRID_L
-const val VIEW_TAB_ALBUM_FALLBACK = VIEW_COLLECTION_GRID
-const val VIEW_TAB_DATE_FALLBACK = VIEW_COLLECTION_GRID
+const val VIEW_TAB_ITEM_FALLBACK = VIEW_ITEM_GRID_L
+const val VIEW_TAB_COLLECTION_FALLBACK = VIEW_COLLECTION_GRID
 
 const val THEME_FOLLOW_SYSTEM = "follow_system"
 const val THEME_DAY = "day"
@@ -47,4 +43,11 @@ enum class TAB {
     ALBUM,
     DATE,
     FAV,
+}
+
+fun TAB.toTabKey(): String = when(this.ordinal) {
+    TAB.ALBUM.ordinal -> TAB_ALBUM
+    TAB.DATE.ordinal -> TAB_DATE
+    TAB.FAV.ordinal -> TAB_FAV
+    else -> TAB_ALL
 }
