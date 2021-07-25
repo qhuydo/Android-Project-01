@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.preference.PreferenceManager
+import hcmus.android.gallery1.databinding.Activity2Binding
 import hcmus.android.gallery1.fragments.MainFragment
 import hcmus.android.gallery1.helpers.LANG_FOLLOW_SYSTEM
 import hcmus.android.gallery1.helpers.PreferenceFacility
@@ -22,6 +23,8 @@ lateinit var globalPrefs: PreferenceFacility
 const val PERMISSION_REQUEST_CODE = 100
 
 class Activity2 : AppCompatActivity() {
+
+    private lateinit var binding: Activity2Binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //globalPrefs = PreferenceFacility(getPreferences(MODE_PRIVATE))
@@ -37,7 +40,8 @@ class Activity2 : AppCompatActivity() {
         // Layout
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_2)
+        binding = Activity2Binding.inflate(layoutInflater)
+        setContentView(binding.root)
         // TODO Bottom drawer
 
         // A really simple check. Part of the permission workaround.

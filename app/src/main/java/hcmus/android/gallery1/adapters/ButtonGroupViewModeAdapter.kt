@@ -3,14 +3,20 @@ package hcmus.android.gallery1.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButtonToggleGroup
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.adapters.viewholders.ViewModeCollectionViewHolder
+import hcmus.android.gallery1.adapters.viewholders.ViewModeItemViewHolder
+import hcmus.android.gallery1.adapters.viewholders.ViewModeViewHolder
+import hcmus.android.gallery1.databinding.ButtonGroupViewmodeCollectionBinding
+import hcmus.android.gallery1.databinding.ButtonGroupViewmodeItemBinding
 import hcmus.android.gallery1.globalPrefs
 import hcmus.android.gallery1.helpers.*
 
-class ButtonGroupViewModeAdapter(val viewModeSelectedCallback: OnViewModeSelectedCallback) :
-    RecyclerView.Adapter<ButtonGroupViewModeViewHolder>() {
+class ButtonGroupViewModeAdapter(private val viewModeSelectedCallback: OnViewModeSelectedCallback) :
+    RecyclerView.Adapter<ViewModeViewHolder>() {
 
     private val tabs = listOf(
         TAB.ALL,
@@ -29,7 +35,7 @@ class ButtonGroupViewModeAdapter(val viewModeSelectedCallback: OnViewModeSelecte
         else -> super.getItemViewType(position)
     }
 
-    override fun onBindViewHolder(holder: ButtonGroupViewModeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewModeViewHolder, position: Int) {
         val tab = when (position) {
             TAB.ALL.ordinal -> TAB.ALL
             TAB.ALBUM.ordinal -> TAB.ALBUM
@@ -51,74 +57,23 @@ class ButtonGroupViewModeAdapter(val viewModeSelectedCallback: OnViewModeSelecte
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ButtonGroupViewModeViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(viewType, parent, false)
+    ): ViewModeViewHolder {
 
-        return ButtonGroupViewModeViewHolder(view)
-    }
-
-}
-
-class ButtonGroupViewModeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    lateinit var tab: TAB
-
-    fun initButtonState() {
-        val tabKey = when (tab) {
-            TAB.ALBUM -> TAB_ALBUM
-            TAB.DATE -> TAB_DATE
-            TAB.FAV -> TAB_FAV
-            else -> TAB_ALL
-        }
-
-        when (tab) {
-            TAB.ALL, TAB.FAV -> initButtonGroupItem(tabKey)
-            else -> initButtonGroupCollection(tabKey)
-        }
-    }
-
-    private fun initButtonGroupCollection(tabKey: String) {
-        val viewModeCollection = itemView.findViewById<MaterialButtonToggleGroup>(
-            R.id.viewmode_collection
-        )
-
-        viewModeCollection.check(
-            when (globalPrefs.getViewMode(tabKey)) {
-                VIEW_LIST -> R.id.btn_viewmode_collection_list
-                VIEW_COLLECTION_GRID -> R.id.btn_viewmode_collection_grid_2
-                else -> {
-                    globalPrefs.setViewMode(tabKey, VIEW_TAB_COLLECTION_FALLBACK)
-                    BTN_TAB_COLLECTION_FALLBACK
-                }
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            R.layout.button_group_viewmode_collection -> {
+                val binding = ButtonGroupViewmodeCollectionBinding.inflate(
+                    inflater, parent, false
+                )
+                ViewModeCollectionViewHolder(binding)
             }
-        )
-    }
-
-    private fun initButtonGroupItem(tabKey: String) {
-        val viewModeCollection = itemView.findViewById<MaterialButtonToggleGroup>(
-            R.id.viewmode_item
-        )
-
-        viewModeCollection.check(
-            when (globalPrefs.getViewMode(tabKey)) {
-                VIEW_LIST -> R.id.btn_viewmode_item_list
-                VIEW_ITEM_GRID_L -> R.id.btn_viewmode_item_grid_3
-                VIEW_ITEM_GRID_M -> R.id.btn_viewmode_item_grid_4
-                VIEW_ITEM_GRID_S -> R.id.btn_viewmode_item_grid_5
-                else -> {
-                    globalPrefs.setViewMode(tabKey, VIEW_TAB_ITEM_FALLBACK)
-                    BTN_TAB_ITEM_FALLBACK
-                }
+            else -> {
+                val binding = ButtonGroupViewmodeItemBinding.inflate(
+                    inflater, parent, false
+                )
+                ViewModeItemViewHolder(binding)
             }
-        )
-    }
-
-    internal fun viewIdToViewMode(id: Int) = when (id) {
-        R.id.btn_viewmode_item_grid_3 -> VIEW_ITEM_GRID_L
-        R.id.btn_viewmode_item_grid_4 -> VIEW_ITEM_GRID_M
-        R.id.btn_viewmode_item_grid_5 -> VIEW_ITEM_GRID_S
-        R.id.btn_viewmode_collection_grid_2 -> VIEW_COLLECTION_GRID
-        else -> VIEW_LIST
+        }
     }
 
 }

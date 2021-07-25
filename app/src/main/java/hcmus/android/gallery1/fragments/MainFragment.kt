@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -24,6 +25,7 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.ButtonGroupViewModeAdapter
 import hcmus.android.gallery1.adapters.OnViewModeSelectedCallback
 import hcmus.android.gallery1.adapters.TabFragmentAdapter
+import hcmus.android.gallery1.databinding.FragmentMainBinding
 import hcmus.android.gallery1.fragments.base.CollectionListFragment
 import hcmus.android.gallery1.fragments.base.ImageListFragment
 import hcmus.android.gallery1.globalPrefs
@@ -33,13 +35,15 @@ import hcmus.android.gallery1.helpers.toTabKey
 
 class MainFragment : Fragment() {
 
+    private lateinit var binding: FragmentMainBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,13 +82,6 @@ class MainFragment : Fragment() {
 
             currentPosition = position
 
-            val itemId = when (position) {
-                TAB.ALBUM.ordinal -> R.id.tab_album
-                TAB.DATE.ordinal -> R.id.tab_date
-                TAB.FAV.ordinal -> R.id.tab_favorites
-                else -> R.id.tab_all
-            }
-
             // bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             viewModeRecyclerView.smoothScrollToPosition(position)
         }
@@ -112,7 +109,7 @@ class MainFragment : Fragment() {
 
     // Hold all references to elements on screen
     private lateinit var bDrawerNavbar: TabLayout
-    private lateinit var bDrawerBehavior: BottomSheetBehavior<TabLayout>
+    private lateinit var bDrawerBehavior: BottomSheetBehavior<LinearLayout>
     private lateinit var bDrawerBtnExpand: ImageButton
     private lateinit var bDrawerDim: View
     private lateinit var btnNewAlbum: Button
@@ -130,22 +127,26 @@ class MainFragment : Fragment() {
     private fun findElements() {
         requireView().apply {
 
-            // Bottom drawer
-            bDrawerNavbar = findViewById(R.id.main_navbar)
-            bDrawerBehavior = BottomSheetBehavior.from(findViewById(R.id.bdrawer_main))
-            bDrawerBtnExpand = findViewById(R.id.btn_bottom_sheet_expand)
-            bDrawerDim = findViewById(R.id.bdrawer_dim)
+            binding.bottomDrawerMain.apply {
 
-            // Bottom drawer -> Buttons
-            btnNewAlbum = findViewById(R.id.btn_new_album)
-            btnNewPhoto = findViewById(R.id.btn_new_photo)
-            btnNewVideo = findViewById(R.id.btn_new_video)
-            btnSetAbout = findViewById(R.id.btn_more_about)
-            btnSetTheme = findViewById(R.id.btn_more_theme)
-            btnSetLanguage = findViewById(R.id.btn_more_language)
+                // Bottom drawer
+                bDrawerNavbar = mainNavbar
+                bDrawerBehavior = BottomSheetBehavior.from(bdrawerMain)
+                bDrawerBtnExpand = btnBottomSheetExpand
+                bDrawerDim = binding.bdrawerDim
 
-            viewPager2 = findViewById(R.id.main_fragment_container)
-            viewModeRecyclerView = findViewById(R.id.viewmode)
+                // Bottom drawer -> Buttons
+                this@MainFragment.btnNewAlbum = btnNewAlbum
+                this@MainFragment.btnNewPhoto = btnNewPhoto
+                this@MainFragment.btnNewVideo = btnNewVideo
+                btnSetAbout = btnMoreAbout
+                btnSetTheme = btnMoreTheme
+                btnSetLanguage = btnMoreLanguage
+
+                viewModeRecyclerView = binding.bottomDrawerMain.viewmode
+            }
+
+            viewPager2 = binding.mainFragmentContainer
         }
 
     }

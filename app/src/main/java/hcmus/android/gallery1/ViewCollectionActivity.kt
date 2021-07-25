@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,12 +17,15 @@ import com.google.android.material.button.MaterialButtonToggleGroup
 import hcmus.android.gallery1.adapters.ItemListAdapter
 import hcmus.android.gallery1.data.getItems
 import hcmus.android.gallery1.data.getItemsByDate
+import hcmus.android.gallery1.databinding.ImageListStandaloneBinding
 import hcmus.android.gallery1.helpers.*
 import kotlin.properties.Delegates
 
 class ViewCollectionActivity : AppCompatActivity() {
+
+    private lateinit var binding: ImageListStandaloneBinding
     // UI elements
-    private lateinit var bDrawerBehavior : BottomSheetBehavior<BottomNavigationView>
+    private lateinit var bDrawerBehavior : BottomSheetBehavior<LinearLayout>
     private lateinit var bDrawerBtnExpand : ImageButton
     private lateinit var bDrawerDim : View
     private lateinit var viewModeSelector : MaterialButtonToggleGroup
@@ -36,14 +40,15 @@ class ViewCollectionActivity : AppCompatActivity() {
 
         configTheme(globalPrefs, null)
         supportActionBar?.hide()
-        setContentView(R.layout.image_list_standalone)
+        binding = ImageListStandaloneBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         // layoutInflater.inflate(R.layout.image_list_standalone, null, false)
 
         collectionId = intent.getLongExtra("collectionId", 0)
         collectionName = intent.getStringExtra("collectionName").toString()
         collectionType = intent.getStringExtra("collectionType").toString()
 
-        findViewById<TextView>(R.id.collection_name).text = collectionName
+        binding.bdrawerImageList.collectionName.text = collectionName
 
         initBottomDrawer()
         refreshCollection()
@@ -58,10 +63,13 @@ class ViewCollectionActivity : AppCompatActivity() {
     }
 
     private fun initBottomDrawer() {
-        bDrawerBehavior  = BottomSheetBehavior.from(findViewById(R.id.bdrawer_image_list_standalone))
-        bDrawerBtnExpand = findViewById(R.id.btn_bottom_sheet_expand)
-        bDrawerDim       = findViewById(R.id.bdrawer_dim)
-        viewModeSelector = findViewById(R.id.viewmode_all)
+        binding.bdrawerImageList.apply {
+
+            bDrawerBehavior  = BottomSheetBehavior.from(bdrawerImageListStandalone)
+            bDrawerBtnExpand = btnBottomSheetExpand
+        }
+        bDrawerDim       = binding.bdrawerDim
+        viewModeSelector = binding.bdrawerImageList.viewmodeAll
 
         // Bottom sheet behavior
         bDrawerBehavior.apply {
@@ -146,7 +154,7 @@ class ViewCollectionActivity : AppCompatActivity() {
     }
 
     private fun refreshCollection() {
-        findViewById<RecyclerView>(R.id.recycler_view).apply {
+        binding.recyclerView.apply {
             layoutManager = when(globalPrefs.getViewMode("all")) {
                 "list" -> LinearLayoutManager(context)
                 "grid_3" -> GridLayoutManager(context, 3)

@@ -1,53 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="4dp"
-    app:cardElevation="8dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:cardElevation="8dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="64dp"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/collection_thumbnail"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:src="@tools:sample/backgrounds/scenic"
-                app:layout_constraintDimensionRatio="H,1.1" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/collection_count"
-            android:background="@color/background2"
-            android:layout_width="64dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="20sp"
-            tools:text="+16" />
-
-        <TextView
-            android:id="@+id/collection_name"
-            android:layout_gravity="center_vertical"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textSize="16sp"
-            tools:text="Lorem ipsum" />
+            android:layout_height="64dp"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="64dp"
+                android:layout_height="match_parent">
 
-</androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/collection_thumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="H,1.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/collection_count"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:background="@color/background2"
+                android:gravity="center"
+                android:textSize="20sp"
+                tools:text="+16" />
+
+            <TextView
+                android:id="@+id/collection_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:textSize="16sp"
+                tools:text="Lorem ipsum" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

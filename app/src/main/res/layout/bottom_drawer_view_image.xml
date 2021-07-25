@@ -1,158 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bdrawer_view_image"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/background2"
-    android:elevation="8dp"
-    android:orientation="vertical"
-    app:behavior_peekHeight="@dimen/bdrawer_peek_height">
-
-    <!-- DRAGGABLE SHEET HINT -->
-    <View
-        android:layout_width="32dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:layout_gravity="center"
-        android:background="?android:attr/listDivider" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bdrawer_toolbar_height"
-        android:orientation="horizontal"
-        android:divider="@drawable/empty_8dp"
-        android:showDividers="middle">
-
-        <ImageButton
-            android:id="@+id/btn_close_viewer"
-            android:background="@drawable/ripple_rect"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_back"
-            android:tooltipText="@string/action_close_viewer"
-            android:onClick="closeViewer" />
-
-        <ImageButton
-            android:id="@+id/btn_delete"
-            android:background="@drawable/ripple_rect"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_action_delete"
-            android:tooltipText="@string/action_delete"
-            android:onClick="deleteImage" />
-
-        <ImageButton
-            android:id="@+id/btn_edit"
-            android:background="@drawable/ripple_rect"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_action_edit"
-            android:tooltipText="@string/action_edit"
-            android:onClick="openEditor"/>
-
-        <ImageButton
-            android:id="@+id/btn_share"
-            android:background="@drawable/ripple_rect"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_action_share"
-            android:tooltipText="@string/action_share"
-            android:onClick="shareImage"/>
-
-        <ImageButton
-            android:id="@+id/btn_bdrawer_view_image_expand"
-            android:background="@drawable/ripple_rect"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_bdrawer_up" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bdrawer_toolbar_height"
-        android:orientation="horizontal"
-        android:divider="@drawable/empty_8dp"
-        android:showDividers="middle">
-
-        <ImageButton
-            android:id="@+id/btn_copy"
-            android:background="@drawable/ripple_rect"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_action_copy"
-            android:tooltipText="@string/action_copy"
-            android:onClick="copyAsFile" />
-
-        <ImageButton
-            android:id="@+id/btn_move"
-            android:background="@drawable/ripple_rect"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_action_move"
-            android:tooltipText="@string/action_move" />
-
-        <ImageButton
-            android:id="@+id/btn_slideshow"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/ripple_rect"
-            android:src="@drawable/ic_action_slideshow"
-            android:tooltipText="@string/action_slideshow" />
-
-        <ImageButton
-            android:id="@+id/btn_favorite"
-            android:background="@drawable/ripple_rect"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_favorite"
-            android:tooltipText="@string/action_favorite"
-            android:onClick="toggleFavorite" />
-
-        <ImageButton
-            android:id="@+id/btn_wallpaper"
-            android:background="@drawable/ripple_rect"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_action_wallpaper"
-            android:tooltipText="@string/action_wallpaper"
-            android:onClick="setAs" />
-
-    </LinearLayout>
-
-    <LinearLayout
+        android:id="@+id/bdrawer_view_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/divider_large"
-        android:paddingLeft="@dimen/divider"
-        android:paddingRight="@dimen/divider"
-        android:orientation="vertical">
+        android:background="@color/background2"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        app:behavior_peekHeight="@dimen/bdrawer_peek_height"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <!-- Uneven margin due to "optical perfection" tweaks -->
+        <!-- DRAGGABLE SHEET HINT -->
         <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@color/bottom_sheet_divider"
-            android:layout_marginTop="@dimen/divider"
-            android:layout_marginBottom="@dimen/divider_large" />
+            android:layout_width="32dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="?android:attr/listDivider" />
 
-        <!-- GridLayout gap: https://stackoverflow.com/a/53421508 -->
-        <include layout="@layout/bottom_drawer_view_image_info" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bdrawer_toolbar_height"
+            android:divider="@drawable/empty_8dp"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <ImageButton
+                android:id="@+id/btn_close_viewer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:onClick="closeViewer"
+                android:src="@drawable/ic_back"
+                android:tooltipText="@string/action_close_viewer" />
+
+            <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:onClick="deleteImage"
+                android:src="@drawable/ic_action_delete"
+                android:tooltipText="@string/action_delete" />
+
+            <ImageButton
+                android:id="@+id/btn_edit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:onClick="openEditor"
+                android:src="@drawable/ic_action_edit"
+                android:tooltipText="@string/action_edit" />
+
+            <ImageButton
+                android:id="@+id/btn_share"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:onClick="shareImage"
+                android:src="@drawable/ic_action_share"
+                android:tooltipText="@string/action_share" />
+
+            <ImageButton
+                android:id="@+id/btn_bdrawer_view_image_expand"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:src="@drawable/ic_bdrawer_up" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bdrawer_toolbar_height"
+            android:divider="@drawable/empty_8dp"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <ImageButton
+                android:id="@+id/btn_copy"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:onClick="copyAsFile"
+                android:src="@drawable/ic_action_copy"
+                android:tooltipText="@string/action_copy" />
+
+            <ImageButton
+                android:id="@+id/btn_move"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:src="@drawable/ic_action_move"
+                android:tooltipText="@string/action_move" />
+
+            <ImageButton
+                android:id="@+id/btn_slideshow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:src="@drawable/ic_action_slideshow"
+                android:tooltipText="@string/action_slideshow" />
+
+            <ImageButton
+                android:id="@+id/btn_favorite"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:onClick="toggleFavorite"
+                android:src="@drawable/ic_favorite"
+                android:tooltipText="@string/action_favorite" />
+
+            <ImageButton
+                android:id="@+id/btn_wallpaper"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:onClick="setAs"
+                android:src="@drawable/ic_action_wallpaper"
+                android:tooltipText="@string/action_wallpaper" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/divider"
+            android:paddingRight="@dimen/divider"
+            android:paddingBottom="@dimen/divider_large">
+
+            <!-- Uneven margin due to "optical perfection" tweaks -->
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/divider"
+                android:layout_marginBottom="@dimen/divider_large"
+                android:background="@color/bottom_sheet_divider" />
+
+            <!-- GridLayout gap: https://stackoverflow.com/a/53421508 -->
+            <include layout="@layout/bottom_drawer_view_image_info"
+                android:id="@+id/bdrawer_view_image_info"
+                />
+        </LinearLayout>
+
     </LinearLayout>
-
-</LinearLayout>
+</layout>

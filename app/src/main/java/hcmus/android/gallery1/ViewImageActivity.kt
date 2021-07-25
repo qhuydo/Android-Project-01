@@ -5,22 +5,21 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.databinding.FragmentViewImageNopagerBinding
 import hcmus.android.gallery1.helpers.configTheme
 
 class ViewImageActivity : AppCompatActivity() {
-    lateinit var bottomSheetBehavior: BottomSheetBehavior<BottomNavigationView>
-    lateinit var bottomSheetExpandButton: ImageButton
-    lateinit var bottomDrawerDim: View
+    private lateinit var binding: FragmentViewImageNopagerBinding
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    private lateinit var bottomSheetExpandButton: ImageButton
+    private lateinit var bottomDrawerDim: View
 
     private lateinit var item: Item
     private val CREATE_FILE: Int = 1
@@ -39,7 +38,8 @@ class ViewImageActivity : AppCompatActivity() {
         // Hide status bar icons
         setLowProfileUI(true)
 
-        setContentView(R.layout.fragment_view_image_nopager)
+        binding = FragmentViewImageNopagerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initBottomSheet()
         // Populate
@@ -53,9 +53,12 @@ class ViewImageActivity : AppCompatActivity() {
     }
 
     private fun initBottomSheet() {
-        bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bdrawer_view_image))
-        bottomSheetExpandButton = findViewById(R.id.btn_bdrawer_view_image_expand)
-        bottomDrawerDim = findViewById(R.id.bdrawer_view_image_dim)
+        binding.bdrawerViewImageLayout.apply {
+            bottomSheetBehavior = BottomSheetBehavior.from(bdrawerViewImage)
+            bottomSheetExpandButton = btnBdrawerViewImageExpand
+        }
+
+        bottomDrawerDim = binding.bdrawerViewImageDim
 
         // Behavior
         bottomSheetBehavior.apply { isFitToContents = true }
@@ -114,13 +117,13 @@ class ViewImageActivity : AppCompatActivity() {
 
     // A dirty workaround to disable (nearly) all buttons when an external URI is detected
     // (i.e. an image was opened but NOT from the gallery)
-    private fun workaroundDisableButtons() {
+    private fun workaroundDisableButtons() = binding.bdrawerViewImageLayout.let {
         val toDisableBtns: List<ImageButton> = listOf(
-            findViewById(R.id.btn_delete),
-            findViewById(R.id.btn_copy),
-            findViewById(R.id.btn_move),
-            findViewById(R.id.btn_slideshow),
-            findViewById(R.id.btn_favorite)
+            it.btnDelete,
+            it.btnCopy,
+            it.btnMove,
+            it.btnSlideshow,
+            it.btnFavorite
         )
         for (each in toDisableBtns) {
             each.isEnabled = false
@@ -130,7 +133,7 @@ class ViewImageActivity : AppCompatActivity() {
 
     private fun populateImageAndInfo() {
 
-        val imageHolder = findViewById<ImageView>(R.id.image)
+        val imageHolder = binding.image
 
         item = intent.getParcelableExtra<Item>("item")!!
 
@@ -139,20 +142,22 @@ class ViewImageActivity : AppCompatActivity() {
             .error(R.drawable.placeholder_item)
             .into(imageHolder)
 
-        val imageName = findViewById<TextView>(R.id.info_file_name)
-        imageName.text = item.fileName
+        binding.bdrawerViewImageLayout.bdrawerViewImageInfo.apply {
+            val imageName = infoFileName
+            imageName.text = item.fileName
 
-        val imageTime = findViewById<TextView>(R.id.info_timestamp)
-        imageTime.text = item.dateModified.toString()
+            val imageTime = infoTimestamp
+            imageTime.text = item.dateModified.toString()
 
-        val imageResolution = findViewById<TextView>(R.id.info_resolution)
-        imageResolution.text = item.width.toString()
+            val imageResolution = infoResolution
+            imageResolution.text = item.width.toString()
 
-        val imageFileSize = findViewById<TextView>(R.id.info_file_size)
-        imageFileSize.text = "${item.fileSize} Bytes"
+            val imageFileSize = infoFileSize
+            imageFileSize.text = "${item.fileSize} Bytes"
 
-        val imageFilepath = findViewById<TextView>(R.id.info_file_path)
-        imageFilepath.text = item.filePath
+            val imageFilepath = infoFilePath
+            imageFilepath.text = item.filePath
+        }
 
     }
 

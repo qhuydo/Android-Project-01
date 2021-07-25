@@ -2,12 +2,15 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
-
+    buildFeatures {
+        dataBinding true
+    }
     defaultConfig {
         applicationId "hcmus.android.gallery1"
         minSdkVersion 24 // Android 7.x
@@ -36,16 +39,16 @@ android {
 dependencies {
     // Kotlin + Core
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // Material Components
-    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     // Fragments
-    implementation 'androidx.fragment:fragment-ktx:1.3.3'
+    implementation 'androidx.fragment:fragment-ktx:1.3.6'
 
     // Preferences
     implementation 'androidx.preference:preference-ktx:1.1.1'
@@ -63,7 +66,7 @@ dependencies {
 
     // Recyclerview
     def recyclerview_version = "1.0.0"
-    implementation "androidx.recyclerview:recyclerview:1.2.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
 
     //glide
     implementation "com.github.bumptech.glide:glide:4.12.0"

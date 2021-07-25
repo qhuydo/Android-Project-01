@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.ItemListAdapter
 import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
 import hcmus.android.gallery1.globalPrefs
 import hcmus.android.gallery1.helpers.*
 
 abstract class ImageListFragment(private val tabName: String = TAB_ALL) : Fragment() {
 
     private lateinit var itemListAdapter: ItemListAdapter
+    private lateinit var binding: FragmentMainAllPhotosBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,13 +31,9 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) : Fragme
         )
 
         // Inflate the root view
-        val fragmentView = inflater.inflate(
-            R.layout.fragment_main_all_photos,
-            container,
-            false
-        )
+        binding = FragmentMainAllPhotosBinding.inflate(inflater, container, false)
 
-        return fragmentView
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,10 +43,10 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) : Fragme
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onResume() {
-        super.onResume()
-        itemListAdapter.notifyDataSetChanged()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        itemListAdapter.notifyDataSetChanged()
+//    }
 
     abstract fun getItemList(): List<Item>
 
@@ -62,7 +60,7 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) : Fragme
     }
 
     private fun initRecyclerView() {
-        requireView().findViewById<RecyclerView>(R.id.recycler_view).apply {
+        binding.recyclerView.apply {
             adapter = itemListAdapter
             val spanCount = requireContext().getSpanCountOf(tabName, globalPrefs.getViewMode(tabName))
             layoutManager = GridLayoutManager(requireContext(), spanCount)

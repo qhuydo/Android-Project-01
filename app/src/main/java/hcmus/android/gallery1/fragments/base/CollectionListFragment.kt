@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.CollectionListAdapter
 import hcmus.android.gallery1.data.Collection
+import hcmus.android.gallery1.databinding.FragmentMainAlbumBinding
 import hcmus.android.gallery1.globalPrefs
 import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.VIEW_LIST
@@ -18,17 +19,22 @@ import hcmus.android.gallery1.helpers.getSpanCountOf
 abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM) : Fragment() {
 
     private lateinit var collectionListAdapter: CollectionListAdapter
+    internal lateinit var binding: FragmentMainAlbumBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         collectionListAdapter = CollectionListAdapter(
             items = getCollectionList(),
             isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST
         )
 
         // Inflate the root view
-        val fragmentView = inflater.inflate(R.layout.fragment_main_album, container, false)
+        binding = FragmentMainAlbumBinding.inflate(inflater, container, false)
 
-        return fragmentView
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,17 +54,17 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM) :
     }
 
     private fun initRecyclerView() {
-        requireView().findViewById<RecyclerView>(R.id.recycler_view).apply {
+        binding.recyclerView.apply {
             adapter = collectionListAdapter
             val spanCount = requireContext().getSpanCountOf(tabName, globalPrefs.getViewMode(tabName))
             layoutManager = GridLayoutManager(requireContext(), spanCount)
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        collectionListAdapter.notifyDataSetChanged()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        collectionListAdapter.notifyDataSetChanged()
+//    }
 
     abstract fun getCollectionList(): List<Collection>
 
