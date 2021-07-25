@@ -94,15 +94,17 @@ class MainFragment : Fragment() {
         override fun onViewModeSelected(tab: TAB, viewMode: String) {
             globalPrefs.setViewMode(tab.toTabKey(), viewMode)
 
-            if (tab == TAB.ALL || tab == TAB.FAV) {
-                (tabFragmentAdapter.fragmentAt(tab.ordinal) as? ImageListFragment)
-                    ?.notifyViewTypeChanged()
-            } else {
-                (tabFragmentAdapter.fragmentAt(tab.ordinal) as? CollectionListFragment)
-                    ?.notifyViewTypeChanged()
-            }
+            val fragment = childFragmentManager.findFragmentByTag("f${tab.ordinal}")
+            fragment?.let {
+                if (tab == TAB.ALL || tab == TAB.FAV) {
+                    (fragment as? ImageListFragment)?.notifyViewTypeChanged()
+                } else {
+                    (fragment as? CollectionListFragment)?.notifyViewTypeChanged()
+                }
 
-            tabFragmentAdapter.notifyItemChanged(tab.ordinal)
+                tabFragmentAdapter.notifyItemChanged(tab.ordinal)
+
+            }
         }
     }
 
