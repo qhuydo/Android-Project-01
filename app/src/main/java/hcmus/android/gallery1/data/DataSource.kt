@@ -2,8 +2,10 @@ package hcmus.android.gallery1.data
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
+import android.content.Context
 import android.provider.MediaStore
-import hcmus.android.gallery1.globalPrefs
+import android.text.format.DateUtils
+import hcmus.android.gallery1.ui.main.globalPrefs
 import java.util.*
 
 
@@ -75,10 +77,10 @@ fun ContentResolver.getCollections(): List<Collection> {
 }
 
 // Get collections for tab "Date"
-fun ContentResolver.getCollectionsByDate(): List<Collection> {
+fun Context.getCollectionsByDate(): List<Collection> {
     val r: MutableSet<Collection> = mutableSetOf()
 
-    query(
+    contentResolver.query(
         DEFAULT_CONTENT_URI,
         arrayOf(
             MediaStore.Files.FileColumns._ID,
@@ -92,6 +94,10 @@ fun ContentResolver.getCollectionsByDate(): List<Collection> {
 
         val dateModifiedRow = it.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_MODIFIED)
         val idRow = it.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)
+
+        val flags = DateUtils.FORMAT_SHOW_YEAR or
+                DateUtils.FORMAT_ABBREV_MONTH or
+                DateUtils.FORMAT_NO_MONTH_DAY
 
         while (it.moveToNext()) {
 
@@ -129,7 +135,8 @@ fun ContentResolver.getCollectionsByDate(): List<Collection> {
             if (collectionExists) {
                 continue
             } else {
-                val bucketDisplayName = "${rawYear}, ${MAP_INT_TO_MONTH[rawMonth + 1]}"
+                val bucketDisplayName = DateUtils.formatDateTime(this, targetCal.timeInMillis, flags)
+                // val bucketDisplayName = "${rawYear}, ${MAP_INT_TO_MONTH[rawMonth + 1]}"
                 val id = it.getLong(idRow)
 
                 val bucketThumbnailUri = "$DEFAULT_CONTENT_URI/$id"

@@ -1,4 +1,4 @@
-package hcmus.android.gallery1
+package hcmus.android.gallery1.ui.main
 
 import android.Manifest
 import android.content.Intent
@@ -11,8 +11,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.preference.PreferenceManager
+import hcmus.android.gallery1.R
+import hcmus.android.gallery1.ui.splash.SplashActivity
 import hcmus.android.gallery1.databinding.Activity2Binding
-import hcmus.android.gallery1.fragments.MainFragment
 import hcmus.android.gallery1.helpers.LANG_FOLLOW_SYSTEM
 import hcmus.android.gallery1.helpers.PreferenceFacility
 import hcmus.android.gallery1.helpers.configTheme

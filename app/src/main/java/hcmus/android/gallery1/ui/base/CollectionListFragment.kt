@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.fragments.base
+package hcmus.android.gallery1.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,15 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.CollectionListAdapter
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.databinding.FragmentMainAlbumBinding
-import hcmus.android.gallery1.globalPrefs
 import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.VIEW_LIST
 import hcmus.android.gallery1.helpers.getSpanCountOf
+import hcmus.android.gallery1.ui.main.globalPrefs
 
 abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM) : Fragment() {
 

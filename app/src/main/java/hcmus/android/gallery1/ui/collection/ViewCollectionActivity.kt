@@ -1,4 +1,4 @@
-package hcmus.android.gallery1
+package hcmus.android.gallery1.ui.collection
 
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
@@ -6,19 +6,18 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButtonToggleGroup
+import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.ItemListAdapter
 import hcmus.android.gallery1.data.getItems
 import hcmus.android.gallery1.data.getItemsByDate
 import hcmus.android.gallery1.databinding.ImageListStandaloneBinding
 import hcmus.android.gallery1.helpers.*
+import hcmus.android.gallery1.ui.main.globalPrefs
 import kotlin.properties.Delegates
 
 class ViewCollectionActivity : AppCompatActivity() {

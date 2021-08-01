@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.fragments.secret
+package hcmus.android.gallery1.ui.secret
 
 import android.os.Bundle
 import android.view.LayoutInflater

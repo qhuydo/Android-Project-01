@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.fragments.collection
+package hcmus.android.gallery1.ui.collection
 
 /*
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.ItemListAdapter
 import hcmus.android.gallery1.data.getItems
-import hcmus.android.gallery1.fragments.base.ImageListFragment
+import hcmus.android.gallery1.ui.base.ImageListFragment
 import hcmus.android.gallery1.globalPrefs
 import hcmus.android.gallery1.helpers.*
 

@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.fragments.base
+package hcmus.android.gallery1.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

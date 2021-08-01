@@ -1,4 +1,4 @@
-package hcmus.android.gallery1
+package hcmus.android.gallery1.ui.image
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -9,11 +9,12 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.FragmentViewImageNopagerBinding
 import hcmus.android.gallery1.helpers.configTheme
+import hcmus.android.gallery1.ui.main.globalPrefs
 
 class ViewImageActivity : AppCompatActivity() {
     private lateinit var binding: FragmentViewImageNopagerBinding

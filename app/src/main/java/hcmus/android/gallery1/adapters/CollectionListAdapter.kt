@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import hcmus.android.gallery1.*
 import hcmus.android.gallery1.data.Collection
+import hcmus.android.gallery1.ui.collection.ViewCollectionActivity
 
 class CollectionListAdapter(private val items: List<Collection>,
                             private val isCompactLayout: Boolean = false)

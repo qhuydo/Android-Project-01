@@ -1,4 +1,4 @@
-package hcmus.android.gallery1
+package hcmus.android.gallery1.ui.edit
 
 import androidx.appcompat.app.AppCompatActivity
 

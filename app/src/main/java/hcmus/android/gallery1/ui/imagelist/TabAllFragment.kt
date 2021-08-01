@@ -1,12 +1,9 @@
-package hcmus.android.gallery1.fragments.collection
+package hcmus.android.gallery1.ui.imagelist
 
 import hcmus.android.gallery1.data.getItems
-import hcmus.android.gallery1.fragments.base.ImageListFragment
-import hcmus.android.gallery1.globalPrefs
-import hcmus.android.gallery1.adapters.ItemListAdapter
+import hcmus.android.gallery1.ui.base.ImageListFragment
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.TAB_ALL
-import hcmus.android.gallery1.helpers.VIEW_LIST
 
 class TabAllFragment: ImageListFragment(tabName = TAB_ALL) {
 

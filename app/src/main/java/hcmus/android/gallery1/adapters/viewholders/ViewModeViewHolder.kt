@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.ButtonGroupViewmodeCollectionBinding
 import hcmus.android.gallery1.databinding.ButtonGroupViewmodeItemBinding
-import hcmus.android.gallery1.globalPrefs
 import hcmus.android.gallery1.helpers.*
+import hcmus.android.gallery1.ui.main.globalPrefs
 
 abstract class ViewModeViewHolder(view: View): RecyclerView.ViewHolder(view) {
 

@@ -1,9 +1,7 @@
 package hcmus.android.gallery1.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButtonToggleGroup
 import hcmus.android.gallery1.R
@@ -12,7 +10,6 @@ import hcmus.android.gallery1.adapters.viewholders.ViewModeItemViewHolder
 import hcmus.android.gallery1.adapters.viewholders.ViewModeViewHolder
 import hcmus.android.gallery1.databinding.ButtonGroupViewmodeCollectionBinding
 import hcmus.android.gallery1.databinding.ButtonGroupViewmodeItemBinding
-import hcmus.android.gallery1.globalPrefs
 import hcmus.android.gallery1.helpers.*
 
 class ButtonGroupViewModeAdapter(private val viewModeSelectedCallback: OnViewModeSelectedCallback) :

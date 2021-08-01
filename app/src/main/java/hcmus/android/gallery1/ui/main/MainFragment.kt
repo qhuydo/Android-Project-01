@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.fragments
+package hcmus.android.gallery1.ui.main
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -20,15 +20,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import hcmus.android.gallery1.Activity2
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.ButtonGroupViewModeAdapter
 import hcmus.android.gallery1.adapters.OnViewModeSelectedCallback
 import hcmus.android.gallery1.adapters.TabFragmentAdapter
 import hcmus.android.gallery1.databinding.FragmentMainBinding
-import hcmus.android.gallery1.fragments.base.CollectionListFragment
-import hcmus.android.gallery1.fragments.base.ImageListFragment
-import hcmus.android.gallery1.globalPrefs
+import hcmus.android.gallery1.ui.base.CollectionListFragment
+import hcmus.android.gallery1.ui.base.ImageListFragment
 import hcmus.android.gallery1.helpers.PreferenceFacility
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.toTabKey

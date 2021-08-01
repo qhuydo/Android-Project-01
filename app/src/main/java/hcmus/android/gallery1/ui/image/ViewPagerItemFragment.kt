@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.fragments.image
+package hcmus.android.gallery1.ui.image
 
 import android.net.Uri
 import android.os.Bundle

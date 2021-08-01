@@ -15,15 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GalleryOne">
-        <activity android:name=".ViewCollectionActivity2" />
+        <activity android:name=".ui.collection.ViewCollectionActivity2" />
 
         <activity
-            android:name=".ViewCollectionActivity"
+            android:name=".ui.collection.ViewCollectionActivity"
             android:configChanges="uiMode" />
 
         <!-- Splash screen -->
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.splash.SplashActivity"
             android:theme="@style/Theme.GalleryOne.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,12 +34,12 @@
 
         <!-- Actual main activity -->
         <activity
-            android:name=".Activity2"
+            android:name=".ui.main.Activity2"
             android:configChanges="uiMode|locale|keyboard|orientation|screenSize" />
 
         <!-- Image Viewer -->
         <activity
-            android:name=".ViewImageActivity"
+            android:name=".ui.image.ViewImageActivity"
             android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -53,7 +53,7 @@
         </activity>
 
         <!-- Image Editor -->
-        <activity android:name=".EditImageActivity" />
+        <activity android:name=".ui.edit.EditImageActivity" />
 
     </application>
 

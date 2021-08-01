@@ -1,7 +1,8 @@
-package hcmus.android.gallery1
+package hcmus.android.gallery1.ui.collection
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import hcmus.android.gallery1.R
 
 class ViewCollectionActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

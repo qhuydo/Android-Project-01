@@ -1,15 +1,4 @@
-package hcmus.android.gallery1.fragments.secret
-
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageButton
-import androidx.core.content.ContextCompat
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import hcmus.android.gallery1.R
-import hcmus.android.gallery1.fragments.base.ImageListFragment
+package hcmus.android.gallery1.ui.secret
 
 /*
 class SecretAlbumFragment: ImageListFragment() {
