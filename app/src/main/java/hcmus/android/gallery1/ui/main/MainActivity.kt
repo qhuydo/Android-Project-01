@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -13,7 +14,7 @@ import androidx.fragment.app.commit
 import androidx.preference.PreferenceManager
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.ui.splash.SplashActivity
-import hcmus.android.gallery1.databinding.Activity2Binding
+import hcmus.android.gallery1.databinding.ActivityMainBinding
 import hcmus.android.gallery1.helpers.LANG_FOLLOW_SYSTEM
 import hcmus.android.gallery1.helpers.PreferenceFacility
 import hcmus.android.gallery1.helpers.configTheme
@@ -23,9 +24,9 @@ lateinit var globalPrefs: PreferenceFacility
 
 const val PERMISSION_REQUEST_CODE = 100
 
-class Activity2 : AppCompatActivity() {
+class ActivityMain : AppCompatActivity() {
 
-    private lateinit var binding: Activity2Binding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //globalPrefs = PreferenceFacility(getPreferences(MODE_PRIVATE))
@@ -41,7 +42,7 @@ class Activity2 : AppCompatActivity() {
         // Layout
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
-        binding = Activity2Binding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // TODO Bottom drawer
 
@@ -111,7 +112,7 @@ class Activity2 : AppCompatActivity() {
     }
 
     // https://stackoverflow.com/a/2900144
-    fun setLanguageOnActivityRestart() {
+    private fun setLanguageOnActivityRestart() {
         val newConfig = resources.configuration
         val languageOption = globalPrefs.language
         val locale = if (languageOption != LANG_FOLLOW_SYSTEM) {

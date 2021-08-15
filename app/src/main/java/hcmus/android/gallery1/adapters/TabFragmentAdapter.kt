@@ -5,7 +5,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import hcmus.android.gallery1.ui.collectionlist.TabAlbumFragment
 import hcmus.android.gallery1.ui.imagelist.TabAllFragment
 import hcmus.android.gallery1.ui.collectionlist.TabDateFragment
-import hcmus.android.gallery1.ui.edit.TabFavoritesFragment
+import hcmus.android.gallery1.ui.imagelist.TabFavoritesFragment
 import hcmus.android.gallery1.helpers.TAB
 
 class TabFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {

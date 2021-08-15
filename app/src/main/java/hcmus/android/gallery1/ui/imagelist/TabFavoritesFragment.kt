@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.ui.edit
+package hcmus.android.gallery1.ui.imagelist
 
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.data.getFavorites

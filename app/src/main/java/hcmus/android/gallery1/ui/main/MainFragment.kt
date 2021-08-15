@@ -317,7 +317,7 @@ class MainFragment : Fragment() {
                 resources.getStringArray(R.array.settings_theme),
                 PreferenceFacility.validThemes.indexOf(globalPrefs.theme)
             ) { _, which ->
-                (activity as? Activity2)?.changeTheme(PreferenceFacility.validThemes[which])
+                (activity as? ActivityMain)?.changeTheme(PreferenceFacility.validThemes[which])
             }
             .show()
     }
@@ -330,7 +330,7 @@ class MainFragment : Fragment() {
                 PreferenceFacility.validLanguages.indexOf(globalPrefs.language)
             ) { _, which ->
                 val language = PreferenceFacility.validLanguages[which]
-                (activity as? Activity2)?.changeLanguage(language)
+                (activity as? ActivityMain)?.changeLanguage(language)
             }
             .show()
     }
