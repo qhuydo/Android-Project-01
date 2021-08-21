@@ -30,7 +30,7 @@
 
         <!-- Actual main activity -->
         <activity
-            android:name=".ui.main.ActivityMain"
+            android:name=".ui.main.MainActivity"
             android:configChanges="uiMode|locale" />
 
         <!-- Image Viewer -->

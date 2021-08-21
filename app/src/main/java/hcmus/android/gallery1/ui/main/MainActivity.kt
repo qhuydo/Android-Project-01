@@ -24,7 +24,7 @@ lateinit var globalPrefs: PreferenceFacility
 
 const val PERMISSION_REQUEST_CODE = 100
 
-class ActivityMain : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
