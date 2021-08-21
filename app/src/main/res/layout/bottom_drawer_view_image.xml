@@ -3,6 +3,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="fm"
+            type="hcmus.android.gallery1.ui.image.ViewImageFragment" />
+    </data>
+
     <LinearLayout
         android:id="@+id/bdrawer_view_image"
         android:layout_width="match_parent"
@@ -35,9 +42,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
-                android:onClick="closeViewer"
-                android:src="@drawable/ic_back"
-                android:tooltipText="@string/action_close_viewer" />
+                android:contentDescription="@string/action_close_viewer"
+                android:onClick="@{() -> fm.closeViewer()}"
+                android:src="@drawable/ic_back" />
 
             <ImageButton
                 android:id="@+id/btn_delete"
@@ -45,9 +52,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
-                android:onClick="deleteImage"
-                android:src="@drawable/ic_action_delete"
-                android:tooltipText="@string/action_delete" />
+                android:contentDescription="@string/action_delete"
+                android:onClick="@{() -> fm.deleteImage()}"
+                android:src="@drawable/ic_action_delete" />
 
             <ImageButton
                 android:id="@+id/btn_edit"
@@ -55,9 +62,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
-                android:onClick="openEditor"
-                android:src="@drawable/ic_action_edit"
-                android:tooltipText="@string/action_edit" />
+                android:contentDescription="@string/action_edit"
+                android:onClick="@{() -> fm.openEditor()}"
+                android:src="@drawable/ic_action_edit" />
 
             <ImageButton
                 android:id="@+id/btn_share"
@@ -65,9 +72,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
-                android:onClick="shareImage"
-                android:src="@drawable/ic_action_share"
-                android:tooltipText="@string/action_share" />
+                android:contentDescription="@string/action_share"
+                android:onClick="@{() -> fm.shareImage()}"
+                android:src="@drawable/ic_action_share" />
 
             <ImageButton
                 android:id="@+id/btn_bdrawer_view_image_expand"
@@ -92,9 +99,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
-                android:onClick="copyAsFile"
-                android:src="@drawable/ic_action_copy"
-                android:tooltipText="@string/action_copy" />
+                android:contentDescription="@string/action_copy"
+                android:onClick="@{() -> fm.copyAsFile()}"
+                android:src="@drawable/ic_action_copy" />
 
             <ImageButton
                 android:id="@+id/btn_move"
@@ -102,8 +109,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
-                android:src="@drawable/ic_action_move"
-                android:tooltipText="@string/action_move" />
+                android:contentDescription="@string/action_move"
+                android:onClick="@{() -> fm.moveAsFile()}"
+                android:src="@drawable/ic_action_move" />
 
             <ImageButton
                 android:id="@+id/btn_slideshow"
@@ -111,8 +119,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
-                android:src="@drawable/ic_action_slideshow"
-                android:tooltipText="@string/action_slideshow" />
+                android:contentDescription="@string/action_slideshow"
+                android:src="@drawable/ic_action_slideshow" />
 
             <ImageButton
                 android:id="@+id/btn_favorite"
@@ -120,9 +128,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
-                android:onClick="toggleFavorite"
-                android:src="@drawable/ic_favorite"
-                android:tooltipText="@string/action_favorite" />
+                android:contentDescription="@string/action_favorite"
+                android:onClick="@{() -> fm.toggleFavorite()}"
+                android:src="@drawable/ic_favorite" />
 
             <ImageButton
                 android:id="@+id/btn_wallpaper"
@@ -130,9 +138,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
-                android:onClick="setAs"
-                android:src="@drawable/ic_action_wallpaper"
-                android:tooltipText="@string/action_wallpaper" />
+                android:contentDescription="@string/action_wallpaper"
+                android:onClick="@{() -> fm.setAs()}"
+                android:src="@drawable/ic_action_wallpaper" />
 
         </LinearLayout>
 
@@ -153,9 +161,9 @@
                 android:background="@color/bottom_sheet_divider" />
 
             <!-- GridLayout gap: https://stackoverflow.com/a/53421508 -->
-            <include layout="@layout/bottom_drawer_view_image_info"
+            <include
                 android:id="@+id/bdrawer_view_image_info"
-                />
+                layout="@layout/bottom_drawer_view_image_info" />
         </LinearLayout>
 
     </LinearLayout>

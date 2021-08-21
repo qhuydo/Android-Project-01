@@ -1,6 +1,5 @@
 package hcmus.android.gallery1.adapters
 
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.ui.image.ViewImageActivity
 import hcmus.android.gallery1.data.Item
 
 class ItemListAdapter(
     private val items: List<Item>,
-    private val isCompactLayout: Boolean = false
+    private val isCompactLayout: Boolean = false,
+    private val callback: Callback? = null
 ) :
     RecyclerView.Adapter<ItemListAdapter.ViewHolder>() {
 
@@ -52,10 +51,11 @@ class ItemListAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(it.context, ViewImageActivity::class.java).apply {
-                putExtra("item", item)
-            }
-            it.context.startActivity(intent)
+            callback?.onClick(item)
         }
+    }
+
+    class Callback(private val onClickFn: (Item) -> Unit) {
+        fun onClick(item: Item) = onClickFn.invoke(item)
     }
 }

@@ -10,14 +10,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.preference.PreferenceManager
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.ui.splash.SplashActivity
 import hcmus.android.gallery1.databinding.ActivityMainBinding
 import hcmus.android.gallery1.helpers.LANG_FOLLOW_SYSTEM
 import hcmus.android.gallery1.helpers.PreferenceFacility
 import hcmus.android.gallery1.helpers.configTheme
+import hcmus.android.gallery1.ui.collection.ViewCollectionFragment
+import hcmus.android.gallery1.ui.image.ViewImageFragment
 import java.util.*
 
 lateinit var globalPrefs: PreferenceFacility
@@ -27,6 +32,7 @@ const val PERMISSION_REQUEST_CODE = 100
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mainFragment: MainFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //globalPrefs = PreferenceFacility(getPreferences(MODE_PRIVATE))
@@ -77,9 +83,14 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             // Insert first piece of fragment
+            mainFragment = MainFragment()
             supportFragmentManager.commit {
-                add(R.id.fragment_container, MainFragment(), MainFragment::class.java.name)
+                add(R.id.fragment_container, mainFragment, MainFragment::class.java.name)
             }
+        }
+        else {
+            mainFragment = supportFragmentManager.findFragmentByTag(MainFragment::class.java.name)
+                    as MainFragment
         }
 
     }
@@ -143,5 +154,35 @@ class MainActivity : AppCompatActivity() {
     private fun restartSelf() {
         startActivity(Intent(this, SplashActivity::class.java))
         finish()
+    }
+
+    // Temporarily turn on "lights out" mode for status bar and navigation bar.
+    // This usually means hiding nearly everything and leaving with only the clock and battery status.
+    // https://stackoverflow.com/a/44433844
+    fun setLowProfileUI(isLowProfile: Boolean) {
+        val flag = this.window?.decorView?.systemUiVisibility
+        flag?.let {
+            if (isLowProfile) {
+                this.window?.decorView?.systemUiVisibility = flag or View.SYSTEM_UI_FLAG_LOW_PROFILE
+            } else {
+                this.window?.decorView?.systemUiVisibility =
+                    flag or View.SYSTEM_UI_FLAG_LAYOUT_STABLE and View.SYSTEM_UI_FLAG_LOW_PROFILE.inv()
+            }
+        }
+    }
+
+    fun pushViewImageFragment(item: Item) {
+        val fm = supportFragmentManager
+        val bundle = Bundle().apply {
+            putParcelable(ViewImageFragment.BUNDLE_ITEM, item)
+        }
+        val tag = ViewImageFragment::class.java.name
+        val fragmentToBeHidden = fm.findFragmentById(R.id.fragment_container)
+        fm.commit {
+            fragmentToBeHidden?.let { hide(it) }
+            add(R.id.fragment_container, ViewImageFragment::class.java, bundle, tag)
+            addToBackStack(tag)
+            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        }
     }
 }

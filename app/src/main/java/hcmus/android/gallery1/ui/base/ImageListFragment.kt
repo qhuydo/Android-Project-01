@@ -10,12 +10,18 @@ import hcmus.android.gallery1.adapters.ItemListAdapter
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
 import hcmus.android.gallery1.helpers.*
+import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.main.globalPrefs
 
 abstract class ImageListFragment(private val tabName: String = TAB_ALL) : Fragment() {
 
+    private val mainActivity by lazy { requireActivity() as? MainActivity }
     private lateinit var itemListAdapter: ItemListAdapter
     private lateinit var binding: FragmentMainAllPhotosBinding
+
+    private val itemListAdapterCallback = ItemListAdapter.Callback { item ->
+        mainActivity?.pushViewImageFragment(item)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,7 +31,8 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) : Fragme
 
         itemListAdapter = ItemListAdapter(
             items = getItemList(),
-            isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST
+            isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
+            callback = itemListAdapterCallback
         )
 
         // Inflate the root view
@@ -51,7 +58,8 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) : Fragme
     fun notifyViewTypeChanged() {
         itemListAdapter = ItemListAdapter(
             items = getItemList(),
-            isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST
+            isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
+            callback = itemListAdapterCallback
         )
 
         initRecyclerView()

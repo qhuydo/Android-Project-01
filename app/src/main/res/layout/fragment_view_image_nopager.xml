@@ -3,10 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="fragment"
+            type="hcmus.android.gallery1.ui.image.ViewImageFragment" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.image.ViewImageActivity">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/image"
@@ -26,6 +32,8 @@
 
         <include
             android:id="@+id/bdrawer_view_image_layout"
-            layout="@layout/bottom_drawer_view_image" />
+            layout="@layout/bottom_drawer_view_image"
+            app:fm="@{fragment}"
+            />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

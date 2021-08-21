@@ -19,6 +19,7 @@ import hcmus.android.gallery1.data.getItems
 import hcmus.android.gallery1.data.getItemsByDate
 import hcmus.android.gallery1.databinding.FragmentViewCollectionBinding
 import hcmus.android.gallery1.helpers.*
+import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.main.globalPrefs
 
 class ViewCollectionFragment : Fragment() {
@@ -26,6 +27,8 @@ class ViewCollectionFragment : Fragment() {
     companion object {
         const val BUNDLE_COLLECTION = "collection"
     }
+
+    private val mainActivity by lazy { requireActivity() as? MainActivity }
 
     private lateinit var binding: FragmentViewCollectionBinding
     // UI elements
@@ -37,6 +40,10 @@ class ViewCollectionFragment : Fragment() {
     // Collection
     private val collection: Collection by lazy {
         requireArguments().getParcelable(BUNDLE_COLLECTION)!!
+    }
+
+    private val itemListAdapterCallback = ItemListAdapter.Callback { item ->
+        mainActivity?.pushViewImageFragment(item)
     }
 
     override fun onCreateView(
@@ -159,7 +166,8 @@ class ViewCollectionFragment : Fragment() {
 
             adapter = ItemListAdapter(
                 items = items,
-                isCompactLayout = globalPrefs.getViewMode(TAB_ALL) == VIEW_LIST
+                isCompactLayout = globalPrefs.getViewMode(TAB_ALL) == VIEW_LIST,
+                callback = itemListAdapterCallback
             )
 
         }
