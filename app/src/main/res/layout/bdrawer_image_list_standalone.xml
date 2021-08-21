@@ -38,8 +38,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/ic_back"
-                android:tooltipText="@string/btn_secret_album_exit"
-                android:onClick="btnCloseCollection" />
+                android:contentDescription="@string/btn_secret_album_exit" />
 
             <TextView
                 android:id="@+id/collection_name"

@@ -17,10 +17,6 @@
         android:theme="@style/Theme.GalleryOne">
         <activity android:name=".ui.collection.ViewCollectionActivity2" />
 
-        <activity
-            android:name=".ui.collection.ViewCollectionActivity"
-            android:configChanges="uiMode" />
-
         <!-- Splash screen -->
         <activity
             android:name=".ui.splash.SplashActivity"
@@ -35,7 +31,7 @@
         <!-- Actual main activity -->
         <activity
             android:name=".ui.main.ActivityMain"
-            android:configChanges="uiMode|locale|keyboard|orientation|screenSize" />
+            android:configChanges="uiMode|locale" />
 
         <!-- Image Viewer -->
         <activity

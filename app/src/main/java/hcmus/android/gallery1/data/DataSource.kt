@@ -67,7 +67,7 @@ fun ContentResolver.getCollections(): List<Collection> {
                     name = bucketDisplayName,
                     thumbnailUri = bucketThumbnailUri,
                     itemCount = 1,
-                    type = "album"
+                    type = Collection.TYPE_ALBUM
                 )
             }
         }
@@ -145,7 +145,7 @@ fun Context.getCollectionsByDate(): List<Collection> {
                     name = bucketDisplayName,
                     thumbnailUri = bucketThumbnailUri,
                     itemCount = 1,
-                    type = "date"
+                    type = Collection.TYPE_DATE
                 )
             }
         }
