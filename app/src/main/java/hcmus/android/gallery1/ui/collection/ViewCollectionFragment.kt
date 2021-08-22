@@ -1,13 +1,6 @@
 package hcmus.android.gallery1.ui.collection
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -19,22 +12,15 @@ import hcmus.android.gallery1.data.getItems
 import hcmus.android.gallery1.data.getItemsByDate
 import hcmus.android.gallery1.databinding.FragmentViewCollectionBinding
 import hcmus.android.gallery1.helpers.*
-import hcmus.android.gallery1.ui.main.MainActivity
+import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import hcmus.android.gallery1.ui.main.globalPrefs
 
-class ViewCollectionFragment : Fragment() {
+class ViewCollectionFragment : BottomDrawerFragment<FragmentViewCollectionBinding, LinearLayout>(R.layout.fragment_view_collection) {
 
     companion object {
         const val BUNDLE_COLLECTION = "collection"
     }
 
-    private val mainActivity by lazy { requireActivity() as? MainActivity }
-
-    private lateinit var binding: FragmentViewCollectionBinding
-    // UI elements
-    private lateinit var bDrawerBehavior : BottomSheetBehavior<LinearLayout>
-    private lateinit var bDrawerBtnExpand : ImageButton
-    private lateinit var bDrawerDim : View
     private lateinit var viewModeSelector : MaterialButtonToggleGroup
 
     // Collection
@@ -46,79 +32,18 @@ class ViewCollectionFragment : Fragment() {
         mainActivity?.pushViewImageFragment(item)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentViewCollectionBinding.inflate(layoutInflater)
-        binding.bdrawerImageList.collectionName.text = collection.name
 
-        initBottomDrawer()
-        refreshCollection()
-
-        return binding.root
+    override fun initBottomDrawerElements() {
+        binding.bdrawerImageList.apply {
+            bottomSheetBehavior = BottomSheetBehavior.from(bdrawerImageListStandalone)
+            bottomSheetExpandButton = btnBottomSheetExpand
+        }
+        bottomDrawerDim = binding.bdrawerDim
+        viewModeSelector = binding.bdrawerImageList.viewmodeAll
     }
 
-    private fun initBottomDrawer() {
-        binding.bdrawerImageList.apply {
-
-            bDrawerBehavior  = BottomSheetBehavior.from(bdrawerImageListStandalone)
-            bDrawerBtnExpand = btnBottomSheetExpand
-        }
-        bDrawerDim       = binding.bdrawerDim
-        viewModeSelector = binding.bdrawerImageList.viewmodeAll
-
-        // Bottom sheet behavior
-        bDrawerBehavior.apply {
-            isFitToContents = true
-            // halfExpandedRatio = (490/1000f) // magic
-        }
-
-        // https://blog.mindorks.com/android-bottomsheet-in-kotlin
-        bDrawerBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        bDrawerDim.visibility = View.GONE
-                        val drawable = ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_bdrawer_up
-                        )
-                        bDrawerBtnExpand.setImageDrawable(drawable)
-                    }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        bDrawerDim.visibility = View.VISIBLE
-                        val drawable = ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_bdrawer_down
-                        )
-                        bDrawerBtnExpand.setImageDrawable(drawable)
-                    }
-                    else -> { }
-                }
-            }
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                bDrawerDim.visibility = View.VISIBLE
-                bDrawerDim.alpha = 0.5f * slideOffset
-            }
-        })
-
-        bDrawerDim.setOnClickListener {
-            bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
-
-        // Button expansion behavior
-        bDrawerBtnExpand.apply {
-            setOnClickListener {
-                when (bDrawerBehavior.state) {
-                    BottomSheetBehavior.STATE_COLLAPSED     -> bDrawerBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                    BottomSheetBehavior.STATE_EXPANDED      -> bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                    else -> { }
-                }
-            }
-        }
-
+    override fun initBottomDrawerElementsCallback() {
+        super.initBottomDrawerElementsCallback()
         viewModeSelector.check(
             when(globalPrefs.getViewMode(TAB_ALL)) {
                 VIEW_LIST -> R.id.btn_viewmode_all_list
@@ -147,6 +72,11 @@ class ViewCollectionFragment : Fragment() {
         }
     }
 
+    override fun bindData() {
+        binding.bdrawerImageList.collectionName.text = collection.name
+        refreshCollection()
+    }
+
     private fun refreshCollection() {
         val contentResolver = requireContext().contentResolver
 
@@ -172,7 +102,6 @@ class ViewCollectionFragment : Fragment() {
 
         }
     }
-
 
     private fun closeCollection() {
         activity?.onBackPressed()

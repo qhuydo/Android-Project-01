@@ -2,116 +2,39 @@ package hcmus.android.gallery1.ui.image
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.FragmentViewImageNopagerBinding
-import hcmus.android.gallery1.ui.main.MainActivity
+import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import hcmus.android.gallery1.ui.main.globalPrefs
 
-class ViewImageFragment : Fragment() {
+class ViewImageFragment
+    : BottomDrawerFragment<FragmentViewImageNopagerBinding, LinearLayout>(R.layout.fragment_view_image_nopager) {
     companion object {
         const val BUNDLE_ITEM = "item"
     }
-
-    private val mainActivity by lazy { requireActivity() as? MainActivity }
-    private lateinit var binding: FragmentViewImageNopagerBinding
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
-    private lateinit var bottomSheetExpandButton: ImageButton
-    private lateinit var bottomDrawerDim: View
 
     private val item: Item by lazy {
         requireArguments().getParcelable(BUNDLE_ITEM)!!
     }
     // private val CREATE_FILE: Int = 1
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        mainActivity?.setLowProfileUI(true)
-
-        binding = FragmentViewImageNopagerBinding.inflate(inflater, container, false)
+    override fun bindData() {
         binding.fragment = this
-
-        initBottomSheet()
-        // Populate
         populateImageAndInfo()
-        binding.executePendingBindings()
-        return binding.root
     }
 
+    override fun initBottomDrawerElements() {
 
-    private fun initBottomSheet() {
         binding.bdrawerViewImageLayout.apply {
             bottomSheetBehavior = BottomSheetBehavior.from(bdrawerViewImage)
             bottomSheetExpandButton = btnBdrawerViewImageExpand
         }
 
         bottomDrawerDim = binding.bdrawerViewImageDim
-
-        // Behavior
-        bottomSheetBehavior.apply { isFitToContents = true }
-        bottomSheetBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        bottomDrawerDim.visibility = View.GONE
-                        bottomSheetExpandButton.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_bdrawer_up
-                            )
-                        )
-                    }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        bottomDrawerDim.visibility = View.VISIBLE
-                        bottomSheetExpandButton.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_bdrawer_down
-                            )
-                        )
-                    }
-                    else -> {
-                    }
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                bottomDrawerDim.visibility = View.VISIBLE
-                bottomDrawerDim.alpha = slideOffset / 2f
-            }
-        })
-
-        bottomDrawerDim.setOnClickListener {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
-
-        // Button expansion behavior
-        bottomSheetExpandButton.apply {
-            setOnClickListener {
-                when (bottomSheetBehavior.state) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> bottomSheetBehavior.state =
-                        BottomSheetBehavior.STATE_EXPANDED
-
-                    BottomSheetBehavior.STATE_EXPANDED -> bottomSheetBehavior.state =
-                        BottomSheetBehavior.STATE_COLLAPSED
-                    else -> {
-                    }
-                }
-            }
-        }
     }
 
     override fun onDestroyView() {
@@ -136,7 +59,7 @@ class ViewImageFragment : Fragment() {
     }
 
     private fun populateImageAndInfo() {
-
+        // TODO binding data
         val imageHolder = binding.image
 
         Glide.with(imageHolder.context)
@@ -155,12 +78,12 @@ class ViewImageFragment : Fragment() {
             imageResolution.text = item.width.toString()
 
             val imageFileSize = infoFileSize
+            // TODO use resource placeholder
             imageFileSize.text = "${item.fileSize} Bytes"
 
             val imageFilepath = infoFilePath
             imageFilepath.text = item.filePath
         }
-
     }
 
     fun closeViewer() {

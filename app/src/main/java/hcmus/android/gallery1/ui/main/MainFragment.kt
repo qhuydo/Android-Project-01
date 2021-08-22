@@ -30,19 +30,9 @@ import hcmus.android.gallery1.ui.base.ImageListFragment
 import hcmus.android.gallery1.helpers.PreferenceFacility
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.toTabKey
+import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 
-class MainFragment : Fragment() {
-
-    private lateinit var binding: FragmentMainBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentMainBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.layout.fragment_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -52,7 +42,7 @@ class MainFragment : Fragment() {
         }
         findElements()
         initViewPager()
-        initBottomDrawer()
+        // initBottomDrawer()
         initNavbar()
         initViewModeSelectors()
         bindButtons()
@@ -122,6 +112,7 @@ class MainFragment : Fragment() {
     ////////////////////////////////////////////////////////////////////////////////
 
     // Find all elements on screen
+    // TODO change to data binding
     private fun findElements() {
         requireView().apply {
 
@@ -149,70 +140,21 @@ class MainFragment : Fragment() {
 
     }
 
+    override fun initBottomDrawerElements() {
+        binding.bottomDrawerMain.apply {
+            // Bottom drawer
+            bottomSheetBehavior = BottomSheetBehavior.from(bdrawerMain)
+            bottomSheetExpandButton = btnBottomSheetExpand
+            bottomDrawerDim = binding.bdrawerDim
+        }
+    }
+
+    // TODO use data binding
+    override fun bindData() { }
+
     private fun initViewPager() {
         viewPager2.adapter = tabFragmentAdapter
         viewPager2.registerOnPageChangeCallback(onPageChangeCallback)
-    }
-
-    // Bottom drawer: behavior
-    private fun initBottomDrawer() {
-
-        // Bottom sheet behavior
-        bDrawerBehavior.apply {
-            isFitToContents = true
-            // halfExpandedRatio = (490/1000f) // magic
-        }
-
-        // https://blog.mindorks.com/android-bottomsheet-in-kotlin
-        bDrawerBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        bDrawerDim.visibility = View.GONE
-                        bDrawerBtnExpand.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_bdrawer_up
-                            )
-                        )
-                    }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        bDrawerDim.visibility = View.VISIBLE
-                        bDrawerBtnExpand.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_bdrawer_down
-                            )
-                        )
-                    }
-                    else -> {
-                    }
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                bDrawerDim.visibility = View.VISIBLE
-                bDrawerDim.alpha = 0.5f * slideOffset
-            }
-        })
-
-        bDrawerDim.setOnClickListener {
-            bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
-
-        // Button expansion behavior
-        bDrawerBtnExpand.apply {
-            setOnClickListener {
-                when (bDrawerBehavior.state) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> bDrawerBehavior.state =
-                        BottomSheetBehavior.STATE_EXPANDED
-                    BottomSheetBehavior.STATE_EXPANDED -> bDrawerBehavior.state =
-                        BottomSheetBehavior.STATE_COLLAPSED
-                    else -> {
-                    }
-                }
-            }
-        }
     }
 
     // Bottom drawer: navbar

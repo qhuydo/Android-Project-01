@@ -18,10 +18,10 @@ import hcmus.android.gallery1.ui.collection.ViewCollectionFragment
 import hcmus.android.gallery1.ui.main.MainFragment
 import hcmus.android.gallery1.ui.main.globalPrefs
 
-abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM) : Fragment() {
+abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
+    : BaseFragment<FragmentMainAlbumBinding>(R.layout.fragment_main_album) {
 
     private lateinit var collectionListAdapter: CollectionListAdapter
-    private lateinit var binding: FragmentMainAlbumBinding
 
     private val adapterCallback = CollectionListAdapter.Callback { item ->
         val fm = requireActivity().supportFragmentManager
@@ -37,7 +37,6 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM) :
             .commit()
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,18 +47,11 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM) :
             isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
             callback = adapterCallback
         )
-
-        // Inflate the root view
-        binding = FragmentMainAlbumBinding.inflate(inflater, container, false)
-
-        return binding.root
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Init that RecyclerView
+    override fun bindData() {
         initRecyclerView()
-
-        super.onViewCreated(view, savedInstanceState)
     }
 
     fun notifyViewTypeChanged() {

@@ -4,20 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.ItemListAdapter
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
 import hcmus.android.gallery1.helpers.*
-import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.main.globalPrefs
 
-abstract class ImageListFragment(private val tabName: String = TAB_ALL) : Fragment() {
+abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
+    BaseFragment<FragmentMainAllPhotosBinding>(R.layout.fragment_main_all_photos) {
 
-    private val mainActivity by lazy { requireActivity() as? MainActivity }
     private lateinit var itemListAdapter: ItemListAdapter
-    private lateinit var binding: FragmentMainAllPhotosBinding
 
     private val itemListAdapterCallback = ItemListAdapter.Callback { item ->
         mainActivity?.pushViewImageFragment(item)
@@ -35,23 +33,12 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) : Fragme
             callback = itemListAdapterCallback
         )
 
-        // Inflate the root view
-        binding = FragmentMainAllPhotosBinding.inflate(inflater, container, false)
-
-        return binding.root
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Init that RecyclerView
+    override fun bindData() {
         initRecyclerView()
-
-        super.onViewCreated(view, savedInstanceState)
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        itemListAdapter.notifyDataSetChanged()
-//    }
 
     abstract fun getItemList(): List<Item>
 
@@ -68,7 +55,8 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) : Fragme
     private fun initRecyclerView() {
         binding.recyclerView.apply {
             adapter = itemListAdapter
-            val spanCount = requireContext().getSpanCountOf(tabName, globalPrefs.getViewMode(tabName))
+            val spanCount =
+                requireContext().getSpanCountOf(tabName, globalPrefs.getViewMode(tabName))
             layoutManager = GridLayoutManager(requireContext(), spanCount)
         }
     }
