@@ -17,3 +17,16 @@ fun Context.getSpanCountOf(tab: String, viewMode: String): Int {
         else -> 1
     }
 }
+
+/**
+ * Get the height of navigation bar
+ * Return the height in pixel or 0 when not found the resource identifiers indicating
+ * the height of navigation bar
+ */
+fun Context.navigationBarHeight(): Int {
+    val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+    return if (resourceId > 0) {
+        resources.getDimensionPixelSize(resourceId)
+    }
+    else 0
+}

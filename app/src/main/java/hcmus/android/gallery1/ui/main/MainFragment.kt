@@ -6,13 +6,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -34,19 +29,19 @@ import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 
 class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.layout.fragment_main) {
 
+    companion object {
+        const val BUNDLE_POS = "pos"
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState != null) {
-            currentPosition = savedInstanceState.getInt("pos")
+            currentPosition = savedInstanceState.getInt(BUNDLE_POS)
         }
         findElements()
         initViewPager()
-        // initBottomDrawer()
         initNavbar()
         initViewModeSelectors()
-        bindButtons()
-
     }
 
     override fun onDestroy() {
@@ -56,7 +51,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("pos", currentPosition)
+        outState.putInt(BUNDLE_POS, currentPosition)
     }
 
     private val tabFragmentAdapter by lazy { TabFragmentAdapter(this) }
@@ -96,47 +91,22 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
     ////////////////////////////////////////////////////////////////////////////////
 
     // Hold all references to elements on screen
-    private lateinit var bDrawerNavbar: TabLayout
-    private lateinit var bDrawerBehavior: BottomSheetBehavior<LinearLayout>
-    private lateinit var bDrawerBtnExpand: ImageButton
-    private lateinit var bDrawerDim: View
-    private lateinit var btnNewAlbum: Button
-    private lateinit var btnNewPhoto: Button
-    private lateinit var btnNewVideo: Button
-    private lateinit var btnSetTheme: Button
-    private lateinit var btnSetLanguage: Button
-    private lateinit var btnSetAbout: Button
+    private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
     private lateinit var viewModeRecyclerView: RecyclerView
 
     ////////////////////////////////////////////////////////////////////////////////
 
     // Find all elements on screen
-    // TODO change to data binding
     private fun findElements() {
-        requireView().apply {
 
-            binding.bottomDrawerMain.apply {
-
-                // Bottom drawer
-                bDrawerNavbar = mainNavbar
-                bDrawerBehavior = BottomSheetBehavior.from(bdrawerMain)
-                bDrawerBtnExpand = btnBottomSheetExpand
-                bDrawerDim = binding.bdrawerDim
-
-                // Bottom drawer -> Buttons
-                this@MainFragment.btnNewAlbum = btnNewAlbum
-                this@MainFragment.btnNewPhoto = btnNewPhoto
-                this@MainFragment.btnNewVideo = btnNewVideo
-                btnSetAbout = btnMoreAbout
-                btnSetTheme = btnMoreTheme
-                btnSetLanguage = btnMoreLanguage
-
-                viewModeRecyclerView = binding.bottomDrawerMain.viewmode
-            }
-
-            viewPager2 = binding.mainFragmentContainer
+        binding.bottomDrawerMain.apply {
+            // Bottom drawer
+            tabLayout = mainNavbar
+            viewModeRecyclerView = binding.bottomDrawerMain.viewmode
         }
+
+        viewPager2 = binding.mainFragmentContainer
 
     }
 
@@ -149,8 +119,9 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
         }
     }
 
-    // TODO use data binding
-    override fun bindData() { }
+    override fun bindData() {
+        binding.fragment = this
+    }
 
     private fun initViewPager() {
         viewPager2.adapter = tabFragmentAdapter
@@ -160,7 +131,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
     // Bottom drawer: navbar
     private fun initNavbar() {
         // Navbar behavior
-        TabLayoutMediator(bDrawerNavbar, viewPager2) { tab, position ->
+        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             if (position == currentPosition) {
                 tab.text = when (tab.position) {
                     TAB.ALBUM.ordinal -> getText(R.string.tab_album)
@@ -180,7 +151,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
             tab.setIcon(iconIdRes)
         }.attach()
 
-        bDrawerNavbar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
                     tab.text = when (tab.position) {
@@ -209,24 +180,11 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // Bind handling functions to buttons
-    private fun bindButtons() {
-        btnNewAlbum.setOnClickListener { handleBtnNewAlbum() }
-        btnNewPhoto.setOnClickListener { handleBtnNewPhoto() }
-        btnNewVideo.setOnClickListener { handleBtnNewVideo() }
-        btnSetTheme.setOnClickListener { handleBtnSetTheme() }
-        btnSetLanguage.setOnClickListener { handleBtnSetLanguage() }
-
-        // The "About" button is a little bit special
-        btnSetAbout.setOnClickListener { handleBtnAbout() }
-        btnSetAbout.setOnLongClickListener { handleBtnSecret(); true }
-    }
-
-    private fun handleBtnNewAlbum() {
+    fun handleBtnNewAlbum() {
         Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT).show()
     }
 
-    private fun handleBtnNewPhoto() {
+    fun handleBtnNewPhoto() {
         try {
             startActivity(Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA))
         } catch (e: ActivityNotFoundException) {
@@ -236,10 +194,10 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
                 Toast.LENGTH_LONG
             ).show()
         }
-        bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
-    private fun handleBtnNewVideo() {
+    fun handleBtnNewVideo() {
         try {
             startActivity(Intent(MediaStore.INTENT_ACTION_VIDEO_CAMERA))
         } catch (e: ActivityNotFoundException) {
@@ -249,10 +207,10 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
                 Toast.LENGTH_LONG
             ).show()
         }
-        bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
-    private fun handleBtnSetTheme() {
+    fun handleBtnSetTheme() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.bdrawer_more_theme)
             .setSingleChoiceItems(
@@ -264,7 +222,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
             .show()
     }
 
-    private fun handleBtnSetLanguage() {
+    fun handleBtnSetLanguage() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.bdrawer_more_language)
             .setSingleChoiceItems(
@@ -277,7 +235,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
             .show()
     }
 
-    private fun handleBtnAbout() {
+    fun handleBtnAbout() {
         MaterialAlertDialogBuilder(requireContext())
             .setView(
                 LayoutInflater.from(requireContext()).inflate(R.layout.about_dialog, null, false)
@@ -285,11 +243,12 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
             .show()
     }
 
-    private fun handleBtnSecret() {
+    fun handleBtnSecret(): Boolean {
         activity?.supportFragmentManager?.commit {
             addToBackStack("main")
             // replace(R.id.fragment_container, SecretAlbumFragment(), "CURRENT")
         }
-        bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        return true
     }
 }

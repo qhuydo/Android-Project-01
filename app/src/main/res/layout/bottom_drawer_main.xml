@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="fragment"
+            type="hcmus.android.gallery1.ui.main.MainFragment" />
+    </data>
+
     <LinearLayout
         android:id="@+id/bdrawer_main"
         android:layout_width="match_parent"
@@ -128,6 +135,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:enabled="false"
+                    android:onClick="@{() -> fragment.handleBtnNewAlbum()}"
                     android:text="@string/bdrawer_action_new_album"
                     app:icon="@drawable/ic_action_new_album"
                     app:iconGravity="top" />
@@ -138,6 +146,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:onClick="@{() -> fragment.handleBtnNewVideo()}"
                     android:text="@string/bdrawer_action_new_video"
                     app:icon="@drawable/ic_action_new_video"
                     app:iconGravity="top" />
@@ -148,6 +157,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:onClick="@{() -> fragment.handleBtnNewPhoto()}"
                     android:text="@string/bdrawer_action_new_photo"
                     app:icon="@drawable/ic_action_new_photo"
                     app:iconGravity="top" />
@@ -184,6 +194,7 @@
                     android:ellipsize="end"
                     android:gravity="center|top"
                     android:maxLines="1"
+                    android:onClick="@{() -> fragment.handleBtnSetTheme()}"
                     android:text="@string/bdrawer_more_theme"
                     app:icon="@drawable/ic_more_theme"
                     app:iconGravity="top" />
@@ -197,6 +208,7 @@
                     android:ellipsize="end"
                     android:gravity="center|top"
                     android:maxLines="1"
+                    android:onClick="@{() -> fragment.handleBtnSetLanguage()}"
                     android:text="@string/bdrawer_more_language"
                     app:icon="@drawable/ic_more_language"
                     app:iconGravity="top" />
@@ -210,6 +222,8 @@
                     android:ellipsize="end"
                     android:gravity="center|top"
                     android:maxLines="1"
+                    android:onClick="@{() -> fragment.handleBtnAbout()}"
+                    android:onLongClick="@{() -> fragment.handleBtnSecret()}"
                     android:text="@string/bdrawer_more_about"
                     app:icon="@drawable/ic_more_about"
                     app:iconGravity="top" />
