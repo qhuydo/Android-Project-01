@@ -87,6 +87,7 @@ class ViewImageFragment
     }
 
     fun closeViewer() {
+        forceBack = true
         mainActivity?.onBackPressed()
     }
 

@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.preference.PreferenceManager
+import com.bumptech.glide.manager.SupportRequestManagerFragment
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.ui.splash.SplashActivity
@@ -21,7 +22,7 @@ import hcmus.android.gallery1.databinding.ActivityMainBinding
 import hcmus.android.gallery1.helpers.LANG_FOLLOW_SYSTEM
 import hcmus.android.gallery1.helpers.PreferenceFacility
 import hcmus.android.gallery1.helpers.configTheme
-import hcmus.android.gallery1.ui.collection.ViewCollectionFragment
+import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.image.ViewImageFragment
 import java.util.*
 
@@ -108,12 +109,25 @@ class MainActivity : AppCompatActivity() {
     } */
 
     override fun onBackPressed() {
-        // super.onBackPressed()
+        val currentFragment = getCurrentFragment()
+        if ((currentFragment as? BaseFragment<*>)?.onBackPressed() == true) {
+            return
+        }
+
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun getCurrentFragment(): Fragment? {
+        val fragmentList = supportFragmentManager.fragments
+        val lastFragment = fragmentList.lastOrNull()
+        if (lastFragment !is SupportRequestManagerFragment) {
+            return lastFragment
+        }
+        return fragmentList.firstOrNull()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

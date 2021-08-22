@@ -104,6 +104,7 @@ class ViewCollectionFragment : BottomDrawerFragment<FragmentViewCollectionBindin
     }
 
     private fun closeCollection() {
+        forceBack = true
         activity?.onBackPressed()
     }
 }

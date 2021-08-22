@@ -91,6 +91,12 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
         initBottomDrawerElementsCallback()
     }
 
-    abstract fun findElements()
-    abstract fun postViewCreated()
+    override fun onBackPressed(): Boolean {
+        if (!forceBack && bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED){
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            return true
+        }
+        return super.onBackPressed()
+    }
+
 }
