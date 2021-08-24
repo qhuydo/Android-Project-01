@@ -151,6 +151,11 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
             tab.setIcon(iconIdRes)
         }.attach()
 
+        // remove the gap between tab icon & tab text of the first tab
+        val params = tabLayout.getTabAt(0)?.view?.getChildAt(0)?.layoutParams as LinearLayout.LayoutParams?
+        params?.bottomMargin = 0
+        tabLayout.getTabAt(0)?.view?.getChildAt(0)?.layoutParams = params
+
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
@@ -160,7 +165,13 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
                         TAB.FAV.ordinal -> getText(R.string.tab_favorites)
                         else -> getText(R.string.tab_all)
                     }
+
+                    // remove the gap between tab icon & tab text
+                    val params = tabLayout.getTabAt(tab.position)?.view?.getChildAt(0)?.layoutParams as LinearLayout.LayoutParams?
+                    params?.bottomMargin = 0
+                    tabLayout.getTabAt(tab.position)?.view?.getChildAt(0)?.layoutParams = params
                 }
+
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

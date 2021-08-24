@@ -68,6 +68,8 @@
                 app:tabGravity="fill"
                 app:tabIndicator="@android:color/transparent"
                 app:tabMode="fixed"
+                app:tabPaddingStart="0dp"
+                app:tabPaddingEnd="0dp"
                 app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 tools:visibility="gone" />
 
