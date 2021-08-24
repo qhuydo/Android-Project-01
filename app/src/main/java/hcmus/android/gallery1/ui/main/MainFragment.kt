@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -33,7 +32,6 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
         const val BUNDLE_POS = "pos"
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState != null) {
             currentPosition = savedInstanceState.getInt(BUNDLE_POS)
@@ -113,6 +111,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
     override fun initBottomDrawerElements() {
         binding.bottomDrawerMain.apply {
             // Bottom drawer
+            bottomDrawerView = root
             bottomSheetBehavior = BottomSheetBehavior.from(bdrawerMain)
             bottomSheetExpandButton = btnBottomSheetExpand
             bottomDrawerDim = binding.bdrawerDim
@@ -181,6 +180,8 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
             override fun onTabReselected(tab: TabLayout.Tab?) {}
 
         })
+
+        mainActivity?.setViewPaddingWindowInset(viewPager2)
 
     }
 
@@ -255,10 +256,10 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
     }
 
     fun handleBtnSecret(): Boolean {
-        activity?.supportFragmentManager?.commit {
-            addToBackStack("main")
-            // replace(R.id.fragment_container, SecretAlbumFragment(), "CURRENT")
-        }
+//        activity?.supportFragmentManager?.commit {
+//            addToBackStack("main")
+//            // replace(R.id.fragment_container, SecretAlbumFragment(), "CURRENT")
+//        }
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         return true
     }

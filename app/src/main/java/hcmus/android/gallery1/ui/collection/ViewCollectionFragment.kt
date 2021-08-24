@@ -1,5 +1,7 @@
 package hcmus.android.gallery1.ui.collection
 
+import android.os.Bundle
+import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,13 +17,14 @@ import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import hcmus.android.gallery1.ui.main.globalPrefs
 
-class ViewCollectionFragment : BottomDrawerFragment<FragmentViewCollectionBinding, LinearLayout>(R.layout.fragment_view_collection) {
+class ViewCollectionFragment :
+    BottomDrawerFragment<FragmentViewCollectionBinding, LinearLayout>(R.layout.fragment_view_collection) {
 
     companion object {
         const val BUNDLE_COLLECTION = "collection"
     }
 
-    private lateinit var viewModeSelector : MaterialButtonToggleGroup
+    private lateinit var viewModeSelector: MaterialButtonToggleGroup
 
     // Collection
     private val collection: Collection by lazy {
@@ -32,9 +35,14 @@ class ViewCollectionFragment : BottomDrawerFragment<FragmentViewCollectionBindin
         mainActivity?.pushViewImageFragment(item)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mainActivity?.setViewPaddingWindowInset(binding.recyclerView)
+    }
 
     override fun initBottomDrawerElements() {
         binding.bdrawerImageList.apply {
+            bottomDrawerView = bdrawerImageListStandalone
             bottomSheetBehavior = BottomSheetBehavior.from(bdrawerImageListStandalone)
             bottomSheetExpandButton = btnBottomSheetExpand
         }
@@ -45,7 +53,7 @@ class ViewCollectionFragment : BottomDrawerFragment<FragmentViewCollectionBindin
     override fun initBottomDrawerElementsCallback() {
         super.initBottomDrawerElementsCallback()
         viewModeSelector.check(
-            when(globalPrefs.getViewMode(TAB_ALL)) {
+            when (globalPrefs.getViewMode(TAB_ALL)) {
                 VIEW_LIST -> R.id.btn_viewmode_all_list
                 VIEW_ITEM_GRID_L -> R.id.btn_viewmode_all_grid_3
                 VIEW_ITEM_GRID_M -> R.id.btn_viewmode_all_grid_4
@@ -89,9 +97,9 @@ class ViewCollectionFragment : BottomDrawerFragment<FragmentViewCollectionBindin
                 else -> GridLayoutManager(context, 3)
             }
             val items = when (collection.type) {
-                Collection.TYPE_ALBUM ->  contentResolver.getItems(collection.id)
+                Collection.TYPE_ALBUM -> contentResolver.getItems(collection.id)
                 Collection.TYPE_DATE -> contentResolver.getItemsByDate(collection.id)
-                else ->  contentResolver.getItems(collection.id)
+                else -> contentResolver.getItems(collection.id)
             }
 
             adapter = ItemListAdapter(

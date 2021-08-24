@@ -18,7 +18,7 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/bdrawer_peek_height"
+            android:onClick="@{() -> fragment.toggleFullScreenMode()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,12 +28,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/black"
+            android:clickable="true"
+            android:focusable="true"
             android:visibility="gone" />
 
         <include
             android:id="@+id/bdrawer_view_image_layout"
             layout="@layout/bottom_drawer_view_image"
-            app:fm="@{fragment}"
-            />
+            app:fm="@{fragment}" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

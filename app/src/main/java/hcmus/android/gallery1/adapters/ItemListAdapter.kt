@@ -38,7 +38,7 @@ class ItemListAdapter(
         val item = items[position]
 
         val image = holder.itemView.findViewById<ImageView>(R.id.item_thumbnail)
-        Log.e("", item.getUri())
+        //Log.e("", item.getUri())
         Glide.with(image.context)
             .load(item.getUri())
             .error(R.drawable.placeholder_item)

@@ -8,6 +8,7 @@
         android:maxSdkVersion="28" />
 
     <application
+        android:name=".GalleryOneApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -31,7 +32,7 @@
         <!-- Actual main activity -->
         <activity
             android:name=".ui.main.MainActivity"
-            android:configChanges="uiMode|locale" />
+            android:configChanges="uiMode|locale|orientation" />
 
 <!--        &lt;!&ndash; Image Viewer &ndash;&gt;-->
 <!--        <activity-->

@@ -2,20 +2,35 @@ package hcmus.android.gallery1.ui.base
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.helpers.navigationBarHeight
 
 abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int) :
     BaseFragment<B>(layoutId) {
 
+    protected var fullScreenMode: Boolean = false
+
+    // root view of the bottom drawer
+    protected lateinit var bottomDrawerView: View
     protected lateinit var bottomSheetBehavior: BottomSheetBehavior<V>
+    // button to expand, collapse the bottom drawer
     protected lateinit var bottomSheetExpandButton: ImageButton
     protected lateinit var bottomDrawerDim: View
 
     protected var forceBack = false
+
+    protected val peekHeightInPixels by lazy {
+        requireContext().resources.getDimension(R.dimen.bdrawer_peek_height)
+    }
+
+    protected val navigationBarHeight by lazy {
+        requireContext().navigationBarHeight()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,6 +39,7 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
 
     /**
      * set values for these attributes:
+     * - [bottomDrawerView]
      * - [bottomSheetBehavior]
      * - [bottomSheetExpandButton]
      * - [bottomDrawerDim]
@@ -31,7 +47,6 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
     abstract fun initBottomDrawerElements()
 
     open fun initBottomDrawerElementsCallback() {
-
         bottomDrawerDim.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
@@ -81,14 +96,20 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
 
     open fun initBottomDrawer() {
         initBottomDrawerElements()
+        initBottomSheetBehaviour()
+        initBottomDrawerElementsCallback()
+    }
 
+    open fun initBottomSheetBehaviour() {
         // Bottom sheet behavior
         bottomSheetBehavior.apply {
+            if (mainActivity?.isBottomNavigationBar == true) {
+                peekHeight += navigationBarHeight
+            }
             isFitToContents = true
             // halfExpandedRatio = (490/1000f) // magic
         }
-
-        initBottomDrawerElementsCallback()
+        mainActivity?.setViewPaddingInNavigationBarSide(bottomDrawerView)
     }
 
     override fun onBackPressed(): Boolean {
@@ -97,6 +118,36 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
             return true
         }
         return super.onBackPressed()
+    }
+
+    protected fun showFullScreen() {
+        bottomDrawerView.animate()
+            .alpha(0f)
+            .translationY(bottomSheetBehavior.peekHeight.toFloat())
+            .setInterpolator(DecelerateInterpolator())
+            .setDuration(240) //ms
+            .withEndAction { bottomDrawerView.visibility = View.GONE }
+            .start()
+
+        mainActivity?.showFullScreen()
+        fullScreenMode = true
+    }
+
+    protected fun hideFullScreen() {
+        bottomDrawerView.animate()
+            .alpha(1f)
+            .translationY(0f)
+            .setInterpolator(DecelerateInterpolator())
+            .setDuration(240) //ms
+            .withStartAction { bottomDrawerView.visibility = View.VISIBLE }
+            .start()
+
+        mainActivity?.hideFullScreen()
+        fullScreenMode = false
+    }
+
+    fun collapseDrawer() {
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
 }

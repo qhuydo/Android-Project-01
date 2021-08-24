@@ -2,6 +2,8 @@ package hcmus.android.gallery1.ui.image
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import android.view.View
 import android.widget.*
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -20,6 +22,7 @@ class ViewImageFragment
     private val item: Item by lazy {
         requireArguments().getParcelable(BUNDLE_ITEM)!!
     }
+
     // private val CREATE_FILE: Int = 1
 
     override fun bindData() {
@@ -30,14 +33,19 @@ class ViewImageFragment
     override fun initBottomDrawerElements() {
 
         binding.bdrawerViewImageLayout.apply {
+            bottomDrawerView = root
             bottomSheetBehavior = BottomSheetBehavior.from(bdrawerViewImage)
             bottomSheetExpandButton = btnBdrawerViewImageExpand
         }
 
         bottomDrawerDim = binding.bdrawerViewImageDim
+        bottomDrawerDim.setOnClickListener {
+            toggleFullScreenMode()
+        }
     }
 
     override fun onDestroyView() {
+        mainActivity?.hideFullScreen()
         mainActivity?.setLowProfileUI(false)
         super.onDestroyView()
     }
@@ -83,6 +91,18 @@ class ViewImageFragment
 
             val imageFilepath = infoFilePath
             imageFilepath.text = item.filePath
+        }
+    }
+
+    fun toggleFullScreenMode() {
+        if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED){
+            return
+        }
+        if (!fullScreenMode) {
+            showFullScreen()
+        }
+        else {
+            hideFullScreen()
         }
     }
 
