@@ -250,7 +250,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
     fun handleBtnAbout() {
         MaterialAlertDialogBuilder(requireContext())
             .setView(
-                LayoutInflater.from(requireContext()).inflate(R.layout.about_dialog, null, false)
+                LayoutInflater.from(requireContext()).inflate(R.layout.dialog_about, null, false)
             )
             .show()
     }
