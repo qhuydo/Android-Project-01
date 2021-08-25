@@ -53,6 +53,8 @@ class MainActivity : AppCompatActivity() {
     var navigationBarHeight: Int = 0
         private set
 
+    private var scheduledToRecreate = false
+
     private val statusBarHeight by lazy {
         statusBarHeight()
     }
@@ -245,12 +247,13 @@ class MainActivity : AppCompatActivity() {
         hideFullScreen()
     }
 
-
     private fun registerOrientationEventListener() {
         val orientationEventListener = object : OrientationEventListener(this) {
 
             override fun onOrientationChanged(orientation: Int) {
                 if (orientation == ORIENTATION_UNKNOWN) return
+
+                if (scheduledToRecreate) return
 
                 val rotation = windowManager.defaultDisplay.rotation
                 val application = application as GalleryOneApplication
@@ -263,6 +266,7 @@ class MainActivity : AppCompatActivity() {
                         Log.i(MainActivity::class.java.name, "Rotation = ${rotation}, recreate()}")
                         // mainFragment.collapseDrawer()
                         recreate()
+                        scheduledToRecreate = true
                     }
 
                     application.lastRotation = rotation
