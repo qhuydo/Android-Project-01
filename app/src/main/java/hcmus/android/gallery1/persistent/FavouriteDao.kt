@@ -6,17 +6,20 @@ import hcmus.android.gallery1.data.Favourite
 @Dao
 interface FavouriteDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(vararg favourite: Favourite)
+    // Favourite object has `date_added` attribute which is used to track
+    // the time when a media item was added to the favourite collection.
+    // Therefore, conflict handling strategy to be used is IGNORE.
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(favourite: Favourite): Long
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAll(favourites: List<Favourite>)
 
     @Delete
     suspend fun delete(vararg favourite: Favourite)
 
     @Query("select count(*) from favourite where id=:id")
     suspend fun containsId(id: Long): Boolean
-
-    @Query("select count(*) from favourite where path=:path")
-    suspend fun containsPath(path: String): Boolean
 
     @Query("select * from favourite")
     suspend fun getAll(): List<Favourite>

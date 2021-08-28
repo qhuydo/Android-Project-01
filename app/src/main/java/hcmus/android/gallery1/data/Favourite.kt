@@ -2,13 +2,9 @@ package hcmus.android.gallery1.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(
-    tableName = "favourite",
-    indices = [Index(value = ["path"], unique = true)]
-)
+@Entity(tableName = "favourite")
 data class Favourite(
 
     // Id of the MediaItem
@@ -16,9 +12,6 @@ data class Favourite(
     @PrimaryKey
     var id: Long,
 
-    @ColumnInfo(name = "path")
-    var path: String,
-
-    @ColumnInfo(name = "file_name")
-    var fileName: String,
+    @ColumnInfo(name = "date_added")
+    var dateAdded: Long = System.currentTimeMillis()
 )
