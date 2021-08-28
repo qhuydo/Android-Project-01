@@ -4,9 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import hcmus.android.gallery1.data.Favourite
+import hcmus.android.gallery1.data.*
 
-@Database(entities = [Favourite::class], version = 0, exportSchema = true)
+@Database(
+    entities = [
+        Favourite::class,
+        CustomAlbumItem::class,
+        CustomAlbumInfo::class,
+        CustomAlbumCrossRef::class
+    ],
+    version = 1,
+    exportSchema = true
+)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val favouriteDao: FavouriteDao
