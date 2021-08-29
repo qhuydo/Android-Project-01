@@ -9,6 +9,8 @@ import androidx.databinding.ViewDataBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.navigationBarHeight
+import hcmus.android.gallery1.helpers.widgets.gone
+import hcmus.android.gallery1.helpers.widgets.visible
 
 abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int) :
     BaseFragment<B>(layoutId) {
@@ -67,7 +69,7 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
-                        bottomDrawerDim.visibility = View.GONE
+                        bottomDrawerDim.gone()
                         val drawable = ContextCompat.getDrawable(
                             requireContext(),
                             R.drawable.ic_bdrawer_up
@@ -75,7 +77,7 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
                         bottomSheetExpandButton.setImageDrawable(drawable)
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
-                        bottomDrawerDim.visibility = View.VISIBLE
+                        bottomDrawerDim.visible()
                         val drawable = ContextCompat.getDrawable(
                             requireContext(),
                             R.drawable.ic_bdrawer_down
@@ -88,7 +90,7 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                bottomDrawerDim.visibility = View.VISIBLE
+                bottomDrawerDim.visible()
                 bottomDrawerDim.alpha = 0.5f * slideOffset
             }
         })
@@ -126,7 +128,7 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
             .translationY(bottomSheetBehavior.peekHeight.toFloat())
             .setInterpolator(DecelerateInterpolator())
             .setDuration(240) //ms
-            .withEndAction { bottomDrawerView.visibility = View.GONE }
+            .withEndAction { bottomDrawerView.gone() }
             .start()
 
         mainActivity?.showFullScreen()
@@ -139,7 +141,7 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
             .translationY(0f)
             .setInterpolator(DecelerateInterpolator())
             .setDuration(240) //ms
-            .withStartAction { bottomDrawerView.visibility = View.VISIBLE }
+            .withStartAction { bottomDrawerView.visible() }
             .start()
 
         mainActivity?.hideFullScreen()

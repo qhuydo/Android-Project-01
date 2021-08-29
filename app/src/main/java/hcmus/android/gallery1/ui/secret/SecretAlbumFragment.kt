@@ -49,14 +49,14 @@ class SecretAlbumFragment: ImageListFragment() {
                         bDrawerBtnExpand.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_bdrawer_up))
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
-                        bDrawerDim.visibility = View.VISIBLE
+                        bDrawerDim.visible()
                         bDrawerBtnExpand.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_bdrawer_down))
                     }
                     else -> { }
                 }
             }
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                bDrawerDim.visibility = View.VISIBLE
+                bDrawerDim.visibility.visible()
                 bDrawerDim.alpha = 0.5f * slideOffset
             }
         })
