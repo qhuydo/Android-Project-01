@@ -92,6 +92,9 @@ abstract class CustomAlbumDao {
     @Delete
     abstract suspend fun deleteAlbumItem(item: CustomAlbumItem)
 
+    @Query("delete from custom_album_cross_ref where album_id=:albumId and item_id in (:itemIds)")
+    abstract suspend fun deleteItemFromAlbum(itemIds: List<Long>, albumId: Long)
+
     @Query("select count(*) from custom_album_info where name=:name")
     abstract suspend fun containsName(name: String): Boolean
 
