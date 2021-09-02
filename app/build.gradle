@@ -58,12 +58,14 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
-    // Architechture Components
-    def lifecycle_version = '2.2.0'
+    // Architecture Components
+    def lifecycle_version = '2.4.0-alpha03'
     def room_version = '2.3.0'
     def arch_component_version = '2.1.0'
     implementation 'androidx.fragment:fragment-ktx:1.3.6'
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
     implementation "androidx.room:room-runtime:$room_version"
