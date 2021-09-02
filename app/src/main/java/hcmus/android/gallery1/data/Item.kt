@@ -1,6 +1,8 @@
 package hcmus.android.gallery1.data
 
 import android.os.Parcelable
+import androidx.recyclerview.widget.DiffUtil
+import hcmus.android.gallery1.data.DataSource.Companion.DEFAULT_CONTENT_URI
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -29,6 +31,18 @@ data class Item(
     fun populate() {
         if (!isPopulated) {
             isPopulated = true
+        }
+    }
+
+    companion object {
+        val diffCallback = object : DiffUtil.ItemCallback<Item> () {
+            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+                return oldItem == newItem
+            }
         }
     }
 }
