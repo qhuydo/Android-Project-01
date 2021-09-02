@@ -15,8 +15,7 @@ import hcmus.android.gallery1.ui.main.globalPrefs
 abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
     BaseFragment<FragmentMainAllPhotosBinding>(R.layout.fragment_main_all_photos) {
 
-    private lateinit var itemListAdapter: ItemListAdapter
-
+    protected lateinit var itemListAdapter: ItemListAdapter
     private val itemListAdapterCallback = ItemListAdapter.Callback { item ->
         mainActivity?.pushViewImageFragment(item)
     }
@@ -28,10 +27,11 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
     ): View? {
 
         itemListAdapter = ItemListAdapter(
-            items = getItemList(),
             isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
             callback = itemListAdapterCallback
-        )
+        ).apply {
+            submitList(getItemList())
+        }
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -40,15 +40,14 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
         initRecyclerView()
     }
 
-    abstract fun getItemList(): List<Item>
-
-    fun notifyViewTypeChanged() {
+    open fun notifyViewTypeChanged() {
+        val items = itemListAdapter.currentList
         itemListAdapter = ItemListAdapter(
-            items = getItemList(),
             isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
             callback = itemListAdapterCallback
-        )
-
+        ).apply {
+            submitList(items)
+        }
         initRecyclerView()
     }
 

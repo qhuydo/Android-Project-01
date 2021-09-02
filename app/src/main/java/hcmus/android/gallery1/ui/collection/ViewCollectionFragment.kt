@@ -103,10 +103,11 @@ class ViewCollectionFragment :
             }
 
             adapter = ItemListAdapter(
-                items = items,
                 isCompactLayout = globalPrefs.getViewMode(TAB_ALL) == VIEW_LIST,
                 callback = itemListAdapterCallback
-            )
+            ).apply {
+                submitList(items)
+            }
 
         }
     }
