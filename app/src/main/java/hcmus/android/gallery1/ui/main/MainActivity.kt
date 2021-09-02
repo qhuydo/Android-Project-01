@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
@@ -60,6 +61,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         //globalPrefs = PreferenceFacility(getPreferences(MODE_PRIVATE))
         globalPrefs = PreferenceFacility(
             PreferenceManager.getDefaultSharedPreferences(this)
@@ -67,15 +70,13 @@ class MainActivity : AppCompatActivity() {
 
         // Theme and language
         configTheme(globalPrefs, null)
-        setTheme(globalPrefs.themeR)
+        installSplashScreen()
         setLanguageOnActivityRestart()
 
         // Layout
         supportActionBar?.hide()
-        super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         initNavigationBarProperties()
         initSystemUiVisibility()

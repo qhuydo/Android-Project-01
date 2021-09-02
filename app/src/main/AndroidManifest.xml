@@ -16,12 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GalleryOne">
-        <activity android:name=".ui.collection.ViewCollectionActivity2" />
 
-        <!-- Splash screen -->
+        <!-- Actual main activity -->
         <activity
-            android:name=".ui.splash.SplashActivity"
-            android:theme="@style/Theme.GalleryOne.SplashScreen">
+            android:name=".ui.main.MainActivity"
+            android:configChanges="uiMode|locale|orientation"
+            android:theme="@style/Theme.GalleryOne.Starting">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,25 +30,20 @@
             </intent-filter>
         </activity>
 
-        <!-- Actual main activity -->
-        <activity
-            android:name=".ui.main.MainActivity"
-            android:configChanges="uiMode|locale|orientation" />
+        <!--        &lt;!&ndash; Image Viewer &ndash;&gt;-->
+        <!--        <activity-->
+        <!--            android:name=".ui.image.ViewImageFragment"-->
+        <!--            android:configChanges="uiMode">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.VIEW" />-->
 
-<!--        &lt;!&ndash; Image Viewer &ndash;&gt;-->
-<!--        <activity-->
-<!--            android:name=".ui.image.ViewImageFragment"-->
-<!--            android:configChanges="uiMode">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
+        <!--                <category android:name="android.intent.category.DEFAULT" />-->
 
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-
-<!--                <data-->
-<!--                    android:mimeType="image/*"-->
-<!--                    android:scheme="content" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+        <!--                <data-->
+        <!--                    android:mimeType="image/*"-->
+        <!--                    android:scheme="content" />-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
 
         <!-- Image Editor -->
         <activity android:name=".ui.edit.EditImageActivity" />
