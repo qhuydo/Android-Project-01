@@ -12,13 +12,17 @@ import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
 import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.ui.main.globalPrefs
 
+// TODO create subpackage
 abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
     BaseFragment<FragmentMainAllPhotosBinding>(R.layout.fragment_main_all_photos) {
 
     protected lateinit var itemListAdapter: ItemListAdapter
     private val itemListAdapterCallback = ItemListAdapter.Callback { item ->
-        mainActivity?.pushViewImageFragment(item)
+        imageListViewModel().navigateToImageView(item)
     }
+
+    abstract fun getItemList(): List<Item>
+    abstract fun imageListViewModel(): ImageListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +38,17 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
         }
 
         return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        imageListViewModel().navigateToImageView.observe(viewLifecycleOwner) {
+            if (it != null) {
+                mainActivity?.pushViewImageFragment(it)
+            }
+        }
+
     }
 
     override fun bindData() {
