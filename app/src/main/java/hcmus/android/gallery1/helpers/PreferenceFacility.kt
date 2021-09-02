@@ -57,43 +57,4 @@ class PreferenceFacility(private val prefs: SharedPreferences) {
                 else -> R.style.Theme_GalleryOne // fallback
             }
         }
-
-    fun getFavorites(): List<Long> {
-        val rawSet = prefs.getStringSet(KEY_FAVORITES, setOf())
-        val returnList = mutableListOf<Long>()
-        if (rawSet != null) {
-            for (each in rawSet) {
-                returnList += each.toLong()
-            }
-        }
-        return returnList
-    }
-
-    fun isInFavorite(imageId: Long) : Boolean {
-        val rawSet = prefs.getStringSet(KEY_FAVORITES, setOf())
-        if (rawSet != null) {
-            return (imageId.toString() in rawSet)
-        }
-        return false
-    }
-
-    fun addFavorite(imageId: Long) {
-        val currentSet = prefs.getStringSet(KEY_FAVORITES, setOf())?.toMutableSet()
-        currentSet?.add(imageId.toString())
-        prefs.edit(commit = true) {
-            putStringSet(KEY_FAVORITES, currentSet)
-        }
-    }
-
-    fun removeFavorite(imageId: Long) {
-        val currentSet = prefs.getStringSet(KEY_FAVORITES, setOf())?.toMutableSet()
-        if (currentSet != null) {
-            if (imageId.toString() in currentSet) {
-                currentSet.remove(imageId.toString())
-                prefs.edit(commit = true) {
-                    putStringSet(KEY_FAVORITES, currentSet)
-                }
-            }
-        }
-    }
 }

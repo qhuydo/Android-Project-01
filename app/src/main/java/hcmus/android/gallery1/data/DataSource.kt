@@ -553,16 +553,3 @@ fun ContentResolver.getItemsByDate(id: Long? = null): List<Item> {
 
     return r.toList()
 }
-
-// Get favorite items
-// TODO: remove ContentResolver.getFavorites()
-fun ContentResolver.getFavorites(): List<Item> {
-    val r: MutableSet<Item> = mutableSetOf()
-
-    val rawId = globalPrefs.getFavorites()
-    for (each in rawId) {
-        r += Item(id = each)
-    }
-
-    return r.toList()
-}
