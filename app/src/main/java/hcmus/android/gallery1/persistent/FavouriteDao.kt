@@ -21,6 +21,6 @@ interface FavouriteDao {
     @Query("select count(*) from favourite where id=:id")
     suspend fun containsId(id: Long): Boolean
 
-    @Query("select * from favourite")
+    @Query("select * from favourite order by id asc")
     suspend fun getAll(): List<Favourite>
 }

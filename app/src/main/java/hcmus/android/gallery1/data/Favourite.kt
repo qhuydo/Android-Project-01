@@ -15,3 +15,5 @@ data class Favourite(
     @ColumnInfo(name = "date_added")
     var dateAdded: Long = System.currentTimeMillis()
 )
+
+fun Item.toFavourite() = Favourite(id)
