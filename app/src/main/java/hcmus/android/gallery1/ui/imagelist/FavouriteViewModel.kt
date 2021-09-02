@@ -1,0 +1,78 @@
+package hcmus.android.gallery1.ui.imagelist
+
+import android.util.Log
+import androidx.lifecycle.*
+import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.helpers.RecyclerViewListState
+import hcmus.android.gallery1.helpers.livedata.SingleLiveEvent
+import hcmus.android.gallery1.repository.FavouriteRepository
+import hcmus.android.gallery1.ui.base.ImageListViewModel
+import kotlinx.coroutines.launch
+import java.lang.IllegalArgumentException
+
+class FavouriteViewModel(private val favoriteRepository: FavouriteRepository) :
+    ImageListViewModel() {
+
+    private var _favourites = MutableLiveData<MutableList<Item>>()
+    val favourites: LiveData<MutableList<Item>>
+        get() = _favourites
+
+    private var _listStateChangeEvent = SingleLiveEvent<RecyclerViewListState>()
+    val listStateChangeEvent: LiveData<RecyclerViewListState>
+        get() = _listStateChangeEvent
+
+    init {
+        viewModelScope.launch {
+            _favourites.value = favoriteRepository.getFavourites().toMutableList()
+        }
+    }
+
+    private suspend fun addFavourite(item: Item): RecyclerViewListState.ItemInserted {
+        val begin = System.currentTimeMillis()
+        val insertedItem = favoriteRepository.insert(item)
+
+        val newFavourites = _favourites.value ?: mutableListOf()
+        newFavourites.add(insertedItem)
+
+        _favourites.value = newFavourites
+        Log.d("temp", "${System.currentTimeMillis() - begin}ms")
+
+        return RecyclerViewListState.ItemInserted(newFavourites.lastIndex)
+
+    }
+
+    private suspend fun removeFavourite(item: Item): RecyclerViewListState.ItemRemoved {
+
+        favoriteRepository.remove(item)
+
+        val newFavourites = _favourites.value ?: mutableListOf()
+        val idxToRemoved = newFavourites.indexOfFirst { it.id == item.id }
+        newFavourites.removeAt(idxToRemoved)
+
+        _favourites.value = newFavourites
+        return RecyclerViewListState.ItemRemoved(idxToRemoved)
+    }
+
+    fun toggleFavourite(item: Item) = liveData(viewModelScope.coroutineContext) {
+        val state =  if (!favoriteRepository.isFavourite(item)) {
+            addFavourite(item)
+        } else {
+            removeFavourite(item)
+        }
+        _listStateChangeEvent.value = state
+        emit(state)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    class Factory(private val favoriteRepository: FavouriteRepository) :
+        ViewModelProvider.Factory {
+
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(FavouriteViewModel::class.java)) {
+                return FavouriteViewModel(favoriteRepository) as T
+            }
+            throw IllegalArgumentException("")
+        }
+
+    }
+}
