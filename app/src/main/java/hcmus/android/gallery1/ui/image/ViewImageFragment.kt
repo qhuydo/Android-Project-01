@@ -2,16 +2,16 @@ package hcmus.android.gallery1.ui.image
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
-import android.view.View
 import android.widget.*
+import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.FragmentViewImageNopagerBinding
+import hcmus.android.gallery1.helpers.RecyclerViewListState
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
-import hcmus.android.gallery1.ui.main.globalPrefs
+import hcmus.android.gallery1.ui.imagelist.FavouriteViewModel
 
 class ViewImageFragment
     : BottomDrawerFragment<FragmentViewImageNopagerBinding, LinearLayout>(R.layout.fragment_view_image_nopager) {
@@ -22,6 +22,11 @@ class ViewImageFragment
     private val item: Item by lazy {
         requireArguments().getParcelable(BUNDLE_ITEM)!!
     }
+
+    private val viewModelFactory by lazy {
+        FavouriteViewModel.Factory(mainActivity!!.favouriteRepository)
+    }
+    private val viewModel by activityViewModels<FavouriteViewModel> { viewModelFactory }
 
     // private val CREATE_FILE: Int = 1
 
@@ -176,22 +181,25 @@ class ViewImageFragment
     }
 
     fun toggleFavorite() {
-        if (!globalPrefs.isInFavorite(item.id)) {
-            globalPrefs.addFavorite(item.id)
-            Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.action_favorite_add_confirm),
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            globalPrefs.removeFavorite(item.id)
-            Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.action_favorite_remove_confirm),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        viewModel.toggleFavourite(item).observe(viewLifecycleOwner) {
+            when (it) {
+                is RecyclerViewListState.ItemInserted -> {
+                    Toast.makeText(
+                        requireContext(),
+                        resources.getString(R.string.action_favorite_add_confirm),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
+                is RecyclerViewListState.ItemRemoved -> {
+                    Toast.makeText(
+                        requireContext(),
+                        resources.getString(R.string.action_favorite_remove_confirm),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 
 }
