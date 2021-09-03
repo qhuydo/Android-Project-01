@@ -26,6 +26,7 @@ import hcmus.android.gallery1.databinding.ActivityMainBinding
 import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.persistent.AppDatabase.Companion.getDatabaseInstance
 import hcmus.android.gallery1.repository.FavouriteRepositoryImpl
+import hcmus.android.gallery1.repository.PhotoRepositoryImpl
 import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.image.ViewImageFragment
 import hcmus.android.gallery1.ui.splash.SplashActivity
@@ -38,11 +39,12 @@ const val PERMISSION_REQUEST_CODE = 100
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var mainFragment: MainFragment
+    lateinit var mainFragment: MainFragment
 
     private val mediaStoreSource by lazy { DataSource.getInstance(applicationContext) }
     private val database by lazy { getDatabaseInstance() }
     val favouriteRepository by lazy { FavouriteRepositoryImpl.getInstance(mediaStoreSource, database.favouriteDao) }
+    val photoRepository by lazy { PhotoRepositoryImpl.getInstance(mediaStoreSource) }
 
     val orientation by lazy { resources.configuration.orientation }
 
