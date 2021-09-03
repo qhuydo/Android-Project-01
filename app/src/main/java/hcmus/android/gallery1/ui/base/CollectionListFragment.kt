@@ -25,7 +25,7 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         collectionListAdapter = CollectionListAdapter(
-            isCompactLayout = preferenceRepository.getViewMode(tabName) == VIEW_LIST,
+            isCompactLayout = preferenceRepository.isCompactLayout(tabName),
             callback = adapterCallback
         )
     }
@@ -62,7 +62,7 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
 
         val collections = collectionListAdapter.currentList
         collectionListAdapter = CollectionListAdapter(
-            isCompactLayout = preferenceRepository.getViewMode(tabName) == VIEW_LIST,
+            isCompactLayout = preferenceRepository.isCompactLayout(tabName),
             callback = adapterCallback
         ).also {
             it.submitList(collections)

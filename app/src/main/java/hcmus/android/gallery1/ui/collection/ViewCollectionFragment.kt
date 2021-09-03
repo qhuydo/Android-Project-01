@@ -43,7 +43,7 @@ class ViewCollectionFragment :
         mainActivity?.setViewPaddingWindowInset(binding.recyclerView)
 
         itemListAdapter = ItemListAdapter(
-            isCompactLayout = preferenceRepository.getViewMode(TAB_ALL) == VIEW_LIST,
+            isCompactLayout = preferenceRepository.isCompactLayout(TAB_ALL),
             callback = itemListAdapterCallback
         )
 
@@ -70,7 +70,7 @@ class ViewCollectionFragment :
     override fun initBottomDrawerElementsCallback() {
         super.initBottomDrawerElementsCallback()
         viewModeSelector.check(
-            when (preferenceRepository.getViewMode(TAB_ALL)) {
+            when (preferenceRepository.tabAllViewMode) {
                 VIEW_LIST -> R.id.btn_viewmode_all_list
                 VIEW_ITEM_GRID_L -> R.id.btn_viewmode_all_grid_3
                 VIEW_ITEM_GRID_M -> R.id.btn_viewmode_all_grid_4
@@ -80,12 +80,13 @@ class ViewCollectionFragment :
         )
 
         viewModeSelector.addOnButtonCheckedListener { _, checkedId, _ ->
-            // Write to settings
-            when (checkedId) {
-                R.id.btn_viewmode_all_list -> preferenceRepository.setViewMode(TAB_ALL, VIEW_LIST)
-                R.id.btn_viewmode_all_grid_3 -> preferenceRepository.setViewMode(TAB_ALL, VIEW_ITEM_GRID_L)
-                R.id.btn_viewmode_all_grid_4 -> preferenceRepository.setViewMode(TAB_ALL, VIEW_ITEM_GRID_M)
-                R.id.btn_viewmode_all_grid_5 -> preferenceRepository.setViewMode(TAB_ALL, VIEW_ITEM_GRID_S)
+
+            preferenceRepository.tabAllViewMode = when (checkedId) {
+                R.id.btn_viewmode_all_list -> VIEW_LIST
+                R.id.btn_viewmode_all_grid_3 -> VIEW_ITEM_GRID_L
+                R.id.btn_viewmode_all_grid_4 -> VIEW_ITEM_GRID_M
+                R.id.btn_viewmode_all_grid_5 -> VIEW_ITEM_GRID_S
+                else -> preferenceRepository.tabAllViewMode
             }
 
             // Dirty reload the current RecyclerView
@@ -104,7 +105,7 @@ class ViewCollectionFragment :
     private fun initRecyclerView() {
         binding.recyclerView.apply {
             adapter = itemListAdapter
-            val spanCount = requireContext().getSpanCountOf(TAB_ALL, preferenceRepository.getViewMode(TAB_ALL))
+            val spanCount = requireContext().getSpanCountOf(TAB_ALL, preferenceRepository.tabAllViewMode)
             layoutManager = GridLayoutManager(requireContext(), spanCount)
         }
     }
@@ -112,7 +113,7 @@ class ViewCollectionFragment :
     private fun refreshCollection() {
         val items = itemListAdapter.currentList
         itemListAdapter = ItemListAdapter(
-            isCompactLayout = preferenceRepository.getViewMode(TAB_ALL) == VIEW_LIST,
+            isCompactLayout = preferenceRepository.isCompactLayout(TAB_ALL),
             callback = itemListAdapterCallback
         ).apply {
             submitList(items)

@@ -28,7 +28,7 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
     ): View? {
 
         itemListAdapter = ItemListAdapter(
-            isCompactLayout = preferenceRepository.getViewMode(tabName) == VIEW_LIST,
+            isCompactLayout = preferenceRepository.isCompactLayout(tabName),
             callback = itemListAdapterCallback
         )
 
@@ -53,7 +53,7 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
     open fun notifyViewTypeChanged() {
         val items = itemListAdapter.currentList
         itemListAdapter = ItemListAdapter(
-            isCompactLayout = preferenceRepository.getViewMode(tabName) == VIEW_LIST,
+            isCompactLayout = preferenceRepository.isCompactLayout(tabName),
             callback = itemListAdapterCallback
         ).apply {
             submitList(items)

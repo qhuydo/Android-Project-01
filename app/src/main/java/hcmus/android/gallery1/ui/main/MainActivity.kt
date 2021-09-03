@@ -46,13 +46,7 @@ class MainActivity : AppCompatActivity() {
     val favouriteRepository by lazy { FavouriteRepositoryImpl.getInstance(mediaStoreSource, database.favouriteDao) }
     val photoRepository by lazy { PhotoRepositoryImpl.getInstance(mediaStoreSource) }
     val collectionRepository by lazy { CollectionRepositoryImpl.getInstance(mediaStoreSource) }
-    val preferenceRepository by lazy {
-        PreferenceRepository.getInstance(
-            PreferenceManager.getDefaultSharedPreferences(
-                this
-            )
-        )
-    }
+    val preferenceRepository by lazy { PreferenceRepository.getInstance(applicationContext) }
 
     val orientation by lazy { resources.configuration.orientation }
 

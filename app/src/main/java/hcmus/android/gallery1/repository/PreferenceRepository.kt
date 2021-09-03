@@ -1,11 +1,14 @@
 package hcmus.android.gallery1.repository
 
-import android.content.SharedPreferences
+import android.content.Context
 import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.*
 
-class PreferenceRepository(private val prefs: SharedPreferences) {
+class PreferenceRepository(applicationContext: Context) {
+
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
     companion object {
         // Sanity check
@@ -18,31 +21,10 @@ class PreferenceRepository(private val prefs: SharedPreferences) {
         @Volatile
         private var INSTANCE: PreferenceRepository? = null
 
-        fun getInstance(prefs: SharedPreferences): PreferenceRepository {
+        fun getInstance(applicationContext: Context): PreferenceRepository {
             return INSTANCE ?: synchronized(this) {
-                PreferenceRepository(prefs).also { INSTANCE = it }
+                PreferenceRepository(applicationContext).also { INSTANCE = it }
             }
-        }
-    }
-
-    fun isValidViewMode(tab: String, mode: String): Boolean {
-        if (tab !in validTabs) return false
-        return when (tab) {
-            TAB_ALL, TAB_FAV, TAB_SECRET -> { mode in validViews }
-            else -> { mode in validViewsLimited }
-        }
-    }
-
-    // View mode per tab
-    fun getViewMode(tab: String): String {
-        if (tab in validTabs) {
-            return prefs.getString("$VIEW_MODE_OF$tab", null) ?: NOT_EXIST
-        }
-        return NOT_EXIST
-    }
-    fun setViewMode(tab: String, newMode: String) {
-        if (isValidViewMode(tab, newMode)) {
-            prefs.edit(commit = true) { putString("$VIEW_MODE_OF$tab", newMode) }
         }
     }
 
@@ -65,4 +47,46 @@ class PreferenceRepository(private val prefs: SharedPreferences) {
                 else -> R.style.Theme_GalleryOne // fallback
             }
         }
+
+    var tabAllViewMode: String
+        get() { return getViewMode(TAB_ALL) }
+        set(value) {
+            setViewMode(TAB_ALL, value)
+        }
+
+    var tabAlbumViewModel: String
+        get() { return getViewMode(TAB_ALBUM) }
+        set(value) {
+            setViewMode(TAB_ALBUM, value)
+        }
+
+    var tabDateViewMode: String
+        get() { return getViewMode(TAB_DATE) }
+        set(value) {
+            setViewMode(TAB_DATE, value)
+        }
+
+    fun isValidViewMode(tab: String, mode: String): Boolean {
+        if (tab !in validTabs) return false
+        return when (tab) {
+            TAB_ALL, TAB_FAV, TAB_SECRET -> { mode in validViews }
+            else -> { mode in validViewsLimited }
+        }
+    }
+
+    // View mode per tab
+    fun getViewMode(tab: String): String {
+        if (tab in validTabs) {
+            return prefs.getString("$VIEW_MODE_OF$tab", null) ?: NOT_EXIST
+        }
+        return NOT_EXIST
+    }
+
+    fun setViewMode(tab: String, newMode: String) {
+        if (isValidViewMode(tab, newMode)) {
+            prefs.edit(commit = true) { putString("$VIEW_MODE_OF$tab", newMode) }
+        }
+    }
+
+    fun isCompactLayout(tabName: String) = getViewMode(tabName) == VIEW_LIST
 }
