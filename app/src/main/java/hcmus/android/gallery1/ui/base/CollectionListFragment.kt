@@ -1,21 +1,17 @@
 package hcmus.android.gallery1.ui.base
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.CollectionListAdapter
-import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.databinding.FragmentMainAlbumBinding
 import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.VIEW_LIST
 import hcmus.android.gallery1.helpers.getSpanCountOf
 import hcmus.android.gallery1.ui.collection.ViewCollectionFragment
-import hcmus.android.gallery1.ui.main.MainFragment
 import hcmus.android.gallery1.ui.main.globalPrefs
 
 abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
@@ -23,30 +19,40 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
 
     protected lateinit var collectionListAdapter: CollectionListAdapter
 
-    private val adapterCallback = CollectionListAdapter.Callback { item ->
-        val fm = requireActivity().supportFragmentManager
-        val bundle = Bundle().apply {
-            putParcelable(ViewCollectionFragment.BUNDLE_COLLECTION, item)
-        }
-        val tag = ViewCollectionFragment::class.java.name
-        fm.beginTransaction()
-            .hide(fm.findFragmentByTag(MainFragment::class.java.name)!!)
-            .add(R.id.fragment_container, ViewCollectionFragment::class.java, bundle, tag)
-            .addToBackStack(tag)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .commit()
+    private val adapterCallback = CollectionListAdapter.Callback { collection ->
+       collectionViewModel().navigateToCollectionDetails(collection)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         collectionListAdapter = CollectionListAdapter(
             isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
             callback = adapterCallback
         )
-        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        collectionViewModel().navigateToCollectionDetails.observe(viewLifecycleOwner) {
+            if (it == null) {
+                return@observe
+            }
+
+            val fm = requireActivity().supportFragmentManager
+            val bundle = Bundle().apply {
+                putParcelable(ViewCollectionFragment.ARGS_COLLECTION, it)
+            }
+            val tag = ViewCollectionFragment::class.java.name
+            val fragmentToBeHidden = fm.findFragmentById(R.id.fragment_container)
+            fm.commit {
+                fragmentToBeHidden?.let { hide(it) }
+                add(R.id.fragment_container, ViewCollectionFragment::class.java, bundle, tag)
+                addToBackStack(tag)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            }
+        }
     }
 
     override fun bindData() {

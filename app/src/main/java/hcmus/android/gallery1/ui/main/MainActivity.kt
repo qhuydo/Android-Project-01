@@ -25,6 +25,7 @@ import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.ActivityMainBinding
 import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.persistent.AppDatabase.Companion.getDatabaseInstance
+import hcmus.android.gallery1.repository.CollectionRepositoryImpl
 import hcmus.android.gallery1.repository.FavouriteRepositoryImpl
 import hcmus.android.gallery1.repository.PhotoRepositoryImpl
 import hcmus.android.gallery1.ui.base.BaseFragment
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     private val database by lazy { getDatabaseInstance() }
     val favouriteRepository by lazy { FavouriteRepositoryImpl.getInstance(mediaStoreSource, database.favouriteDao) }
     val photoRepository by lazy { PhotoRepositoryImpl.getInstance(mediaStoreSource) }
+    val collectionRepository by lazy { CollectionRepositoryImpl.getInstance(mediaStoreSource) }
 
     val orientation by lazy { resources.configuration.orientation }
 
