@@ -81,6 +81,6 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
         }
     }
 
-    abstract fun getCollectionList(): List<Collection>
+    abstract fun collectionViewModel(): CollectionListViewModel
 
 }
