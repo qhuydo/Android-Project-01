@@ -12,7 +12,6 @@ import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.VIEW_LIST
 import hcmus.android.gallery1.helpers.getSpanCountOf
 import hcmus.android.gallery1.ui.collection.ViewCollectionFragment
-import hcmus.android.gallery1.ui.main.globalPrefs
 
 abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
     : BaseFragment<FragmentMainAlbumBinding>(R.layout.fragment_main_album) {
@@ -26,7 +25,7 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         collectionListAdapter = CollectionListAdapter(
-            isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
+            isCompactLayout = preferenceRepository.getViewMode(tabName) == VIEW_LIST,
             callback = adapterCallback
         )
     }
@@ -63,7 +62,7 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
 
         val collections = collectionListAdapter.currentList
         collectionListAdapter = CollectionListAdapter(
-            isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
+            isCompactLayout = preferenceRepository.getViewMode(tabName) == VIEW_LIST,
             callback = adapterCallback
         ).also {
             it.submitList(collections)
@@ -76,7 +75,7 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
         binding.recyclerView.apply {
             adapter = collectionListAdapter
             val spanCount =
-                requireContext().getSpanCountOf(tabName, globalPrefs.getViewMode(tabName))
+                requireContext().getSpanCountOf(tabName, preferenceRepository.getViewMode(tabName))
             layoutManager = GridLayoutManager(requireContext(), spanCount)
         }
     }

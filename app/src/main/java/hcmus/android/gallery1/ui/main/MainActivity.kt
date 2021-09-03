@@ -28,12 +28,11 @@ import hcmus.android.gallery1.persistent.AppDatabase.Companion.getDatabaseInstan
 import hcmus.android.gallery1.repository.CollectionRepositoryImpl
 import hcmus.android.gallery1.repository.FavouriteRepositoryImpl
 import hcmus.android.gallery1.repository.PhotoRepositoryImpl
+import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.image.ViewImageFragment
 import hcmus.android.gallery1.ui.splash.SplashActivity
 import java.util.*
-
-lateinit var globalPrefs: PreferenceFacility
 
 const val PERMISSION_REQUEST_CODE = 100
 
@@ -47,6 +46,13 @@ class MainActivity : AppCompatActivity() {
     val favouriteRepository by lazy { FavouriteRepositoryImpl.getInstance(mediaStoreSource, database.favouriteDao) }
     val photoRepository by lazy { PhotoRepositoryImpl.getInstance(mediaStoreSource) }
     val collectionRepository by lazy { CollectionRepositoryImpl.getInstance(mediaStoreSource) }
+    val preferenceRepository by lazy {
+        PreferenceRepository.getInstance(
+            PreferenceManager.getDefaultSharedPreferences(
+                this
+            )
+        )
+    }
 
     val orientation by lazy { resources.configuration.orientation }
 
@@ -72,14 +78,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //globalPrefs = PreferenceFacility(getPreferences(MODE_PRIVATE))
-        globalPrefs = PreferenceFacility(
-            PreferenceManager.getDefaultSharedPreferences(this)
-        )
-
         // Theme and language
-        configTheme(globalPrefs, null)
-        setTheme(globalPrefs.themeR)
+        configTheme(preferenceRepository, null)
+        setTheme(preferenceRepository.themeR)
         setLanguageOnActivityRestart()
 
         // Layout
@@ -171,14 +172,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        configTheme(globalPrefs, newConfig.uiMode)
+        configTheme(preferenceRepository, newConfig.uiMode)
         recreate()
     }
 
     // https://stackoverflow.com/a/2900144
     private fun setLanguageOnActivityRestart() {
         val newConfig = resources.configuration
-        val languageOption = globalPrefs.language
+        val languageOption = preferenceRepository.language
         val locale = if (languageOption != LANG_FOLLOW_SYSTEM) {
             Locale(languageOption.lowercase())
         } else {
@@ -189,16 +190,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun changeLanguage(lang: String) {
-        if (lang in PreferenceFacility.validLanguages && globalPrefs.language != lang) {
-            globalPrefs.language = lang
+        if (lang in PreferenceRepository.validLanguages && preferenceRepository.language != lang) {
+            preferenceRepository.language = lang
             restartSelf()
         }
     }
 
     fun changeTheme(theme: String) {
-        if (theme in PreferenceFacility.validThemes && globalPrefs.theme != theme) {
-            globalPrefs.theme = theme
-            configTheme(globalPrefs, null)
+        if (theme in PreferenceRepository.validThemes && preferenceRepository.theme != theme) {
+            preferenceRepository.theme = theme
+            configTheme(preferenceRepository, null)
             restartSelf()
         }
     }

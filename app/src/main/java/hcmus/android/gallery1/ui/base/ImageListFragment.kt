@@ -9,7 +9,6 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.ItemListAdapter
 import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
 import hcmus.android.gallery1.helpers.*
-import hcmus.android.gallery1.ui.main.globalPrefs
 
 // TODO create subpackage
 abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
@@ -29,7 +28,7 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
     ): View? {
 
         itemListAdapter = ItemListAdapter(
-            isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
+            isCompactLayout = preferenceRepository.getViewMode(tabName) == VIEW_LIST,
             callback = itemListAdapterCallback
         )
 
@@ -54,7 +53,7 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
     open fun notifyViewTypeChanged() {
         val items = itemListAdapter.currentList
         itemListAdapter = ItemListAdapter(
-            isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
+            isCompactLayout = preferenceRepository.getViewMode(tabName) == VIEW_LIST,
             callback = itemListAdapterCallback
         ).apply {
             submitList(items)
@@ -66,7 +65,7 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
         binding.recyclerView.apply {
             adapter = itemListAdapter
             val spanCount =
-                requireContext().getSpanCountOf(tabName, globalPrefs.getViewMode(tabName))
+                requireContext().getSpanCountOf(tabName, preferenceRepository.getViewMode(tabName))
             layoutManager = GridLayoutManager(requireContext(), spanCount)
         }
     }

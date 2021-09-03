@@ -13,7 +13,6 @@ import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.databinding.FragmentViewCollectionBinding
 import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
-import hcmus.android.gallery1.ui.main.globalPrefs
 
 class ViewCollectionFragment :
     BottomDrawerFragment<FragmentViewCollectionBinding, LinearLayout>(R.layout.fragment_view_collection) {
@@ -37,14 +36,16 @@ class ViewCollectionFragment :
         CollectionDetailsViewModel.Factory(mainActivity!!.photoRepository)
     }
 
-    private var itemListAdapter: ItemListAdapter = ItemListAdapter(
-        isCompactLayout = globalPrefs.getViewMode(TAB_ALL) == VIEW_LIST,
-        callback = itemListAdapterCallback
-    )
+    private lateinit var itemListAdapter: ItemListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainActivity?.setViewPaddingWindowInset(binding.recyclerView)
+
+        itemListAdapter = ItemListAdapter(
+            isCompactLayout = preferenceRepository.getViewMode(TAB_ALL) == VIEW_LIST,
+            callback = itemListAdapterCallback
+        )
 
         viewModel.setCollection(collection)
 
@@ -69,7 +70,7 @@ class ViewCollectionFragment :
     override fun initBottomDrawerElementsCallback() {
         super.initBottomDrawerElementsCallback()
         viewModeSelector.check(
-            when (globalPrefs.getViewMode(TAB_ALL)) {
+            when (preferenceRepository.getViewMode(TAB_ALL)) {
                 VIEW_LIST -> R.id.btn_viewmode_all_list
                 VIEW_ITEM_GRID_L -> R.id.btn_viewmode_all_grid_3
                 VIEW_ITEM_GRID_M -> R.id.btn_viewmode_all_grid_4
@@ -81,10 +82,10 @@ class ViewCollectionFragment :
         viewModeSelector.addOnButtonCheckedListener { _, checkedId, _ ->
             // Write to settings
             when (checkedId) {
-                R.id.btn_viewmode_all_list -> globalPrefs.setViewMode(TAB_ALL, VIEW_LIST)
-                R.id.btn_viewmode_all_grid_3 -> globalPrefs.setViewMode(TAB_ALL, VIEW_ITEM_GRID_L)
-                R.id.btn_viewmode_all_grid_4 -> globalPrefs.setViewMode(TAB_ALL, VIEW_ITEM_GRID_M)
-                R.id.btn_viewmode_all_grid_5 -> globalPrefs.setViewMode(TAB_ALL, VIEW_ITEM_GRID_S)
+                R.id.btn_viewmode_all_list -> preferenceRepository.setViewMode(TAB_ALL, VIEW_LIST)
+                R.id.btn_viewmode_all_grid_3 -> preferenceRepository.setViewMode(TAB_ALL, VIEW_ITEM_GRID_L)
+                R.id.btn_viewmode_all_grid_4 -> preferenceRepository.setViewMode(TAB_ALL, VIEW_ITEM_GRID_M)
+                R.id.btn_viewmode_all_grid_5 -> preferenceRepository.setViewMode(TAB_ALL, VIEW_ITEM_GRID_S)
             }
 
             // Dirty reload the current RecyclerView
@@ -103,7 +104,7 @@ class ViewCollectionFragment :
     private fun initRecyclerView() {
         binding.recyclerView.apply {
             adapter = itemListAdapter
-            val spanCount = requireContext().getSpanCountOf(TAB_ALL, globalPrefs.getViewMode(TAB_ALL))
+            val spanCount = requireContext().getSpanCountOf(TAB_ALL, preferenceRepository.getViewMode(TAB_ALL))
             layoutManager = GridLayoutManager(requireContext(), spanCount)
         }
     }
@@ -111,7 +112,7 @@ class ViewCollectionFragment :
     private fun refreshCollection() {
         val items = itemListAdapter.currentList
         itemListAdapter = ItemListAdapter(
-            isCompactLayout = globalPrefs.getViewMode(TAB_ALL) == VIEW_LIST,
+            isCompactLayout = preferenceRepository.getViewMode(TAB_ALL) == VIEW_LIST,
             callback = itemListAdapterCallback
         ).apply {
             submitList(items)

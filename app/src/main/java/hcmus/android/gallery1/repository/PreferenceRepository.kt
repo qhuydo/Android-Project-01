@@ -1,10 +1,11 @@
-package hcmus.android.gallery1.helpers
+package hcmus.android.gallery1.repository
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.helpers.*
 
-class PreferenceFacility(private val prefs: SharedPreferences) {
+class PreferenceRepository(private val prefs: SharedPreferences) {
 
     companion object {
         // Sanity check
@@ -14,6 +15,14 @@ class PreferenceFacility(private val prefs: SharedPreferences) {
         val validThemes         = arrayOf(THEME_FOLLOW_SYSTEM, THEME_DAY, THEME_NIGHT)
         val validLanguages      = arrayOf(LANG_FOLLOW_SYSTEM, LANG_EN, LANG_VI, LANG_JA)
 
+        @Volatile
+        private var INSTANCE: PreferenceRepository? = null
+
+        fun getInstance(prefs: SharedPreferences): PreferenceRepository {
+            return INSTANCE ?: synchronized(this) {
+                PreferenceRepository(prefs).also { INSTANCE = it }
+            }
+        }
     }
 
     fun isValidViewMode(tab: String, mode: String): Boolean {
@@ -44,8 +53,7 @@ class PreferenceFacility(private val prefs: SharedPreferences) {
 
     // Language
     var language: String
-        get() {
-            return prefs.getString(KEY_LANGUAGE, LANG_EN) as String }
+        get() { return prefs.getString(KEY_LANGUAGE, LANG_EN) as String }
         set(value) { prefs.edit(commit = true) { putString(KEY_LANGUAGE, value) } }
 
     // Theme (fetch actual resource ID)

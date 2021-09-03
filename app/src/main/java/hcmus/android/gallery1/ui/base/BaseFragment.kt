@@ -12,7 +12,7 @@ import hcmus.android.gallery1.ui.main.MainActivity
 abstract class BaseFragment<B: ViewDataBinding>(private val layoutId: Int): Fragment() {
 
     protected val mainActivity by lazy { requireActivity() as? MainActivity }
-
+    protected val preferenceRepository by lazy { mainActivity!!.preferenceRepository }
     protected lateinit var binding: B
 
     open fun onBackPressed(): Boolean = false

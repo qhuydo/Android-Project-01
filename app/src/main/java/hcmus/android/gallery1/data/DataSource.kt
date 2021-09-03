@@ -1,16 +1,10 @@
 package hcmus.android.gallery1.data
 
 import android.annotation.SuppressLint
-import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
 import android.text.format.DateUtils
-import hcmus.android.gallery1.data.DataSource.Companion.DEFAULT_CONTENT_URI
-import hcmus.android.gallery1.data.DataSource.Companion.DEFAULT_SORT_ORDER_COLLECTIONS
-import hcmus.android.gallery1.data.DataSource.Companion.DEFAULT_SORT_ORDER_ITEMS
-import hcmus.android.gallery1.data.DataSource.Companion.SELECTION_ONLY_IMAGES_OR_VIDEO
-import hcmus.android.gallery1.ui.main.globalPrefs
 import java.util.*
 
 @SuppressLint("InlinedApi")

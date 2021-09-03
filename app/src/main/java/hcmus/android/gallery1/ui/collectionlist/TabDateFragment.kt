@@ -3,11 +3,9 @@ package hcmus.android.gallery1.ui.collectionlist
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import hcmus.android.gallery1.data.Collection
-import hcmus.android.gallery1.data.getCollectionsByDate
-import hcmus.android.gallery1.ui.base.CollectionListFragment
 import hcmus.android.gallery1.helpers.TAB_DATE
 import hcmus.android.gallery1.helpers.observeOnce
+import hcmus.android.gallery1.ui.base.CollectionListFragment
 
 class TabDateFragment : CollectionListFragment(tabName = TAB_DATE) {
 
