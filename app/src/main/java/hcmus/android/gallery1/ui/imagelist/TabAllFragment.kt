@@ -11,10 +11,6 @@ class TabAllFragment: ImageListFragment(tabName = TAB_ALL) {
 
     private val viewModel by activityViewModels<ImageListViewModel> { ImageListViewModel.Factory() }
 
-    override fun getItemList(): List<Item> {
-        return requireContext().contentResolver.getItems(null)
-    }
-
     override fun imageListViewModel(): ImageListViewModel = viewModel
 
 }

@@ -17,8 +17,6 @@ class TabFavoritesFragment : ImageListFragment(tabName = TAB_FAV) {
     }
     private val viewModel by activityViewModels<FavouriteViewModel> { viewModelFactory }
 
-    override fun getItemList(): List<Item> { return emptyList() }
-
     override fun imageListViewModel(): ImageListViewModel = viewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

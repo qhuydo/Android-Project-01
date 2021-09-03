@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.adapters.ItemListAdapter
-import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
 import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.ui.main.globalPrefs
@@ -21,7 +20,6 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
         imageListViewModel().navigateToImageView(item)
     }
 
-    abstract fun getItemList(): List<Item>
     abstract fun imageListViewModel(): ImageListViewModel
 
     override fun onCreateView(
@@ -33,9 +31,7 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
         itemListAdapter = ItemListAdapter(
             isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
             callback = itemListAdapterCallback
-        ).apply {
-            submitList(getItemList())
-        }
+        )
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
