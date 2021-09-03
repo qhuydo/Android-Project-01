@@ -21,7 +21,7 @@ import hcmus.android.gallery1.ui.main.globalPrefs
 abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
     : BaseFragment<FragmentMainAlbumBinding>(R.layout.fragment_main_album) {
 
-    private lateinit var collectionListAdapter: CollectionListAdapter
+    protected lateinit var collectionListAdapter: CollectionListAdapter
 
     private val adapterCallback = CollectionListAdapter.Callback { item ->
         val fm = requireActivity().supportFragmentManager
@@ -43,7 +43,6 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
         savedInstanceState: Bundle?
     ): View? {
         collectionListAdapter = CollectionListAdapter(
-            items = getCollectionList(),
             isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
             callback = adapterCallback
         )
@@ -55,11 +54,14 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
     }
 
     fun notifyViewTypeChanged() {
+
+        val collections = collectionListAdapter.currentList
         collectionListAdapter = CollectionListAdapter(
-            items = getCollectionList(),
             isCompactLayout = globalPrefs.getViewMode(tabName) == VIEW_LIST,
             callback = adapterCallback
-        )
+        ).also {
+            it.submitList(collections)
+        }
 
         initRecyclerView()
     }
