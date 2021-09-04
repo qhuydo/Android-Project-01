@@ -63,6 +63,11 @@
     <string name="info_resolution">Resolution</string>
     <string name="info_file_size">File size</string>
     <string name="info_file_path">File path</string>
+    <plurals name="info_file_size_value">
+        <item quantity="zero">%d byte</item>
+        <item quantity="one">%d byte</item>
+        <item quantity="other">%d bytes</item>
+    </plurals>
 
     <string name="action_favorite_add_confirm">Added to favorites</string>
     <string name="action_favorite_remove_confirm">Removed from favorites</string>

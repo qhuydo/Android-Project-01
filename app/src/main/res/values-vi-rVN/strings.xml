@@ -66,4 +66,7 @@
     <string name="action_send_to_header">Gửi tới…</string>
     <string name="please_grant_permission">Vui lòng cấp quyền bộ nhớ để xem ảnh.</string>
     <string name="bdrawer_viewmode_grid_4">M</string>
+    <plurals name="info_file_size_value">
+        <item quantity="other">%d byte</item>
+    </plurals>
 </resources>

@@ -92,31 +92,8 @@ class ViewImageFragment
     }
 
     private fun populateImageAndInfo() {
-        // TODO binding data
-        val imageHolder = binding.image
-
-        Glide.with(imageHolder.context)
-            .load(item.getUri())
-            .error(R.drawable.placeholder_item)
-            .into(imageHolder)
-
-        binding.bdrawerViewImageLayout.bdrawerViewImageInfo.apply {
-            val imageName = infoFileName
-            imageName.text = item.fileName
-
-            val imageTime = infoTimestamp
-            imageTime.text = item.dateModified.toString()
-
-            val imageResolution = infoResolution
-            imageResolution.text = item.width.toString()
-
-            val imageFileSize = infoFileSize
-            // TODO use resource placeholder
-            imageFileSize.text = "${item.fileSize} Bytes"
-
-            val imageFilepath = infoFilePath
-            imageFilepath.text = item.filePath
-        }
+        binding.item = item
+        binding.executePendingBindings()
     }
 
     fun toggleFullScreenMode() {
