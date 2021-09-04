@@ -14,4 +14,6 @@
 
     <!-- Bottom sheet divider -->
     <color name="bottom_sheet_divider">#e0e0e0</color>
+
+    <color name="control_higlight">#1F9C27B0</color>
 </resources>

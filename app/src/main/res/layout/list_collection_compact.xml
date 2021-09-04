@@ -10,7 +10,7 @@
             type="hcmus.android.gallery1.data.Collection" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -35,8 +35,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:loadGlideImage="@{item.thumbnailUri}"
-                    tools:src="@tools:sample/backgrounds/scenic"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription"
+                    tools:src="@tools:sample/backgrounds/scenic" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -62,5 +62,5 @@
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

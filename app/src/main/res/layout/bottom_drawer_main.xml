@@ -64,12 +64,13 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:tabBackground="@android:color/transparent"
+                app:tabRippleColor="@color/control_higlight"
+                app:tabUnboundedRipple="true"
                 app:tabGravity="fill"
                 app:tabIndicator="@android:color/transparent"
                 app:tabMode="fixed"
-                app:tabPaddingStart="0dp"
                 app:tabPaddingEnd="0dp"
+                app:tabPaddingStart="0dp"
                 app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 tools:visibility="gone" />
 
