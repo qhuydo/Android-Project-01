@@ -10,6 +10,7 @@ interface PhotoRepository {
     suspend fun getAllPhotos(): List<Item>
     suspend fun getItemsFromCollection(collectionId: Long): List<Item>
     suspend fun getItemFromDateCollection(timeInMillis: Long): List<Item>
+    suspend fun getItem(mediaStoreId: Long): Item?
 }
 
 class PhotoRepositoryImpl(
@@ -49,4 +50,8 @@ class PhotoRepositoryImpl(
         withContext(scope) {
             return@withContext mediaStoreSource.getItemsByDate(timeInMillis)
         }
+
+    override suspend fun getItem(mediaStoreId: Long): Item? = withContext(scope) {
+        return@withContext mediaStoreSource.getItemById(mediaStoreId)
+    }
 }

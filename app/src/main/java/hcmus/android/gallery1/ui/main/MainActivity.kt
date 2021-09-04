@@ -319,7 +319,7 @@ class MainActivity : AppCompatActivity() {
     fun pushViewImageFragment(item: Item) {
         val fm = supportFragmentManager
         val bundle = Bundle().apply {
-            putParcelable(ViewImageFragment.BUNDLE_ITEM, item)
+            putParcelable(ViewImageFragment.ARGS_ITEM, item)
         }
         val tag = ViewImageFragment::class.java.name
         val fragmentToBeHidden = fm.findFragmentById(R.id.fragment_container)
