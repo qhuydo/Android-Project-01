@@ -10,12 +10,12 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/md_purple_200</item>
         <item name="colorPrimaryVariant">@color/md_purple_700</item>
-        <item name="colorOnPrimary">@color/md_black_1000</item>
+        <item name="colorOnPrimary">@color/md_white_1000</item>
 
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/md_purple_A200</item>
         <item name="colorSecondaryVariant">@color/md_purple_A200</item>
-        <item name="colorOnSecondary">@color/md_black_1000</item>
+        <item name="colorOnSecondary">@color/md_white_1000</item>
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/status_bar_dark</item>

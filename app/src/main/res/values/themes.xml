@@ -8,7 +8,6 @@
     <!-- Splash screen -->
     <style name="Theme.GalleryOne.Starting" parent="Theme.SplashScreen">
         <item name="postSplashScreenTheme">@style/Theme.GalleryOne</item>
-        <item name="windowSplashScreenBackground">@color/background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo2</item>
     </style>
 
