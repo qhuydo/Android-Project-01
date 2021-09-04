@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButtonToggleGroup
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.adapters.ItemListAdapter
+import hcmus.android.gallery1.ui.adapters.ItemListAdapter
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.databinding.FragmentViewCollectionBinding
 import hcmus.android.gallery1.helpers.*

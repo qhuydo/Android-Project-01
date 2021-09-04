@@ -1,13 +1,13 @@
-package hcmus.android.gallery1.adapters
+package hcmus.android.gallery1.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButtonToggleGroup
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.adapters.viewholders.ViewModeCollectionViewHolder
-import hcmus.android.gallery1.adapters.viewholders.ViewModeItemViewHolder
-import hcmus.android.gallery1.adapters.viewholders.ViewModeViewHolder
+import hcmus.android.gallery1.ui.adapters.viewholders.ViewModeCollectionViewHolder
+import hcmus.android.gallery1.ui.adapters.viewholders.ViewModeItemViewHolder
+import hcmus.android.gallery1.ui.adapters.viewholders.ViewModeViewHolder
 import hcmus.android.gallery1.databinding.ButtonGroupViewmodeCollectionBinding
 import hcmus.android.gallery1.databinding.ButtonGroupViewmodeItemBinding
 import hcmus.android.gallery1.helpers.*

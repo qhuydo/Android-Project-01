@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.adapters.viewholders
+package hcmus.android.gallery1.ui.adapters.viewholders
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
