@@ -40,6 +40,6 @@ class CollectionRepositoryImpl(
     }
 
     override suspend fun getAllDateCollections(): List<Collection> = withContext(scope) {
-        return@withContext mediaStoreSource.getCollectionsByDate()
+        return@withContext mediaStoreSource.getCollectionsByDate().sortedByDescending { it.id }
     }
 }

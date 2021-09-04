@@ -12,12 +12,7 @@ import hcmus.android.gallery1.helpers.*
 class ButtonGroupViewModeAdapter(private val viewModeSelectedCallback: OnViewModeSelectedCallback) :
     RecyclerView.Adapter<ViewModeViewHolder>() {
 
-    private val tabs = listOf(
-        TAB.ALL,
-        TAB.ALBUM,
-        TAB.DATE,
-        TAB.FAV
-    )
+    private val tabs = TAB.values()
 
     override fun getItemCount(): Int = tabs.size
 
@@ -30,13 +25,7 @@ class ButtonGroupViewModeAdapter(private val viewModeSelectedCallback: OnViewMod
     }
 
     override fun onBindViewHolder(holder: ViewModeViewHolder, position: Int) {
-        val tab = when (position) {
-            TAB.ALL.ordinal -> TAB.ALL
-            TAB.ALBUM.ordinal -> TAB.ALBUM
-            TAB.DATE.ordinal -> TAB.DATE
-            TAB.FAV.ordinal -> TAB.FAV
-            else -> TAB.ALL
-        }
+        val tab = TAB.fromPosition(position)
 
         holder.tab = tab
         holder.apply {

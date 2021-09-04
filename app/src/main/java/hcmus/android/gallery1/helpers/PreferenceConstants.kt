@@ -42,7 +42,18 @@ enum class TAB {
     ALL,
     ALBUM,
     DATE,
-    FAV,
+    FAV;
+
+    companion object  {
+
+        fun fromPosition(position: Int) = when (position) {
+            TAB.ALL.ordinal -> TAB.ALL
+            TAB.ALBUM.ordinal -> TAB.ALBUM
+            TAB.DATE.ordinal -> TAB.DATE
+            TAB.FAV.ordinal -> TAB.FAV
+            else -> TAB.ALL
+        }
+    }
 }
 
 fun TAB.toTabKey(): String = when(this.ordinal) {

@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="item"
+            type="hcmus.android.gallery1.data.Collection" />
+    </data>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +34,9 @@
                     app:layout_constraintDimensionRatio="H,1.1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@tools:sample/backgrounds/scenic" />
+                    app:loadGlideImage="@{item.thumbnailUri}"
+                    tools:src="@tools:sample/backgrounds/scenic"
+                    tools:ignore="ContentDescription" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -37,6 +46,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/background2"
                 android:gravity="center"
+                android:text="@{String.valueOf(item.itemCount)}"
                 android:textSize="20sp"
                 tools:text="+16" />
 
@@ -46,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
+                android:text="@{item.name}"
                 android:textSize="16sp"
                 tools:text="Lorem ipsum" />
 
