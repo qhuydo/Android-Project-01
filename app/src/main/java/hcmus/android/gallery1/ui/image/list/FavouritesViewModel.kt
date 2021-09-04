@@ -21,7 +21,7 @@ class FavouritesViewModel(private val favoriteRepository: FavouriteRepository) :
     val listStateChangeEvent: LiveData<RecyclerViewListState>
         get() = _listStateChangeEvent
 
-    init {
+    fun init() {
         viewModelScope.launch {
             _favourites.value = favoriteRepository.getFavourites().toMutableList()
         }

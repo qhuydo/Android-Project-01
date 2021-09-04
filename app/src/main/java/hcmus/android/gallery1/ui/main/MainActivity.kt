@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -29,13 +30,19 @@ import hcmus.android.gallery1.repository.FavouriteRepositoryImpl
 import hcmus.android.gallery1.repository.PhotoRepositoryImpl
 import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.base.BaseFragment
+import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
+import hcmus.android.gallery1.ui.collection.list.DateCollectionViewModel
+import hcmus.android.gallery1.ui.image.list.AllPhotosViewModel
+import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 import hcmus.android.gallery1.ui.image.view.ViewImageFragment
 import hcmus.android.gallery1.ui.splash.SplashActivity
 import java.util.*
 
-const val PERMISSION_REQUEST_CODE = 100
-
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        const val PERMISSION_REQUEST_CODE = 100
+    }
 
     private lateinit var binding: ActivityMainBinding
     lateinit var mainFragment: MainFragment
@@ -127,6 +134,26 @@ class MainActivity : AppCompatActivity() {
             mainFragment = supportFragmentManager.findFragmentByTag(MainFragment::class.java.name)
                     as MainFragment
         }
+        initViewModel()
+    }
+
+    private fun initViewModel() {
+        val favouritesViewModel by viewModels<FavouritesViewModel> {
+            FavouritesViewModel.Factory(favouriteRepository)
+        }
+        val allItemViewModel by viewModels<AllPhotosViewModel> {
+            AllPhotosViewModel.Factory(photoRepository)
+        }
+        val albumViewModel by viewModels<AlbumViewModel> {
+            AlbumViewModel.Factory(collectionRepository)
+        }
+        val dateViewModel by viewModels<DateCollectionViewModel> {
+            DateCollectionViewModel.Factory(collectionRepository)
+        }
+        favouritesViewModel.init()
+        allItemViewModel.init()
+        albumViewModel.init()
+        dateViewModel.init()
     }
 
     /* override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

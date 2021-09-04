@@ -13,7 +13,7 @@ class AllPhotosViewModel(private val photoRepository: PhotoRepository): ImageLis
     val photos: LiveData<MutableList<Item>>
         get() = _photos
 
-    init {
+    fun init() {
         viewModelScope.launch {
             _photos.value = photoRepository.getAllPhotos().toMutableList()
         }

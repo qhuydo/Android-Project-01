@@ -7,13 +7,13 @@ import hcmus.android.gallery1.ui.base.collection.CollectionListViewModel
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
-class AlbumViewModel(collectionRepository: CollectionRepository) : CollectionListViewModel() {
+class AlbumViewModel(private val collectionRepository: CollectionRepository) : CollectionListViewModel() {
 
     private var _collections = MutableLiveData<MutableList<Collection>>()
     val collections: LiveData<MutableList<Collection>>
         get() = _collections
 
-    init {
+    fun init() {
         viewModelScope.launch {
             _collections.value = collectionRepository.getAllCollections().toMutableList()
         }
