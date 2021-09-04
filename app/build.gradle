@@ -93,6 +93,9 @@ dependencies {
     // SubsamplingScaleImageView
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
 
+    // Live event
+    implementation "com.github.hadilq:live-event:1.3.0"
+
     // Tests
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.test:core:1.3.0'

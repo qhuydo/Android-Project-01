@@ -4,11 +4,12 @@ import androidx.lifecycle.*
 import hcmus.android.gallery1.repository.PhotoRepository
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.ui.base.ImageListViewModel
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
 
-class CollectionDetailsViewModel(private val photoRepository: PhotoRepository): ViewModel() {
+class CollectionDetailsViewModel(private val photoRepository: PhotoRepository): ImageListViewModel() {
 
     private val _collection = MutableLiveData<Collection>()
     val collection: LiveData<Collection> = _collection

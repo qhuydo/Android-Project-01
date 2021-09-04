@@ -29,7 +29,7 @@ class ViewCollectionFragment :
     }
 
     private val itemListAdapterCallback = ItemListAdapter.Callback { item ->
-        mainActivity?.pushViewImageFragment(item)
+        viewModel.navigateToImageView(item)
     }
 
     private val viewModel by viewModels<CollectionDetailsViewModel> {
@@ -55,6 +55,12 @@ class ViewCollectionFragment :
         }
 
         viewModel.photos.observeOnce(viewLifecycleOwner) { itemListAdapter.submitList(it) }
+
+        viewModel.navigateToImageView.observe(viewLifecycleOwner) {
+            if (it != null) {
+                mainActivity?.pushViewImageFragment(it)
+            }
+        }
     }
 
     override fun initBottomDrawerElements() {

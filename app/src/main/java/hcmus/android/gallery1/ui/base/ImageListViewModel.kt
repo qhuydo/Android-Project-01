@@ -1,14 +1,14 @@
 package hcmus.android.gallery1.ui.base
 
 import androidx.lifecycle.*
+import com.hadilq.liveevent.LiveEvent
 import hcmus.android.gallery1.data.Item
-import hcmus.android.gallery1.helpers.livedata.SingleLiveEvent
 import java.lang.IllegalArgumentException
 
 open class ImageListViewModel : ViewModel() {
 
-    private var _navigateToImageView = SingleLiveEvent<Item>()
-    val navigateToImageView: SingleLiveEvent<Item>
+    private var _navigateToImageView = LiveEvent<Item>()
+    val navigateToImageView: LiveData<Item>
         get() = _navigateToImageView
 
     fun navigateToImageView(item: Item) {

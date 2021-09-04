@@ -2,9 +2,9 @@ package hcmus.android.gallery1.ui.imagelist
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.hadilq.liveevent.LiveEvent
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.RecyclerViewListState
-import hcmus.android.gallery1.helpers.livedata.SingleLiveEvent
 import hcmus.android.gallery1.repository.FavouriteRepository
 import hcmus.android.gallery1.ui.base.ImageListViewModel
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ class FavouriteViewModel(private val favoriteRepository: FavouriteRepository) :
     val favourites: LiveData<MutableList<Item>>
         get() = _favourites
 
-    private var _listStateChangeEvent = SingleLiveEvent<RecyclerViewListState>()
+    private var _listStateChangeEvent = LiveEvent<RecyclerViewListState>()
     val listStateChangeEvent: LiveData<RecyclerViewListState>
         get() = _listStateChangeEvent
 
