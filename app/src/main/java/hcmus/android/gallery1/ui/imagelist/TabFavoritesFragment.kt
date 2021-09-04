@@ -3,12 +3,11 @@ package hcmus.android.gallery1.ui.imagelist
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.RecyclerViewListState
-import hcmus.android.gallery1.ui.base.ImageListFragment
+import hcmus.android.gallery1.ui.base.imagelist.ImageListFragment
 import hcmus.android.gallery1.helpers.TAB_FAV
 import hcmus.android.gallery1.helpers.observeOnce
-import hcmus.android.gallery1.ui.base.ImageListViewModel
+import hcmus.android.gallery1.ui.base.imagelist.ImageListViewModel
 
 class TabFavoritesFragment : ImageListFragment(tabName = TAB_FAV) {
 

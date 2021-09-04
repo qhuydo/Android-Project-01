@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import hcmus.android.gallery1.repository.PhotoRepository
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.Item
-import hcmus.android.gallery1.ui.base.ImageListViewModel
+import hcmus.android.gallery1.ui.base.imagelist.ImageListViewModel
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 

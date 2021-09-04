@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.ui.base
+package hcmus.android.gallery1.ui.base.imagelist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.ui.adapters.ItemListAdapter
 import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
 import hcmus.android.gallery1.helpers.*
+import hcmus.android.gallery1.ui.base.BaseFragment
 
 // TODO create subpackage
 abstract class ImageListFragment(private val tabName: String = TAB_ALL) :

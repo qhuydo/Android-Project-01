@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.ui.base
+package hcmus.android.gallery1.ui.base.collectionlist
 
 import android.os.Bundle
 import android.view.View
@@ -10,6 +10,7 @@ import hcmus.android.gallery1.ui.adapters.CollectionListAdapter
 import hcmus.android.gallery1.databinding.FragmentMainAlbumBinding
 import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.getSpanCountOf
+import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.collection.ViewCollectionFragment
 
 abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)

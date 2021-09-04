@@ -3,7 +3,7 @@ package hcmus.android.gallery1.ui.collectionlist
 import androidx.lifecycle.*
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.repository.CollectionRepository
-import hcmus.android.gallery1.ui.base.CollectionListViewModel
+import hcmus.android.gallery1.ui.base.collectionlist.CollectionListViewModel
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 

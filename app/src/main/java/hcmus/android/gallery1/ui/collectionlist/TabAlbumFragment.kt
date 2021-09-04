@@ -2,7 +2,7 @@ package hcmus.android.gallery1.ui.collectionlist
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
-import hcmus.android.gallery1.ui.base.CollectionListFragment
+import hcmus.android.gallery1.ui.base.collectionlist.CollectionListFragment
 import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.observeOnce
 

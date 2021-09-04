@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import hcmus.android.gallery1.ui.base.ImageListFragment
+import hcmus.android.gallery1.ui.base.imagelist.ImageListFragment
 import hcmus.android.gallery1.helpers.TAB_ALL
 import hcmus.android.gallery1.helpers.observeOnce
-import hcmus.android.gallery1.ui.base.ImageListViewModel
+import hcmus.android.gallery1.ui.base.imagelist.ImageListViewModel
 
 class TabAllFragment: ImageListFragment(tabName = TAB_ALL) {
 
