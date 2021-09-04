@@ -1,12 +1,10 @@
 package hcmus.android.gallery1.ui.image.list
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.activityViewModels
 import hcmus.android.gallery1.helpers.RecyclerViewListState
-import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.helpers.TAB_FAV
 import hcmus.android.gallery1.helpers.observeOnce
+import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 
 class FavouritesFragment : ImageListFragment(tabName = TAB_FAV) {
@@ -18,24 +16,25 @@ class FavouritesFragment : ImageListFragment(tabName = TAB_FAV) {
 
     override fun imageListViewModel(): ImageListViewModel = viewModel
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun subscribeUi() {
+        with(viewModel) {
 
-        viewModel.favourites.observeOnce(viewLifecycleOwner) {
-            itemListAdapter.submitList(it)
-        }
-        viewModel.listStateChangeEvent.observe(viewLifecycleOwner) {
-            when (it) {
-                is RecyclerViewListState.ItemInserted -> {
-                    itemListAdapter.notifyItemInserted(it.position)
-                }
+            favourites.observeOnce(viewLifecycleOwner) {
+                itemListAdapter.submitList(it)
+            }
+            listStateChangeEvent.observe(viewLifecycleOwner) {
+                when (it) {
+                    is RecyclerViewListState.ItemInserted -> {
+                        itemListAdapter.notifyItemInserted(it.position)
+                    }
 
-                is RecyclerViewListState.ItemRemoved -> {
-                    itemListAdapter.notifyItemRemoved(it.position)
+                    is RecyclerViewListState.ItemRemoved -> {
+                        itemListAdapter.notifyItemRemoved(it.position)
+                    }
                 }
             }
-        }
 
+        }
     }
 
 }

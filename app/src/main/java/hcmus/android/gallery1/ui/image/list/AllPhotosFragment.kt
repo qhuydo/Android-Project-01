@@ -1,13 +1,9 @@
 package hcmus.android.gallery1.ui.image.list
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.helpers.TAB_ALL
 import hcmus.android.gallery1.helpers.observeOnce
+import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 
 class AllPhotosFragment: ImageListFragment(tabName = TAB_ALL) {
@@ -20,17 +16,9 @@ class AllPhotosFragment: ImageListFragment(tabName = TAB_ALL) {
 
     override fun imageListViewModel(): ImageListViewModel = viewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-
+    override fun subscribeUi() {
         viewModel.photos.observeOnce(viewLifecycleOwner) {
             itemListAdapter.submitList(it)
         }
-
-        return view
     }
 }

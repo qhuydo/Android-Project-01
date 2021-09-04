@@ -9,7 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import hcmus.android.gallery1.ui.main.MainActivity
 
-abstract class BaseFragment<B: ViewDataBinding>(private val layoutId: Int): Fragment() {
+abstract class BaseFragment<B : ViewDataBinding>(private val layoutId: Int) : Fragment() {
 
     protected val mainActivity by lazy { requireActivity() as? MainActivity }
     protected val preferenceRepository by lazy { mainActivity!!.preferenceRepository }
@@ -23,6 +23,11 @@ abstract class BaseFragment<B: ViewDataBinding>(private val layoutId: Int): Frag
      */
     abstract fun bindData()
 
+    /**
+     * Observe liveData given from view model
+     */
+    abstract fun subscribeUi()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,10 +35,15 @@ abstract class BaseFragment<B: ViewDataBinding>(private val layoutId: Int): Frag
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         bindData()
         binding.executePendingBindings()
-
-        return binding.root
+        subscribeUi()
     }
 
 

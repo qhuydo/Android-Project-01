@@ -40,9 +40,7 @@ class ViewImageFragment
         viewModel.setItem(item)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun subscribeUi() {
         viewModel.item.observe(viewLifecycleOwner) {
             if (it != null) {
                 item = it

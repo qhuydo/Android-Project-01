@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButtonToggleGroup
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.databinding.FragmentViewCollectionBinding
 import hcmus.android.gallery1.helpers.*
+import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 
 class ViewCollectionFragment :
@@ -46,21 +46,30 @@ class ViewCollectionFragment :
             isCompactLayout = preferenceRepository.isCompactLayout(TAB_ALL),
             callback = itemListAdapterCallback
         )
+    }
 
-        viewModel.setCollection(collection)
+    override fun subscribeUi() {
+        with(viewModel) {
 
-        viewModel.collection.observeOnce(viewLifecycleOwner) {
-            viewModel.getPhotos()
-            refreshCollection()
-        }
+            setCollection(this@ViewCollectionFragment.collection)
 
-        viewModel.photos.observeOnce(viewLifecycleOwner) { itemListAdapter.submitList(it) }
+            collection.observeOnce(viewLifecycleOwner) {
+                viewModel.getPhotos()
+                refreshCollection()
+            }
 
-        viewModel.navigateToImageView.observe(viewLifecycleOwner) {
-            if (it != null) {
-                mainActivity?.pushViewImageFragment(it)
+            photos.observeOnce(viewLifecycleOwner) { itemListAdapter.submitList(it) }
+
+            navigateToImageView.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    mainActivity?.pushViewImageFragment(it)
+                }
             }
         }
+    }
+
+    override fun bindData() {
+        binding.collection = collection
     }
 
     override fun initBottomDrawerElements() {
@@ -102,10 +111,6 @@ class ViewCollectionFragment :
         binding.bdrawerImageList.btnClose.setOnClickListener {
             closeCollection()
         }
-    }
-
-    override fun bindData() {
-        binding.bdrawerImageList.collectionName.text = collection.name
     }
 
     private fun initRecyclerView() {

@@ -52,6 +52,8 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
         outState.putInt(BUNDLE_POS, currentPosition)
     }
 
+    override fun subscribeUi() { }
+
     private val tabFragmentAdapter by lazy { TabFragmentAdapter(this) }
 
     private var currentPosition = TAB.ALL.ordinal
