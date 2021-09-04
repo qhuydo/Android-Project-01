@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.ui.adapters
+package hcmus.android.gallery1.ui.adapters.recyclerview
 
 import android.view.LayoutInflater
 import android.view.View

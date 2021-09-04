@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.ui.adapters.CollectionListAdapter
+import hcmus.android.gallery1.ui.adapters.recyclerview.CollectionListAdapter
 import hcmus.android.gallery1.databinding.FragmentMainAlbumBinding
 import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.getSpanCountOf

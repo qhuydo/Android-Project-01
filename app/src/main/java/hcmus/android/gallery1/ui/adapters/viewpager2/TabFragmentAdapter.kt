@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.ui.adapters
+package hcmus.android.gallery1.ui.adapters.viewpager2
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

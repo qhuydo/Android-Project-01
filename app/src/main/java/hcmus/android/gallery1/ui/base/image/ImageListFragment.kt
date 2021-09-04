@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.ui.adapters.ItemListAdapter
+import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
 import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.ui.base.BaseFragment

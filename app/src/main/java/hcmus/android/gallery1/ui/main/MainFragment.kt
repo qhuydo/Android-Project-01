@@ -15,9 +15,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.ui.adapters.ButtonGroupViewModeAdapter
-import hcmus.android.gallery1.ui.adapters.OnViewModeSelectedCallback
-import hcmus.android.gallery1.ui.adapters.TabFragmentAdapter
+import hcmus.android.gallery1.ui.adapters.recyclerview.ButtonGroupViewModeAdapter
+import hcmus.android.gallery1.ui.adapters.recyclerview.OnViewModeSelectedCallback
+import hcmus.android.gallery1.ui.adapters.viewpager2.TabFragmentAdapter
 import hcmus.android.gallery1.databinding.FragmentMainBinding
 import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
 import hcmus.android.gallery1.ui.base.image.ImageListFragment
