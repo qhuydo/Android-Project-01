@@ -1,17 +1,19 @@
-package hcmus.android.gallery1.ui.collectionlist
+package hcmus.android.gallery1.ui.collection.list
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import hcmus.android.gallery1.helpers.TAB_DATE
 import hcmus.android.gallery1.helpers.observeOnce
-import hcmus.android.gallery1.ui.base.collectionlist.CollectionListFragment
+import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
 
-class TabDateFragment : CollectionListFragment(tabName = TAB_DATE) {
+class DateCollectionFragment : CollectionListFragment(tabName = TAB_DATE) {
 
-    val viewModel by activityViewModels<DateCollectionViewModel> { DateCollectionViewModel.Factory(
-        mainActivity!!.collectionRepository
-    ) }
+    val viewModel by activityViewModels<DateCollectionViewModel> {
+        DateCollectionViewModel.Factory(
+            mainActivity!!.collectionRepository
+        )
+    }
 
     override fun collectionViewModel() = viewModel
 

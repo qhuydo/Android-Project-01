@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.ui.image
+package hcmus.android.gallery1.ui.image.view
 
 import android.content.Intent
 import android.net.Uri
@@ -11,7 +11,7 @@ import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.FragmentViewImageNopagerBinding
 import hcmus.android.gallery1.helpers.RecyclerViewListState
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
-import hcmus.android.gallery1.ui.imagelist.FavouriteViewModel
+import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 
 class ViewImageFragment
     : BottomDrawerFragment<FragmentViewImageNopagerBinding, LinearLayout>(R.layout.fragment_view_image_nopager) {
@@ -24,9 +24,9 @@ class ViewImageFragment
     }
 
     private val viewModelFactory by lazy {
-        FavouriteViewModel.Factory(mainActivity!!.favouriteRepository)
+        FavouritesViewModel.Factory(mainActivity!!.favouriteRepository)
     }
-    private val viewModel by activityViewModels<FavouriteViewModel> { viewModelFactory }
+    private val viewModel by activityViewModels<FavouritesViewModel> { viewModelFactory }
 
     // private val CREATE_FILE: Int = 1
 

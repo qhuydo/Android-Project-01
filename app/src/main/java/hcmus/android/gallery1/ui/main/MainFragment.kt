@@ -19,8 +19,8 @@ import hcmus.android.gallery1.ui.adapters.ButtonGroupViewModeAdapter
 import hcmus.android.gallery1.ui.adapters.OnViewModeSelectedCallback
 import hcmus.android.gallery1.ui.adapters.TabFragmentAdapter
 import hcmus.android.gallery1.databinding.FragmentMainBinding
-import hcmus.android.gallery1.ui.base.collectionlist.CollectionListFragment
-import hcmus.android.gallery1.ui.base.imagelist.ImageListFragment
+import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
+import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.toTabKey

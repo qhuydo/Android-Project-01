@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.ui.base.collectionlist
+package hcmus.android.gallery1.ui.base.collection
 
 import android.os.Bundle
 import android.view.View
@@ -11,7 +11,7 @@ import hcmus.android.gallery1.databinding.FragmentMainAlbumBinding
 import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.getSpanCountOf
 import hcmus.android.gallery1.ui.base.BaseFragment
-import hcmus.android.gallery1.ui.collection.ViewCollectionFragment
+import hcmus.android.gallery1.ui.collection.view.ViewCollectionFragment
 
 abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
     : BaseFragment<FragmentMainAlbumBinding>(R.layout.fragment_main_album) {

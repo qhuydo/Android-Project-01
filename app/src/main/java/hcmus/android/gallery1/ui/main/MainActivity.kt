@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import androidx.preference.PreferenceManager
 import com.bumptech.glide.manager.SupportRequestManagerFragment
 import hcmus.android.gallery1.GalleryOneApplication
 import hcmus.android.gallery1.R
@@ -30,7 +29,7 @@ import hcmus.android.gallery1.repository.FavouriteRepositoryImpl
 import hcmus.android.gallery1.repository.PhotoRepositoryImpl
 import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.base.BaseFragment
-import hcmus.android.gallery1.ui.image.ViewImageFragment
+import hcmus.android.gallery1.ui.image.view.ViewImageFragment
 import hcmus.android.gallery1.ui.splash.SplashActivity
 import java.util.*
 

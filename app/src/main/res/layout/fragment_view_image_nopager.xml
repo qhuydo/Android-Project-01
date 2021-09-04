@@ -7,7 +7,7 @@
 
         <variable
             name="fragment"
-            type="hcmus.android.gallery1.ui.image.ViewImageFragment" />
+            type="hcmus.android.gallery1.ui.image.view.ViewImageFragment" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

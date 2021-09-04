@@ -1,20 +1,20 @@
-package hcmus.android.gallery1.ui.imagelist
+package hcmus.android.gallery1.ui.image.list
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import hcmus.android.gallery1.helpers.RecyclerViewListState
-import hcmus.android.gallery1.ui.base.imagelist.ImageListFragment
+import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.helpers.TAB_FAV
 import hcmus.android.gallery1.helpers.observeOnce
-import hcmus.android.gallery1.ui.base.imagelist.ImageListViewModel
+import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 
-class TabFavoritesFragment : ImageListFragment(tabName = TAB_FAV) {
+class FavouritesFragment : ImageListFragment(tabName = TAB_FAV) {
 
     private val viewModelFactory by lazy {
-        FavouriteViewModel.Factory(mainActivity!!.favouriteRepository)
+        FavouritesViewModel.Factory(mainActivity!!.favouriteRepository)
     }
-    private val viewModel by activityViewModels<FavouriteViewModel> { viewModelFactory }
+    private val viewModel by activityViewModels<FavouritesViewModel> { viewModelFactory }
 
     override fun imageListViewModel(): ImageListViewModel = viewModel
 

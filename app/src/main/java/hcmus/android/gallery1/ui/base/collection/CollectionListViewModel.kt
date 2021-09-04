@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.ui.base.collectionlist
+package hcmus.android.gallery1.ui.base.collection
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

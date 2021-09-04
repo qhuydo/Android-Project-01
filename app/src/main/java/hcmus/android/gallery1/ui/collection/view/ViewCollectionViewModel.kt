@@ -1,15 +1,15 @@
-package hcmus.android.gallery1.ui.collection
+package hcmus.android.gallery1.ui.collection.view
 
 import androidx.lifecycle.*
 import hcmus.android.gallery1.repository.PhotoRepository
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.Item
-import hcmus.android.gallery1.ui.base.imagelist.ImageListViewModel
+import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
 
-class CollectionDetailsViewModel(private val photoRepository: PhotoRepository): ImageListViewModel() {
+class ViewCollectionViewModel(private val photoRepository: PhotoRepository): ImageListViewModel() {
 
     private val _collection = MutableLiveData<Collection>()
     val collection: LiveData<Collection> = _collection
@@ -35,8 +35,8 @@ class CollectionDetailsViewModel(private val photoRepository: PhotoRepository): 
         ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(CollectionDetailsViewModel::class.java)) {
-                return CollectionDetailsViewModel(photoRepository) as T
+            if (modelClass.isAssignableFrom(ViewCollectionViewModel::class.java)) {
+                return ViewCollectionViewModel(photoRepository) as T
             }
             throw IllegalArgumentException()
         }

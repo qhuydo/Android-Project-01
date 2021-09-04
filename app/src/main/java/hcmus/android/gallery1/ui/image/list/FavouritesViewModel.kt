@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.ui.imagelist
+package hcmus.android.gallery1.ui.image.list
 
 import android.util.Log
 import androidx.lifecycle.*
@@ -6,11 +6,11 @@ import com.hadilq.liveevent.LiveEvent
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.RecyclerViewListState
 import hcmus.android.gallery1.repository.FavouriteRepository
-import hcmus.android.gallery1.ui.base.imagelist.ImageListViewModel
+import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
-class FavouriteViewModel(private val favoriteRepository: FavouriteRepository) :
+class FavouritesViewModel(private val favoriteRepository: FavouriteRepository) :
     ImageListViewModel() {
 
     private var _favourites = MutableLiveData<MutableList<Item>>()
@@ -68,8 +68,8 @@ class FavouriteViewModel(private val favoriteRepository: FavouriteRepository) :
         ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(FavouriteViewModel::class.java)) {
-                return FavouriteViewModel(favoriteRepository) as T
+            if (modelClass.isAssignableFrom(FavouritesViewModel::class.java)) {
+                return FavouritesViewModel(favoriteRepository) as T
             }
             throw IllegalArgumentException("")
         }

@@ -1,20 +1,22 @@
-package hcmus.android.gallery1.ui.imagelist
+package hcmus.android.gallery1.ui.image.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import hcmus.android.gallery1.ui.base.imagelist.ImageListFragment
+import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.helpers.TAB_ALL
 import hcmus.android.gallery1.helpers.observeOnce
-import hcmus.android.gallery1.ui.base.imagelist.ImageListViewModel
+import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 
-class TabAllFragment: ImageListFragment(tabName = TAB_ALL) {
+class AllPhotosFragment: ImageListFragment(tabName = TAB_ALL) {
 
-    private val viewModel by activityViewModels<AllPhotosViewModel> { AllPhotosViewModel.Factory(
-        mainActivity!!.photoRepository
-    ) }
+    private val viewModel by activityViewModels<AllPhotosViewModel> {
+        AllPhotosViewModel.Factory(
+            mainActivity!!.photoRepository
+        )
+    }
 
     override fun imageListViewModel(): ImageListViewModel = viewModel
 

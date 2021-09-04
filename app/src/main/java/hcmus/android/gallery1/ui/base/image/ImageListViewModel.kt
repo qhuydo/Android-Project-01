@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.ui.base.imagelist
+package hcmus.android.gallery1.ui.base.image
 
 import androidx.lifecycle.*
 import com.hadilq.liveevent.LiveEvent

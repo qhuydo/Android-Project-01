@@ -1,16 +1,18 @@
-package hcmus.android.gallery1.ui.collectionlist
+package hcmus.android.gallery1.ui.collection.list
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
-import hcmus.android.gallery1.ui.base.collectionlist.CollectionListFragment
+import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
 import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.observeOnce
 
-class TabAlbumFragment : CollectionListFragment(tabName = TAB_ALBUM) {
+class AlbumFragment : CollectionListFragment(tabName = TAB_ALBUM) {
 
-    val viewModel by activityViewModels<AlbumViewModel> { AlbumViewModel.Factory(
-        mainActivity!!.collectionRepository
-    ) }
+    val viewModel by activityViewModels<AlbumViewModel> {
+        AlbumViewModel.Factory(
+            mainActivity!!.collectionRepository
+        )
+    }
 
     override fun collectionViewModel() = viewModel
 

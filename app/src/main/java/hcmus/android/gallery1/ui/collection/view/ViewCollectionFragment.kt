@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.ui.collection
+package hcmus.android.gallery1.ui.collection.view
 
 import android.os.Bundle
 import android.view.View
@@ -32,8 +32,8 @@ class ViewCollectionFragment :
         viewModel.navigateToImageView(item)
     }
 
-    private val viewModel by viewModels<CollectionDetailsViewModel> {
-        CollectionDetailsViewModel.Factory(mainActivity!!.photoRepository)
+    private val viewModel by viewModels<ViewCollectionViewModel> {
+        ViewCollectionViewModel.Factory(mainActivity!!.photoRepository)
     }
 
     private lateinit var itemListAdapter: ItemListAdapter
