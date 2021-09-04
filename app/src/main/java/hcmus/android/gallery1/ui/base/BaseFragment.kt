@@ -34,7 +34,6 @@ abstract class BaseFragment<B : ViewDataBinding>(private val layoutId: Int) : Fr
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-
         return binding.root
     }
 

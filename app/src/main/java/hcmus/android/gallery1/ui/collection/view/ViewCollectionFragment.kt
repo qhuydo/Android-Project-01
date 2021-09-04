@@ -72,6 +72,10 @@ class ViewCollectionFragment :
         binding.collection = collection
     }
 
+    override fun calculatePeekHeight() = with(binding.bdrawerImageList) {
+        listDivider.measuredHeight + topRow.measuredHeight
+    }
+
     override fun initBottomDrawerElements() {
         binding.bdrawerImageList.apply {
             bottomDrawerView = bdrawerImageListStandalone
@@ -116,7 +120,8 @@ class ViewCollectionFragment :
     private fun initRecyclerView() {
         binding.recyclerView.apply {
             adapter = itemListAdapter
-            val spanCount = requireContext().getSpanCountOf(TAB_ALL, preferenceRepository.tabAllViewMode)
+            val spanCount =
+                requireContext().getSpanCountOf(TAB_ALL, preferenceRepository.tabAllViewMode)
             layoutManager = GridLayoutManager(requireContext(), spanCount)
         }
     }

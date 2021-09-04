@@ -3,11 +3,11 @@ package hcmus.android.gallery1.ui.image.view
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.widget.*
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
@@ -17,7 +17,8 @@ import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 
 class ViewImageFragment
-    : BottomDrawerFragment<FragmentViewImageNopagerBinding, LinearLayout>(R.layout.fragment_view_image_nopager) {
+    :
+    BottomDrawerFragment<FragmentViewImageNopagerBinding, LinearLayout>(R.layout.fragment_view_image_nopager) {
     companion object {
         const val ARGS_ITEM = "item"
     }
@@ -51,6 +52,10 @@ class ViewImageFragment
 
     override fun bindData() {
         binding.fragment = this
+    }
+
+    override fun calculatePeekHeight() = with(binding.bdrawerViewImageLayout) {
+        listDivider.height + topRow.height
     }
 
     override fun initBottomDrawerElements() {
@@ -95,13 +100,12 @@ class ViewImageFragment
     }
 
     fun toggleFullScreenMode() {
-        if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED){
+        if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
             return
         }
         if (!fullScreenMode) {
             showFullScreen()
-        }
-        else {
+        } else {
             hideFullScreen()
         }
     }
@@ -183,8 +187,7 @@ class ViewImageFragment
                     resources.getString(R.string.action_favorite_add_confirm),
                     Toast.LENGTH_SHORT
                 ).show()
-            }
-            else if (it is RecyclerViewListState.ItemRemoved) {
+            } else if (it is RecyclerViewListState.ItemRemoved) {
                 Toast.makeText(
                     requireContext(),
                     resources.getString(R.string.action_favorite_remove_confirm),

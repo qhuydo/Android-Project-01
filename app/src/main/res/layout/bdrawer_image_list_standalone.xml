@@ -22,6 +22,7 @@
 
         <!-- DRAGGABLE SHEET HINT -->
         <View
+            android:id="@+id/list_divider"
             android:layout_width="32dp"
             android:layout_height="4dp"
             android:layout_marginTop="4dp"
@@ -32,6 +33,7 @@
         <!-- NAVBAR + EXPAND SHEET BUTTON -->
 
         <LinearLayout
+            android:id="@+id/top_row"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bdrawer_toolbar_height"
             android:orientation="horizontal"

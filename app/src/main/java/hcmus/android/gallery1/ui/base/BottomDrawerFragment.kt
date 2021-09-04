@@ -5,12 +5,14 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnLayout
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.navigationBarHeight
 import hcmus.android.gallery1.helpers.widgets.gone
 import hcmus.android.gallery1.helpers.widgets.visible
+
 
 abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int) :
     BaseFragment<B>(layoutId) {
@@ -26,7 +28,7 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
 
     protected var forceBack = false
 
-    protected val peekHeightInPixels by lazy {
+    protected val defaultPeekHeightInPixels by lazy {
         requireContext().resources.getDimension(R.dimen.bdrawer_peek_height)
     }
 
@@ -47,6 +49,11 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
      * - [bottomDrawerDim]
      */
     abstract fun initBottomDrawerElements()
+
+    /**
+     * Calculate the peek height of the bottom sheet view *(excluding the height of navigation bar)*
+     */
+    open fun calculatePeekHeight(): Int = defaultPeekHeightInPixels.toInt()
 
     open fun initBottomDrawerElementsCallback() {
         bottomDrawerDim.setOnClickListener {
@@ -105,9 +112,15 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
     open fun initBottomSheetBehaviour() {
         // Bottom sheet behavior
         bottomSheetBehavior.apply {
-            if (mainActivity?.isBottomNavigationBar == true) {
-                peekHeight += navigationBarHeight
+
+            // measure the peek height
+            bottomDrawerView.doOnLayout {
+                peekHeight = calculatePeekHeight()
+                if (mainActivity?.isBottomNavigationBar == true) {
+                    peekHeight += navigationBarHeight
+                }
             }
+
             isFitToContents = true
             // halfExpandedRatio = (490/1000f) // magic
         }
