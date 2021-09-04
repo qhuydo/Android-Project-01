@@ -36,7 +36,6 @@ import hcmus.android.gallery1.ui.collection.list.DateCollectionViewModel
 import hcmus.android.gallery1.ui.image.list.AllPhotosViewModel
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 import hcmus.android.gallery1.ui.image.view.ViewImageFragment
-import hcmus.android.gallery1.ui.splash.SplashActivity
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -226,7 +225,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun restartSelf() {
-        startActivity(Intent(this, SplashActivity::class.java))
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 
