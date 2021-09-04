@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="collection"
+            type="hcmus.android.gallery1.data.Collection" />
+    </data>
+
     <LinearLayout
         android:id="@+id/bdrawer_image_list_standalone"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
@@ -47,6 +53,7 @@
                 android:layout_weight="3"
                 android:gravity="center"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:text="@{collection.name}"
                 tools:text="Collection name" />
 
             <ImageButton

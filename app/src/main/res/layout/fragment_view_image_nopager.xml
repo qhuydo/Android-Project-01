@@ -7,7 +7,11 @@
 
         <variable
             name="fragment"
-            type="hcmus.android.gallery1.ui.image.ViewImageFragment" />
+            type="hcmus.android.gallery1.ui.image.view.ViewImageFragment" />
+
+        <variable
+            name="item"
+            type="hcmus.android.gallery1.data.Item" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -21,7 +25,9 @@
             android:onClick="@{() -> fragment.toggleFullScreenMode()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:loadGlideImage="@{item}"
+            tools:ignore="ContentDescription" />
 
         <View
             android:id="@+id/bdrawer_view_image_dim"
@@ -35,6 +41,7 @@
         <include
             android:id="@+id/bdrawer_view_image_layout"
             layout="@layout/bottom_drawer_view_image"
-            app:fm="@{fragment}" />
+            app:fm="@{fragment}"
+            app:item="@{item}" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

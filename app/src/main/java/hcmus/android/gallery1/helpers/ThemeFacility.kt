@@ -3,10 +3,11 @@ package hcmus.android.gallery1.helpers
 import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
+import hcmus.android.gallery1.repository.PreferenceRepository
 
-fun Context.configTheme(preferenceFacility: PreferenceFacility, uiMode: Int?) {
+fun Context.configTheme(preferenceRepository: PreferenceRepository, uiMode: Int?) {
 
-    when(preferenceFacility.theme) {
+    when(preferenceRepository.theme) {
 
         THEME_DAY -> {
             AppCompatDelegate.setDefaultNightMode(

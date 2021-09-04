@@ -2,9 +2,9 @@ package hcmus.android.gallery1.helpers
 
 import android.content.Context
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.helpers.PreferenceFacility.Companion.validTabs
-import hcmus.android.gallery1.helpers.PreferenceFacility.Companion.validViews
-import hcmus.android.gallery1.helpers.PreferenceFacility.Companion.validViewsLimited
+import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validTabs
+import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validViews
+import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validViewsLimited
 
 fun Context.getSpanCountOf(tab: String, viewMode: String): Int {
     if (tab !in validTabs || (viewMode !in validViews && viewMode !in validViewsLimited)) return 1

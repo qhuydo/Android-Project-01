@@ -15,13 +15,13 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.adapters.ButtonGroupViewModeAdapter
-import hcmus.android.gallery1.adapters.OnViewModeSelectedCallback
-import hcmus.android.gallery1.adapters.TabFragmentAdapter
+import hcmus.android.gallery1.ui.adapters.recyclerview.ButtonGroupViewModeAdapter
+import hcmus.android.gallery1.ui.adapters.recyclerview.OnViewModeSelectedCallback
+import hcmus.android.gallery1.ui.adapters.viewpager2.TabFragmentAdapter
 import hcmus.android.gallery1.databinding.FragmentMainBinding
-import hcmus.android.gallery1.ui.base.CollectionListFragment
-import hcmus.android.gallery1.ui.base.ImageListFragment
-import hcmus.android.gallery1.helpers.PreferenceFacility
+import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
+import hcmus.android.gallery1.ui.base.image.ImageListFragment
+import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.toTabKey
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
@@ -52,6 +52,8 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
         outState.putInt(BUNDLE_POS, currentPosition)
     }
 
+    override fun subscribeUi() { }
+
     private val tabFragmentAdapter by lazy { TabFragmentAdapter(this) }
 
     private var currentPosition = TAB.ALL.ordinal
@@ -70,7 +72,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
 
     private val onViewModeSelectedCallback = object : OnViewModeSelectedCallback {
         override fun onViewModeSelected(tab: TAB, viewMode: String) {
-            globalPrefs.setViewMode(tab.toTabKey(), viewMode)
+            preferenceRepository.setViewMode(tab.toTabKey(), viewMode)
 
             val fragment = childFragmentManager.findFragmentByTag("f${tab.ordinal}")
             fragment?.let {
@@ -227,9 +229,9 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
             .setTitle(R.string.bdrawer_more_theme)
             .setSingleChoiceItems(
                 resources.getStringArray(R.array.settings_theme),
-                PreferenceFacility.validThemes.indexOf(globalPrefs.theme)
+                PreferenceRepository.validThemes.indexOf(preferenceRepository.theme)
             ) { _, which ->
-                (activity as? MainActivity)?.changeTheme(PreferenceFacility.validThemes[which])
+                (activity as? MainActivity)?.changeTheme(PreferenceRepository.validThemes[which])
             }
             .show()
     }
@@ -239,9 +241,9 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
             .setTitle(R.string.bdrawer_more_language)
             .setSingleChoiceItems(
                 resources.getStringArray(R.array.settings_language),
-                PreferenceFacility.validLanguages.indexOf(globalPrefs.language)
+                PreferenceRepository.validLanguages.indexOf(preferenceRepository.language)
             ) { _, which ->
-                val language = PreferenceFacility.validLanguages[which]
+                val language = PreferenceRepository.validLanguages[which]
                 (activity as? MainActivity)?.changeLanguage(language)
             }
             .show()

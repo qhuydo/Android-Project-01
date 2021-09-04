@@ -49,4 +49,7 @@
     <string name="secret_passcode_enter">パスコードを入力</string>
     <string name="bdrawer_header_viewmode">表示形式</string>
     <string name="bdrawer_viewmode_grid_2">"グリッド "</string>
+    <plurals name="info_file_size_value">
+        <item quantity="other">%d バイト</item>
+    </plurals>
 </resources>

@@ -7,7 +7,11 @@
 
         <variable
             name="fm"
-            type="hcmus.android.gallery1.ui.image.ViewImageFragment" />
+            type="hcmus.android.gallery1.ui.image.view.ViewImageFragment" />
+
+        <variable
+            name="item"
+            type="hcmus.android.gallery1.data.Item" />
     </data>
 
     <LinearLayout
@@ -163,7 +167,8 @@
             <!-- GridLayout gap: https://stackoverflow.com/a/53421508 -->
             <include
                 android:id="@+id/bdrawer_view_image_info"
-                layout="@layout/bottom_drawer_view_image_info" />
+                layout="@layout/bottom_drawer_view_image_info"
+                app:item="@{item}"/>
         </LinearLayout>
 
     </LinearLayout>

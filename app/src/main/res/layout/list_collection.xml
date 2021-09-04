@@ -3,12 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="item"
+            type="hcmus.android.gallery1.data.Collection" />
+    </data>
+
     <com.google.android.material.card.MaterialCardView
-        android:layout_margin="8dp"
-        app:cardElevation="8dp"
-        android:background="@color/background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@color/background"
+        app:cardElevation="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,13 +30,14 @@
                     android:id="@+id/collection_count"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
+                    android:alpha="0.75"
+                    android:background="@color/background2"
+                    android:gravity="center"
+                    android:text="@{String.valueOf(item.itemCount)}"
+                    android:textSize="20sp"
+                    android:translationZ="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:translationZ="8dp"
-                    android:background="@color/background2"
-                    android:alpha="0.75"
-                    android:gravity="center"
-                    android:textSize="20sp"
                     tools:text="+16" />
 
                 <ImageView
@@ -37,11 +45,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:scaleType="centerCrop"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintDimensionRatio="H,1.1"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:loadGlideImage="@{item.thumbnailUri}"
                     tools:src="@tools:sample/backgrounds/scenic"
-                    app:layout_constraintDimensionRatio="H,1.1" />
+                    tools:ignore="ContentDescription" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -50,6 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:text="@{item.name}"
                 android:textSize="16sp"
                 tools:text="Lorem ipsum" />
 
