@@ -1,10 +1,12 @@
 package hcmus.android.gallery1.repository
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.*
+import java.util.Locale
 
 class PreferenceRepository(applicationContext: Context) {
 
@@ -28,15 +30,39 @@ class PreferenceRepository(applicationContext: Context) {
         }
     }
 
+    private val preferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+        when (key) {
+            KEY_THEME -> configTheme(theme)
+        }
+    }
+
+    init {
+        prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener)
+    }
+
     // Theme
     var theme: String
         get() { return prefs.getString(KEY_THEME, THEME_FOLLOW_SYSTEM) as String }
-        set(value) { prefs.edit(commit = true) { putString(KEY_THEME, value) } }
+        set(theme) {
+            if (theme in validThemes) {
+                prefs.edit(commit = true) { putString(KEY_THEME, theme) }
+            }
+        }
 
     // Language
     var language: String
         get() { return prefs.getString(KEY_LANGUAGE, LANG_EN) as String }
-        set(value) { prefs.edit(commit = true) { putString(KEY_LANGUAGE, value) } }
+        set(lang) {
+            if (lang in validLanguages) {
+                prefs.edit(commit = true) { putString(KEY_LANGUAGE, lang) }
+            }
+        }
+
+    val locale: Locale?
+        get() = when (language) {
+            LANG_FOLLOW_SYSTEM -> null
+            else -> Locale(language.lowercase())
+        }
 
     // Theme (fetch actual resource ID)
     val themeR: Int

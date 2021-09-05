@@ -2,41 +2,45 @@ package hcmus.android.gallery1.ui.main
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Point
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.OrientationEventListener
+import android.view.Surface
+import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import com.bumptech.glide.manager.SupportRequestManagerFragment
 import hcmus.android.gallery1.GalleryOneApplication
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.DataSource
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.ActivityMainBinding
-import hcmus.android.gallery1.helpers.*
+import hcmus.android.gallery1.helpers.configLanguage
+import hcmus.android.gallery1.helpers.configTheme
+import hcmus.android.gallery1.helpers.extensions.getCurrentFragment
+import hcmus.android.gallery1.helpers.extensions.hideFullScreen
+import hcmus.android.gallery1.helpers.extensions.restartSelf
+import hcmus.android.gallery1.helpers.isHorizontalRotation
+import hcmus.android.gallery1.helpers.statusBarHeight
 import hcmus.android.gallery1.persistent.AppDatabase.Companion.getDatabaseInstance
 import hcmus.android.gallery1.repository.CollectionRepositoryImpl
 import hcmus.android.gallery1.repository.FavouriteRepositoryImpl
 import hcmus.android.gallery1.repository.PhotoRepositoryImpl
-import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
 import hcmus.android.gallery1.ui.collection.list.DateCollectionViewModel
 import hcmus.android.gallery1.ui.image.list.AllPhotosViewModel
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 import hcmus.android.gallery1.ui.image.view.ViewImageFragment
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     val favouriteRepository by lazy { FavouriteRepositoryImpl.getInstance(mediaStoreSource, database.favouriteDao) }
     val photoRepository by lazy { PhotoRepositoryImpl.getInstance(mediaStoreSource) }
     val collectionRepository by lazy { CollectionRepositoryImpl.getInstance(mediaStoreSource) }
-    val preferenceRepository by lazy { PreferenceRepository.getInstance(applicationContext) }
+    val preferenceRepository by lazy { (application as GalleryOneApplication).preferenceRepository }
 
     val orientation by lazy { resources.configuration.orientation }
 
@@ -77,23 +81,11 @@ class MainActivity : AppCompatActivity() {
         statusBarHeight()
     }
 
+    private lateinit var orientationEventListener: OrientationEventListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Theme and language
-        configTheme(preferenceRepository, null)
-        installSplashScreen()
-        setLanguageOnActivityRestart()
-
-        // Layout
-        supportActionBar?.hide()
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        initNavigationBarProperties()
-        initSystemUiVisibility()
-
-        registerOrientationEventListener()
+        setUpUi()
 
         // A really simple check. Part of the permission workaround.
         // (the official method always return Permission Denied, yet the app actually has the permission.)
@@ -135,6 +127,23 @@ class MainActivity : AppCompatActivity() {
                     as MainFragment
         }
         initViewModel()
+    }
+
+    private fun setUpUi() {
+        // Theme and language
+        installSplashScreen()
+        configLanguage(preferenceRepository.locale)
+
+        // Layout
+        supportActionBar?.hide()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // navigation bar
+        initNavigationBarProperties()
+        hideFullScreen()
+
+        registerOrientationEventListener()
     }
 
     private fun initViewModel() {
@@ -181,68 +190,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getCurrentFragment(): Fragment? {
-        val fragmentList = supportFragmentManager.fragments
-        val lastFragment = fragmentList.lastOrNull()
-        if (lastFragment !is SupportRequestManagerFragment) {
-            return lastFragment
-        }
-        return fragmentList.firstOrNull()
-    }
-
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        configTheme(preferenceRepository, newConfig.uiMode)
-        recreate()
+        configLanguage(preferenceRepository.locale)
+        configTheme(preferenceRepository.theme)
     }
 
-    // https://stackoverflow.com/a/2900144
-    private fun setLanguageOnActivityRestart() {
-        val newConfig = resources.configuration
-        val languageOption = preferenceRepository.language
-        val locale = if (languageOption != LANG_FOLLOW_SYSTEM) {
-            Locale(languageOption.lowercase())
-        } else {
-            Locale.getDefault()
-        }
-        newConfig.setLocale(locale)
-        resources.updateConfiguration(newConfig, resources.displayMetrics)
+    override fun onDestroy() {
+        super.onDestroy()
+        orientationEventListener.disable()
     }
 
     fun changeLanguage(lang: String) {
-        if (lang in PreferenceRepository.validLanguages && preferenceRepository.language != lang) {
+        if (lang != preferenceRepository.language) {
             preferenceRepository.language = lang
             restartSelf()
         }
     }
 
     fun changeTheme(theme: String) {
-        if (theme in PreferenceRepository.validThemes && preferenceRepository.theme != theme) {
+        if (theme != preferenceRepository.theme) {
             preferenceRepository.theme = theme
-            configTheme(preferenceRepository, null)
             restartSelf()
-        }
-    }
-
-    private fun restartSelf() {
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
-    }
-
-    // Temporarily turn on "lights out" mode for status bar and navigation bar.
-    // This usually means hiding nearly everything and leaving with only the clock and battery status.
-    // https://stackoverflow.com/a/44433844
-    @Suppress("DEPRECATION")
-    fun setLowProfileUI(isLowProfile: Boolean) {
-        val flag = window?.decorView?.systemUiVisibility
-        flag?.let {
-            if (isLowProfile) {
-                window?.decorView?.systemUiVisibility = flag or View.SYSTEM_UI_FLAG_LOW_PROFILE
-            } else {
-                window?.decorView?.systemUiVisibility = (flag
-                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        and View.SYSTEM_UI_FLAG_LOW_PROFILE.inv())
-            }
         }
     }
 
@@ -276,12 +245,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun initSystemUiVisibility() {
-        hideFullScreen()
-    }
-
     private fun registerOrientationEventListener() {
-        val orientationEventListener = object : OrientationEventListener(this) {
+        orientationEventListener = object : OrientationEventListener(this) {
 
             override fun onOrientationChanged(orientation: Int) {
                 if (orientation == ORIENTATION_UNKNOWN) return
@@ -309,37 +274,6 @@ class MainActivity : AppCompatActivity() {
         }
         if (orientationEventListener.canDetectOrientation()) {
             orientationEventListener.enable()
-        }
-    }
-
-    @Suppress("DEPRECATION")
-    fun showFullScreen() {
-        val flag = window?.decorView?.systemUiVisibility
-        flag?.let {
-            window?.decorView?.systemUiVisibility = (flag
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE)
-        }
-
-    }
-
-    @Suppress("DEPRECATION")
-    fun hideFullScreen() {
-        val flag = window?.decorView?.systemUiVisibility
-        flag?.let {
-            window?.decorView?.systemUiVisibility = (flag
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION.inv()
-                    and View.SYSTEM_UI_FLAG_FULLSCREEN.inv()
-                    and View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY.inv()
-                    and View.SYSTEM_UI_FLAG_IMMERSIVE.inv())
         }
     }
 

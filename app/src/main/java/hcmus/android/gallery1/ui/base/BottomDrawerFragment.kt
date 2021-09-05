@@ -9,10 +9,11 @@ import androidx.core.view.doOnLayout
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.helpers.extensions.hideFullScreen
+import hcmus.android.gallery1.helpers.extensions.showFullScreen
 import hcmus.android.gallery1.helpers.navigationBarHeight
 import hcmus.android.gallery1.helpers.widgets.gone
 import hcmus.android.gallery1.helpers.widgets.visible
-
 
 abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int) :
     BaseFragment<B>(layoutId) {

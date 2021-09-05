@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -25,12 +26,14 @@ import hcmus.android.gallery1.ui.adapters.viewpager2.TabFragmentAdapter
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
 import hcmus.android.gallery1.ui.base.image.ImageListFragment
+import java.lang.ref.WeakReference
 
 class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.layout.fragment_main) {
 
     companion object {
         const val BUNDLE_POS = "pos"
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState != null) {
@@ -40,6 +43,11 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
         initViewPager()
         initNavbar()
         initViewModeSelectors()
+    }
+
+    override fun onPause() {
+        dialogToDismiss.get()?.dismiss()
+        super.onPause()
     }
 
     override fun onDestroy() {
@@ -87,6 +95,8 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
             }
         }
     }
+
+    private var dialogToDismiss = WeakReference<AlertDialog>(null)
 
     override fun calculatePeekHeight(): Int = with(binding.bottomDrawerMain) {
         listDivider.measuredHeight + topRow.measuredHeight
@@ -229,7 +239,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
     }
 
     fun handleBtnSetTheme() {
-        MaterialAlertDialogBuilder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.bdrawer_more_theme)
             .setSingleChoiceItems(
                 resources.getStringArray(R.array.settings_theme),
@@ -238,10 +248,11 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
                 (activity as? MainActivity)?.changeTheme(PreferenceRepository.validThemes[which])
             }
             .show()
+        dialogToDismiss = WeakReference(dialog)
     }
 
     fun handleBtnSetLanguage() {
-        MaterialAlertDialogBuilder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.bdrawer_more_language)
             .setSingleChoiceItems(
                 resources.getStringArray(R.array.settings_language),
@@ -251,6 +262,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
                 (activity as? MainActivity)?.changeLanguage(language)
             }
             .show()
+        dialogToDismiss = WeakReference(dialog)
     }
 
     fun handleBtnAbout() {

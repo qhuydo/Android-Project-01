@@ -13,11 +13,12 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.FragmentViewImageNopagerBinding
 import hcmus.android.gallery1.helpers.RecyclerViewListState
+import hcmus.android.gallery1.helpers.extensions.hideFullScreen
+import hcmus.android.gallery1.helpers.extensions.setLowProfileUI
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 
-class ViewImageFragment
-    :
+class ViewImageFragment :
     BottomDrawerFragment<FragmentViewImageNopagerBinding, LinearLayout>(R.layout.fragment_view_image_nopager) {
     companion object {
         const val ARGS_ITEM = "item"
