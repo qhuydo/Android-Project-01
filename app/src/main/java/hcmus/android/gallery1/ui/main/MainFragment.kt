@@ -50,7 +50,7 @@ class MainFragment :
             currentPosition = position
 
             bottomSheetBehavior.collapse()
-            // viewModeRecyclerView.smoothScrollToPosition(position)
+            viewModeRecyclerView.smoothScrollToPosition(position)
         }
     }
 
