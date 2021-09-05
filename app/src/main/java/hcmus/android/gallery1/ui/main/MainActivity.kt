@@ -1,8 +1,6 @@
 package hcmus.android.gallery1.ui.main
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Point
 import android.os.Bundle
@@ -11,12 +9,8 @@ import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import hcmus.android.gallery1.GalleryOneApplication
@@ -24,13 +18,11 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.DataSource
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.ActivityMainBinding
-import hcmus.android.gallery1.helpers.configLanguage
-import hcmus.android.gallery1.helpers.configTheme
+import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.helpers.extensions.getCurrentFragment
 import hcmus.android.gallery1.helpers.extensions.hideFullScreen
 import hcmus.android.gallery1.helpers.extensions.restartSelf
-import hcmus.android.gallery1.helpers.isHorizontalRotation
-import hcmus.android.gallery1.helpers.statusBarHeight
+import hcmus.android.gallery1.helpers.extensions.toStartActivity
 import hcmus.android.gallery1.persistent.AppDatabase.Companion.getDatabaseInstance
 import hcmus.android.gallery1.repository.CollectionRepositoryImpl
 import hcmus.android.gallery1.repository.FavouriteRepositoryImpl
@@ -44,16 +36,17 @@ import hcmus.android.gallery1.ui.image.view.ViewImageFragment
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {
-        const val PERMISSION_REQUEST_CODE = 100
-    }
-
     private lateinit var binding: ActivityMainBinding
     lateinit var mainFragment: MainFragment
 
     private val mediaStoreSource by lazy { DataSource.getInstance(applicationContext) }
     private val database by lazy { getDatabaseInstance() }
-    val favouriteRepository by lazy { FavouriteRepositoryImpl.getInstance(mediaStoreSource, database.favouriteDao) }
+    val favouriteRepository by lazy {
+        FavouriteRepositoryImpl.getInstance(
+            mediaStoreSource,
+            database.favouriteDao
+        )
+    }
     val photoRepository by lazy { PhotoRepositoryImpl.getInstance(mediaStoreSource) }
     val collectionRepository by lazy { CollectionRepositoryImpl.getInstance(mediaStoreSource) }
     val preferenceRepository by lazy { (application as GalleryOneApplication).preferenceRepository }
@@ -81,30 +74,16 @@ class MainActivity : AppCompatActivity() {
         statusBarHeight()
     }
 
-    private lateinit var orientationEventListener: OrientationEventListener
+    private var orientationEventListener: OrientationEventListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setUpUi()
-
-        // A really simple check. Part of the permission workaround.
-        // (the official method always return Permission Denied, yet the app actually has the permission.)
-        if (ContextCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_DENIED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                PERMISSION_REQUEST_CODE
-            )
-            Toast.makeText(
-                this,
-                resources.getString(R.string.please_grant_permission),
-                Toast.LENGTH_LONG
-            ).show()
+        if (!hasReadExternalPermission()) {
+            toStartActivity()
+            return
         }
+
+        setUpUi()
 
         // Set animations between fragments
         /* globalFragmentManager.commit {
@@ -131,7 +110,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpUi() {
         // Theme and language
-        installSplashScreen()
         configLanguage(preferenceRepository.locale)
 
         // Layout
@@ -198,7 +176,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        orientationEventListener.disable()
+        orientationEventListener?.disable()
     }
 
     fun changeLanguage(lang: String) {
@@ -272,8 +250,8 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
-        if (orientationEventListener.canDetectOrientation()) {
-            orientationEventListener.enable()
+        if (orientationEventListener?.canDetectOrientation() == true) {
+            orientationEventListener?.enable()
         }
     }
 

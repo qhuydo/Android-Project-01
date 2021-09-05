@@ -69,4 +69,5 @@
     <plurals name="info_file_size_value">
         <item quantity="other">%d byte</item>
     </plurals>
+    <string name="button_grant_permission">Xác nhận cấp quyền</string>
 </resources>

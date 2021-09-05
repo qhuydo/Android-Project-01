@@ -5,6 +5,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.manager.SupportRequestManagerFragment
+import hcmus.android.gallery1.ui.main.MainActivity
+import hcmus.android.gallery1.ui.start.StartActivity
 
 fun AppCompatActivity.getCurrentFragment(): Fragment? {
     val fragmentList = supportFragmentManager.fragments
@@ -71,3 +73,15 @@ fun AppCompatActivity.setLowProfileUI(isLowProfile: Boolean) {
         }
     }
 }
+
+fun AppCompatActivity.toMainActivity() {
+    startActivity(Intent(this, MainActivity::class.java))
+    finish()
+}
+
+
+fun AppCompatActivity.toStartActivity() {
+    startActivity(Intent(this, StartActivity::class.java))
+    finish()
+}
+

@@ -1,5 +1,6 @@
 package hcmus.android.gallery1.helpers
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
@@ -8,10 +9,12 @@ import android.provider.Settings
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.os.ConfigurationCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.vmadalin.easypermissions.EasyPermissions
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.extensions.setLowProfileUI
 import hcmus.android.gallery1.helpers.widgets.gone
@@ -20,6 +23,7 @@ import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validTab
 import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validViews
 import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validViewsLimited
 import hcmus.android.gallery1.ui.main.MainActivity
+import hcmus.android.gallery1.ui.start.StartActivity
 import java.util.*
 
 fun Context.getSpanCountOf(tab: String, viewMode: String): Int {
@@ -139,6 +143,18 @@ fun Context.defaultBottomSheetCallback(
         bottomDrawerDim.visible()
         bottomDrawerDim.alpha = 0.5f * slideOffset
     }
+}
+
+fun Context.hasReadExternalPermission(): Boolean =
+    EasyPermissions.hasPermissions(this, READ_EXTERNAL_STORAGE)
+
+fun Context.requestReadExternalPermission() {
+    EasyPermissions.requestPermissions(
+        host = this as AppCompatActivity,
+        rationale = getString(R.string.please_grant_permission),
+        requestCode = StartActivity.PERMISSION_REQUEST_CODE,
+        READ_EXTERNAL_STORAGE
+    )
 }
 
 fun Context.goToAppSetting() {

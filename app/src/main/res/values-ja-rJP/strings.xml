@@ -52,4 +52,5 @@
     <plurals name="info_file_size_value">
         <item quantity="other">%d バイト</item>
     </plurals>
+    <string name="button_grant_permission">アクセスを確認</string>
 </resources>

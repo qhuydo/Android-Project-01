@@ -17,17 +17,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GalleryOne">
 
-        <!-- Actual main activity -->
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="hcmus.android.gallery1.ui.start.StartActivity"
             android:theme="@style/Theme.GalleryOne.Starting">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Actual main activity -->
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:theme="@style/Theme.GalleryOne" />
+
 
         <!--        &lt;!&ndash; Image Viewer &ndash;&gt;-->
         <!--        <activity-->

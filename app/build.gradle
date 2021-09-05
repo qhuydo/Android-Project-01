@@ -99,6 +99,9 @@ dependencies {
     // Live event
     implementation "com.github.hadilq:live-event:1.3.0"
 
+    // EasyPermissin
+    implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
+
     // Tests
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.test:core:1.3.0'

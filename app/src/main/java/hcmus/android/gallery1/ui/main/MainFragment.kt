@@ -103,9 +103,9 @@ class MainFragment :
         super.onPause()
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
+        super.onDestroyView()
         viewPager2.unregisterOnPageChangeCallback(onPageChangeCallback)
-        super.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
