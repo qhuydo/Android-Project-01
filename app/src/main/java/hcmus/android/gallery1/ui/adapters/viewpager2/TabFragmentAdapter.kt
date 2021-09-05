@@ -2,11 +2,11 @@ package hcmus.android.gallery1.ui.adapters.viewpager2
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import hcmus.android.gallery1.ui.collection.list.AlbumFragment
-import hcmus.android.gallery1.ui.image.list.AllPhotosFragment
-import hcmus.android.gallery1.ui.collection.list.DateCollectionFragment
-import hcmus.android.gallery1.ui.image.list.FavouritesFragment
 import hcmus.android.gallery1.helpers.TAB
+import hcmus.android.gallery1.ui.collection.list.AlbumFragment
+import hcmus.android.gallery1.ui.collection.list.DateCollectionFragment
+import hcmus.android.gallery1.ui.image.list.AllPhotosFragment
+import hcmus.android.gallery1.ui.image.list.FavouritesFragment
 
 class TabFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 

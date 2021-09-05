@@ -4,7 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import hcmus.android.gallery1.data.*
+import hcmus.android.gallery1.data.CustomAlbumCrossRef
+import hcmus.android.gallery1.data.CustomAlbumInfo
+import hcmus.android.gallery1.data.CustomAlbumItem
+import hcmus.android.gallery1.data.Favourite
 
 @Database(
     entities = [

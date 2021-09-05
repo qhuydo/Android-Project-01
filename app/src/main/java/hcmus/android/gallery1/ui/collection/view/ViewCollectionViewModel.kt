@@ -1,12 +1,11 @@
 package hcmus.android.gallery1.ui.collection.view
 
 import androidx.lifecycle.*
-import hcmus.android.gallery1.repository.PhotoRepository
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.repository.PhotoRepository
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 
 
 class ViewCollectionViewModel(private val photoRepository: PhotoRepository): ImageListViewModel() {

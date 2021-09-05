@@ -8,7 +8,6 @@ import hcmus.android.gallery1.helpers.RecyclerViewListState
 import hcmus.android.gallery1.repository.FavouriteRepository
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 
 class FavouritesViewModel(private val favoriteRepository: FavouriteRepository) :
     ImageListViewModel() {

@@ -5,7 +5,6 @@ import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.repository.CollectionRepository
 import hcmus.android.gallery1.ui.base.collection.CollectionListViewModel
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 
 class AlbumViewModel(private val collectionRepository: CollectionRepository) : CollectionListViewModel() {
 

@@ -6,7 +6,7 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.*
-import java.util.Locale
+import java.util.*
 
 class PreferenceRepository(applicationContext: Context) {
 

@@ -1,8 +1,5 @@
 package hcmus.android.gallery1.data
 
-import android.provider.MediaStore
-
-
 
 // Constant int->month map
 val MAP_INT_TO_MONTH = mapOf(

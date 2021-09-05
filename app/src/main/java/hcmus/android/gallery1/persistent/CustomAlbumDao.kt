@@ -5,7 +5,6 @@ import hcmus.android.gallery1.data.CustomAlbum
 import hcmus.android.gallery1.data.CustomAlbumCrossRef
 import hcmus.android.gallery1.data.CustomAlbumInfo
 import hcmus.android.gallery1.data.CustomAlbumItem
-import kotlinx.coroutines.runBlocking
 
 @Dao
 abstract class CustomAlbumDao {

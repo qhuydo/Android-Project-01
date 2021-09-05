@@ -1,17 +1,10 @@
 package hcmus.android.gallery1.helpers.extensions
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.manager.SupportRequestManagerFragment
-import kotlin.math.floor
-import kotlin.math.max
-import kotlin.math.min
 
 fun AppCompatActivity.getCurrentFragment(): Fragment? {
     val fragmentList = supportFragmentManager.fragments
