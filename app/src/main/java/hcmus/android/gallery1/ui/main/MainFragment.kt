@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -18,7 +19,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentMainBinding
 import hcmus.android.gallery1.helpers.TAB
-import hcmus.android.gallery1.helpers.toTabKey
+import hcmus.android.gallery1.helpers.extensions.collapse
+import hcmus.android.gallery1.helpers.extensions.removeGapBetweenTextAndIcon
+import hcmus.android.gallery1.helpers.extensions.toast
 import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.adapters.recyclerview.ButtonGroupViewModeAdapter
 import hcmus.android.gallery1.ui.adapters.recyclerview.OnViewModeSelectedCallback
@@ -28,39 +31,12 @@ import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
 import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import java.lang.ref.WeakReference
 
-class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.layout.fragment_main) {
+class MainFragment :
+    BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.layout.fragment_main) {
 
     companion object {
         const val BUNDLE_POS = "pos"
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if (savedInstanceState != null) {
-            currentPosition = savedInstanceState.getInt(BUNDLE_POS)
-        }
-        findElements()
-        initViewPager()
-        initNavbar()
-        initViewModeSelectors()
-    }
-
-    override fun onPause() {
-        dialogToDismiss.get()?.dismiss()
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        viewPager2.unregisterOnPageChangeCallback(onPageChangeCallback)
-        super.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(BUNDLE_POS, currentPosition)
-    }
-
-    override fun subscribeUi() { }
 
     private val tabFragmentAdapter by lazy { TabFragmentAdapter(this) }
 
@@ -73,14 +49,14 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
 
             currentPosition = position
 
-            // bDrawerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            viewModeRecyclerView.smoothScrollToPosition(position)
+            bottomSheetBehavior.collapse()
+            // viewModeRecyclerView.smoothScrollToPosition(position)
         }
     }
 
     private val onViewModeSelectedCallback = object : OnViewModeSelectedCallback {
         override fun onViewModeSelected(tab: TAB, viewMode: String) {
-            preferenceRepository.setViewMode(tab.toTabKey(), viewMode)
+            preferenceRepository.setViewMode(tab.key, viewMode)
 
             val fragment = childFragmentManager.findFragmentByTag("f${tab.ordinal}")
             fragment?.let {
@@ -110,6 +86,34 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
     private lateinit var viewModeRecyclerView: RecyclerView
 
     ////////////////////////////////////////////////////////////////////////////////
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (savedInstanceState != null) {
+            currentPosition = savedInstanceState.getInt(BUNDLE_POS)
+        }
+        findElements()
+        initViewPager()
+        initNavbar()
+        initViewModeSelectors()
+    }
+
+    override fun onPause() {
+        dialogToDismiss.get()?.dismiss()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        viewPager2.unregisterOnPageChangeCallback(onPageChangeCallback)
+        super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(BUNDLE_POS, currentPosition)
+    }
+
+    override fun subscribeUi() {}
 
     // Find all elements on screen
     private fun findElements() {
@@ -147,58 +151,16 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
     private fun initNavbar() {
         // Navbar behavior
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
-            if (position == currentPosition) {
-                tab.text = when (tab.position) {
-                    TAB.ALBUM.ordinal -> getText(R.string.tab_album)
-                    TAB.DATE.ordinal -> getText(R.string.tab_date)
-                    TAB.FAV.ordinal -> getText(R.string.tab_favorites)
-                    else -> getText(R.string.tab_all)
-                }
-            } else {
-                tab.text = null
-            }
-            val iconIdRes = when (position) {
-                TAB.ALBUM.ordinal -> R.drawable.ic_tab_album
-                TAB.DATE.ordinal -> R.drawable.ic_tab_date
-                TAB.FAV.ordinal -> R.drawable.ic_tab_favorite
-                else -> R.drawable.ic_tab_all
-            }
-            tab.setIcon(iconIdRes)
+            tab.text = if (position == currentPosition) {
+                TAB.textResource(tab.position, resources)
+            } else null
+            tab.setIcon(TAB.iconRes(position))
         }.attach()
 
-        // remove the gap between tab icon & tab text of the first tab
-        val params = tabLayout.getTabAt(0)?.view?.getChildAt(0)?.layoutParams as LinearLayout.LayoutParams?
-        params?.bottomMargin = 0
-        tabLayout.getTabAt(0)?.view?.getChildAt(0)?.layoutParams = params
-
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.let {
-                    tab.text = when (tab.position) {
-                        TAB.ALBUM.ordinal -> getText(R.string.tab_album)
-                        TAB.DATE.ordinal -> getText(R.string.tab_date)
-                        TAB.FAV.ordinal -> getText(R.string.tab_favorites)
-                        else -> getText(R.string.tab_all)
-                    }
-
-                    // remove the gap between tab icon & tab text
-                    val params = tabLayout.getTabAt(tab.position)?.view?.getChildAt(0)?.layoutParams as LinearLayout.LayoutParams?
-                    params?.bottomMargin = 0
-                    tabLayout.getTabAt(tab.position)?.view?.getChildAt(0)?.layoutParams = params
-                }
-
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                tab?.text = null
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-
-        })
+        tabLayout.removeGapBetweenTextAndIcon()
+        tabLayout.addOnTabSelectedListener(TAB.onTabSelectedListener)
 
         mainActivity?.setViewPaddingWindowInset(viewPager2)
-
     }
 
     // Bottom drawer: view mode selectors
@@ -209,33 +171,31 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
     ////////////////////////////////////////////////////////////////////////////////
 
     fun handleBtnNewAlbum() {
-        Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT).show()
+        toast("Not implemented")
     }
 
     fun handleBtnNewPhoto() {
         try {
             startActivity(Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA))
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(
-                requireContext(),
+            toast(
                 "Failed to open camera (do you have camera app installed?)",
                 Toast.LENGTH_LONG
-            ).show()
+            )
         }
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehavior.collapse()
     }
 
     fun handleBtnNewVideo() {
         try {
             startActivity(Intent(MediaStore.INTENT_ACTION_VIDEO_CAMERA))
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(
-                requireContext(),
+            toast(
                 "Failed to open camera (do you have camera app installed?)",
                 Toast.LENGTH_LONG
-            ).show()
+            )
         }
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehavior.collapse()
     }
 
     fun handleBtnSetTheme() {
@@ -266,10 +226,11 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
     }
 
     fun handleBtnAbout() {
+        val aboutView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.dialog_about, binding.root as ViewGroup, false)
+
         MaterialAlertDialogBuilder(requireContext())
-            .setView(
-                LayoutInflater.from(requireContext()).inflate(R.layout.dialog_about, null, false)
-            )
+            .setView(aboutView)
             .show()
     }
 
@@ -278,7 +239,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.l
 //            addToBackStack("main")
 //            // replace(R.id.fragment_container, SecretAlbumFragment(), "CURRENT")
 //        }
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehavior.collapse()
         return true
     }
 }

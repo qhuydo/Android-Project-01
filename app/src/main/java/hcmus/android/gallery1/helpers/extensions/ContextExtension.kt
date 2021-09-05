@@ -2,12 +2,21 @@ package hcmus.android.gallery1.helpers
 
 import android.content.Context
 import android.content.res.Resources
+import android.view.View
+import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.core.os.ConfigurationCompat
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.helpers.extensions.setLowProfileUI
+import hcmus.android.gallery1.helpers.widgets.gone
+import hcmus.android.gallery1.helpers.widgets.visible
 import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validTabs
 import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validViews
 import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validViewsLimited
+import hcmus.android.gallery1.ui.main.MainActivity
 import java.util.*
 
 fun Context.getSpanCountOf(tab: String, viewMode: String): Int {
@@ -84,5 +93,48 @@ fun Context.configLanguage(locale: Locale?): Context {
         config.setLocale(newLocale)
         resources.updateConfiguration(config, resources.displayMetrics)
         createConfigurationContext(config)
+    }
+}
+
+fun Context.toast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) =
+    Toast.makeText(this, text, duration).show()
+
+
+fun Context.toast(resId: Int, duration: Int = Toast.LENGTH_SHORT) =
+    Toast.makeText(this, resId, duration)
+
+// https://blog.mindorks.com/android-bottomsheet-in-kotlin
+fun Context.defaultBottomSheetCallback(
+    bottomDrawerDim: View,
+    bottomSheetExpandButton: ImageButton
+) = object : BottomSheetBehavior.BottomSheetCallback() {
+    override fun onStateChanged(bottomSheet: View, newState: Int) {
+        when (newState) {
+            BottomSheetBehavior.STATE_COLLAPSED -> {
+                bottomDrawerDim.gone()
+                val drawable = ContextCompat.getDrawable(
+                    this@defaultBottomSheetCallback,
+                    R.drawable.ic_bdrawer_up
+                )
+                bottomSheetExpandButton.setImageDrawable(drawable)
+                (bottomSheet.context as? MainActivity)?.setLowProfileUI(false)
+            }
+            BottomSheetBehavior.STATE_EXPANDED -> {
+                bottomDrawerDim.visible()
+                val drawable = ContextCompat.getDrawable(
+                    this@defaultBottomSheetCallback,
+                    R.drawable.ic_bdrawer_down
+                )
+                bottomSheetExpandButton.setImageDrawable(drawable)
+                (bottomSheet.context as? MainActivity)?.setLowProfileUI(true)
+            }
+            else -> {
+            }
+        }
+    }
+
+    override fun onSlide(bottomSheet: View, slideOffset: Float) {
+        bottomDrawerDim.visible()
+        bottomDrawerDim.alpha = 0.5f * slideOffset
     }
 }

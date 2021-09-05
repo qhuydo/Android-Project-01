@@ -14,7 +14,9 @@ import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.FragmentViewImageNopagerBinding
 import hcmus.android.gallery1.helpers.RecyclerViewListState
 import hcmus.android.gallery1.helpers.extensions.hideFullScreen
+import hcmus.android.gallery1.helpers.extensions.isNotCollapsed
 import hcmus.android.gallery1.helpers.extensions.setLowProfileUI
+import hcmus.android.gallery1.helpers.extensions.toast
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 
@@ -62,7 +64,7 @@ class ViewImageFragment :
     override fun initBottomDrawerElements() {
 
         binding.bdrawerViewImageLayout.apply {
-            bottomDrawerView = root
+            bottomDrawerView = bdrawerViewImage
             bottomSheetBehavior = BottomSheetBehavior.from(bdrawerViewImage)
             bottomSheetExpandButton = btnBdrawerViewImageExpand
         }
@@ -101,7 +103,7 @@ class ViewImageFragment :
     }
 
     fun toggleFullScreenMode() {
-        if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+        if (bottomSheetBehavior.isNotCollapsed()) {
             return
         }
         if (!fullScreenMode) {
@@ -156,11 +158,7 @@ class ViewImageFragment :
 
     fun deleteImage() {
         requireContext().contentResolver.delete(Uri.parse(item.getUri()), null, null)
-        Toast.makeText(
-            requireContext(),
-            resources.getString(R.string.action_delete_confirm),
-            Toast.LENGTH_SHORT
-        ).show()
+        toast(R.string.action_delete_confirm)
         mainActivity?.onBackPressed()
     }
 
@@ -183,17 +181,9 @@ class ViewImageFragment :
     fun toggleFavorite() {
         favouritesViewModel.toggleFavourite(item).observe(viewLifecycleOwner) {
             if (it is RecyclerViewListState.ItemInserted) {
-                Toast.makeText(
-                    requireContext(),
-                    resources.getString(R.string.action_favorite_add_confirm),
-                    Toast.LENGTH_SHORT
-                ).show()
+                toast(R.string.action_favorite_add_confirm)
             } else if (it is RecyclerViewListState.ItemRemoved) {
-                Toast.makeText(
-                    requireContext(),
-                    resources.getString(R.string.action_favorite_remove_confirm),
-                    Toast.LENGTH_SHORT
-                ).show()
+                toast(R.string.action_favorite_remove_confirm)
             }
         }
     }

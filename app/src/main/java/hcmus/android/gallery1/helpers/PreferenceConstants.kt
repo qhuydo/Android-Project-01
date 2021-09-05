@@ -1,5 +1,7 @@
 package hcmus.android.gallery1.helpers
 
+import android.content.res.Resources
+import com.google.android.material.tabs.TabLayout
 import hcmus.android.gallery1.R
 
 const val TAB_ALL = "all"
@@ -38,27 +40,59 @@ const val LANG_JA = "ja"
 
 const val NOT_EXIST = ""
 
-enum class TAB {
-    ALL,
-    ALBUM,
-    DATE,
-    FAV;
+const val DURATION_BOTTOM_SHEET_ANIMATION = 240L // ms
+const val ALPHA_INVISIBLE = 0f
+const val ALPHA_VISIBLE = 1f
 
-    companion object  {
+enum class TAB(val key: String) {
+    ALL("all"),
+    ALBUM("album"),
+    DATE("date"),
+    FAV("face"),
+    // unused
+    FACE("face"),
+    SECRET("secret");
+
+    companion object {
+        val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab != null) {
+                    tab.text = textResource(tab.position, tab.view.context.resources)
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.text = null
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+
+        }
 
         fun fromPosition(position: Int) = when (position) {
-            TAB.ALL.ordinal -> TAB.ALL
-            TAB.ALBUM.ordinal -> TAB.ALBUM
-            TAB.DATE.ordinal -> TAB.DATE
-            TAB.FAV.ordinal -> TAB.FAV
-            else -> TAB.ALL
+            ALL.ordinal -> ALL
+            ALBUM.ordinal -> ALBUM
+            DATE.ordinal -> DATE
+            FAV.ordinal -> FAV
+            else -> ALL
         }
-    }
-}
 
-fun TAB.toTabKey(): String = when(this.ordinal) {
-    TAB.ALBUM.ordinal -> TAB_ALBUM
-    TAB.DATE.ordinal -> TAB_DATE
-    TAB.FAV.ordinal -> TAB_FAV
-    else -> TAB_ALL
+        fun iconRes(position: Int) = when (position) {
+            ALBUM.ordinal -> R.drawable.ic_tab_album
+            DATE.ordinal -> R.drawable.ic_tab_date
+            FAV.ordinal -> R.drawable.ic_tab_favorite
+            else -> R.drawable.ic_tab_all
+        }
+
+        fun textResource(position: Int, resource: Resources): CharSequence {
+            val resId = when (position) {
+                ALBUM.ordinal -> R.string.tab_album
+                DATE.ordinal -> R.string.tab_date
+                FAV.ordinal -> R.string.tab_favorites
+                else -> R.string.tab_all
+            }
+            return resource.getText(resId)
+        }
+
+    }
 }

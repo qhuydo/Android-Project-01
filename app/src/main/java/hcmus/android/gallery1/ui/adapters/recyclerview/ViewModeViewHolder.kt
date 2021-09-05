@@ -29,7 +29,7 @@ class ViewModeCollectionViewHolder(private val binding: ButtonGroupViewmodeColle
 
     override fun initButtonState() {
 
-        val tabKey = tab.toTabKey()
+        val tabKey = tab.key
 
         val viewModeCollection = binding.viewmodeCollection
 
@@ -53,7 +53,7 @@ class ViewModeItemViewHolder(private val binding: ButtonGroupViewmodeItemBinding
 
     override fun initButtonState() {
 
-        val tabKey = tab.toTabKey()
+        val tabKey = tab.key
 
         val viewModeCollection = binding.viewmodeItem
 
