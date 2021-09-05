@@ -1,7 +1,10 @@
 package hcmus.android.gallery1.helpers
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
+import android.net.Uri
+import android.provider.Settings
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
@@ -99,7 +102,6 @@ fun Context.configLanguage(locale: Locale?): Context {
 fun Context.toast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) =
     Toast.makeText(this, text, duration).show()
 
-
 fun Context.toast(resId: Int, duration: Int = Toast.LENGTH_SHORT) =
     Toast.makeText(this, resId, duration)
 
@@ -136,5 +138,17 @@ fun Context.defaultBottomSheetCallback(
     override fun onSlide(bottomSheet: View, slideOffset: Float) {
         bottomDrawerDim.visible()
         bottomDrawerDim.alpha = 0.5f * slideOffset
+    }
+}
+
+fun Context.goToAppSetting() {
+    Intent(
+        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+        Uri.parse("package:$packageName")
+    ).apply {
+        addCategory(Intent.CATEGORY_DEFAULT)
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    }.also { intent ->
+        startActivity(intent)
     }
 }

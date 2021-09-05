@@ -86,6 +86,7 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
                 if (mainActivity?.isBottomNavigationBar == true) {
                     peekHeight += navigationBarHeight
                 }
+                paddingContainerToFitWithPeekHeight(peekHeight)
             }
 
             isFitToContents = true
@@ -93,6 +94,9 @@ abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int
         }
         mainActivity?.setViewPaddingInNavigationBarSide(bottomDrawerView)
     }
+
+    // TODO: give me a better name or clearer explanation
+    open fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {}
 
     override fun onBackPressed(): Boolean {
         if (!forceBack && bottomSheetBehavior.isNotCollapsed()) {
