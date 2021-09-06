@@ -2,10 +2,7 @@ package hcmus.android.gallery1.helpers
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
-import android.content.Intent
 import android.content.res.Resources
-import android.net.Uri
-import android.provider.Settings
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
@@ -155,16 +152,4 @@ fun Context.requestReadExternalPermission() {
         requestCode = StartActivity.PERMISSION_REQUEST_CODE,
         READ_EXTERNAL_STORAGE
     )
-}
-
-fun Context.goToAppSetting() {
-    Intent(
-        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-        Uri.parse("package:$packageName")
-    ).apply {
-        addCategory(Intent.CATEGORY_DEFAULT)
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    }.also { intent ->
-        startActivity(intent)
-    }
 }

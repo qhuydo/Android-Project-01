@@ -1,12 +1,15 @@
 package hcmus.android.gallery1.helpers.extensions
 
 import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.manager.SupportRequestManagerFragment
 import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.start.StartActivity
+import hcmus.android.gallery1.ui.start.StartActivity.Companion.DEFAULT_SETTINGS_REQUEST_CODE
 
 fun AppCompatActivity.getCurrentFragment(): Fragment? {
     val fragmentList = supportFragmentManager.fragments
@@ -85,3 +88,12 @@ fun AppCompatActivity.toStartActivity() {
     finish()
 }
 
+fun AppCompatActivity.goToAppSetting() {
+    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+        data = Uri.fromParts("package", packageName, null)
+        addCategory(Intent.CATEGORY_DEFAULT)
+        // addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    }.also { intent ->
+        startActivityForResult(intent, DEFAULT_SETTINGS_REQUEST_CODE)
+    }
+}

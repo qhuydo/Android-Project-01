@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         if (!hasReadExternalPermission()) {
             toStartActivity()
-            return
+            finish()
         }
 
         setUpUi()
