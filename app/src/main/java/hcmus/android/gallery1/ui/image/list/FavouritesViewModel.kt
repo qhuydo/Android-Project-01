@@ -8,6 +8,7 @@ import hcmus.android.gallery1.helpers.RecyclerViewListState
 import hcmus.android.gallery1.repository.FavouriteRepository
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class FavouritesViewModel(private val favoriteRepository: FavouriteRepository) :
     ImageListViewModel() {
@@ -34,7 +35,7 @@ class FavouritesViewModel(private val favoriteRepository: FavouriteRepository) :
         newFavourites.add(insertedItem)
 
         _favourites.value = newFavourites
-        Log.d("temp", "${System.currentTimeMillis() - begin}ms")
+        Timber.d("${System.currentTimeMillis() - begin}ms")
 
         return RecyclerViewListState.ItemInserted(newFavourites.lastIndex)
 

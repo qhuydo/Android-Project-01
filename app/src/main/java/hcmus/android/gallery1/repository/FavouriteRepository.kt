@@ -1,6 +1,5 @@
 package hcmus.android.gallery1.repository
 
-import android.util.Log
 import hcmus.android.gallery1.data.DataSource
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.data.toFavourite
@@ -8,6 +7,7 @@ import hcmus.android.gallery1.persistent.FavouriteDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 interface FavouriteRepository {
     suspend fun isFavourite(item: Item): Boolean
@@ -54,7 +54,7 @@ class FavouriteRepositoryImpl(
         val items = mediaStoreSource.getItems { item -> item.id in favouriteItems }.apply {
             sortBy { item -> favouriteItems[item.id] }
         }
-        Log.d("getFavourites", "${System.currentTimeMillis() - begin}ms")
+        Timber.d("getFavourites ${System.currentTimeMillis() - begin}ms")
         return@withContext items
     }
 

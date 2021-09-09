@@ -45,13 +45,13 @@ const val ALPHA_INVISIBLE = 0f
 const val ALPHA_VISIBLE = 1f
 
 enum class TAB(val key: String) {
-    ALL("all"),
-    ALBUM("album"),
-    DATE("date"),
-    FAV("face"),
+    ALL(TAB_ALL),
+    ALBUM(TAB_ALBUM),
+    DATE(TAB_DATE),
+    FAV(TAB_FAV),
     // unused
-    FACE("face"),
-    SECRET("secret");
+    FACE(TAB_FACE),
+    SECRET(TAB_SECRET);
 
     companion object {
         val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {

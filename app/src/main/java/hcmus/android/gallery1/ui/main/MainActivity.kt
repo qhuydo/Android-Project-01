@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Point
 import android.os.Bundle
-import android.util.Log
 import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.View
@@ -33,6 +32,7 @@ import hcmus.android.gallery1.ui.collection.list.DateCollectionViewModel
 import hcmus.android.gallery1.ui.image.list.AllPhotosViewModel
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 import hcmus.android.gallery1.ui.image.view.ViewImageFragment
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -239,7 +239,7 @@ class MainActivity : AppCompatActivity() {
                     if (application.lastRotation.isHorizontalRotation()
                         && rotation.isHorizontalRotation()
                     ) {
-                        Log.i(MainActivity::class.java.name, "Rotation = ${rotation}, recreate()}")
+                        Timber.i("Rotation = ${rotation}, recreate()}")
                         // mainFragment.collapseDrawer()
                         recreate()
                         scheduledToRecreate = true
