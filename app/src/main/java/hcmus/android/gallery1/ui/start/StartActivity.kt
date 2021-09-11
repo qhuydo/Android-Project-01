@@ -6,14 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.DEFAULT_SETTINGS_REQ_CODE
-import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import hcmus.android.gallery1.databinding.ActivityStartBinding
 import hcmus.android.gallery1.helpers.extensions.goToAppSetting
 import hcmus.android.gallery1.helpers.extensions.toMainActivity
-import hcmus.android.gallery1.helpers.hasReadExternalPermission
-import hcmus.android.gallery1.helpers.requestReadExternalPermission
-import hcmus.android.gallery1.helpers.toast
-import hcmus.android.gallery1.helpers.widgets.visible
+import hcmus.android.gallery1.helpers.extensions.hasReadExternalPermission
+import hcmus.android.gallery1.helpers.extensions.requestReadExternalPermission
+import hcmus.android.gallery1.helpers.extensions.toast
+import hcmus.android.gallery1.helpers.extensions.visible
 
 class StartActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 

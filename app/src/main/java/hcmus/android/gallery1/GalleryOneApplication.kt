@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.res.Configuration
 import android.view.Surface
 import com.bumptech.glide.Glide
-import hcmus.android.gallery1.helpers.configLanguage
-import hcmus.android.gallery1.helpers.configTheme
+import hcmus.android.gallery1.helpers.extensions.configLanguage
+import hcmus.android.gallery1.helpers.extensions.configTheme
 import hcmus.android.gallery1.repository.PreferenceRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

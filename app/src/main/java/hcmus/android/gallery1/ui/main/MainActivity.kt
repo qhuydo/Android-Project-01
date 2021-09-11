@@ -17,11 +17,7 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.DataSource
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.ActivityMainBinding
-import hcmus.android.gallery1.helpers.*
-import hcmus.android.gallery1.helpers.extensions.getCurrentFragment
-import hcmus.android.gallery1.helpers.extensions.hideFullScreen
-import hcmus.android.gallery1.helpers.extensions.restartSelf
-import hcmus.android.gallery1.helpers.extensions.toStartActivity
+import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.persistent.AppDatabase.Companion.getDatabaseInstance
 import hcmus.android.gallery1.repository.CollectionRepositoryImpl
 import hcmus.android.gallery1.repository.FavouriteRepositoryImpl

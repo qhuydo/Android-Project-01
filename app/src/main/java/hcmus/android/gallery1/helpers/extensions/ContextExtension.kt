@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.helpers
+package hcmus.android.gallery1.helpers.extensions
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
@@ -13,15 +13,14 @@ import androidx.core.os.ConfigurationCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.vmadalin.easypermissions.EasyPermissions
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.helpers.extensions.setLowProfileUI
-import hcmus.android.gallery1.helpers.widgets.gone
-import hcmus.android.gallery1.helpers.widgets.visible
+import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validTabs
 import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validViews
 import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validViewsLimited
 import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.start.StartActivity
 import java.util.*
+import kotlin.math.roundToLong
 
 fun Context.getSpanCountOf(tab: String, viewMode: String): Int {
     if (tab !in validTabs || (viewMode !in validViews && viewMode !in validViewsLimited)) return 1
@@ -152,4 +151,9 @@ fun Context.requestReadExternalPermission() {
         requestCode = StartActivity.PERMISSION_REQUEST_CODE,
         READ_EXTERNAL_STORAGE
     )
+}
+
+fun Context.dpToPixel(dp: Int): Long {
+    val density = resources.displayMetrics.density
+    return (dp.toFloat() * density).roundToLong()
 }

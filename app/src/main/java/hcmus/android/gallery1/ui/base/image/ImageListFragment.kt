@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
 import hcmus.android.gallery1.helpers.TAB_ALL
-import hcmus.android.gallery1.helpers.getSpanCountOf
+import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.BaseFragment
 import timber.log.Timber

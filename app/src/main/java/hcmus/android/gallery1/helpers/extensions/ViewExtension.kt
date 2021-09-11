@@ -1,4 +1,4 @@
-package hcmus.android.gallery1.helpers.widgets
+package hcmus.android.gallery1.helpers.extensions
 
 import android.view.View
 

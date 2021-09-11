@@ -6,6 +6,7 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.*
+import hcmus.android.gallery1.helpers.extensions.configTheme
 import java.util.*
 
 class PreferenceRepository private constructor(applicationContext: Context) {

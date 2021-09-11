@@ -11,7 +11,8 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.databinding.FragmentViewCollectionBinding
 import hcmus.android.gallery1.helpers.*
-import hcmus.android.gallery1.helpers.widgets.padding
+import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
+import hcmus.android.gallery1.helpers.extensions.padding
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 
