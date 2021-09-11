@@ -13,6 +13,10 @@ class AlbumViewModel(private val collectionRepository: CollectionRepository) : C
         get() = _collections
 
     fun init() {
+        loadData()
+    }
+
+    override fun loadData() {
         viewModelScope.launch {
             _collections.value = collectionRepository.getAllCollections().toMutableList()
         }

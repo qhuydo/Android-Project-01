@@ -17,9 +17,10 @@ class AlbumFragment : CollectionListFragment(tabName = TAB_ALBUM) {
 
     override fun subscribeUi() {
         with(viewModel) {
-            collections.observeOnce(viewLifecycleOwner) {
+            collections.observe(viewLifecycleOwner) {
                 collectionListAdapter.submitList(it)
             }
+            // startObserveContentChange()
         }
     }
 

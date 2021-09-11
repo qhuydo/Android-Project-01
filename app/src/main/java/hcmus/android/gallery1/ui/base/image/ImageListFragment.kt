@@ -11,6 +11,7 @@ import hcmus.android.gallery1.helpers.TAB_ALL
 import hcmus.android.gallery1.helpers.getSpanCountOf
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.BaseFragment
+import timber.log.Timber
 
 abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
     BaseFragment<FragmentMainAllPhotosBinding>(R.layout.fragment_main_all_photos) {
@@ -68,6 +69,15 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
             val spanCount =
                 requireContext().getSpanCountOf(tabName, preferenceRepository.getViewMode(tabName))
             layoutManager = GridLayoutManager(requireContext(), spanCount)
+        }
+    }
+
+    protected fun startObserveContentChange() {
+
+        sharedViewModel.contentChange.observe(viewLifecycleOwner) {
+            Timber.d("Observed content change")
+            imageListViewModel().loadData()
+            itemListAdapter.notifyDataSetChanged()
         }
     }
 }

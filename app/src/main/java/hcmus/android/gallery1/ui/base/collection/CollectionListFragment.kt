@@ -12,6 +12,7 @@ import hcmus.android.gallery1.helpers.getSpanCountOf
 import hcmus.android.gallery1.ui.adapters.recyclerview.CollectionListAdapter
 import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.collection.view.ViewCollectionFragment
+import timber.log.Timber
 
 abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
     : BaseFragment<FragmentMainAlbumBinding>(R.layout.fragment_main_album) {
@@ -77,6 +78,14 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
             val spanCount =
                 requireContext().getSpanCountOf(tabName, preferenceRepository.getViewMode(tabName))
             layoutManager = GridLayoutManager(requireContext(), spanCount)
+        }
+    }
+
+    protected fun startObserveContentChange() {
+
+        sharedViewModel.contentChange.observe(viewLifecycleOwner) {
+            Timber.d("Observed content change")
+            collectionViewModel().loadData()
         }
     }
 

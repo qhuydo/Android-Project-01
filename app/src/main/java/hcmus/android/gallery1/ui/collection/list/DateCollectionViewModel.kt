@@ -13,6 +13,10 @@ class DateCollectionViewModel(private val collectionRepository: CollectionReposi
         get() = _collections
 
     fun init() {
+        loadData()
+    }
+
+    override fun loadData() {
         viewModelScope.launch {
             _collections.value = collectionRepository.getAllDateCollections().toMutableList()
         }

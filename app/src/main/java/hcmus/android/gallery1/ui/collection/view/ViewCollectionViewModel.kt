@@ -17,6 +17,10 @@ class ViewCollectionViewModel(private val photoRepository: PhotoRepository): Ima
     val photos: LiveData<MutableList<Item>>
         get() = _photos
 
+    override fun loadData() {
+        getPhotos()
+    }
+
     fun setCollection(collection: Collection) = _collection.postValue(collection)
 
     fun getPhotos() = viewModelScope.launch  {

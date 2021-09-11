@@ -8,7 +8,7 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.*
 import java.util.*
 
-class PreferenceRepository(applicationContext: Context) {
+class PreferenceRepository private constructor(applicationContext: Context) {
 
     private val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 

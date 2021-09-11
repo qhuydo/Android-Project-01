@@ -22,6 +22,10 @@ class FavouritesViewModel(private val favoriteRepository: FavouriteRepository) :
         get() = _listStateChangeEvent
 
     fun init() {
+        loadData()
+    }
+
+    override fun loadData() {
         viewModelScope.launch {
             _favourites.value = favoriteRepository.getFavourites().toMutableList()
         }

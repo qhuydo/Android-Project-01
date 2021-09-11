@@ -13,8 +13,16 @@ class AllPhotosViewModel(private val photoRepository: PhotoRepository): ImageLis
         get() = _photos
 
     fun init() {
+        loadData()
+    }
+
+    override fun loadData() {
         viewModelScope.launch {
-            _photos.value = photoRepository.getAllPhotos().toMutableList()
+            val newList = photoRepository.getAllPhotos().toMutableList()
+            _photos.value?.let {
+                it.clear()
+                it.addAll(newList)
+            } ?: run { _photos.value = newList }
         }
     }
 

@@ -20,5 +20,6 @@ class AllPhotosFragment: ImageListFragment(tabName = TAB_ALL) {
         viewModel.photos.observeOnce(viewLifecycleOwner) {
             itemListAdapter.submitList(it)
         }
+        //startObserveContentChange()
     }
 }

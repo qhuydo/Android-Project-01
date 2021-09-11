@@ -19,13 +19,11 @@ class DateCollectionFragment : CollectionListFragment(tabName = TAB_DATE) {
 
     override fun subscribeUi() {
         with(viewModel) {
-            collections.observeOnce(viewLifecycleOwner) {
+            collections.observe(viewLifecycleOwner) {
                 collectionListAdapter.submitList(it)
             }
+            //startObserveContentChange()
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 }
