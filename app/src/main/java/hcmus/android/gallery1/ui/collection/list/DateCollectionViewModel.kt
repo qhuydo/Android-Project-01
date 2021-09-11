@@ -6,7 +6,9 @@ import hcmus.android.gallery1.repository.CollectionRepository
 import hcmus.android.gallery1.ui.base.collection.CollectionListViewModel
 import kotlinx.coroutines.launch
 
-class DateCollectionViewModel(private val collectionRepository: CollectionRepository) : CollectionListViewModel() {
+class DateCollectionViewModel private constructor(
+    private val collectionRepository: CollectionRepository
+) : CollectionListViewModel() {
 
     private var _collections = MutableLiveData<MutableList<Collection>>()
     val collections: LiveData<MutableList<Collection>>

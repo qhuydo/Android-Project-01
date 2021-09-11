@@ -11,7 +11,7 @@ interface CollectionRepository {
     suspend fun getAllDateCollections(): List<Collection>
 }
 
-class CollectionRepositoryImpl(
+class CollectionRepositoryImpl private constructor(
     private val mediaStoreSource: DataSource
 ): CollectionRepository {
 

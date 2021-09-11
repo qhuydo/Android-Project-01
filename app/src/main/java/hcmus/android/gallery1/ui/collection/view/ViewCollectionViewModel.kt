@@ -7,8 +7,8 @@ import hcmus.android.gallery1.repository.PhotoRepository
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import kotlinx.coroutines.launch
 
-
-class ViewCollectionViewModel(private val photoRepository: PhotoRepository): ImageListViewModel() {
+class ViewCollectionViewModel private constructor(private val photoRepository: PhotoRepository) :
+    ImageListViewModel() {
 
     private val _collection = MutableLiveData<Collection>()
     val collection: LiveData<Collection> = _collection
@@ -23,14 +23,14 @@ class ViewCollectionViewModel(private val photoRepository: PhotoRepository): Ima
 
     fun setCollection(collection: Collection) = _collection.postValue(collection)
 
-    fun getPhotos() = viewModelScope.launch  {
-         _collection.value?.let {
-             _photos.value = when (it.type) {
-                 Collection.TYPE_DATE -> photoRepository.getItemFromDateCollection(it.id)
-                 Collection.TYPE_ALBUM -> photoRepository.getItemsFromCollection(it.id)
-                 else -> emptyList()
-             }.toMutableList()
-         }
+    fun getPhotos() = viewModelScope.launch {
+        _collection.value?.let {
+            _photos.value = when (it.type) {
+                Collection.TYPE_DATE -> photoRepository.getItemFromDateCollection(it.id)
+                Collection.TYPE_ALBUM -> photoRepository.getItemsFromCollection(it.id)
+                else -> emptyList()
+            }.toMutableList()
+        }
     }
 
     @Suppress("UNCHECKED_CAST")

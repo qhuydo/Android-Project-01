@@ -1,6 +1,5 @@
 package hcmus.android.gallery1.ui.image.list
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.hadilq.liveevent.LiveEvent
 import hcmus.android.gallery1.data.Item
@@ -10,7 +9,7 @@ import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class FavouritesViewModel(private val favoriteRepository: FavouriteRepository) :
+class FavouritesViewModel private constructor(private val favoriteRepository: FavouriteRepository) :
     ImageListViewModel() {
 
     private var _favourites = MutableLiveData<MutableList<Item>>()
@@ -58,7 +57,7 @@ class FavouritesViewModel(private val favoriteRepository: FavouriteRepository) :
     }
 
     fun toggleFavourite(item: Item) = liveData(viewModelScope.coroutineContext) {
-        val state =  if (!favoriteRepository.isFavourite(item)) {
+        val state = if (!favoriteRepository.isFavourite(item)) {
             addFavourite(item)
         } else {
             removeFavourite(item)

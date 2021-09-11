@@ -16,7 +16,7 @@ interface FavouriteRepository {
     suspend fun remove(item: Item)
 }
 
-class FavouriteRepositoryImpl(
+class FavouriteRepositoryImpl private constructor(
     private val mediaStoreSource: DataSource,
     private val favouriteDao: FavouriteDao
 ) : FavouriteRepository {

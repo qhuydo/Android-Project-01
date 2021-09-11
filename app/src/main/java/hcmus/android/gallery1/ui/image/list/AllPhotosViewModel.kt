@@ -6,7 +6,8 @@ import hcmus.android.gallery1.repository.PhotoRepository
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import kotlinx.coroutines.launch
 
-class AllPhotosViewModel(private val photoRepository: PhotoRepository): ImageListViewModel() {
+class AllPhotosViewModel private constructor(private val photoRepository: PhotoRepository) :
+    ImageListViewModel() {
 
     private var _photos = MutableLiveData<MutableList<Item>>()
     val photos: LiveData<MutableList<Item>>

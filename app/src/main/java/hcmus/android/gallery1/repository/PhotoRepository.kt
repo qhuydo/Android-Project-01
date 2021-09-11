@@ -13,7 +13,7 @@ interface PhotoRepository {
     suspend fun getItem(mediaStoreId: Long): Item?
 }
 
-class PhotoRepositoryImpl(
+class PhotoRepositoryImpl private constructor(
     private val mediaStoreSource: DataSource
 ) : PhotoRepository {
 
