@@ -40,8 +40,9 @@ class PullToRefreshLayout: ViewGroup {
     companion object {
         const val FACTOR = 2f
         const val MAX_DRAG_DISTANCE = 60
-        const val DRAG_RATE = 0.25f
+        const val DRAG_RATE = 0.5f
         const val MAX_OFFSET_ANIMATION_DURATION = 700L
+        const val REFRESH_MIN_DELAY = 1000L // ms
     }
 
     val totalDragDistance by lazy { context.dpToPixel(MAX_DRAG_DISTANCE) }
@@ -295,7 +296,7 @@ class PullToRefreshLayout: ViewGroup {
 
     fun setRefreshing(refreshing: Boolean) {
         if (isRefreshing != refreshing) {
-            setRefreshing(refreshing, false)
+            setRefreshing(refreshing, true)
         }
     }
 

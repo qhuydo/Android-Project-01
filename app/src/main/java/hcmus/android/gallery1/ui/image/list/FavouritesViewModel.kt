@@ -24,7 +24,7 @@ class FavouritesViewModel private constructor(private val favoriteRepository: Fa
         loadData()
     }
 
-    override fun loadData() {
+    override fun loadData(callback: (() -> Unit)?) {
         viewModelScope.launch {
             _favourites.value = favoriteRepository.getFavourites().toMutableList()
         }

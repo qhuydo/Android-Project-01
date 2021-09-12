@@ -15,5 +15,5 @@ abstract class ImageListViewModel : ViewModel() {
         _navigateToImageView.postValue(item)
     }
 
-    abstract fun loadData()
+    abstract fun loadData(callback: (() -> Unit)? = null)
 }

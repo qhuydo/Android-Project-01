@@ -17,13 +17,14 @@ class AllPhotosViewModel private constructor(private val photoRepository: PhotoR
         loadData()
     }
 
-    override fun loadData() {
+    override fun loadData(callback: (() -> Unit)?) {
         viewModelScope.launch {
             val newList = photoRepository.getAllPhotos().toMutableList()
             _photos.value?.let {
                 it.clear()
                 it.addAll(newList)
             } ?: run { _photos.value = newList }
+            callback?.invoke()
         }
     }
 

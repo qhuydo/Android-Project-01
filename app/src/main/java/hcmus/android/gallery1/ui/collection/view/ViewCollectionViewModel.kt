@@ -17,7 +17,7 @@ class ViewCollectionViewModel private constructor(private val photoRepository: P
     val photos: LiveData<MutableList<Item>>
         get() = _photos
 
-    override fun loadData() {
+    override fun loadData(callback: (() -> Unit)?) {
         getPhotos()
     }
 
