@@ -59,11 +59,11 @@ class MainFragment :
             preferenceRepository.setViewMode(tab.key, viewMode)
 
             val fragment = childFragmentManager.findFragmentByTag("f${tab.ordinal}")
-            fragment?.let {
-                if (tab == TAB.ALL || tab == TAB.FAV) {
-                    (fragment as? ImageListFragment)?.notifyViewTypeChanged()
-                } else {
-                    (fragment as? CollectionListFragment)?.notifyViewTypeChanged()
+            fragment?.let { fm ->
+
+                when (fm) {
+                    is ImageListFragment<*> -> fm.notifyViewTypeChanged()
+                    is CollectionListFragment -> fm.notifyViewTypeChanged()
                 }
 
                 tabFragmentAdapter.notifyItemChanged(tab.ordinal)

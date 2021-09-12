@@ -4,17 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
 import hcmus.android.gallery1.helpers.TAB_ALL
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.BaseFragment
 import timber.log.Timber
 
-abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
-    BaseFragment<FragmentMainAllPhotosBinding>(R.layout.fragment_main_all_photos) {
+abstract class ImageListFragment<B: ViewDataBinding>(
+    layoutId: Int = R.layout.fragment_main_all_photos,
+    private val tabName: String = TAB_ALL
+) : BaseFragment<B>(layoutId) {
 
     protected lateinit var itemListAdapter: ItemListAdapter
     private val itemListAdapterCallback = ItemListAdapter.Callback { item ->
@@ -22,6 +25,8 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
     }
 
     abstract fun imageListViewModel(): ImageListViewModel
+
+    abstract fun getImageList() : RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,10 +69,12 @@ abstract class ImageListFragment(private val tabName: String = TAB_ALL) :
     }
 
     private fun initRecyclerView() {
-        binding.recyclerView.apply {
+        getImageList().apply {
             adapter = itemListAdapter
-            val spanCount =
-                requireContext().getSpanCountOf(tabName, preferenceRepository.getViewMode(tabName))
+            val spanCount = requireContext().getSpanCountOf(
+                tabName,
+                preferenceRepository.getViewMode(tabName)
+            )
             layoutManager = GridLayoutManager(requireContext(), spanCount)
         }
     }

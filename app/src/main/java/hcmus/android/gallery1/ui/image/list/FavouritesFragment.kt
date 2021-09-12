@@ -1,13 +1,19 @@
 package hcmus.android.gallery1.ui.image.list
 
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.RecyclerView
+import hcmus.android.gallery1.R
+import hcmus.android.gallery1.databinding.FragmentMainFavouritesBinding
 import hcmus.android.gallery1.helpers.RecyclerViewListState
 import hcmus.android.gallery1.helpers.TAB_FAV
 import hcmus.android.gallery1.helpers.observeOnce
 import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 
-class FavouritesFragment : ImageListFragment(tabName = TAB_FAV) {
+class FavouritesFragment : ImageListFragment<FragmentMainFavouritesBinding>(
+    layoutId = R.layout.fragment_main_favourites,
+    tabName = TAB_FAV
+) {
 
     private val viewModelFactory by lazy {
         FavouritesViewModel.Factory(mainActivity!!.favouriteRepository)
@@ -15,6 +21,8 @@ class FavouritesFragment : ImageListFragment(tabName = TAB_FAV) {
     private val viewModel by activityViewModels<FavouritesViewModel> { viewModelFactory }
 
     override fun imageListViewModel(): ImageListViewModel = viewModel
+
+    override fun getImageList(): RecyclerView = binding.recyclerView
 
     override fun subscribeUi() {
         with(viewModel) {
@@ -31,6 +39,7 @@ class FavouritesFragment : ImageListFragment(tabName = TAB_FAV) {
                     is RecyclerViewListState.ItemRemoved -> {
                         itemListAdapter.notifyItemRemoved(it.position)
                     }
+                    else -> {}
                 }
             }
 
