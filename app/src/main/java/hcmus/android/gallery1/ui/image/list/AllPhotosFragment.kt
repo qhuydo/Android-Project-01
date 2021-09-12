@@ -5,7 +5,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
 import hcmus.android.gallery1.helpers.TAB_ALL
-import hcmus.android.gallery1.helpers.observeOnce
+import hcmus.android.gallery1.helpers.extensions.observeOnce
 import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
 import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel

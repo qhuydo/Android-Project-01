@@ -6,7 +6,7 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentMainFavouritesBinding
 import hcmus.android.gallery1.helpers.RecyclerViewListState
 import hcmus.android.gallery1.helpers.TAB_FAV
-import hcmus.android.gallery1.helpers.observeOnce
+import hcmus.android.gallery1.helpers.extensions.observeOnce
 import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 
