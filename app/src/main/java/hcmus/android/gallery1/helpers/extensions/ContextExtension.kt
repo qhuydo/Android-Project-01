@@ -20,6 +20,7 @@ import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validVie
 import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.start.StartActivity
 import java.util.*
+import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
 fun Context.getSpanCountOf(tab: String, viewMode: String): Int {
@@ -153,7 +154,7 @@ fun Context.requestReadExternalPermission() {
     )
 }
 
-fun Context.dpToPixel(dp: Int): Long {
+fun Context.dpToPixel(dp: Int): Int {
     val density = resources.displayMetrics.density
-    return (dp.toFloat() * density).roundToLong()
+    return (dp.toFloat() * density).roundToInt()
 }

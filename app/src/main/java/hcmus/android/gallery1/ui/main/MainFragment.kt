@@ -142,9 +142,10 @@ class MainFragment :
         binding.fragment = this
     }
 
-    private fun initViewPager() {
-        viewPager2.adapter = tabFragmentAdapter
-        viewPager2.registerOnPageChangeCallback(onPageChangeCallback)
+    private fun initViewPager() = viewPager2.apply {
+        adapter = tabFragmentAdapter
+        this.isUserInputEnabled = false
+        registerOnPageChangeCallback(onPageChangeCallback)
     }
 
     // Bottom drawer: navbar

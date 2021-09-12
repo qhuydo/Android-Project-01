@@ -2,12 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
+        android:id="@+id/all_photo_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="8dp"
-        android:paddingHorizontal="8dp">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -17,5 +15,5 @@
             tools:listitem="@layout/list_item"
             tools:spanCount="@integer/item_grid_m" />
 
-    </LinearLayout>
+    </hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout>
 </layout>
