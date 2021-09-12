@@ -70,4 +70,6 @@
         <item quantity="other">%d byte</item>
     </plurals>
     <string name="button_grant_permission">Xác nhận cấp quyền</string>
+    <string name="refresh">Làm mới</string>
+    <string name="refreshing">Đang làm mới</string>
 </resources>

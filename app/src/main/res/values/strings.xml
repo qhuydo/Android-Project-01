@@ -95,5 +95,7 @@
     <string name="secret_passcode_enter">Enter passcode</string>
     <string name="please_grant_permission">Please grant the app storage permission to read your photos.</string>
     <string name="button_grant_permission">Verify permission</string>
+    <string name="refresh">Refresh</string>
+    <string name="refreshing">Refreshing</string>
 
 </resources>

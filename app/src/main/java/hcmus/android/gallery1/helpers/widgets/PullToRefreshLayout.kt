@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Transformation
-import android.widget.TextView
-import androidx.core.view.updatePadding
 import androidx.customview.widget.ViewDragHelper.INVALID_POINTER
 import hcmus.android.gallery1.helpers.extensions.dpToPixel
 import kotlin.math.abs
@@ -41,8 +39,8 @@ class PullToRefreshLayout: ViewGroup {
 
     companion object {
         const val FACTOR = 2f
-        const val MAX_DRAG_DISTANCE = 40
-        const val DRAG_RATE = 0.5f
+        const val MAX_DRAG_DISTANCE = 60
+        const val DRAG_RATE = 0.25f
         const val MAX_OFFSET_ANIMATION_DURATION = 700L
     }
 
@@ -51,7 +49,7 @@ class PullToRefreshLayout: ViewGroup {
     private var targetView: View? = null
     private val decelerateInterpolator by lazy { DecelerateInterpolator(FACTOR) }
     private val scaledTouchSlop by lazy { ViewConfiguration.get(context).scaledTouchSlop }
-    private val refreshView by lazy { TextView(context).apply { text = "Refresh me!" } }
+    private val refreshView by lazy { RefreshView(context) }
 
     private var targetPaddingTop = 0
     private var targetPaddingLeft = 0
@@ -72,29 +70,13 @@ class PullToRefreshLayout: ViewGroup {
 
     var listener: Listener? = null
 
-    private val onAnimationListener = object: Animation.AnimationListener {
-        override fun onAnimationStart(p0: Animation?) {
-            // No need to implement
-        }
-
-        override fun onAnimationEnd(p0: Animation?) {
-            // baseRefreshView.stop()
-            currentOffsetTop = targetView?.top ?: 0
-        }
-
-        override fun onAnimationRepeat(p0: Animation?) {
-            // No need to implement
-        }
-
-    }
-
     private val animateToStartPosition: Animation = object : Animation() {
         override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
             moveToStart(interpolatedTime)
         }
     }
 
-    private val animateToCorrectPosition: Animation = object : Animation() {
+    private val animateToCorrectPosition = object : Animation() {
 
         override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
             val endTarget = totalDragDistance
@@ -102,28 +84,22 @@ class PullToRefreshLayout: ViewGroup {
 
             val offset = targetTop - (targetView?.top ?: 0)
             currentDragPercent = fromDragPercent - (fromDragPercent - 1.0f) * interpolatedTime
-            // mBaseRefreshView.setPercent(mCurrentDragPercent, false)
+            refreshView.setDraggingPercent(currentDragPercent)
             setTargetOffsetTop(offset)
         }
     }
 
 
-    private val toStartListener: Animation.AnimationListener =
-        object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {}
-            override fun onAnimationRepeat(animation: Animation) {}
-            override fun onAnimationEnd(animation: Animation) {
-                // mBaseRefreshView.stop()
-                currentOffsetTop = targetView?.top ?: 0
-            }
+    private val toStartListener = object : Animation.AnimationListener {
+        override fun onAnimationStart(animation: Animation) {}
+        override fun onAnimationRepeat(animation: Animation) {}
+        override fun onAnimationEnd(animation: Animation) {
+            refreshView.stopRefreshing()
+            currentOffsetTop = targetView?.top ?: 0
         }
+    }
 
     private fun init() {
-        refreshView.updatePadding(
-            top = context.dpToPixel(20),
-            bottom = context.dpToPixel(20)
-        )
-
         addView(refreshView)
         setWillNotDraw(true)
         isChildrenDrawingOrderEnabled = true
@@ -144,7 +120,6 @@ class PullToRefreshLayout: ViewGroup {
                         targetPaddingRight = paddingRight
                         targetPaddingBottom = paddingBottom
                     }
-                    break
                 }
             }
         }
@@ -253,7 +228,7 @@ class PullToRefreshLayout: ViewGroup {
                 val slingshotDist = totalDragDistance.toFloat()
                 val tensionSlingshotPercent = max(
                     0f,
-                    Math.min(extraOS, slingshotDist * 2) / slingshotDist
+                    min(extraOS, slingshotDist * 2) / slingshotDist
                 )
 
                 val tensionPercent = (tensionSlingshotPercent / 4 - (tensionSlingshotPercent / 4).toDouble()
@@ -262,7 +237,7 @@ class PullToRefreshLayout: ViewGroup {
                 val extraMove = slingshotDist * tensionPercent / 2
                 val targetY = (slingshotDist * boundedDragPercent + extraMove).toInt()
 
-                // mBaseRefreshView.setPercent(mCurrentDragPercent, true)
+                refreshView.setDraggingPercent(currentDragPercent)
                 setTargetOffsetTop(targetY - currentOffsetTop)
             }
 
@@ -298,7 +273,6 @@ class PullToRefreshLayout: ViewGroup {
 
     private fun setTargetOffsetTop(offset: Int) {
         targetView?.offsetTopAndBottom(offset)
-        // mBaseRefreshView.offsetTopAndBottom(offset)
         currentOffsetTop = targetView?.top ?: 0
     }
 
@@ -331,7 +305,7 @@ class PullToRefreshLayout: ViewGroup {
             setUpTargetView()
             isRefreshing = refreshing
             if (isRefreshing) {
-                // mBaseRefreshView.setPercent(1f, true)
+                refreshView.setDraggingPercent(1f)
                 animateOffsetToCorrectPosition()
             } else {
                 animateOffsetToStartPosition()
@@ -351,12 +325,12 @@ class PullToRefreshLayout: ViewGroup {
         refreshView.startAnimation(animateToCorrectPosition)
 
         if (isRefreshing) {
-            // mBaseRefreshView.start()
+            refreshView.startRefreshing()
             if (notify) {
                 listener?.onRefresh()
             }
         } else {
-            // mBaseRefreshView.stop()
+            refreshView.stopRefreshing()
             animateOffsetToStartPosition()
         }
 
@@ -375,7 +349,8 @@ class PullToRefreshLayout: ViewGroup {
         val offset = targetTop - (targetView?.top ?: 0)
 
         currentDragPercent = targetPercent
-        // mBaseRefreshView.setPercent(mCurrentDragPercent, true)
+        refreshView.setDraggingPercent(currentDragPercent)
+
         targetView?.setPadding(
             targetPaddingLeft,
             targetPaddingTop,

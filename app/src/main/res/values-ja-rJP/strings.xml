@@ -53,4 +53,6 @@
         <item quantity="other">%d バイト</item>
     </plurals>
     <string name="button_grant_permission">アクセスを確認</string>
+    <string name="refresh">更新</string>
+    <string name="refreshing">更新中</string>
 </resources>
