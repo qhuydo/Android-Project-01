@@ -21,14 +21,9 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <!-- DRAGGABLE SHEET HINT -->
-        <View
+        <include
             android:id="@+id/list_divider"
-            android:layout_width="32dp"
-            android:layout_height="4dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:background="?android:attr/listDivider" />
+            layout="@layout/divider" />
 
         <!-- NAVBAR + EXPAND SHEET BUTTON -->
 

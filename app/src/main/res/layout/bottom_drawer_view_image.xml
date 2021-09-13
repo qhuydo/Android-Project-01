@@ -25,14 +25,9 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <!-- DRAGGABLE SHEET HINT -->
-        <View
+        <include
             android:id="@+id/list_divider"
-            android:layout_width="32dp"
-            android:layout_height="4dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:background="?android:attr/listDivider" />
+            layout="@layout/divider" />
 
         <LinearLayout
             android:id="@+id/top_row"
@@ -170,7 +165,7 @@
             <include
                 android:id="@+id/bdrawer_view_image_info"
                 layout="@layout/bottom_drawer_view_image_info"
-                app:item="@{item}"/>
+                app:item="@{item}" />
         </LinearLayout>
 
     </LinearLayout>
