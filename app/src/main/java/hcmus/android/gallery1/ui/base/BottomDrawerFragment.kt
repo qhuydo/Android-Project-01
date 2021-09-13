@@ -13,14 +13,14 @@ import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.helpers.extensions.gone
 import hcmus.android.gallery1.helpers.extensions.visible
 
-abstract class BottomDrawerFragment<B : ViewDataBinding, V : View>(layoutId: Int) :
+abstract class BottomDrawerFragment<B : ViewDataBinding>(layoutId: Int) :
     BaseFragment<B>(layoutId) {
 
     protected var fullScreenMode: Boolean = false
 
     // root view of the bottom drawer
     protected lateinit var bottomDrawerView: View
-    protected lateinit var bottomSheetBehavior: BottomSheetBehavior<V>
+    protected lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
 
     // button to expand, collapse the bottom drawer
     protected lateinit var bottomSheetExpandButton: ImageButton

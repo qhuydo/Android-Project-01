@@ -12,15 +12,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentMainBinding
 import hcmus.android.gallery1.helpers.TAB
+import hcmus.android.gallery1.helpers.extensions.bottomNavIdToTabPosition
 import hcmus.android.gallery1.helpers.extensions.collapse
-import hcmus.android.gallery1.helpers.extensions.removeGapBetweenTextAndIcon
+import hcmus.android.gallery1.helpers.extensions.padding
 import hcmus.android.gallery1.helpers.extensions.toast
 import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.adapters.recyclerview.ButtonGroupViewModeAdapter
@@ -31,11 +31,16 @@ import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
 import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import java.lang.ref.WeakReference
 
-class MainFragment :
-    BottomDrawerFragment<FragmentMainBinding, LinearLayout>(R.layout.fragment_main) {
+class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     companion object {
         const val BUNDLE_POS = "pos"
+        val bottomNavItemIds = setOf(
+            R.id.menu_tab_all,
+            R.id.menu_tab_album,
+            R.id.menu_tab_date,
+            R.id.menu_tab_favorites,
+        )
     }
 
     private val tabFragmentAdapter by lazy { TabFragmentAdapter(this) }
@@ -81,7 +86,7 @@ class MainFragment :
     ////////////////////////////////////////////////////////////////////////////////
 
     // Hold all references to elements on screen
-    private lateinit var tabLayout: TabLayout
+    private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var viewPager2: ViewPager2
     private lateinit var viewModeRecyclerView: RecyclerView
 
@@ -120,7 +125,7 @@ class MainFragment :
 
         binding.bottomDrawerMain.apply {
             // Bottom drawer
-            tabLayout = mainNavbar
+            bottomNavigationView = mainNavbar
             viewModeRecyclerView = binding.bottomDrawerMain.viewmode
         }
 
@@ -151,15 +156,17 @@ class MainFragment :
     // Bottom drawer: navbar
     private fun initNavbar() {
         // Navbar behavior
-        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
-            tab.text = if (position == currentPosition) {
-                TAB.textResource(tab.position, resources)
-            } else null
-            tab.setIcon(TAB.iconRes(position))
-        }.attach()
 
-        tabLayout.removeGapBetweenTextAndIcon()
-        tabLayout.addOnTabSelectedListener(TAB.onTabSelectedListener)
+        bottomNavigationView.setOnItemSelectedListener {
+            if (it.itemId in bottomNavItemIds) {
+                viewPager2.currentItem = it.itemId.bottomNavIdToTabPosition()
+                true
+            }
+            else {
+                false
+            }
+        }
+        bottomNavigationView.setOnApplyWindowInsetsListener(null)
 
         mainActivity?.setViewPaddingWindowInset(viewPager2)
     }
@@ -167,6 +174,10 @@ class MainFragment :
     // Bottom drawer: view mode selectors
     private fun initViewModeSelectors() {
         viewModeRecyclerView.adapter = ButtonGroupViewModeAdapter(onViewModeSelectedCallback)
+    }
+
+    override fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {
+        viewPager2.padding(bottom = peekHeight)
     }
 
     ////////////////////////////////////////////////////////////////////////////////

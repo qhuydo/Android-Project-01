@@ -20,7 +20,7 @@ import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 
 class ViewImageFragment :
-    BottomDrawerFragment<FragmentViewImageNopagerBinding, LinearLayout>(R.layout.fragment_view_image_nopager) {
+    BottomDrawerFragment<FragmentViewImageNopagerBinding>(R.layout.fragment_view_image_nopager) {
     companion object {
         const val ARGS_ITEM = "item"
     }
@@ -57,7 +57,7 @@ class ViewImageFragment :
     }
 
     override fun calculatePeekHeight() = with(binding.bdrawerViewImageLayout) {
-        listDivider.height + topRow.height
+        listDivider.measuredHeight + topRow.measuredHeight
     }
 
     override fun initBottomDrawerElements() {

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="fragment"
             type="hcmus.android.gallery1.ui.main.MainFragment" />
@@ -22,9 +23,7 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/main_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/bdrawer_peek_height"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent" />
 
         <View
             android:id="@+id/bdrawer_dim"
@@ -34,9 +33,9 @@
             android:visibility="gone" />
 
         <include
-            app:fragment="@{fragment}"
             android:id="@+id/bottom_drawer_main"
-            layout="@layout/bottom_drawer_main" />
+            layout="@layout/bottom_drawer_main"
+            app:fragment="@{fragment}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

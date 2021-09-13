@@ -18,7 +18,7 @@ import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 
 class ViewCollectionFragment :
-    BottomDrawerFragment<FragmentViewCollectionBinding, LinearLayout>(R.layout.fragment_view_collection) {
+    BottomDrawerFragment<FragmentViewCollectionBinding>(R.layout.fragment_view_collection) {
 
     companion object {
         const val ARGS_COLLECTION = "collection"
