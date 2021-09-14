@@ -6,17 +6,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingHorizontal="8dp"
-        android:paddingTop="8dp">
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
+            android:id="@+id/album_pull_to_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/list_collection"
-            tools:spanCount="@integer/collection_grid" />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@layout/list_collection"
+                tools:spanCount="@integer/collection_grid" />
+
+        </hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout>
 
         <LinearLayout
             android:id="@+id/placeholder"

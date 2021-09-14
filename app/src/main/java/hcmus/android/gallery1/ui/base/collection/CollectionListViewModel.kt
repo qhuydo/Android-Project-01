@@ -16,5 +16,5 @@ abstract class CollectionListViewModel: ViewModel() {
         _navigateToCollectionDetails.postValue(collection)
     }
 
-    abstract fun loadData()
+    abstract fun loadData(callback: (() -> Unit)? = null)
 }

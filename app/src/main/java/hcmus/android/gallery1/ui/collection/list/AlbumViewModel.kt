@@ -17,9 +17,10 @@ class AlbumViewModel private constructor(private val collectionRepository: Colle
         loadData()
     }
 
-    override fun loadData() {
+    override fun loadData(callback: (() -> Unit)?) {
         viewModelScope.launch {
             _collections.value = collectionRepository.getAllCollections().toMutableList()
+            callback?.invoke()
         }
     }
 
