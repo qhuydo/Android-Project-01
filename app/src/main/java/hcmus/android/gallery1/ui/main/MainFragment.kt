@@ -7,9 +7,9 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentMainBinding
+import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.bottomNavIdToTabPosition
 import hcmus.android.gallery1.helpers.extensions.collapse
@@ -63,7 +64,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
         override fun onViewModeSelected(tab: TAB, viewMode: String) {
             preferenceRepository.setViewMode(tab.key, viewMode)
 
-            val fragment = childFragmentManager.findFragmentByTag("f${tab.ordinal}")
+            val fragment = pagerFragmentFromTab(tab)
             fragment?.let { fm ->
 
                 when (fm) {
@@ -159,12 +160,17 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
 
         bottomNavigationView.setOnItemSelectedListener {
             if (it.itemId in bottomNavItemIds) {
-                viewPager2.currentItem = it.itemId.bottomNavIdToTabPosition()
-                true
+                val currentPosition = it.itemId.bottomNavIdToTabPosition()
+
+                if (currentPosition != viewPager2.currentItem) {
+                    viewPager2.currentItem = currentPosition
+                } else {
+                    (currentViewPagerFragment() as? ScrollableToTop)?.scrollToTop()
+                }
+
+                return@setOnItemSelectedListener true
             }
-            else {
-                false
-            }
+            false
         }
         bottomNavigationView.setOnApplyWindowInsetsListener(null)
 
@@ -253,5 +259,13 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
 //        }
         bottomSheetBehavior.collapse()
         return true
+    }
+
+    private fun Fragment.pagerFragmentFromTab(tab: TAB) = childFragmentManager.findFragmentByTag(
+        "f${tab.ordinal}"
+    )
+
+    private fun Fragment.currentViewPagerFragment(): Fragment? {
+        return childFragmentManager.findFragmentByTag("f${viewPager2.currentItem}")
     }
 }

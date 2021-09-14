@@ -17,6 +17,8 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingHorizontal="8dp"
+                android:paddingTop="8dp"
                 tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 tools:listitem="@layout/list_collection"
                 tools:spanCount="@integer/collection_grid" />

@@ -8,6 +8,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB_ALL
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
@@ -17,7 +18,7 @@ import timber.log.Timber
 abstract class ImageListFragment<B: ViewDataBinding>(
     layoutId: Int = R.layout.fragment_main_all_photos,
     private val tabName: String = TAB_ALL
-) : BaseFragment<B>(layoutId) {
+) : BaseFragment<B>(layoutId), ScrollableToTop {
 
     protected lateinit var itemListAdapter: ItemListAdapter
     private val itemListAdapterCallback = ItemListAdapter.Callback { item ->
@@ -55,6 +56,10 @@ abstract class ImageListFragment<B: ViewDataBinding>(
 
     override fun bindData() {
         initRecyclerView()
+    }
+
+    override fun scrollToTop() {
+        getImageList().smoothScrollToPosition(0)
     }
 
     open fun notifyViewTypeChanged() {

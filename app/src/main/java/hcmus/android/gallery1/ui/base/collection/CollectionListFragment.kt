@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.databinding.FragmentMainAlbumBinding
+import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
 import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
@@ -20,7 +21,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
-    : BaseFragment<FragmentMainAlbumBinding>(R.layout.fragment_main_album) {
+    : BaseFragment<FragmentMainAlbumBinding>(R.layout.fragment_main_album), ScrollableToTop {
 
     protected lateinit var collectionListAdapter: CollectionListAdapter
 
@@ -58,6 +59,10 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
                 }
             }
         }
+    }
+
+    override fun scrollToTop() {
+        binding.recyclerView.smoothScrollToPosition(0)
     }
 
     private fun navigateToCollectionView(it: Collection?) {
