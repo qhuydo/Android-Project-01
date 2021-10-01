@@ -13,6 +13,7 @@ fun ImageView.loadGlideImage(item: Item?) {
         Glide.with(context)
             .load(item.getUri())
             .error(R.drawable.placeholder_item)
+            .transition(DrawableTransitionOptions.withCrossFade(250)) // ms
             .into(this)
     }
 }
@@ -26,4 +27,17 @@ fun ImageView.loadGlideImage(uri: String?) {
             .transition(DrawableTransitionOptions.withCrossFade(250)) // ms
             .into(this)
     }
+}
+
+
+@BindingAdapter("srcFromFavouriteState")
+fun ImageView.setFavouriteDrawableFromState(isFavourite: Boolean?) {
+    val resId = if (isFavourite == true) {
+        R.drawable.ic_favorite
+    } else {
+        R.drawable.ic_favourite_outline
+    }
+
+    setImageResource(resId)
+    invalidate()
 }

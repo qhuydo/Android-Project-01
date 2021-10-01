@@ -52,8 +52,8 @@ abstract class BaseFragment<B : ViewDataBinding>(private val layoutId: Int) : Fr
 
         bindData()
         binding.executePendingBindings()
+        binding.lifecycleOwner = this
         subscribeUi()
     }
-
 
 }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,8 +11,8 @@
             type="hcmus.android.gallery1.ui.image.view.ViewImageFragment" />
 
         <variable
-            name="item"
-            type="hcmus.android.gallery1.data.Item" />
+            name="photoViewModel"
+            type="hcmus.android.gallery1.ui.image.view.ViewImageViewModel" />
     </data>
 
     <LinearLayout
@@ -131,7 +132,8 @@
                 android:background="@drawable/ripple_rect"
                 android:contentDescription="@string/action_favorite"
                 android:onClick="@{() -> fm.toggleFavorite()}"
-                android:src="@drawable/ic_favorite" />
+                srcFromFavouriteState="@{photoViewModel.isFavourite}"
+                tools:src="@drawable/ic_favorite" />
 
             <ImageButton
                 android:id="@+id/btn_wallpaper"
@@ -165,7 +167,7 @@
             <include
                 android:id="@+id/bdrawer_view_image_info"
                 layout="@layout/bottom_drawer_view_image_info"
-                app:item="@{item}" />
+                app:item="@{photoViewModel.item}" />
         </LinearLayout>
 
     </LinearLayout>

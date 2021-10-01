@@ -10,8 +10,8 @@
             type="hcmus.android.gallery1.ui.image.view.ViewImageFragment" />
 
         <variable
-            name="item"
-            type="hcmus.android.gallery1.data.Item" />
+            name="photoViewModel"
+            type="hcmus.android.gallery1.ui.image.view.ViewImageViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -26,8 +26,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loadGlideImage="@{item}"
-            tools:ignore="ContentDescription" />
+            app:loadGlideImage="@{photoViewModel.item}"
+            tools:ignore="ContentDescription"
+            tools:src="@tools:sample/avatars" />
 
         <View
             android:id="@+id/bdrawer_view_image_dim"
@@ -42,6 +43,6 @@
             android:id="@+id/bdrawer_view_image_layout"
             layout="@layout/bottom_drawer_view_image"
             app:fm="@{fragment}"
-            app:item="@{item}" />
+            app:photoViewModel="@{photoViewModel}" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

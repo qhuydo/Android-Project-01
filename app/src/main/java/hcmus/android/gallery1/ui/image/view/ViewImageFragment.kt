@@ -19,8 +19,9 @@ import hcmus.android.gallery1.helpers.extensions.toast
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 
-class ViewImageFragment :
-    BottomDrawerFragment<FragmentViewImageNopagerBinding>(R.layout.fragment_view_image_nopager) {
+class ViewImageFragment : BottomDrawerFragment<FragmentViewImageNopagerBinding>(
+    R.layout.fragment_view_image_nopager
+) {
     companion object {
         const val ARGS_ITEM = "item"
     }
@@ -29,7 +30,10 @@ class ViewImageFragment :
         FavouritesViewModel.Factory(mainActivity!!.favouriteRepository)
     }
     private val viewModel by viewModels<ViewImageViewModel> {
-        ViewImageViewModel.Factory(mainActivity!!.photoRepository)
+        ViewImageViewModel.Factory(
+            mainActivity!!.photoRepository,
+            mainActivity!!.favouriteRepository
+        )
     }
 
     private lateinit var item: Item
@@ -44,10 +48,13 @@ class ViewImageFragment :
     }
 
     override fun subscribeUi() {
-        viewModel.item.observe(viewLifecycleOwner) {
-            if (it != null) {
-                item = it
-                populateImageAndInfo()
+        with(viewModel) {
+            item.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    this@ViewImageFragment.item = it
+                    binding.photoViewModel = this
+                    binding.executePendingBindings()
+                }
             }
         }
     }
@@ -69,9 +76,6 @@ class ViewImageFragment :
         }
 
         bottomDrawerDim = binding.bdrawerViewImageDim
-        bottomDrawerDim.setOnClickListener {
-            toggleFullScreenMode()
-        }
     }
 
     override fun onDestroyView() {
@@ -94,11 +98,6 @@ class ViewImageFragment :
             each.isEnabled = false
             each.alpha = 0.25f
         }
-    }
-
-    private fun populateImageAndInfo() {
-        binding.item = item
-        binding.executePendingBindings()
     }
 
     fun toggleFullScreenMode() {

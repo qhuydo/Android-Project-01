@@ -1,5 +1,6 @@
 package hcmus.android.gallery1.persistent
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import hcmus.android.gallery1.data.Favourite
 
@@ -20,6 +21,9 @@ interface FavouriteDao {
 
     @Query("select count(*) from favourite where id=:id")
     suspend fun containsId(id: Long): Boolean
+
+    @Query("select count(*) from favourite where id=:id")
+    fun containsId2(id: Long): LiveData<Boolean>
 
     @Query("select * from favourite order by id asc")
     suspend fun getAll(): List<Favourite>

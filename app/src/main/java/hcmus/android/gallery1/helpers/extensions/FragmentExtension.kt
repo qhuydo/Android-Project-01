@@ -8,4 +8,4 @@ fun Fragment.toast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) =
 
 
 fun Fragment.toast(resId: Int, duration: Int = Toast.LENGTH_SHORT) =
-    Toast.makeText(requireContext(), resId, duration)
+    Toast.makeText(requireContext(), resId, duration).show()

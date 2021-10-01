@@ -1,5 +1,6 @@
 package hcmus.android.gallery1.repository
 
+import androidx.lifecycle.LiveData
 import hcmus.android.gallery1.data.DataSource
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.data.toFavourite
@@ -14,6 +15,7 @@ interface FavouriteRepository {
     suspend fun getFavourites(): List<Item>
     suspend fun insert(item: Item): Item
     suspend fun remove(item: Item)
+    fun isFavourite2(itemId: Long): LiveData<Boolean>
 }
 
 class FavouriteRepositoryImpl private constructor(
@@ -67,5 +69,5 @@ class FavouriteRepositoryImpl private constructor(
         favouriteDao.delete(item.toFavourite())
     }
 
-
+    override fun isFavourite2(itemId: Long) = favouriteDao.containsId2(itemId)
 }
