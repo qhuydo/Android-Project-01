@@ -14,13 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
+        android:stateListAnimator="@animator/item_selection"
         app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:stateListAnimator="@animator/item_selection">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/item_thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
