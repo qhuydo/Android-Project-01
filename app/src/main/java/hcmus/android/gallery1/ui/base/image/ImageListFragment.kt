@@ -23,8 +23,8 @@ abstract class ImageListFragment<B: ViewDataBinding>(
 ) : BaseFragment<B>(layoutId), ScrollableToTop {
 
     protected lateinit var itemListAdapter: ItemListAdapter
-    private val itemListAdapterCallback = ItemListAdapter.Callback { item ->
-        imageListViewModel().navigateToImageView(item)
+    private val itemListAdapterCallback = ItemListAdapter.Callback { _, itemPos ->
+        imageListViewModel().navigateToImageView(itemPos)
     }
 
     abstract fun imageListViewModel(): ImageListViewModel
@@ -51,8 +51,8 @@ abstract class ImageListFragment<B: ViewDataBinding>(
 
         imageListViewModel().navigateToImageView.observe(viewLifecycleOwner) {
             if (it != null) {
-//                imageListViewModel().setCurrentDisplayingList(sharedViewModel)
-                mainActivity?.navigateToViewImageFragment(it)
+                imageListViewModel().setCurrentDisplayingList(sharedViewModel)
+                mainActivity?.navigateToViewImageFragment(it, imageListViewModel())
             }
         }
 

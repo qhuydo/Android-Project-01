@@ -9,15 +9,15 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
+import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.collection.view.ViewCollectionFragment
 import hcmus.android.gallery1.ui.image.view.ViewImageFragment
 import hcmus.android.gallery1.ui.main.MainActivity
 
-fun MainActivity.navigateToViewImageFragment(item: Item) {
-    val bundle = Bundle().apply {
-        putParcelable(BaseViewImageFragment.ARGS_ITEM, item)
-    }
-    pushScreen(ViewImageFragment::class.java, bundle)
+fun MainActivity.navigateToViewImageFragment(itemPosition: Int, imageListViewModel: ImageListViewModel) {
+    imageListViewModel.setCurrentDisplayingList(mainViewModel)
+    mainViewModel.currentDisplayingItemPos = itemPosition
+    pushScreen(ViewImageFragment::class.java)
 }
 
 private fun MainActivity.pushScreen(

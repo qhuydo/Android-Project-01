@@ -43,8 +43,16 @@ class MainActivity : AppCompatActivity() {
     val photoRepository by lazy { PhotoRepositoryImpl.getInstance(mediaStoreSource) }
     val collectionRepository by lazy { CollectionRepositoryImpl.getInstance(mediaStoreSource) }
     val preferenceRepository by lazy { (application as GalleryOneApplication).preferenceRepository }
-
     val orientation by lazy { resources.configuration.orientation }
+
+    internal val mainViewModel by viewModels<MainViewModel> {
+        MainViewModel.Factory(
+            application,
+            photoRepository,
+            collectionRepository
+        )
+    }
+
 
     // the navigation bar is on the side
     var isSideNavigationBar: Boolean = false

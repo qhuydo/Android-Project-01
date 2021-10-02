@@ -37,12 +37,12 @@ class ItemListAdapter(
         val item = getItem(position)
         holder.bind(item, selectedTintColour, selectedCornerRadius, checkIcon)
         holder.itemView.setOnClickListener {
-            callback?.onClick(item)
+            callback?.onClick(item, holder.bindingAdapterPosition)
 //            holder.itemView.isSelected = !holder.itemView.isSelected
         }
     }
 
-    class Callback(private val onClickFn: (Item) -> Unit) {
-        fun onClick(item: Item) = onClickFn.invoke(item)
+    class Callback(private val onClickFn: (Item, Int) -> Unit) {
+        fun onClick(item: Item, position: Int) = onClickFn.invoke(item, position)
     }
 }

@@ -31,8 +31,8 @@ class ViewCollectionFragment :
         requireArguments().getParcelable(ARGS_COLLECTION)!!
     }
 
-    private val itemListAdapterCallback = ItemListAdapter.Callback { item ->
-        viewModel.navigateToImageView(item)
+    private val itemListAdapterCallback = ItemListAdapter.Callback { _, itemPosition ->
+        viewModel.navigateToImageView(itemPosition)
     }
 
     private val viewModel by viewModels<ViewCollectionViewModel> {
@@ -66,8 +66,7 @@ class ViewCollectionFragment :
 
             navigateToImageView.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    //setCurrentDisplayingList(sharedViewModel)
-                    mainActivity?.navigateToViewImageFragment(it)
+                    mainActivity?.navigateToViewImageFragment(it, viewModel)
                 }
             }
         }
