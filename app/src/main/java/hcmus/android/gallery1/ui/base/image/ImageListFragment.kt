@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,7 @@ import hcmus.android.gallery1.ui.base.BaseFragment
 import timber.log.Timber
 
 abstract class ImageListFragment<B: ViewDataBinding>(
-    layoutId: Int = R.layout.fragment_main_all_photos,
+    @LayoutRes layoutId: Int = R.layout.fragment_main_all_photos,
     private val tabName: String = TAB_ALL
 ) : BaseFragment<B>(layoutId), ScrollableToTop {
 

@@ -23,6 +23,7 @@ import hcmus.android.gallery1.repository.CollectionRepositoryImpl
 import hcmus.android.gallery1.repository.FavouriteRepositoryImpl
 import hcmus.android.gallery1.repository.PhotoRepositoryImpl
 import hcmus.android.gallery1.ui.base.BaseFragment
+import hcmus.android.gallery1.ui.base.BaseViewImageFragment.Companion.ARGS_ITEM
 import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
 import hcmus.android.gallery1.ui.collection.list.DateCollectionViewModel
 import hcmus.android.gallery1.ui.image.list.AllPhotosViewModel
@@ -254,7 +255,7 @@ class MainActivity : AppCompatActivity() {
     fun pushViewImageFragment(item: Item) {
         val fm = supportFragmentManager
         val bundle = Bundle().apply {
-            putParcelable(ViewImageFragmentNoPager.ARGS_ITEM, item)
+            putParcelable(ARGS_ITEM, item)
         }
         val tag = ViewImageFragmentNoPager::class.java.name
         val fragmentToBeHidden = fm.findFragmentById(R.id.fragment_container)

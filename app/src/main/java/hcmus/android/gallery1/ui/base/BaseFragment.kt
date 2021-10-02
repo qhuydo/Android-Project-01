@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -11,7 +12,7 @@ import androidx.fragment.app.activityViewModels
 import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.main.MainViewModel
 
-abstract class BaseFragment<B : ViewDataBinding>(private val layoutId: Int) : Fragment() {
+abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId: Int) : Fragment() {
 
     protected val mainActivity by lazy { requireActivity() as? MainActivity }
     protected val preferenceRepository by lazy { mainActivity!!.preferenceRepository }

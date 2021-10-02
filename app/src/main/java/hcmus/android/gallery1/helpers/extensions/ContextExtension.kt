@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -103,7 +104,7 @@ fun Context.configLanguage(locale: Locale?): Context {
 fun Context.toast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) =
     Toast.makeText(this, text, duration).show()
 
-fun Context.toast(resId: Int, duration: Int = Toast.LENGTH_SHORT) =
+fun Context.toast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) =
     Toast.makeText(this, resId, duration)
 
 // https://blog.mindorks.com/android-bottomsheet-in-kotlin
