@@ -27,7 +27,7 @@ import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
 import hcmus.android.gallery1.ui.collection.list.DateCollectionViewModel
 import hcmus.android.gallery1.ui.image.list.AllPhotosViewModel
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
-import hcmus.android.gallery1.ui.image.view.ViewImageFragment
+import hcmus.android.gallery1.ui.image.view.ViewImageFragmentNoPager
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -254,13 +254,13 @@ class MainActivity : AppCompatActivity() {
     fun pushViewImageFragment(item: Item) {
         val fm = supportFragmentManager
         val bundle = Bundle().apply {
-            putParcelable(ViewImageFragment.ARGS_ITEM, item)
+            putParcelable(ViewImageFragmentNoPager.ARGS_ITEM, item)
         }
-        val tag = ViewImageFragment::class.java.name
+        val tag = ViewImageFragmentNoPager::class.java.name
         val fragmentToBeHidden = fm.findFragmentById(R.id.fragment_container)
         fm.commit {
             fragmentToBeHidden?.let { hide(it) }
-            add(R.id.fragment_container, ViewImageFragment::class.java, bundle, tag)
+            add(R.id.fragment_container, ViewImageFragmentNoPager::class.java, bundle, tag)
             addToBackStack(tag)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         }

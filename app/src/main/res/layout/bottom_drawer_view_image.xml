@@ -8,7 +8,7 @@
 
         <variable
             name="fm"
-            type="hcmus.android.gallery1.ui.image.view.ViewImageFragment" />
+            type="hcmus.android.gallery1.ui.image.view.ViewImageFragmentNoPager" />
 
         <variable
             name="photoViewModel"

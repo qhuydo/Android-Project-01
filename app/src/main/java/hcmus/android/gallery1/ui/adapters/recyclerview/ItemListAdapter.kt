@@ -38,7 +38,7 @@ class ItemListAdapter(
         holder.bind(item, selectedTintColour, selectedCornerRadius, checkIcon)
         holder.itemView.setOnClickListener {
             callback?.onClick(item)
-            // holder.itemView.isSelected = !holder.itemView.isSelected
+//            holder.itemView.isSelected = !holder.itemView.isSelected
         }
     }
 

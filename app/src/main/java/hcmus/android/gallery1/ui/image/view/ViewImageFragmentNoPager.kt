@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -19,7 +18,7 @@ import hcmus.android.gallery1.helpers.extensions.toast
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 
-class ViewImageFragment : BottomDrawerFragment<FragmentViewImageNopagerBinding>(
+class ViewImageFragmentNoPager : BottomDrawerFragment<FragmentViewImageNopagerBinding>(
     R.layout.fragment_view_image_nopager
 ) {
     companion object {
@@ -51,7 +50,7 @@ class ViewImageFragment : BottomDrawerFragment<FragmentViewImageNopagerBinding>(
         with(viewModel) {
             item.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    this@ViewImageFragment.item = it
+                    this@ViewImageFragmentNoPager.item = it
                     binding.photoViewModel = this
                     binding.executePendingBindings()
                 }
