@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.databinding.BindingAdapter
 import com.davemorrissey.labs.subscaleview.ImageSource
@@ -49,6 +50,9 @@ class ImageItemView : FrameLayout {
         binding.subscaleView.setOnClickListener {
             callOnClick()
         }
+
+        layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+
     }
 
     fun goneAllExcept(view: View) {
