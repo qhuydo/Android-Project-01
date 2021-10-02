@@ -1,5 +1,6 @@
 package hcmus.android.gallery1.ui.adapters.recyclerview
 
+import android.animation.ObjectAnimator
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -8,15 +9,15 @@ import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
-import com.bumptech.glide.request.transition.TransitionFactory
+import com.bumptech.glide.request.transition.ViewPropertyTransition
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.ListItemBinding
 import hcmus.android.gallery1.databinding.ListItemCompactBinding
 import hcmus.android.gallery1.helpers.ItemThumbnailTarget
+
 
 sealed class ItemListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -34,10 +35,18 @@ sealed class ItemListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         selectedDrawable: Drawable
     ) {
 
+        val animationObject = ViewPropertyTransition.Animator { view ->
+            view.alpha = 0f
+            val fadeAnim = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
+            fadeAnim.duration = 250
+            fadeAnim.start()
+        }
+
         Glide.with(this)
             .asBitmap()
             .load(item.getUri())
             .error(R.drawable.placeholder_item)
+            .transition(GenericTransitionOptions.with(animationObject))
             .into(
                 ItemThumbnailTarget(
                     this,
