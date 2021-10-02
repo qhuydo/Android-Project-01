@@ -5,4 +5,5 @@
     <dimen name="bdrawer_peek_height">76dp</dimen>
     <dimen name="bdrawer_toolbar_height">60dp</dimen>
     <dimen name="btn_icon_padding">16dp</dimen>
+    <dimen name="selected_corner_radius">16dp</dimen>
 </resources>

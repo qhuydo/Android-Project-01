@@ -36,6 +36,7 @@ abstract class ImageListFragment<B: ViewDataBinding>(
     ): View? {
 
         itemListAdapter = ItemListAdapter(
+            requireContext(),
             isCompactLayout = preferenceRepository.isCompactLayout(tabName),
             callback = itemListAdapterCallback
         )
@@ -65,6 +66,7 @@ abstract class ImageListFragment<B: ViewDataBinding>(
     open fun notifyViewTypeChanged() {
         val items = itemListAdapter.currentList
         itemListAdapter = ItemListAdapter(
+            requireContext(),
             isCompactLayout = preferenceRepository.isCompactLayout(tabName),
             callback = itemListAdapterCallback
         ).apply {

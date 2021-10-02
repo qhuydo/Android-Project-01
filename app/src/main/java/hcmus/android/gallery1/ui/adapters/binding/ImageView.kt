@@ -3,9 +3,12 @@ package hcmus.android.gallery1.ui.adapters.binding
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.GlideExperiments
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.helpers.ItemThumbnailTarget
 
 @BindingAdapter("loadGlideImage")
 fun ImageView.loadGlideImage(item: Item?) {

@@ -46,6 +46,7 @@ class ViewCollectionFragment :
         mainActivity?.setViewPaddingWindowInset(binding.recyclerView)
 
         itemListAdapter = ItemListAdapter(
+            requireContext(),
             isCompactLayout = preferenceRepository.isCompactLayout(TAB_ALL),
             callback = itemListAdapterCallback
         )
@@ -136,6 +137,7 @@ class ViewCollectionFragment :
     private fun refreshCollection() {
         val items = itemListAdapter.currentList
         itemListAdapter = ItemListAdapter(
+            requireContext(),
             isCompactLayout = preferenceRepository.isCompactLayout(TAB_ALL),
             callback = itemListAdapterCallback
         ).apply {

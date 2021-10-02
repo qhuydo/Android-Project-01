@@ -1,36 +1,91 @@
 package hcmus.android.gallery1.ui.adapters.recyclerview
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.annotation.ColorInt
+import androidx.annotation.Px
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
+import com.bumptech.glide.request.transition.TransitionFactory
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.ListItemBinding
 import hcmus.android.gallery1.databinding.ListItemCompactBinding
+import hcmus.android.gallery1.helpers.ItemThumbnailTarget
 
-sealed class ItemListViewHolder(view: View): RecyclerView.ViewHolder(view) {
+sealed class ItemListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    abstract fun bind(item: Item)
+    abstract fun bind(
+        item: Item,
+        @ColorInt selectedTintColour: Int,
+        @Px selectedCornerRadius: Int,
+        selectedDrawable: Drawable
+    )
+
+    protected fun ImageView.bindItemDrawable(
+        item: Item,
+        @ColorInt selectedTintColour: Int,
+        @Px selectedCornerRadius: Int,
+        selectedDrawable: Drawable
+    ) {
+
+        Glide.with(this)
+            .asBitmap()
+            .load(item.getUri())
+            .error(R.drawable.placeholder_item)
+            .into(
+                ItemThumbnailTarget(
+                    this,
+                    selectedTintColour,
+                    selectedCornerRadius,
+                    selectedDrawable
+                )
+            )
+    }
 
     class ViewHolderCompact(private val binding: ListItemCompactBinding) :
         ItemListViewHolder(binding.root) {
 
-        override fun bind(item: Item) {
-            binding.item = item
-            binding.executePendingBindings()
+        override fun bind(
+            item: Item,
+            selectedTintColour: Int,
+            selectedCornerRadius: Int,
+            selectedDrawable: Drawable
+        ) = binding.run {
+            itemThumbnail.bindItemDrawable(
+                item,
+                selectedTintColour,
+                selectedCornerRadius,
+                selectedDrawable
+            )
+            this.item = item
+            executePendingBindings()
         }
-
     }
 
     class ViewHolderGrid(private val binding: ListItemBinding) :
         ItemListViewHolder(binding.root) {
 
-        override fun bind(item: Item) {
-            binding.item = item
-            binding.executePendingBindings()
+        override fun bind(
+            item: Item,
+            selectedTintColour: Int,
+            selectedCornerRadius: Int,
+            selectedDrawable: Drawable
+        ) = binding.run {
+            itemThumbnail.bindItemDrawable(
+                item,
+                selectedTintColour,
+                selectedCornerRadius,
+                selectedDrawable
+            )
+            this.item = item
+            executePendingBindings()
         }
-
     }
 
     companion object {
@@ -40,8 +95,11 @@ sealed class ItemListViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
             return when (type) {
                 R.layout.list_item_compact -> {
-                    val binding =
-                        ListItemCompactBinding.inflate(layoutInflater, parent, false)
+                    val binding = ListItemCompactBinding.inflate(
+                        layoutInflater,
+                        parent,
+                        false
+                    )
                     ViewHolderCompact(binding)
                 }
                 else -> {

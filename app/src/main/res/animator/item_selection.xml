@@ -3,19 +3,19 @@
 
     <item
         android:state_enabled="true"
-        android:state_activated="true">
+        android:state_selected="true">
 
         <set>
             <objectAnimator
                 android:duration="@android:integer/config_shortAnimTime"
                 android:interpolator="@android:interpolator/fast_out_slow_in"
                 android:propertyName="scaleX"
-                android:valueTo="0.8" />
+                android:valueTo="0.95" />
             <objectAnimator
                 android:duration="@android:integer/config_shortAnimTime"
                 android:interpolator="@android:interpolator/fast_out_slow_in"
                 android:propertyName="scaleY"
-                android:valueTo="0.8" />
+                android:valueTo="0.95" />
         </set>
     </item>
 
