@@ -12,6 +12,7 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB_ALL
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
+import hcmus.android.gallery1.helpers.navigation.navigateToViewImageFragment
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.BaseFragment
 import timber.log.Timber
@@ -50,7 +51,8 @@ abstract class ImageListFragment<B: ViewDataBinding>(
 
         imageListViewModel().navigateToImageView.observe(viewLifecycleOwner) {
             if (it != null) {
-                mainActivity?.pushViewImageFragment(it)
+//                imageListViewModel().setCurrentDisplayingList(sharedViewModel)
+                mainActivity?.navigateToViewImageFragment(it)
             }
         }
 

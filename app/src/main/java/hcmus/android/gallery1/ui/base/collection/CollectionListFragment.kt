@@ -2,20 +2,17 @@ package hcmus.android.gallery1.ui.base.collection
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.databinding.FragmentMainAlbumBinding
 import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB_ALBUM
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
+import hcmus.android.gallery1.helpers.navigation.navigateToViewCollectionFragment
 import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
 import hcmus.android.gallery1.ui.adapters.recyclerview.CollectionListAdapter
 import hcmus.android.gallery1.ui.base.BaseFragment
-import hcmus.android.gallery1.ui.collection.view.ViewCollectionFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -46,7 +43,7 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
                 return@observe
             }
 
-            navigateToCollectionView(it)
+            mainActivity?.navigateToViewCollectionFragment(it)
         }
 
         binding.albumPullToRefresh.listener = PullToRefreshLayout.Listener {
@@ -63,21 +60,6 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
 
     override fun scrollToTop() {
         binding.recyclerView.smoothScrollToPosition(0)
-    }
-
-    private fun navigateToCollectionView(it: Collection?) {
-        val fm = requireActivity().supportFragmentManager
-        val bundle = Bundle().apply {
-            putParcelable(ViewCollectionFragment.ARGS_COLLECTION, it)
-        }
-        val tag = ViewCollectionFragment::class.java.name
-        val fragmentToBeHidden = fm.findFragmentById(R.id.fragment_container)
-        fm.commit {
-            fragmentToBeHidden?.let { hide(it) }
-            add(R.id.fragment_container, ViewCollectionFragment::class.java, bundle, tag)
-            addToBackStack(tag)
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        }
     }
 
     override fun bindData() {

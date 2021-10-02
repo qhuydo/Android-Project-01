@@ -10,12 +10,10 @@ import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import hcmus.android.gallery1.GalleryOneApplication
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.DataSource
-import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.ActivityMainBinding
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.persistent.AppDatabase.Companion.getDatabaseInstance
@@ -23,12 +21,10 @@ import hcmus.android.gallery1.repository.CollectionRepositoryImpl
 import hcmus.android.gallery1.repository.FavouriteRepositoryImpl
 import hcmus.android.gallery1.repository.PhotoRepositoryImpl
 import hcmus.android.gallery1.ui.base.BaseFragment
-import hcmus.android.gallery1.ui.base.BaseViewImageFragment.Companion.ARGS_ITEM
 import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
 import hcmus.android.gallery1.ui.collection.list.DateCollectionViewModel
 import hcmus.android.gallery1.ui.image.list.AllPhotosViewModel
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
-import hcmus.android.gallery1.ui.image.view.ViewImageFragmentNoPager
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -94,15 +90,23 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             // Insert first piece of fragment
-            mainFragment = MainFragment()
-            supportFragmentManager.commit {
-                add(R.id.fragment_container, mainFragment, MainFragment::class.java.name)
-            }
+            addMainFragment()
         } else {
-            mainFragment = supportFragmentManager.findFragmentByTag(MainFragment::class.java.name)
-                    as MainFragment
+            findMainFragment()
         }
         initViewModel()
+    }
+
+    private fun findMainFragment() {
+        mainFragment = supportFragmentManager.findFragmentByTag(MainFragment::class.java.name)
+                as MainFragment
+    }
+
+    private fun addMainFragment() {
+        mainFragment = MainFragment()
+        supportFragmentManager.commit {
+            add(R.id.fragment_container, mainFragment, MainFragment::class.java.name)
+        }
     }
 
     private fun setUpUi() {
@@ -249,21 +253,6 @@ class MainActivity : AppCompatActivity() {
         }
         if (orientationEventListener?.canDetectOrientation() == true) {
             orientationEventListener?.enable()
-        }
-    }
-
-    fun pushViewImageFragment(item: Item) {
-        val fm = supportFragmentManager
-        val bundle = Bundle().apply {
-            putParcelable(ARGS_ITEM, item)
-        }
-        val tag = ViewImageFragmentNoPager::class.java.name
-        val fragmentToBeHidden = fm.findFragmentById(R.id.fragment_container)
-        fm.commit {
-            fragmentToBeHidden?.let { hide(it) }
-            add(R.id.fragment_container, ViewImageFragmentNoPager::class.java, bundle, tag)
-            addToBackStack(tag)
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         }
     }
 

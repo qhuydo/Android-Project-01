@@ -2,7 +2,6 @@ package hcmus.android.gallery1.ui.collection.view
 
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -14,6 +13,7 @@ import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
 import hcmus.android.gallery1.helpers.extensions.observeOnce
 import hcmus.android.gallery1.helpers.extensions.padding
+import hcmus.android.gallery1.helpers.navigation.navigateToViewImageFragment
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 
@@ -66,7 +66,8 @@ class ViewCollectionFragment :
 
             navigateToImageView.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    mainActivity?.pushViewImageFragment(it)
+                    //setCurrentDisplayingList(sharedViewModel)
+                    mainActivity?.navigateToViewImageFragment(it)
                 }
             }
         }
