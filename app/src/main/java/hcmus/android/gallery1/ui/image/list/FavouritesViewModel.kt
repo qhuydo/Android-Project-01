@@ -6,6 +6,7 @@ import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.RecyclerViewListState
 import hcmus.android.gallery1.repository.FavouriteRepository
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
+import hcmus.android.gallery1.ui.main.MainViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -28,6 +29,10 @@ class FavouritesViewModel private constructor(private val favoriteRepository: Fa
         viewModelScope.launch {
             _favourites.value = favoriteRepository.getFavourites().toMutableList()
         }
+    }
+
+    override fun setCurrentDisplayingList(sharedViewModel: MainViewModel) {
+        sharedViewModel.currentDisplayingList = _favourites.value
     }
 
     private suspend fun addFavourite(item: Item): RecyclerViewListState.ItemInserted {

@@ -3,7 +3,7 @@ package hcmus.android.gallery1.ui.base.image
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.hadilq.liveevent.LiveEvent
-import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.ui.main.MainViewModel
 
 abstract class ImageListViewModel : ViewModel() {
 
@@ -16,4 +16,5 @@ abstract class ImageListViewModel : ViewModel() {
     }
 
     abstract fun loadData(callback: (() -> Unit)? = null)
+    abstract fun setCurrentDisplayingList(sharedViewModel: MainViewModel)
 }

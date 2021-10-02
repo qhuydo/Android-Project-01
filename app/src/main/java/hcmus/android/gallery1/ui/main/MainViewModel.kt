@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.hadilq.liveevent.LiveEvent
+import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.repository.CollectionRepository
 import hcmus.android.gallery1.repository.PhotoRepository
 import timber.log.Timber
@@ -27,6 +28,11 @@ class MainViewModel private constructor(
     private var _contentChange = LiveEvent<ContentChangeState>()
     val contentChange: LiveData<ContentChangeState>
         get() = _contentChange
+
+    var currentDisplayingList: List<Item>? = null
+        internal set
+    var currentDisplayingItemPos: Int = 0
+        internal set
 
     init {
 

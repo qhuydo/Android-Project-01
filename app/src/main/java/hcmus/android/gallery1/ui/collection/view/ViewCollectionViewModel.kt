@@ -5,6 +5,7 @@ import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.repository.PhotoRepository
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
+import hcmus.android.gallery1.ui.main.MainViewModel
 import kotlinx.coroutines.launch
 
 class ViewCollectionViewModel private constructor(private val photoRepository: PhotoRepository) :
@@ -19,6 +20,10 @@ class ViewCollectionViewModel private constructor(private val photoRepository: P
 
     override fun loadData(callback: (() -> Unit)?) {
         getPhotos()
+    }
+
+    override fun setCurrentDisplayingList(sharedViewModel: MainViewModel) {
+        sharedViewModel.currentDisplayingList = _photos.value
     }
 
     fun setCollection(collection: Collection) = _collection.postValue(collection)

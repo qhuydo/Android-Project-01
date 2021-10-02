@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.repository.PhotoRepository
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
+import hcmus.android.gallery1.ui.main.MainViewModel
 import kotlinx.coroutines.launch
 
 class AllPhotosViewModel private constructor(private val photoRepository: PhotoRepository) :
@@ -26,6 +27,10 @@ class AllPhotosViewModel private constructor(private val photoRepository: PhotoR
             } ?: run { _photos.value = newList }
             callback?.invoke()
         }
+    }
+
+    override fun setCurrentDisplayingList(sharedViewModel: MainViewModel) {
+        sharedViewModel.currentDisplayingList = _photos.value
     }
 
     @Suppress("UNCHECKED_CAST")
