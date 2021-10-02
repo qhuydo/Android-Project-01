@@ -249,7 +249,8 @@ class DataSource(private val applicationContext: Context) {
             MediaStore.Files.FileColumns.DISPLAY_NAME,
             MediaStore.Files.FileColumns.DATE_MODIFIED,
             MediaStore.Files.FileColumns.SIZE,
-            MediaStore.Files.FileColumns.DATA
+            MediaStore.Files.FileColumns.DATA,
+            MediaStore.Files.FileColumns.MIME_TYPE,
         )
 
         applicationContext.contentResolver.query(
@@ -265,6 +266,7 @@ class DataSource(private val applicationContext: Context) {
             val nameRow = it.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME)
             val dataRow = it.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)
             val sizeRow = it.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE)
+            val mimeTypeRow = it.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MIME_TYPE)
 
             while (it.moveToNext()) {
                 val item = Item(
@@ -272,7 +274,8 @@ class DataSource(private val applicationContext: Context) {
                     dateModified = it.getLong(dateModifiedRow),
                     fileName = it.getString(nameRow),
                     filePath = it.getString(dataRow),
-                    fileSize = it.getLong(sizeRow)
+                    fileSize = it.getLong(sizeRow),
+                    mimeType = it.getString(mimeTypeRow)
                 )
                 if (filter(item)) items += item
             }
