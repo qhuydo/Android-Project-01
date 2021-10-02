@@ -18,15 +18,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <hcmus.android.gallery1.helpers.widgets.ImageItemView
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clickable="false"
             android:onClick="@{() -> fragment.toggleFullScreenMode()}"
+            app:item="@{photoViewModel.item}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loadGlideImage="@{photoViewModel.item}"
             tools:ignore="ContentDescription"
             tools:src="@tools:sample/avatars" />
 
