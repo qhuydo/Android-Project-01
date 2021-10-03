@@ -69,7 +69,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
 
                 when (fm) {
                     is ImageListFragment<*> -> fm.notifyViewTypeChanged()
-                    is CollectionListFragment -> fm.notifyViewTypeChanged()
+                    // is CollectionListFragment -> fm.notifyViewTypeChanged()
                 }
 
                 tabFragmentAdapter.notifyItemChanged(tab.ordinal)

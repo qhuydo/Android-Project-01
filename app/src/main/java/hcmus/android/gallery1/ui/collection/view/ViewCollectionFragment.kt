@@ -42,14 +42,15 @@ class ViewCollectionFragment :
     private lateinit var itemListAdapter: ItemListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        mainActivity?.setViewPaddingWindowInset(binding.recyclerView)
-
         itemListAdapter = ItemListAdapter(
             requireContext(),
-            isCompactLayout = preferenceRepository.isCompactLayout(TAB_ALL),
+            isCompactLayout = preferenceRepository.isCompactLayout(TAB.ALL),
             callback = itemListAdapterCallback
         )
+        mainActivity?.setViewPaddingWindowInset(binding.recyclerView)
+
+        super.onViewCreated(view, savedInstanceState)
+
     }
 
     override fun subscribeUi() {
@@ -138,7 +139,7 @@ class ViewCollectionFragment :
         val items = itemListAdapter.currentList
         itemListAdapter = ItemListAdapter(
             requireContext(),
-            isCompactLayout = preferenceRepository.isCompactLayout(TAB_ALL),
+            isCompactLayout = preferenceRepository.isCompactLayout(TAB.ALL),
             callback = itemListAdapterCallback
         ).apply {
             submitList(items)

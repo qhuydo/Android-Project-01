@@ -7,8 +7,15 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.hadilq.liveevent.LiveEvent
 import hcmus.android.gallery1.data.Collection
+import hcmus.android.gallery1.helpers.TAB
+import hcmus.android.gallery1.repository.PreferenceRepository
 
-abstract class CollectionListViewModel : ViewModel() {
+abstract class CollectionListViewModel(
+    val tab: TAB,
+    preferenceRepository: PreferenceRepository
+) : ViewModel() {
+
+    val viewMode = preferenceRepository.getViewMode(tab)
 
     protected var _collections = MutableLiveData<MutableList<Collection>>()
     val collections: LiveData<MutableList<Collection>>

@@ -1,7 +1,5 @@
 package hcmus.android.gallery1.ui.base.collection
 
-import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import hcmus.android.gallery1.R
@@ -9,6 +7,7 @@ import hcmus.android.gallery1.databinding.FragmentMainColllectionListBinding
 import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
+import hcmus.android.gallery1.helpers.extensions.isCompactLayout
 import hcmus.android.gallery1.helpers.navigation.navigateToViewCollectionFragment
 import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
 import hcmus.android.gallery1.ui.adapters.recyclerview.CollectionListAdapter
@@ -21,32 +20,19 @@ abstract class CollectionListFragment(private val tab: TAB = TAB.ALBUM) :
     BaseFragment<FragmentMainColllectionListBinding>(R.layout.fragment_main_colllection_list),
     ScrollableToTop {
 
-    protected lateinit var collectionListAdapter: CollectionListAdapter
 
     private val adapterCallback = CollectionListAdapter.Callback { collection ->
         collectionViewModel().navigateToCollectionDetails(collection)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        collectionListAdapter = CollectionListAdapter(
-            isCompactLayout = preferenceRepository.isCompactLayout(tab.key),
-            callback = adapterCallback
-        )
+    protected val collectionListAdapter = CollectionListAdapter(callback = adapterCallback)
+
+    override fun scrollToTop() {
+        binding.recyclerView.smoothScrollToPosition(0)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        collectionViewModel().navigateToCollectionDetails.observe(viewLifecycleOwner) {
-            if (it == null) {
-                return@observe
-            }
-
-            mainActivity?.navigateToViewCollectionFragment(it)
-        }
-
-        binding.albumPullToRefresh.listener = PullToRefreshLayout.Listener {
+    override fun bindData() = with(binding) {
+        albumPullToRefresh.listener = PullToRefreshLayout.Listener {
             lifecycleScope.launch {
                 delay(PullToRefreshLayout.REFRESH_MIN_DELAY)
                 collectionViewModel().loadData {
@@ -57,34 +43,25 @@ abstract class CollectionListFragment(private val tab: TAB = TAB.ALBUM) :
         }
     }
 
-    override fun scrollToTop() {
-        binding.recyclerView.smoothScrollToPosition(0)
-    }
-
-    override fun bindData() {
-        initRecyclerView()
-    }
-
-    fun notifyViewTypeChanged() {
-
-        val collections = collectionListAdapter.currentList
-        collectionListAdapter = CollectionListAdapter(
-            isCompactLayout = preferenceRepository.isCompactLayout(tab.key),
-            callback = adapterCallback
-        ).also {
-            it.submitList(collections)
+    override fun subscribeUi() = with(collectionViewModel()) {
+        navigateToCollectionDetails.observe(viewLifecycleOwner) {
+            if (it == null) {
+                return@observe
+            }
+            mainActivity?.navigateToViewCollectionFragment(it)
         }
-
-        initRecyclerView()
+        viewMode.observe(viewLifecycleOwner) {
+            if (it != null) {
+                initRecyclerView(it)
+            }
+        }
     }
 
-    private fun initRecyclerView() {
+    private fun initRecyclerView(viewMode: String) {
         binding.recyclerView.apply {
             adapter = collectionListAdapter
-            val spanCount = requireContext().getSpanCountOf(
-                tab.key,
-                preferenceRepository.getViewMode(tab.key)
-            )
+            collectionListAdapter.changeCompactLayout(viewMode.isCompactLayout())
+            val spanCount = requireContext().getSpanCountOf(tab.key, viewMode)
             layoutManager = GridLayoutManager(requireContext(), spanCount)
         }
     }

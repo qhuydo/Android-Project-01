@@ -8,13 +8,15 @@ class DateCollectionFragment : CollectionListFragment(tab = TAB.DATE) {
 
     val viewModel by activityViewModels<DateCollectionViewModel> {
         DateCollectionViewModel.Factory(
-            mainActivity!!.collectionRepository
+            mainActivity!!.collectionRepository,
+            mainActivity!!.preferenceRepository
         )
     }
 
     override fun collectionViewModel() = viewModel
 
     override fun subscribeUi() {
+        super.subscribeUi()
         with(viewModel) {
             collections.observe(viewLifecycleOwner) {
                 collectionListAdapter.submitList(it)

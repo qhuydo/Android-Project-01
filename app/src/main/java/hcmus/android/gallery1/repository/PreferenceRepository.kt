@@ -3,6 +3,7 @@ package hcmus.android.gallery1.repository
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import androidx.lifecycle.LiveData
 import androidx.preference.PreferenceManager
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.*
@@ -104,10 +105,16 @@ class PreferenceRepository private constructor(applicationContext: Context) {
     // View mode per tab
     fun getViewMode(tab: String): String {
         if (tab in validTabs) {
-            return prefs.getString("$VIEW_MODE_OF$tab", null) ?: NOT_EXIST
+            return prefs.getString("$VIEW_MODE_OF$tab", NOT_EXIST) ?: NOT_EXIST
         }
         return NOT_EXIST
     }
+
+    fun getViewMode(tab: TAB): LiveData<String?> {
+        return prefs.asLiveData("$VIEW_MODE_OF${tab.key}", NOT_EXIST)
+    }
+
+    fun setViewMode(tab: TAB, newMode: String) = setViewMode(tab.key, newMode)
 
     fun setViewMode(tab: String, newMode: String) {
         if (isValidViewMode(tab, newMode)) {
@@ -115,5 +122,5 @@ class PreferenceRepository private constructor(applicationContext: Context) {
         }
     }
 
-    fun isCompactLayout(tabName: String) = getViewMode(tabName) == VIEW_LIST
+    fun isCompactLayout(tab: TAB) = getViewMode(tab.key) == VIEW_LIST
 }

@@ -39,7 +39,7 @@ abstract class ImageListFragment<B: ViewDataBinding>(
 
         itemListAdapter = ItemListAdapter(
             requireContext(),
-            isCompactLayout = preferenceRepository.isCompactLayout(tab.key),
+            isCompactLayout = preferenceRepository.isCompactLayout(tab),
             callback = itemListAdapterCallback
         )
 
@@ -70,7 +70,7 @@ abstract class ImageListFragment<B: ViewDataBinding>(
         val items = itemListAdapter.currentList
         itemListAdapter = ItemListAdapter(
             requireContext(),
-            isCompactLayout = preferenceRepository.isCompactLayout(tab.key),
+            isCompactLayout = preferenceRepository.isCompactLayout(tab),
             callback = itemListAdapterCallback
         ).apply {
             submitList(items)

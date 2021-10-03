@@ -6,9 +6,14 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Collection
 
 class CollectionListAdapter(
-    private val isCompactLayout: Boolean = false,
+    private var isCompactLayout: Boolean = false,
     private val callback: Callback? = null
 ) : ListAdapter<Collection, CollectionListViewHolder>(Collection.diffCallback) {
+
+    fun changeCompactLayout(isCompactLayout: Boolean) {
+        this.isCompactLayout = isCompactLayout
+        notifyDataSetChanged()
+    }
 
     override fun getItemViewType(position: Int): Int {
         return if (isCompactLayout) {
