@@ -100,13 +100,3 @@ fun View.requestApplyInsetsWhenAttached() {
         })
     }
 }
-
-fun View.disableClipOnParents() {
-    if (parent == null) return
-
-    if (this is ViewGroup) {
-        clipChildren = false
-    }
-    (parent as? View)?.disableClipOnParents()
-
-}

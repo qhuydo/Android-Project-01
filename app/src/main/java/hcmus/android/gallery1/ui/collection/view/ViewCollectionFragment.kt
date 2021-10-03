@@ -64,7 +64,7 @@ class ViewCollectionFragment :
 
         navigateToImageView.observe(viewLifecycleOwner) {
             if (it != null) {
-                mainActivity?.navigateToViewImageFragment(it, viewModel)
+                mainActivity?.navigateToViewImageFragment(tab, it, viewModel)
             }
         }
 

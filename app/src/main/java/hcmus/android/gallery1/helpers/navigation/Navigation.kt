@@ -8,15 +8,22 @@ import androidx.fragment.app.commit
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.collection.view.ViewCollectionFragment
 import hcmus.android.gallery1.ui.image.view.ViewImageFragment
 import hcmus.android.gallery1.ui.main.MainActivity
 
-fun MainActivity.navigateToViewImageFragment(itemPosition: Int, imageListViewModel: ImageListViewModel) {
+fun MainActivity.navigateToViewImageFragment(
+    fromTab: TAB,
+    itemPosition: Int,
+    imageListViewModel: ImageListViewModel
+) {
     imageListViewModel.setCurrentDisplayingList(mainViewModel)
     mainViewModel.currentDisplayingItemPos = itemPosition
+    mainViewModel.itemListFromTab = fromTab
+
     pushScreen(ViewImageFragment::class.java)
 }
 
@@ -32,9 +39,9 @@ private fun MainActivity.pushScreen(
     fm.commit {
         fragmentToBeHidden?.let { hide(it) }
         add(fragmentContainerId, fragmentClass, bundle, tag)
-       addToBackStack(tag)
-       transition?.let{ setTransition(it) }
-   }
+        addToBackStack(tag)
+        transition?.let { setTransition(it) }
+    }
 }
 
 fun MainActivity.navigateToViewImageFragmentNoPager(item: Item) {

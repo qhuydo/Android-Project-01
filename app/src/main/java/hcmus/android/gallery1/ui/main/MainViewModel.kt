@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.hadilq.liveevent.LiveEvent
 import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.repository.CollectionRepository
 import hcmus.android.gallery1.repository.PhotoRepository
 import timber.log.Timber
@@ -32,6 +33,8 @@ class MainViewModel private constructor(
     var currentDisplayingList: List<Item>? = null
         internal set
     var currentDisplayingItemPos: Int = 0
+        internal set
+    var itemListFromTab: TAB? = null
         internal set
 
     init {

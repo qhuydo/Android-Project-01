@@ -59,14 +59,15 @@
                 android:src="@drawable/ic_action_delete" />
 
             <ImageButton
-                android:id="@+id/btn_edit"
+                android:id="@+id/btn_favorite"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
-                android:contentDescription="@string/action_edit"
-                android:onClick="@{() -> fm.openEditor()}"
-                android:src="@drawable/ic_action_edit" />
+                android:contentDescription="@string/action_favorite"
+                android:onClick="@{() -> fm.toggleFavorite()}"
+                srcFromFavouriteState="@{photoViewModel.isFavourite}"
+                tools:src="@drawable/ic_favorite" />
 
             <ImageButton
                 android:id="@+id/btn_share"
@@ -125,15 +126,14 @@
                 android:src="@drawable/ic_action_slideshow" />
 
             <ImageButton
-                android:id="@+id/btn_favorite"
+                android:id="@+id/btn_edit"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
-                android:contentDescription="@string/action_favorite"
-                android:onClick="@{() -> fm.toggleFavorite()}"
-                srcFromFavouriteState="@{photoViewModel.isFavourite}"
-                tools:src="@drawable/ic_favorite" />
+                android:contentDescription="@string/action_edit"
+                android:onClick="@{() -> fm.openEditor()}"
+                android:src="@drawable/ic_action_edit" />
 
             <ImageButton
                 android:id="@+id/btn_wallpaper"

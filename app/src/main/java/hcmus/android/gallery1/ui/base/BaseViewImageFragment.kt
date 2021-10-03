@@ -13,11 +13,13 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.BottomDrawerViewImageBinding
 import hcmus.android.gallery1.helpers.RecyclerViewListState
+import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.hideFullScreen
 import hcmus.android.gallery1.helpers.extensions.isNotCollapsed
 import hcmus.android.gallery1.helpers.extensions.setLowProfileUI
 import hcmus.android.gallery1.helpers.extensions.toast
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
+import hcmus.android.gallery1.ui.image.view.ViewImageFragment
 import hcmus.android.gallery1.ui.image.view.ViewImageViewModel
 
 abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: Int) :
@@ -44,6 +46,8 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     abstract fun getBottomDrawer(): BottomDrawerViewImageBinding
 
     abstract fun getBottomDrawerDimView(): View
+
+    abstract fun notifyItemRemoved()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -156,6 +160,9 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
                 toast(R.string.action_favorite_add_confirm)
             } else if (it is RecyclerViewListState.ItemRemoved) {
                 toast(R.string.action_favorite_remove_confirm)
+                if (sharedViewModel.itemListFromTab == TAB.FAV) {
+                    notifyItemRemoved()
+                }
             }
         }
     }

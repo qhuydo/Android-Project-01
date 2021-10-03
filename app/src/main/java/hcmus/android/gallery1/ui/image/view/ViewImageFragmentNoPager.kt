@@ -45,4 +45,6 @@ class ViewImageFragmentNoPager : BaseViewImageFragment<FragmentViewImageNopagerB
             each.alpha = 0.25f
         }
     }
+
+    override fun notifyItemRemoved() = closeViewer()
 }

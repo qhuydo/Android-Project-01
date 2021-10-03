@@ -48,14 +48,12 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
         binding.pagerImage.unregisterOnPageChangeCallback(onPageChangeCallback)
     }
 
-    override fun subscribeUi() {
-        with(viewModel) {
-            item.observe(viewLifecycleOwner) {
-                if (it != null) {
-                    this@ViewImageFragment.item = it
-                    binding.photoViewModel = this
-                    binding.executePendingBindings()
-                }
+    override fun subscribeUi() = with(viewModel) {
+        item.observe(viewLifecycleOwner) {
+            if (it != null) {
+                this@ViewImageFragment.item = it
+                binding.photoViewModel = this
+                binding.executePendingBindings()
             }
         }
     }
@@ -73,5 +71,14 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
         if (it) {
             sharedViewModel.currentDisplayingList = null
         }
+    }
+
+    override fun notifyItemRemoved() {
+        pagerAdapter.notifyItemRemoved(sharedViewModel.currentDisplayingItemPos)
+
+        val currentPos = binding.pagerImage.currentItem
+        sharedViewModel.currentDisplayingList?.getOrNull(currentPos)?.let { viewModel.setItem(it) }
+
+        if (sharedViewModel.currentDisplayingList?.isEmpty() == true) closeViewer()
     }
 }
