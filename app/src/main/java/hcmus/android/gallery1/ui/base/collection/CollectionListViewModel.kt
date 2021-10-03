@@ -1,16 +1,28 @@
 package hcmus.android.gallery1.ui.base.collection
 
+import android.view.View
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.hadilq.liveevent.LiveEvent
 import hcmus.android.gallery1.data.Collection
 
-abstract class CollectionListViewModel: ViewModel() {
+abstract class CollectionListViewModel : ViewModel() {
+
+    protected var _collections = MutableLiveData<MutableList<Collection>>()
+    val collections: LiveData<MutableList<Collection>>
+        get() = _collections
 
     private var _navigateToCollectionDetails = LiveEvent<Collection>()
     val navigateToCollectionDetails: LiveData<Collection>
         get() = _navigateToCollectionDetails
 
+    val placeholderVisibility: LiveData<Int> = Transformations.map(collections) {
+        if (collections.value?.isNotEmpty() == true) {
+            View.VISIBLE
+        } else View.GONE
+    }
 
     fun navigateToCollectionDetails(collection: Collection) {
         _navigateToCollectionDetails.postValue(collection)

@@ -1,10 +1,10 @@
 package hcmus.android.gallery1.ui.collection.list
 
 import androidx.fragment.app.activityViewModels
-import hcmus.android.gallery1.helpers.TAB_DATE
+import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
 
-class DateCollectionFragment : CollectionListFragment(tabName = TAB_DATE) {
+class DateCollectionFragment : CollectionListFragment(tab = TAB.DATE) {
 
     val viewModel by activityViewModels<DateCollectionViewModel> {
         DateCollectionViewModel.Factory(

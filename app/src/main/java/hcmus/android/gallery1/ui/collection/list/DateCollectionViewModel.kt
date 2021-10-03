@@ -1,7 +1,8 @@
 package hcmus.android.gallery1.ui.collection.list
 
-import androidx.lifecycle.*
-import hcmus.android.gallery1.data.Collection
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import hcmus.android.gallery1.repository.CollectionRepository
 import hcmus.android.gallery1.ui.base.collection.CollectionListViewModel
 import kotlinx.coroutines.launch
@@ -9,10 +10,6 @@ import kotlinx.coroutines.launch
 class DateCollectionViewModel private constructor(
     private val collectionRepository: CollectionRepository
 ) : CollectionListViewModel() {
-
-    private var _collections = MutableLiveData<MutableList<Collection>>()
-    val collections: LiveData<MutableList<Collection>>
-        get() = _collections
 
     fun init() {
         loadData()

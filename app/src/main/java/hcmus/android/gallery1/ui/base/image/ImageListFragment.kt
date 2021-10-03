@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.ScrollableToTop
-import hcmus.android.gallery1.helpers.TAB_ALL
+import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
 import hcmus.android.gallery1.helpers.navigation.navigateToViewImageFragment
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
@@ -19,7 +19,7 @@ import timber.log.Timber
 
 abstract class ImageListFragment<B: ViewDataBinding>(
     @LayoutRes layoutId: Int = R.layout.fragment_main_all_photos,
-    private val tabName: String = TAB_ALL
+    private val tab: TAB = TAB.ALL
 ) : BaseFragment<B>(layoutId), ScrollableToTop {
 
     protected lateinit var itemListAdapter: ItemListAdapter
@@ -39,7 +39,7 @@ abstract class ImageListFragment<B: ViewDataBinding>(
 
         itemListAdapter = ItemListAdapter(
             requireContext(),
-            isCompactLayout = preferenceRepository.isCompactLayout(tabName),
+            isCompactLayout = preferenceRepository.isCompactLayout(tab.key),
             callback = itemListAdapterCallback
         )
 
@@ -70,7 +70,7 @@ abstract class ImageListFragment<B: ViewDataBinding>(
         val items = itemListAdapter.currentList
         itemListAdapter = ItemListAdapter(
             requireContext(),
-            isCompactLayout = preferenceRepository.isCompactLayout(tabName),
+            isCompactLayout = preferenceRepository.isCompactLayout(tab.key),
             callback = itemListAdapterCallback
         ).apply {
             submitList(items)
@@ -82,8 +82,8 @@ abstract class ImageListFragment<B: ViewDataBinding>(
         getImageList().apply {
             adapter = itemListAdapter
             val spanCount = requireContext().getSpanCountOf(
-                tabName,
-                preferenceRepository.getViewMode(tabName)
+                tab.key,
+                preferenceRepository.getViewMode(tab.key)
             )
             layoutManager = GridLayoutManager(requireContext(), spanCount)
         }

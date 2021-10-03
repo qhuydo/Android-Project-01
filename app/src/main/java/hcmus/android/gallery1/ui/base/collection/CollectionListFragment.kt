@@ -5,9 +5,9 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.databinding.FragmentMainAlbumBinding
+import hcmus.android.gallery1.databinding.FragmentMainColllectionListBinding
 import hcmus.android.gallery1.helpers.ScrollableToTop
-import hcmus.android.gallery1.helpers.TAB_ALBUM
+import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
 import hcmus.android.gallery1.helpers.navigation.navigateToViewCollectionFragment
 import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
@@ -17,23 +17,23 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
-    : BaseFragment<FragmentMainAlbumBinding>(R.layout.fragment_main_album), ScrollableToTop {
+abstract class CollectionListFragment(private val tab: TAB = TAB.ALBUM) :
+    BaseFragment<FragmentMainColllectionListBinding>(R.layout.fragment_main_colllection_list),
+    ScrollableToTop {
 
     protected lateinit var collectionListAdapter: CollectionListAdapter
 
     private val adapterCallback = CollectionListAdapter.Callback { collection ->
-       collectionViewModel().navigateToCollectionDetails(collection)
+        collectionViewModel().navigateToCollectionDetails(collection)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         collectionListAdapter = CollectionListAdapter(
-            isCompactLayout = preferenceRepository.isCompactLayout(tabName),
+            isCompactLayout = preferenceRepository.isCompactLayout(tab.key),
             callback = adapterCallback
         )
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,7 +50,6 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
             lifecycleScope.launch {
                 delay(PullToRefreshLayout.REFRESH_MIN_DELAY)
                 collectionViewModel().loadData {
-                    Timber.d("loaded")
                     collectionListAdapter.notifyDataSetChanged()
                     binding.albumPullToRefresh.setRefreshing(false)
                 }
@@ -70,7 +69,7 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
 
         val collections = collectionListAdapter.currentList
         collectionListAdapter = CollectionListAdapter(
-            isCompactLayout = preferenceRepository.isCompactLayout(tabName),
+            isCompactLayout = preferenceRepository.isCompactLayout(tab.key),
             callback = adapterCallback
         ).also {
             it.submitList(collections)
@@ -83,8 +82,8 @@ abstract class CollectionListFragment(private val tabName: String = TAB_ALBUM)
         binding.recyclerView.apply {
             adapter = collectionListAdapter
             val spanCount = requireContext().getSpanCountOf(
-                tabName,
-                preferenceRepository.getViewMode(tabName)
+                tab.key,
+                preferenceRepository.getViewMode(tab.key)
             )
             layoutManager = GridLayoutManager(requireContext(), spanCount)
         }

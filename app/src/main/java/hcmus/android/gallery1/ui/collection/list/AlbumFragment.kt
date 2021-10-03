@@ -1,10 +1,10 @@
 package hcmus.android.gallery1.ui.collection.list
 
 import androidx.fragment.app.activityViewModels
-import hcmus.android.gallery1.helpers.TAB_ALBUM
+import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
 
-class AlbumFragment : CollectionListFragment(tabName = TAB_ALBUM) {
+class AlbumFragment : CollectionListFragment(tab = TAB.ALBUM) {
 
     val viewModel by activityViewModels<AlbumViewModel> {
         AlbumViewModel.Factory(

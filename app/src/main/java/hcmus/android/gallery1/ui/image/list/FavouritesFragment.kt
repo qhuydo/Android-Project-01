@@ -5,14 +5,14 @@ import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentMainFavouritesBinding
 import hcmus.android.gallery1.helpers.RecyclerViewListState
-import hcmus.android.gallery1.helpers.TAB_FAV
+import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.observeOnce
 import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 
 class FavouritesFragment : ImageListFragment<FragmentMainFavouritesBinding>(
     layoutId = R.layout.fragment_main_favourites,
-    tabName = TAB_FAV
+    tab = TAB.FAV
 ) {
 
     private val viewModelFactory by lazy {
