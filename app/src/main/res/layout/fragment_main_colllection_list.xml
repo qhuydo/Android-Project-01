@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="hcmus.android.gallery1.ui.base.collection.CollectionListViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,11 +33,12 @@
         </hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout>
 
         <include
-            android:visibility="gone"
             android:id="@+id/tab_album_placeholder"
             layout="@layout/empty_list_placeholder"
+            android:visibility="@{viewModel.placeholderVisibility}"
             app:icon="@{@drawable/ic_tab_album}"
-            app:text="@{@string/placeholder_tab_album}" />
+            app:text="@{@string/placeholder_tab_album}"
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

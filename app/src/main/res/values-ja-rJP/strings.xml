@@ -55,4 +55,5 @@
     <string name="button_grant_permission">アクセスを確認</string>
     <string name="refresh">更新</string>
     <string name="refreshing">更新中</string>
+    <string name="placeholder_tab_fav">お気に入り写真と動画はここに表示されます</string>
 </resources>

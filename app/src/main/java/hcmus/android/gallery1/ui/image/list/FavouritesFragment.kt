@@ -27,14 +27,14 @@ class FavouritesFragment : ImageListFragment<FragmentMainFavouritesBinding>(
 
     override fun imageRecyclerView(): RecyclerView = binding.recyclerView
 
-    override fun bindData() {
-
+    override fun bindData() = with(binding) {
+        viewModel = this@FavouritesFragment.viewModel
     }
 
     override fun subscribeUi() = with(viewModel) {
         super.subscribeUi()
 
-        favourites.observeOnce(viewLifecycleOwner) {
+        photos.observeOnce(viewLifecycleOwner) {
             itemListAdapter.submitList(it)
         }
 

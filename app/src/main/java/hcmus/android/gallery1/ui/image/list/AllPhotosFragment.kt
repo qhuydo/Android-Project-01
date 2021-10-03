@@ -36,11 +36,13 @@ class AllPhotosFragment: ImageListFragment<FragmentMainAllPhotosBinding>(tab = T
         //startObserveContentChange()
     }
 
-    override fun bindData() {
-        binding.allPhotoRefreshLayout.listener = PullToRefreshLayout.Listener {
+    override fun bindData() = with(binding) {
+        viewModel = this@AllPhotosFragment.viewModel
+
+        allPhotoRefreshLayout.listener = PullToRefreshLayout.Listener {
             lifecycleScope.launch {
                 delay(REFRESH_MIN_DELAY)
-                viewModel.loadData {
+                this@AllPhotosFragment.viewModel.loadData {
                     Timber.d("loaded")
                     itemListAdapter.notifyDataSetChanged()
                     binding.allPhotoRefreshLayout.setRefreshing(false)

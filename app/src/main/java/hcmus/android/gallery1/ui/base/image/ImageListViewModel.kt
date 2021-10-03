@@ -1,8 +1,13 @@
 package hcmus.android.gallery1.ui.base.image
 
+import android.opengl.Visibility
+import android.view.View
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.hadilq.liveevent.LiveEvent
+import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.main.MainViewModel
@@ -11,6 +16,14 @@ abstract class ImageListViewModel(
     tab: TAB,
     preferenceRepository: PreferenceRepository
 ) : ViewModel() {
+
+    protected var _photos = MutableLiveData<MutableList<Item>>()
+    val photos: LiveData<MutableList<Item>>
+        get() = _photos
+
+    val placeholderVisibility = Transformations.map(photos) {
+        if (photos.value?.isNotEmpty() == true) View.GONE else View.VISIBLE
+    }
 
     val viewMode = preferenceRepository.getViewMode(tab)
 

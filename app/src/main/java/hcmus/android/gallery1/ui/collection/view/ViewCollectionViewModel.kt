@@ -18,10 +18,6 @@ class ViewCollectionViewModel private constructor(
     private val _collection = MutableLiveData<Collection>()
     val collection: LiveData<Collection> = _collection
 
-    private val _photos = MutableLiveData<MutableList<Item>>()
-    val photos: LiveData<MutableList<Item>>
-        get() = _photos
-
     override fun loadData(callback: (() -> Unit)?) {
         getPhotos()
     }

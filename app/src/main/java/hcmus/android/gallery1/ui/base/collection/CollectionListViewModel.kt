@@ -25,10 +25,8 @@ abstract class CollectionListViewModel(
     val navigateToCollectionDetails: LiveData<Collection>
         get() = _navigateToCollectionDetails
 
-    val placeholderVisibility: LiveData<Int> = Transformations.map(collections) {
-        if (collections.value?.isNotEmpty() == true) {
-            View.VISIBLE
-        } else View.GONE
+    val placeholderVisibility = Transformations.map(collections) {
+        if (collections.value?.isNotEmpty() == true) View.GONE else View.VISIBLE
     }
 
     fun navigateToCollectionDetails(collection: Collection) {

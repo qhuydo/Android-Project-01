@@ -14,10 +14,6 @@ class AllPhotosViewModel private constructor(
     preferenceRepository: PreferenceRepository
 ) : ImageListViewModel(TAB.ALL, preferenceRepository) {
 
-    private var _photos = MutableLiveData<MutableList<Item>>()
-    val photos: LiveData<MutableList<Item>>
-        get() = _photos
-
     fun init() {
         loadData()
     }

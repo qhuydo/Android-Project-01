@@ -17,10 +17,6 @@ class FavouritesViewModel private constructor(
     preferenceRepository: PreferenceRepository
 ) : ImageListViewModel(TAB.FAV, preferenceRepository) {
 
-    private var _favourites = MutableLiveData<MutableList<Item>>()
-    val favourites: LiveData<MutableList<Item>>
-        get() = _favourites
-
     private var _listStateChangeEvent = LiveEvent<RecyclerViewListState>()
     val listStateChangeEvent: LiveData<RecyclerViewListState>
         get() = _listStateChangeEvent
@@ -31,22 +27,22 @@ class FavouritesViewModel private constructor(
 
     override fun loadData(callback: (() -> Unit)?) {
         viewModelScope.launch {
-            _favourites.value = favoriteRepository.getFavourites().toMutableList()
+            _photos.value = favoriteRepository.getFavourites().toMutableList()
         }
     }
 
     override fun setCurrentDisplayingList(sharedViewModel: MainViewModel) {
-        sharedViewModel.currentDisplayingList = _favourites.value
+        sharedViewModel.currentDisplayingList = _photos.value
     }
 
     private suspend fun addFavourite(item: Item): RecyclerViewListState.ItemInserted {
         val begin = System.currentTimeMillis()
         val insertedItem = favoriteRepository.insert(item)
 
-        val newFavourites = _favourites.value ?: mutableListOf()
+        val newFavourites = _photos.value ?: mutableListOf()
         newFavourites.add(insertedItem)
 
-        _favourites.value = newFavourites
+        _photos.value = newFavourites
         Timber.d("${System.currentTimeMillis() - begin}ms")
 
         return RecyclerViewListState.ItemInserted(newFavourites.lastIndex)
@@ -57,11 +53,11 @@ class FavouritesViewModel private constructor(
 
         favoriteRepository.remove(item)
 
-        val newFavourites = _favourites.value ?: mutableListOf()
+        val newFavourites = _photos.value ?: mutableListOf()
         val idxToRemoved = newFavourites.indexOfFirst { it.id == item.id }
         newFavourites.removeAt(idxToRemoved)
 
-        _favourites.value = newFavourites
+        _photos.value = newFavourites
         return RecyclerViewListState.ItemRemoved(idxToRemoved)
     }
 

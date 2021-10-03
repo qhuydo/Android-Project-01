@@ -32,6 +32,8 @@ abstract class CollectionListFragment(private val tab: TAB = TAB.ALBUM) :
     }
 
     override fun bindData() = with(binding) {
+        viewModel = collectionViewModel()
+
         albumPullToRefresh.listener = PullToRefreshLayout.Listener {
             lifecycleScope.launch {
                 delay(PullToRefreshLayout.REFRESH_MIN_DELAY)

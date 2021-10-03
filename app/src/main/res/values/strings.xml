@@ -13,6 +13,7 @@
     <string name="placeholder_tab_all">All your photos will appear here.</string>
     <string name="placeholder_tab_album">All your albums will appear here.</string>
     <string name="placeholder_tab_date">Photos grouped by date will appear here.</string>
+    <string name="placeholder_tab_fav">Favourite photos will appear here.</string>
     <string name="placeholder_tab_face">All recognized faces will appear here.</string>
     <string name="placeholder_secure">Your secrets will appear here.</string>
 
