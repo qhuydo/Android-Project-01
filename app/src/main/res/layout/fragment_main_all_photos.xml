@@ -10,25 +10,29 @@
             type="hcmus.android.gallery1.ui.base.image.ImageListViewModel" />
     </data>
 
-    <hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
-        android:id="@+id/all_photo_refresh_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <include
+            android:id="@+id/tab_album_placeholder"
+            layout="@layout/empty_list_placeholder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:visibility="@{viewModel.placeholderVisibility}"
+            app:icon="@{@drawable/ic_tab_all}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{@string/placeholder_tab_all}"
+            tools:visibility="visible" />
 
-            <include
-                android:id="@+id/tab_album_placeholder"
-                layout="@layout/empty_list_placeholder"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="@{viewModel.placeholderVisibility}"
-                app:icon="@{@drawable/ic_tab_all}"
-                app:text="@{@string/placeholder_tab_all}"
-                tools:visibility="visible" />
+        <hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
+            android:id="@+id/all_photo_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
@@ -38,7 +42,7 @@
                 tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 tools:listitem="@layout/list_item"
                 tools:spanCount="@integer/item_grid_m" />
-        </LinearLayout>
+        </hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout>
 
-    </hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
