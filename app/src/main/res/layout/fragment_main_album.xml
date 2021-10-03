@@ -25,32 +25,12 @@
 
         </hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout>
 
-        <LinearLayout
-            android:id="@+id/placeholder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0.5"
-            android:divider="@drawable/empty_8dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:showDividers="middle"
+        <include
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/ic_tab_album" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/placeholder_tab_album" />
-        </LinearLayout>
+            android:id="@+id/tab_album_placeholder"
+            layout="@layout/empty_list_placeholder"
+            app:icon="@{@drawable/ic_tab_album}"
+            app:text="@{@string/placeholder_tab_album}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
