@@ -3,13 +3,17 @@ package hcmus.android.gallery1.ui.collection.view
 import androidx.lifecycle.*
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.repository.PhotoRepository
+import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.main.MainViewModel
 import kotlinx.coroutines.launch
 
-class ViewCollectionViewModel private constructor(private val photoRepository: PhotoRepository) :
-    ImageListViewModel() {
+class ViewCollectionViewModel private constructor(
+    private val photoRepository: PhotoRepository,
+    preferenceRepository: PreferenceRepository
+) : ImageListViewModel(TAB.ALL, preferenceRepository) {
 
     private val _collection = MutableLiveData<Collection>()
     val collection: LiveData<Collection> = _collection
@@ -39,12 +43,14 @@ class ViewCollectionViewModel private constructor(private val photoRepository: P
     }
 
     @Suppress("UNCHECKED_CAST")
-    class Factory(private val photoRepository: PhotoRepository) :
-        ViewModelProvider.Factory {
+    class Factory(
+        private val photoRepository: PhotoRepository,
+        private val preferenceRepository: PreferenceRepository
+    ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ViewCollectionViewModel::class.java)) {
-                return ViewCollectionViewModel(photoRepository) as T
+                return ViewCollectionViewModel(photoRepository, preferenceRepository) as T
             }
             throw IllegalArgumentException()
         }

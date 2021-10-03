@@ -135,10 +135,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewModel() {
         val favouritesViewModel by viewModels<FavouritesViewModel> {
-            FavouritesViewModel.Factory(favouriteRepository)
+            FavouritesViewModel.Factory(favouriteRepository, preferenceRepository)
         }
         val allItemViewModel by viewModels<AllPhotosViewModel> {
-            AllPhotosViewModel.Factory(photoRepository)
+            AllPhotosViewModel.Factory(photoRepository, preferenceRepository)
         }
         val albumViewModel by viewModels<AlbumViewModel> {
             AlbumViewModel.Factory(collectionRepository, preferenceRepository)

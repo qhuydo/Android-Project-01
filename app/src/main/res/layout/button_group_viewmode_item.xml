@@ -3,13 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewMode"
+            type="String" />
+    </data>
+
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/viewmode_item"
+        buttonViewModeItemState="@{viewMode}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:visibility="visible"
         app:selectionRequired="true"
-        app:singleSelection="true">
+        app:singleSelection="true"
+        tools:visibility="visible">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_viewmode_item_list"

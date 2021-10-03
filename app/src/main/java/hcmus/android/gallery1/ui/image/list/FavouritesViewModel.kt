@@ -4,14 +4,18 @@ import androidx.lifecycle.*
 import com.hadilq.liveevent.LiveEvent
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.RecyclerViewListState
+import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.repository.FavouriteRepository
+import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.main.MainViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class FavouritesViewModel private constructor(private val favoriteRepository: FavouriteRepository) :
-    ImageListViewModel() {
+class FavouritesViewModel private constructor(
+    private val favoriteRepository: FavouriteRepository,
+    preferenceRepository: PreferenceRepository
+) : ImageListViewModel(TAB.FAV, preferenceRepository) {
 
     private var _favourites = MutableLiveData<MutableList<Item>>()
     val favourites: LiveData<MutableList<Item>>
@@ -72,12 +76,14 @@ class FavouritesViewModel private constructor(private val favoriteRepository: Fa
     }
 
     @Suppress("UNCHECKED_CAST")
-    class Factory(private val favoriteRepository: FavouriteRepository) :
-        ViewModelProvider.Factory {
+    class Factory(
+        private val favoriteRepository: FavouriteRepository,
+        private val preferenceRepository: PreferenceRepository
+    ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(FavouritesViewModel::class.java)) {
-                return FavouritesViewModel(favoriteRepository) as T
+                return FavouritesViewModel(favoriteRepository, preferenceRepository) as T
             }
             throw IllegalArgumentException("")
         }

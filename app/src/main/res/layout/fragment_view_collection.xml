@@ -4,9 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="collection"
             type="hcmus.android.gallery1.data.Collection" />
+
+        <variable
+            name="viewModel"
+            type="hcmus.android.gallery1.ui.base.image.ImageListViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -30,8 +35,9 @@
 
         <include
             android:id="@+id/bdrawer_image_list"
+            layout="@layout/bdrawer_image_list_standalone"
             app:collection="@{collection}"
-            layout="@layout/bdrawer_image_list_standalone" />
+            app:viewMode="@{viewModel.viewMode}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

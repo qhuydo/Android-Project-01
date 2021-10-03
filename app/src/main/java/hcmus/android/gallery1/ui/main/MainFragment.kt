@@ -28,8 +28,6 @@ import hcmus.android.gallery1.ui.adapters.recyclerview.ButtonGroupViewModeAdapte
 import hcmus.android.gallery1.ui.adapters.recyclerview.OnViewModeSelectedCallback
 import hcmus.android.gallery1.ui.adapters.viewpager2.TabFragmentAdapter
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
-import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
-import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import java.lang.ref.WeakReference
 
 class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment_main) {
@@ -63,18 +61,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
     private val onViewModeSelectedCallback = object : OnViewModeSelectedCallback {
         override fun onViewModeSelected(tab: TAB, viewMode: String) {
             preferenceRepository.setViewMode(tab.key, viewMode)
-
-            val fragment = pagerFragmentFromTab(tab)
-            fragment?.let { fm ->
-
-                when (fm) {
-                    is ImageListFragment<*> -> fm.notifyViewTypeChanged()
-                    // is CollectionListFragment -> fm.notifyViewTypeChanged()
-                }
-
-                tabFragmentAdapter.notifyItemChanged(tab.ordinal)
-
-            }
+            // tabFragmentAdapter.notifyItemChanged(tab.ordinal)
         }
     }
 
@@ -261,11 +248,17 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
         return true
     }
 
-    private fun Fragment.pagerFragmentFromTab(tab: TAB) = childFragmentManager.findFragmentByTag(
-        "f${tab.ordinal}"
-    )
+//    private fun Fragment.pagerFragmentFromTab(tab: TAB) = childFragmentManager.findFragmentByTag(
+//        "f${tab.ordinal}"
+//    )
 
     private fun Fragment.currentViewPagerFragment(): Fragment? {
         return childFragmentManager.findFragmentByTag("f${viewPager2.currentItem}")
+    }
+
+    internal fun notifyViewModeChange(tab: TAB) {
+        TAB.validTabs().firstOrNull { it == tab }?.let {
+            viewModeRecyclerView.adapter?.notifyItemChanged(it.ordinal)
+        }
     }
 }

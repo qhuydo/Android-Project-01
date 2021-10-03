@@ -27,7 +27,10 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     }
 
     protected val favouritesViewModel by activityViewModels<FavouritesViewModel> {
-        FavouritesViewModel.Factory(mainActivity!!.favouriteRepository)
+        FavouritesViewModel.Factory(
+            mainActivity!!.favouriteRepository,
+            mainActivity!!.preferenceRepository
+        )
     }
     protected val viewModel by viewModels<ViewImageViewModel> {
         ViewImageViewModel.Factory(

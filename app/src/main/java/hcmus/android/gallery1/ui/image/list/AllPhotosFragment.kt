@@ -18,15 +18,17 @@ class AllPhotosFragment: ImageListFragment<FragmentMainAllPhotosBinding>(tab = T
 
     private val viewModel by activityViewModels<AllPhotosViewModel> {
         AllPhotosViewModel.Factory(
-            mainActivity!!.photoRepository
+            mainActivity!!.photoRepository,
+            mainActivity!!.preferenceRepository
         )
     }
 
     override fun imageListViewModel(): ImageListViewModel = viewModel
 
-    override fun getImageList(): RecyclerView = binding.recyclerView
+    override fun imageRecyclerView(): RecyclerView = binding.recyclerView
 
     override fun subscribeUi() {
+        super.subscribeUi()
         viewModel.photos.observeOnce(viewLifecycleOwner) {
             itemListAdapter.submitList(it)
             binding.allPhotoRefreshLayout.setRefreshing(false)
@@ -35,7 +37,6 @@ class AllPhotosFragment: ImageListFragment<FragmentMainAllPhotosBinding>(tab = T
     }
 
     override fun bindData() {
-        super.bindData()
         binding.allPhotoRefreshLayout.listener = PullToRefreshLayout.Listener {
             lifecycleScope.launch {
                 delay(REFRESH_MIN_DELAY)

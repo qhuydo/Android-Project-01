@@ -5,17 +5,15 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.button.MaterialButtonToggleGroup
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.databinding.FragmentViewCollectionBinding
-import hcmus.android.gallery1.helpers.*
-import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
-import hcmus.android.gallery1.helpers.extensions.observeOnce
-import hcmus.android.gallery1.helpers.extensions.padding
+import hcmus.android.gallery1.helpers.TAB
+import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.helpers.navigation.navigateToViewImageFragment
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
+import hcmus.android.gallery1.ui.main.MainFragment
 
 class ViewCollectionFragment :
     BottomDrawerFragment<FragmentViewCollectionBinding>(R.layout.fragment_view_collection) {
@@ -24,7 +22,12 @@ class ViewCollectionFragment :
         const val ARGS_COLLECTION = "collection"
     }
 
-    private lateinit var viewModeSelector: MaterialButtonToggleGroup
+    private val mainFragment by lazy {
+        activity?.supportFragmentManager?.findFragmentByTag(MainFragment::class.java.name)
+                as? MainFragment
+    }
+
+    private val tab = TAB.ALL
 
     // Collection
     private val collection: Collection by lazy {
@@ -36,45 +39,47 @@ class ViewCollectionFragment :
     }
 
     private val viewModel by viewModels<ViewCollectionViewModel> {
-        ViewCollectionViewModel.Factory(mainActivity!!.photoRepository)
+        ViewCollectionViewModel.Factory(
+            mainActivity!!.photoRepository,
+            preferenceRepository
+        )
     }
 
-    private lateinit var itemListAdapter: ItemListAdapter
+    private val itemListAdapter: ItemListAdapter by lazy {
+        ItemListAdapter(requireContext(), callback = itemListAdapterCallback)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        itemListAdapter = ItemListAdapter(
-            requireContext(),
-            isCompactLayout = preferenceRepository.isCompactLayout(TAB.ALL),
-            callback = itemListAdapterCallback
-        )
         mainActivity?.setViewPaddingWindowInset(binding.recyclerView)
-
         super.onViewCreated(view, savedInstanceState)
-
     }
 
-    override fun subscribeUi() {
-        with(viewModel) {
+    override fun subscribeUi() = with(viewModel) {
 
-            setCollection(this@ViewCollectionFragment.collection)
+        setCollection(this@ViewCollectionFragment.collection)
 
-            collection.observeOnce(viewLifecycleOwner) {
-                viewModel.getPhotos()
-                refreshCollection()
+        collection.observeOnce(viewLifecycleOwner) { viewModel.getPhotos() }
+
+        photos.observeOnce(viewLifecycleOwner) { itemListAdapter.submitList(it) }
+
+        navigateToImageView.observe(viewLifecycleOwner) {
+            if (it != null) {
+                mainActivity?.navigateToViewImageFragment(it, viewModel)
             }
+        }
 
-            photos.observeOnce(viewLifecycleOwner) { itemListAdapter.submitList(it) }
-
-            navigateToImageView.observe(viewLifecycleOwner) {
-                if (it != null) {
-                    mainActivity?.navigateToViewImageFragment(it, viewModel)
-                }
+        viewMode.observe(viewLifecycleOwner) {
+            if (it != null) {
+                mainFragment?.notifyViewModeChange(tab)
+                initRecyclerView(it)
             }
         }
     }
 
-    override fun bindData() {
-        binding.collection = collection
+
+    override fun bindData() = with(binding) {
+        collection = this@ViewCollectionFragment.collection
+        viewModel = this@ViewCollectionFragment.viewModel
     }
 
     override fun calculatePeekHeight() = with(binding.bdrawerImageList) {
@@ -88,37 +93,16 @@ class ViewCollectionFragment :
             bottomSheetExpandButton = btnBottomSheetExpand
         }
         bottomDrawerDim = binding.bdrawerDim
-        viewModeSelector = binding.bdrawerImageList.viewmodeAll
     }
 
-    override fun initBottomDrawerElementsCallback() {
+    override fun initBottomDrawerElementsCallback() = with(binding.bdrawerImageList) {
         super.initBottomDrawerElementsCallback()
-        viewModeSelector.check(
-            when (preferenceRepository.tabAllViewMode) {
-                VIEW_LIST -> R.id.btn_viewmode_all_list
-                VIEW_ITEM_GRID_L -> R.id.btn_viewmode_all_grid_3
-                VIEW_ITEM_GRID_M -> R.id.btn_viewmode_all_grid_4
-                VIEW_ITEM_GRID_S -> R.id.btn_viewmode_all_grid_5
-                else -> R.id.btn_viewmode_all_grid_3
-            }
-        )
 
-        viewModeSelector.addOnButtonCheckedListener { _, checkedId, _ ->
+        btnClose.setOnClickListener { closeCollection() }
 
-            preferenceRepository.tabAllViewMode = when (checkedId) {
-                R.id.btn_viewmode_all_list -> VIEW_LIST
-                R.id.btn_viewmode_all_grid_3 -> VIEW_ITEM_GRID_L
-                R.id.btn_viewmode_all_grid_4 -> VIEW_ITEM_GRID_M
-                R.id.btn_viewmode_all_grid_5 -> VIEW_ITEM_GRID_S
-                else -> preferenceRepository.tabAllViewMode
-            }
-
-            // Dirty reload the current RecyclerView
-            refreshCollection()
-        }
-
-        binding.bdrawerImageList.btnClose.setOnClickListener {
-            closeCollection()
+        viewmodeAll.viewmodeItem.addOnButtonCheckedListener { _, checkedId, _ ->
+            val viewMode = checkedId.viewIdToViewMode()
+            preferenceRepository.setViewMode(tab.key, viewMode)
         }
     }
 
@@ -126,25 +110,13 @@ class ViewCollectionFragment :
         binding.recyclerView.padding(bottom = peekHeight)
     }
 
-    private fun initRecyclerView() {
+    private fun initRecyclerView(viewMode: String) {
         binding.recyclerView.apply {
             adapter = itemListAdapter
-            val spanCount =
-                requireContext().getSpanCountOf(TAB_ALL, preferenceRepository.tabAllViewMode)
+            itemListAdapter.changeCompactLayout(viewMode.isCompactLayout())
+            val spanCount = requireContext().getSpanCountOf(tab.key, viewMode)
             layoutManager = GridLayoutManager(requireContext(), spanCount)
         }
-    }
-
-    private fun refreshCollection() {
-        val items = itemListAdapter.currentList
-        itemListAdapter = ItemListAdapter(
-            requireContext(),
-            isCompactLayout = preferenceRepository.isCompactLayout(TAB.ALL),
-            callback = itemListAdapterCallback
-        ).apply {
-            submitList(items)
-        }
-        initRecyclerView()
     }
 
     private fun closeCollection() {

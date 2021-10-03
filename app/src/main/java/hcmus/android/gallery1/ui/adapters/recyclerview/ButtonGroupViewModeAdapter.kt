@@ -3,7 +3,6 @@ package hcmus.android.gallery1.ui.adapters.recyclerview
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButtonToggleGroup
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.ButtonGroupViewmodeCollectionBinding
 import hcmus.android.gallery1.databinding.ButtonGroupViewmodeItemBinding
@@ -12,7 +11,7 @@ import hcmus.android.gallery1.helpers.TAB
 class ButtonGroupViewModeAdapter(private val viewModeSelectedCallback: OnViewModeSelectedCallback) :
     RecyclerView.Adapter<ViewModeViewHolder>() {
 
-    private val tabs = TAB.values()
+    private val tabs = TAB.validTabs()
 
     override fun getItemCount(): Int = tabs.size
 
@@ -26,15 +25,7 @@ class ButtonGroupViewModeAdapter(private val viewModeSelectedCallback: OnViewMod
 
     override fun onBindViewHolder(holder: ViewModeViewHolder, position: Int) {
         val tab = TAB.fromPosition(position)
-
-        holder.tab = tab
-        holder.apply {
-            initButtonState()
-            (itemView as? MaterialButtonToggleGroup)?.addOnButtonCheckedListener { _, checkedId, _ ->
-                val viewMode = viewIdToViewMode(checkedId)
-                viewModeSelectedCallback.onViewModeSelected(this.tab, viewMode)
-            }
-        }
+        holder.bind(tab, viewModeSelectedCallback)
     }
 
     override fun onCreateViewHolder(

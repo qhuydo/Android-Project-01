@@ -9,7 +9,7 @@ import hcmus.android.gallery1.data.Item
 
 class ItemListAdapter(
     context: Context,
-    private val isCompactLayout: Boolean = false,
+    private var isCompactLayout: Boolean = false,
     private val callback: Callback? = null
 ) : ListAdapter<Item, ItemListViewHolder>(Item.diffCallback) {
 
@@ -40,6 +40,11 @@ class ItemListAdapter(
             callback?.onClick(item, holder.bindingAdapterPosition)
 //            holder.itemView.isSelected = !holder.itemView.isSelected
         }
+    }
+
+    fun changeCompactLayout(isCompactLayout: Boolean) {
+        this.isCompactLayout = isCompactLayout
+        notifyDataSetChanged()
     }
 
     class Callback(private val onClickFn: (Item, Int) -> Unit) {

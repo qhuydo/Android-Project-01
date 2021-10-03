@@ -16,33 +16,40 @@ class FavouritesFragment : ImageListFragment<FragmentMainFavouritesBinding>(
 ) {
 
     private val viewModelFactory by lazy {
-        FavouritesViewModel.Factory(mainActivity!!.favouriteRepository)
+        FavouritesViewModel.Factory(
+            mainActivity!!.favouriteRepository,
+            mainActivity!!.preferenceRepository
+        )
     }
     private val viewModel by activityViewModels<FavouritesViewModel> { viewModelFactory }
 
     override fun imageListViewModel(): ImageListViewModel = viewModel
 
-    override fun getImageList(): RecyclerView = binding.recyclerView
+    override fun imageRecyclerView(): RecyclerView = binding.recyclerView
 
-    override fun subscribeUi() {
-        with(viewModel) {
+    override fun bindData() {
 
-            favourites.observeOnce(viewLifecycleOwner) {
-                itemListAdapter.submitList(it)
-            }
-            listStateChangeEvent.observe(viewLifecycleOwner) {
-                when (it) {
-                    is RecyclerViewListState.ItemInserted -> {
-                        itemListAdapter.notifyItemInserted(it.position)
-                    }
+    }
 
-                    is RecyclerViewListState.ItemRemoved -> {
-                        itemListAdapter.notifyItemRemoved(it.position)
-                    }
-                    else -> {}
+    override fun subscribeUi() = with(viewModel) {
+        super.subscribeUi()
+
+        favourites.observeOnce(viewLifecycleOwner) {
+            itemListAdapter.submitList(it)
+        }
+
+        listStateChangeEvent.observe(viewLifecycleOwner) {
+            when (it) {
+                is RecyclerViewListState.ItemInserted -> {
+                    itemListAdapter.notifyItemInserted(it.position)
+                }
+
+                is RecyclerViewListState.ItemRemoved -> {
+                    itemListAdapter.notifyItemRemoved(it.position)
+                }
+                else -> {
                 }
             }
-
         }
     }
 

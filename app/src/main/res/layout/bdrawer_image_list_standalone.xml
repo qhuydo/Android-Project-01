@@ -5,20 +5,25 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="collection"
             type="hcmus.android.gallery1.data.Collection" />
+
+        <variable
+            name="viewMode"
+            type="String" />
     </data>
 
     <LinearLayout
         android:id="@+id/bdrawer_image_list_standalone"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        android:background="@color/background2"
-        android:elevation="8dp"
-        app:behavior_peekHeight="@dimen/bdrawer_peek_height"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@color/background2"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        app:behavior_peekHeight="@dimen/bdrawer_peek_height"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <!-- DRAGGABLE SHEET HINT -->
         <include
@@ -36,12 +41,12 @@
 
             <ImageButton
                 android:id="@+id/btn_close"
-                android:background="@drawable/ripple_rect"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/ic_back"
-                android:contentDescription="@string/btn_secret_album_exit" />
+                android:background="@drawable/ripple_rect"
+                android:contentDescription="@string/btn_secret_album_exit"
+                android:src="@drawable/ic_back" />
 
             <TextView
                 android:id="@+id/collection_name"
@@ -49,81 +54,30 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:text="@{collection.name}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 tools:text="Collection name" />
 
             <ImageButton
-                android:background="@drawable/ripple_rect"
                 android:id="@+id/btn_bottom_sheet_expand"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
                 android:src="@drawable/ic_bdrawer_up" />
 
         </LinearLayout>
 
-        <LinearLayout
+        <include
+            android:id="@+id/viewmode_all"
+            layout="@layout/button_group_viewmode_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/divider"
-            android:paddingBottom="@dimen/divider"
-            android:paddingLeft="@dimen/divider_large"
-            android:paddingRight="@dimen/divider_large"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/bdrawer_header_viewmode"
-                android:paddingBottom="4dp"
-                android:textAlignment="center"
-                android:textStyle="bold" />
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/viewmode_all"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:selectionRequired="true"
-                app:singleSelection="true">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_viewmode_all_list"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/bdrawer_viewmode_list" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_viewmode_all_grid_3"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/bdrawer_viewmode_grid_3"
-                    app:icon="@drawable/ic_view_grid" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_viewmode_all_grid_4"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/bdrawer_viewmode_grid_4"
-                    app:icon="@drawable/ic_view_grid" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_viewmode_all_grid_5"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/bdrawer_viewmode_grid_5"
-                    app:icon="@drawable/ic_view_grid" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/divider_large"
+            android:layout_marginTop="@dimen/divider"
+            android:layout_marginRight="@dimen/divider_large"
+            android:layout_marginBottom="@dimen/divider"
+            app:viewMode="@{viewMode}" />
 
     </LinearLayout>
 </layout>

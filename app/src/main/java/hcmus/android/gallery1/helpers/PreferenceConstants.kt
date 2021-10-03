@@ -94,5 +94,9 @@ enum class TAB(val key: String) {
             return resource.getText(resId)
         }
 
+        fun validTabs(): List<TAB> {
+            return listOf(ALL, ALBUM, DATE, FAV)
+        }
+
     }
 }
