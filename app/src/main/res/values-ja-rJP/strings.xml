@@ -56,4 +56,8 @@
     <string name="refresh">更新</string>
     <string name="refreshing">更新中</string>
     <string name="placeholder_tab_fav">お気に入り写真と動画はここに表示されます</string>
+    <string name="delete_warning_dialog_title">デバイスから削除</string>
+    <string name="delete_warning_dialog_msg">デバイスから完全に削除してもよろしいですか。</string>
+    <string name="toast_copied">コピー済み</string>
+    <string name="toast_moved">移動済み</string>
 </resources>

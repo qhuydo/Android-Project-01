@@ -73,4 +73,8 @@
     <string name="refresh">Làm mới</string>
     <string name="refreshing">Đang làm mới</string>
     <string name="placeholder_tab_fav">Tất cả ảnh yêu thích của bạn sẽ hiện tại đây</string>
+    <string name="delete_warning_dialog_title">Xóa khỏi thiết bị</string>
+    <string name="delete_warning_dialog_msg">Bạn thực sự muốn xóa khỏi thiết bị?</string>
+    <string name="toast_copied">Đã sao chép</string>
+    <string name="toast_moved">Đã di chuyển</string>
 </resources>

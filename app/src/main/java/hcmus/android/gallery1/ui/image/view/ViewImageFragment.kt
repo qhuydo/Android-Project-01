@@ -1,16 +1,11 @@
 package hcmus.android.gallery1.ui.image.view
 
 import android.os.Bundle
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.FragmentViewImageBinding
 import hcmus.android.gallery1.ui.adapters.viewpager2.ImagePageAdapter
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
     R.layout.fragment_view_image

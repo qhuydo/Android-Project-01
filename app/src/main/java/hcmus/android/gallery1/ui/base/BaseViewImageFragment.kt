@@ -2,6 +2,7 @@ package hcmus.android.gallery1.ui.base
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
@@ -12,6 +13,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.BottomDrawerViewImageBinding
@@ -170,7 +172,18 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     }
 
     fun deleteImage() {
-        sharedViewModel.deleteItem(item, this::class.java.name)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            sharedViewModel.deleteItem(item, this::class.java.name)
+        } else {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.delete_warning_dialog_title)
+                .setMessage(R.string.delete_warning_dialog_msg)
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    sharedViewModel.deleteItem(item, this::class.java.name)
+                }
+                .setNegativeButton(R.string.no) { _, _ -> }
+                .show()
+        }
     }
 
     fun copyAsFile() {

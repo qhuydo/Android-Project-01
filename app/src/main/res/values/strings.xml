@@ -76,6 +76,14 @@
     <string name="action_set_as_header">Set as…</string>
     <string name="action_send_to_header">Send to…</string>
 
+    <string name="delete_warning_dialog_title">Remove from device</string>
+    <string name="delete_warning_dialog_msg">Do you really want to delete this?</string>
+    <string name="yes" translatable="false">@android:string/yes</string>
+    <string name="no" translatable="false">@android:string/no</string>
+
+    <string name="toast_copied">Copied</string>
+    <string name="toast_moved">Moved</string>
+
     <!-- About dialog -->
     <string name="about_intro">
         A simple photo viewing and editing app. Part of the Introduction to Android course. There\'s also a nice secret album included: tap and hold "About" button in the bottom drawer to open. Tap and hold "Move" button on an image/video to move it into here.
