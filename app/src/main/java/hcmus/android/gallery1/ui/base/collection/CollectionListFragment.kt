@@ -57,6 +57,7 @@ abstract class CollectionListFragment(private val tab: TAB = TAB.ALBUM) :
                 initRecyclerView(it)
             }
         }
+        startObservingContentChange()
     }
 
     private fun initRecyclerView(viewMode: String) {
@@ -68,7 +69,7 @@ abstract class CollectionListFragment(private val tab: TAB = TAB.ALBUM) :
         }
     }
 
-    protected fun startObserveContentChange() {
+    private fun startObservingContentChange() {
 
         sharedViewModel.contentChange.observe(viewLifecycleOwner) {
             Timber.d("Observed content change")

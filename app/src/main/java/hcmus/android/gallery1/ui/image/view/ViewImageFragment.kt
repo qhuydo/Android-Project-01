@@ -1,11 +1,16 @@
 package hcmus.android.gallery1.ui.image.view
 
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.FragmentViewImageBinding
 import hcmus.android.gallery1.ui.adapters.viewpager2.ImagePageAdapter
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
     R.layout.fragment_view_image
@@ -49,6 +54,7 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
     }
 
     override fun subscribeUi() = with(viewModel) {
+        super.subscribeUi()
         item.observe(viewLifecycleOwner) {
             if (it != null) {
                 this@ViewImageFragment.item = it
@@ -77,7 +83,9 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
         pagerAdapter.notifyItemRemoved(sharedViewModel.currentDisplayingItemPos)
 
         val currentPos = binding.pagerImage.currentItem
-        sharedViewModel.currentDisplayingList?.getOrNull(currentPos)?.let { viewModel.setItem(it) }
+        sharedViewModel.currentDisplayingList?.getOrNull(currentPos)?.let {
+            viewModel.setItem(it)
+        }
 
         if (sharedViewModel.currentDisplayingList?.isEmpty() == true) closeViewer()
     }

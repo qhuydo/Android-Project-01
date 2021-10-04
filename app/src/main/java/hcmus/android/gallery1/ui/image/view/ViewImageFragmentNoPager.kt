@@ -15,6 +15,8 @@ class ViewImageFragmentNoPager : BaseViewImageFragment<FragmentViewImageNopagerB
     override fun getBottomDrawerDimView() = binding.bdrawerViewImageDim
 
     override fun subscribeUi() {
+        super.subscribeUi()
+
         with(viewModel) {
             item.observe(viewLifecycleOwner) {
                 if (it != null) {

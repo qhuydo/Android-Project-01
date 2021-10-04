@@ -2,6 +2,7 @@ package hcmus.android.gallery1.ui.collection.view
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -13,7 +14,9 @@ import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.helpers.navigation.navigateToViewImageFragment
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
+import hcmus.android.gallery1.ui.base.collection.CollectionListViewModel
 import hcmus.android.gallery1.ui.main.MainFragment
+import timber.log.Timber
 
 class ViewCollectionFragment :
     BottomDrawerFragment<FragmentViewCollectionBinding>(R.layout.fragment_view_collection) {
@@ -73,6 +76,24 @@ class ViewCollectionFragment :
                 mainFragment?.notifyViewModeChange(tab)
                 initRecyclerView(it)
             }
+        }
+
+        sharedViewModel.removedItem.observe(viewLifecycleOwner) {
+            if (it != null) {
+                val (item, _, fragmentName) = it
+
+                if (fragmentName != this::class.java.name) {
+                    Timber.d(
+                        "removedItem observe from ${
+                            this@ViewCollectionFragment::class.java.name
+                        }"
+                    )
+                    viewModel.removeItemFromList(item) { itemPosition ->
+                        itemListAdapter.notifyItemRemoved(itemPosition)
+                    }
+                }
+            }
+
         }
     }
 

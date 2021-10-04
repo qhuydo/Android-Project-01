@@ -21,7 +21,6 @@ class DateCollectionFragment : CollectionListFragment(tab = TAB.DATE) {
             collections.observe(viewLifecycleOwner) {
                 collectionListAdapter.submitList(it)
             }
-            //startObserveContentChange()
         }
     }
 

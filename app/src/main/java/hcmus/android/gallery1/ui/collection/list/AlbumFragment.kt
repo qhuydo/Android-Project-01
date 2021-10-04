@@ -21,7 +21,6 @@ class AlbumFragment : CollectionListFragment(tab = TAB.ALBUM) {
             collections.observe(viewLifecycleOwner) {
                 collectionListAdapter.submitList(it)
             }
-            // startObserveContentChange()
         }
     }
 

@@ -12,7 +12,6 @@ import hcmus.android.gallery1.helpers.extensions.isCompactLayout
 import hcmus.android.gallery1.helpers.navigation.navigateToViewImageFragment
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.BaseFragment
-import hcmus.android.gallery1.ui.main.MainFragment
 import timber.log.Timber
 
 abstract class ImageListFragment<B : ViewDataBinding>(
@@ -31,20 +30,21 @@ abstract class ImageListFragment<B : ViewDataBinding>(
 
     abstract fun imageRecyclerView(): RecyclerView
 
-    override fun subscribeUi() = with(imageListViewModel()) {
+    override fun subscribeUi() {
 
-        navigateToImageView.observe(viewLifecycleOwner) {
+        imageListViewModel().navigateToImageView.observe(viewLifecycleOwner) {
             if (it != null) {
                 imageListViewModel().setCurrentDisplayingList(sharedViewModel)
                 mainActivity?.navigateToViewImageFragment(tab, it, imageListViewModel())
             }
         }
 
-        viewMode.observe(viewLifecycleOwner) {
+        imageListViewModel().viewMode.observe(viewLifecycleOwner) {
             if (it != null) {
                 initRecyclerView(it)
             }
         }
+        startObservingItemRemoveLiveData()
     }
 
     override fun scrollToTop() {
@@ -60,12 +60,26 @@ abstract class ImageListFragment<B : ViewDataBinding>(
         }
     }
 
-    protected fun startObserveContentChange() {
+    protected fun startObservingContentChange() {
 
         sharedViewModel.contentChange.observe(viewLifecycleOwner) {
             Timber.d("Observed content change")
             imageListViewModel().loadData()
             itemListAdapter.notifyDataSetChanged()
+        }
+    }
+
+    protected fun startObservingItemRemoveLiveData() = with(sharedViewModel) {
+        removedItem.observe(viewLifecycleOwner) {
+            if (it != null) {
+                val (item, _, fragmentName) = it
+                if (fragmentName != this::class.java.name) {
+                    Timber.d("removedItem observe from ${this@ImageListFragment::class.java.name}")
+                    imageListViewModel().removeItemFromList(item) { itemPosition ->
+                        itemListAdapter.notifyItemRemoved(itemPosition)
+                    }
+                }
+            }
         }
     }
 }

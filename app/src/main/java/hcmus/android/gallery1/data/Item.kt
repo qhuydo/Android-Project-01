@@ -1,8 +1,10 @@
 package hcmus.android.gallery1.data
 
+import android.content.ContentUris
+import android.net.Uri
 import android.os.Parcelable
+import android.provider.MediaStore
 import androidx.recyclerview.widget.DiffUtil
-import hcmus.android.gallery1.data.DataSource.Companion.DEFAULT_CONTENT_URI
 import hcmus.android.gallery1.helpers.*
 import kotlinx.parcelize.Parcelize
 
@@ -11,14 +13,14 @@ data class Item(
     val id: Long,
 
     // Lazy-load fields
-    private var uri: String = "",
-    var dateModified: Long = 0,
-    var fileName: String = "",
-    var fileSize: Long = 0,
-    var filePath: String = "",
-    var width: Int = 0,
-    var height: Int = 0,
-    private val mimeType: String?
+    private var uri: Uri? = null,
+    val dateModified: Long = 0,
+    val fileName: String = "",
+    val fileSize: Long = 0,
+    val filePath: String = "",
+    val width: Int = 0,
+    val height: Int = 0,
+    val mimeType: String
 ) : Parcelable {
 
     fun getType() = when (mimeType) {
@@ -29,14 +31,22 @@ data class Item(
         else -> ItemType.UNKNOWN
     }
 
-    fun isExifImage() = getType() == ItemType.STATIC_IMAGE && mimeType in exifMimeTypes
+    // fun isExifImage() = getType() == ItemType.STATIC_IMAGE && mimeType in exifMimeTypes
 
     // Fetch URI
-    fun getUri(): String {
-        if (uri.isEmpty()) {
-            uri = "$DEFAULT_CONTENT_URI/$id"
+    fun getUri(): Uri = uri ?: uriFromMimeType().also { uri = it }
+
+    private fun uriFromMimeType(): Uri {
+        val contentUri = when {
+            checkImageMimeType(mimeType) -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            checkVideoMimeType(mimeType) -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+            else -> MediaStore.Files.getContentUri("external")
         }
-        return uri
+
+        // id = 33
+        // MediaStore.Files.getContentUri("external") -> content://media/external/file/33
+        // MediaStore.Images.Media.EXTERNAL_CONTENT_URI -> content://media/external/video/media/33
+        return ContentUris.withAppendedId(contentUri, id)
     }
 
     companion object {

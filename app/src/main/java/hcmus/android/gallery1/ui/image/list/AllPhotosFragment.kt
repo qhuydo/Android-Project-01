@@ -33,7 +33,7 @@ class AllPhotosFragment: ImageListFragment<FragmentMainAllPhotosBinding>(tab = T
             itemListAdapter.submitList(it)
             binding.allPhotoRefreshLayout.setRefreshing(false)
         }
-        //startObserveContentChange()
+        // startObservingContentChange()
     }
 
     override fun bindData() = with(binding) {
