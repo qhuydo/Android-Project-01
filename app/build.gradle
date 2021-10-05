@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId "hcmus.android.gallery1"
         minSdkVersion 24 // Android 7.x
-        targetSdkVersion 29 // Android 9.x
+        targetSdkVersion 31 // Android 12.x
         versionCode 1
         versionName "1.0"
 

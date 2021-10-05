@@ -39,9 +39,9 @@ private fun checkExtension(path: String?, extensions: Array<String>): Boolean {
 }
 
 fun checkImageMimeType(mimeType: String?): Boolean {
-    return checkExtension(mimeType, imageMimeTypes)
+    return mimeType?.contains("image") ?: false
 }
 
 fun checkVideoMimeType(mimeType: String?): Boolean {
-    return checkExtension(mimeType, videoMimeTypes)
+    return mimeType?.contains("video") ?: false
 }

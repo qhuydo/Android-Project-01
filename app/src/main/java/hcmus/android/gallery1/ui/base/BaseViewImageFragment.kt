@@ -19,10 +19,7 @@ import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.BottomDrawerViewImageBinding
 import hcmus.android.gallery1.helpers.RecyclerViewListState
 import hcmus.android.gallery1.helpers.TAB
-import hcmus.android.gallery1.helpers.extensions.hideFullScreen
-import hcmus.android.gallery1.helpers.extensions.isNotCollapsed
-import hcmus.android.gallery1.helpers.extensions.setLowProfileUI
-import hcmus.android.gallery1.helpers.extensions.toast
+import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 import hcmus.android.gallery1.ui.image.view.ViewImageViewModel
 import timber.log.Timber
@@ -172,9 +169,11 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     }
 
     fun deleteImage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             sharedViewModel.deleteItem(item, this::class.java.name)
         } else {
+            if (!requireContext().hasWriteExternalPermission()) mainActivity?.toStartActivity()
+
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.delete_warning_dialog_title)
                 .setMessage(R.string.delete_warning_dialog_msg)

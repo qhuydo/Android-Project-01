@@ -1,8 +1,10 @@
 package hcmus.android.gallery1.helpers.extensions
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Context
 import android.content.res.Resources
+import android.os.Build
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
@@ -146,12 +148,27 @@ fun Context.defaultBottomSheetCallback(
 fun Context.hasReadExternalPermission(): Boolean =
     EasyPermissions.hasPermissions(this, READ_EXTERNAL_STORAGE)
 
-fun Context.requestReadExternalPermission() {
+fun Context.hasWriteExternalPermission(): Boolean {
+    return if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+        EasyPermissions.hasPermissions(this, WRITE_EXTERNAL_STORAGE)
+    } else true
+}
+
+fun Context.requestReadWriteExternalPermission() {
+    val perms = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+        listOf(
+            READ_EXTERNAL_STORAGE,
+            WRITE_EXTERNAL_STORAGE
+        )
+    } else {
+        listOf(READ_EXTERNAL_STORAGE)
+    }
+
     EasyPermissions.requestPermissions(
         host = this as AppCompatActivity,
         rationale = getString(R.string.please_grant_permission),
         requestCode = StartActivity.PERMISSION_REQUEST_CODE,
-        READ_EXTERNAL_STORAGE
+        *perms.toTypedArray()
     )
 }
 

@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!hasReadExternalPermission()) {
+        if (!hasReadExternalPermission() || !hasWriteExternalPermission()) {
             toStartActivity()
             finish()
         }

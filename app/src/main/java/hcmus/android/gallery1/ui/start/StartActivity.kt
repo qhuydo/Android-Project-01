@@ -7,12 +7,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.DEFAULT_SETTINGS_REQ_CODE
 import hcmus.android.gallery1.databinding.ActivityStartBinding
-import hcmus.android.gallery1.helpers.extensions.goToAppSetting
-import hcmus.android.gallery1.helpers.extensions.toMainActivity
-import hcmus.android.gallery1.helpers.extensions.hasReadExternalPermission
-import hcmus.android.gallery1.helpers.extensions.requestReadExternalPermission
-import hcmus.android.gallery1.helpers.extensions.toast
-import hcmus.android.gallery1.helpers.extensions.visible
+import hcmus.android.gallery1.helpers.extensions.*
 
 class StartActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
@@ -28,18 +23,18 @@ class StartActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         installSplashScreen()
         supportActionBar?.hide()
 
-        if (hasReadExternalPermission()) {
+        if (hasReadExternalPermission() && hasWriteExternalPermission()) {
             toMainActivity()
             finish()
             return
         } else {
             // requestPermission
-            requestReadExternalPermission()
+            requestReadWriteExternalPermission()
         }
 
         binding = ActivityStartBinding.inflate(layoutInflater)
         binding.buttonGrantPermission.setOnClickListener {
-            if (hasReadExternalPermission()) {
+            if (hasReadExternalPermission() && hasWriteExternalPermission()) {
                 toMainActivity()
             }
             else {
@@ -66,7 +61,7 @@ class StartActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
             // SettingsDialog.Builder(this).build().show()
             binding.root.visible()
         } else {
-            requestReadExternalPermission()
+            requestReadWriteExternalPermission()
         }
     }
 
@@ -80,7 +75,7 @@ class StartActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         when (requestCode) {
             DEFAULT_SETTINGS_REQUEST_CODE,
             DEFAULT_SETTINGS_REQ_CODE -> {
-                if (hasReadExternalPermission()) {
+                if (hasReadExternalPermission() && hasWriteExternalPermission()) {
                     toMainActivity()
                     finish()
                     return

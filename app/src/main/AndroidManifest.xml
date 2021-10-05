@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
+        android:maxSdkVersion="29" />
 
     <application
         android:name=".GalleryOneApplication"
@@ -19,6 +19,7 @@
 
         <activity
             android:name="hcmus.android.gallery1.ui.start.StartActivity"
+            android:exported="true"
             android:theme="@style/Theme.GalleryOne.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
