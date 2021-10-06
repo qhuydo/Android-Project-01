@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import hcmus.android.gallery1.helpers.extensions.animateFadeUp
 import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.main.MainViewModel
 
@@ -56,5 +57,7 @@ abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId
         binding.lifecycleOwner = this
         subscribeUi()
     }
+
+    fun animateFadeUp() = view?.animateFadeUp()
 
 }

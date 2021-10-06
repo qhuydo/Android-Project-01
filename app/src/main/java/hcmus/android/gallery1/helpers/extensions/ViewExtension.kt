@@ -1,6 +1,7 @@
 package hcmus.android.gallery1.helpers.extensions
 
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 
 fun View.visible() {
     visibility = View.VISIBLE
@@ -33,4 +34,18 @@ fun View.padding(
     val b = bottom ?: paddingBottom
 
     setPadding(l, t, r, b)
+}
+
+fun View?.animateFadeUp() = this?.apply{
+    val animTime = context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+
+    alpha = 0.25f
+    translationY = 24f
+
+    animate()
+        .translationY(0f)
+        .setInterpolator(DecelerateInterpolator())
+        .alpha(1f)
+        .apply { duration = animTime }
+
 }

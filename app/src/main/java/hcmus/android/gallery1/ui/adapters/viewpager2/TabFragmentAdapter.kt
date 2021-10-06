@@ -2,7 +2,9 @@ package hcmus.android.gallery1.ui.adapters.viewpager2
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.adapter.FragmentViewHolder
 import hcmus.android.gallery1.helpers.TAB
+import hcmus.android.gallery1.helpers.extensions.animateFadeUp
 import hcmus.android.gallery1.ui.collection.list.AlbumFragment
 import hcmus.android.gallery1.ui.collection.list.DateCollectionFragment
 import hcmus.android.gallery1.ui.image.list.AllPhotosFragment
@@ -25,4 +27,13 @@ class TabFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     }
 
     override fun getItemCount() = fragments.size
+
+    override fun onBindViewHolder(
+        holder: FragmentViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        super.onBindViewHolder(holder, position, payloads)
+        holder.itemView.animateFadeUp()
+    }
 }

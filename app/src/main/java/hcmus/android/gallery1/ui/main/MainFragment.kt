@@ -27,6 +27,7 @@ import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.adapters.recyclerview.ButtonGroupViewModeAdapter
 import hcmus.android.gallery1.ui.adapters.recyclerview.OnViewModeSelectedCallback
 import hcmus.android.gallery1.ui.adapters.viewpager2.TabFragmentAdapter
+import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import java.lang.ref.WeakReference
 
@@ -52,6 +53,9 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
             super.onPageSelected(position)
 
             currentPosition = position
+            (pagerFragmentFromTab(TAB.fromPosition(position)) as? BaseFragment<*>)?.apply {
+                animateFadeUp()
+            }
 
             bottomSheetBehavior.collapse()
             viewModeRecyclerView.smoothScrollToPosition(position)
@@ -137,7 +141,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
 
     private fun initViewPager() = viewPager2.apply {
         adapter = tabFragmentAdapter
-        this.isUserInputEnabled = false
+        isUserInputEnabled = false
         registerOnPageChangeCallback(onPageChangeCallback)
     }
 
@@ -150,7 +154,8 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
                 val currentPosition = it.itemId.bottomNavIdToTabPosition()
 
                 if (currentPosition != viewPager2.currentItem) {
-                    viewPager2.currentItem = currentPosition
+                    // viewPager2.currentItem = currentPosition
+                    viewPager2.setCurrentItem(currentPosition, false)
                 } else {
                     (currentViewPagerFragment() as? ScrollableToTop)?.scrollToTop()
                 }
@@ -248,9 +253,9 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
         return true
     }
 
-//    private fun Fragment.pagerFragmentFromTab(tab: TAB) = childFragmentManager.findFragmentByTag(
-//        "f${tab.ordinal}"
-//    )
+    private fun Fragment.pagerFragmentFromTab(tab: TAB) = childFragmentManager.findFragmentByTag(
+        "f${tab.ordinal}"
+    )
 
     private fun Fragment.currentViewPagerFragment(): Fragment? {
         return childFragmentManager.findFragmentByTag("f${viewPager2.currentItem}")
