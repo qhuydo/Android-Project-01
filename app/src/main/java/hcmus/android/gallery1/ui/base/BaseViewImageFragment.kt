@@ -212,6 +212,26 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     }
 
     fun openEditor() {
+        val intent = Intent().apply {
+            action = Intent.ACTION_EDIT
+            setDataAndType(item.getUri(), item.mimeType)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            // putExtra(MediaStore.EXTRA_OUTPUT, item.getUri())
+        }
+
+        if (intent.resolveActivity(requireContext().packageManager) != null) {
+            try {
+                val chooser = Intent.createChooser(
+                    intent,
+                    requireContext().getString(R.string.edit_with)
+                )
+                startActivity(chooser)
+            } catch (e: SecurityException) {
+                toast(e.toString())
+            }
+        } else {
+            toast(R.string.no_edit_app_found)
+        }
 
     }
 

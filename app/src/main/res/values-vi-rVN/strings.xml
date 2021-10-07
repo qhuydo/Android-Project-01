@@ -77,4 +77,6 @@
     <string name="delete_warning_dialog_msg">Bạn thực sự muốn xóa khỏi thiết bị?</string>
     <string name="toast_copied">Đã sao chép</string>
     <string name="toast_moved">Đã di chuyển</string>
+    <string name="edit_with">Chọn ứng dụng để chỉnh sửa</string>
+    <string name="no_edit_app_found">Không tìm thấy ứng dụng chỉnh sửa</string>
 </resources>

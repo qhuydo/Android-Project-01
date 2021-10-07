@@ -60,4 +60,6 @@
     <string name="delete_warning_dialog_msg">デバイスから完全に削除してもよろしいですか。</string>
     <string name="toast_copied">コピー済み</string>
     <string name="toast_moved">移動済み</string>
+    <string name="edit_with">他のアプリで編集</string>
+    <string name="no_edit_app_found">有効なアプリが見つかりません</string>
 </resources>

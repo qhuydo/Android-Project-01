@@ -84,6 +84,9 @@
     <string name="toast_copied">Copied</string>
     <string name="toast_moved">Moved</string>
 
+    <string name="edit_with">Edit with</string>
+    <string name="no_edit_app_found">No valid app has been found</string>
+
     <!-- About dialog -->
     <string name="about_intro">
         A simple photo viewing and editing app. Part of the Introduction to Android course. There\'s also a nice secret album included: tap and hold "About" button in the bottom drawer to open. Tap and hold "Move" button on an image/video to move it into here.
