@@ -10,18 +10,14 @@ import hcmus.android.gallery1.helpers.extensions.gone
 import hcmus.android.gallery1.helpers.extensions.invisible
 import hcmus.android.gallery1.helpers.extensions.visible
 
-class RefreshView: FrameLayout {
+class RefreshView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null
+) : FrameLayout(context, attrs) {
 
-    constructor(context: Context) : super(context) { initView() }
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) { initView() }
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
+    init {
         initView()
     }
-
     private lateinit var binding: RefreshViewBinding
 
     private fun initView() {

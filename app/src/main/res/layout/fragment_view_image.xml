@@ -7,7 +7,7 @@
 
         <variable
             name="fragment"
-            type="hcmus.android.gallery1.ui.base.BaseViewImageFragment"/>
+            type="hcmus.android.gallery1.ui.base.BaseViewImageFragment" />
 
         <variable
             name="photoViewModel"
@@ -18,15 +18,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager_image"
+        <hcmus.android.gallery1.helpers.widgets.FlingLayout
+            android:id="@+id/fling_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription"
-            tools:src="@tools:sample/avatars" />
+            android:layout_height="match_parent">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/pager_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </hcmus.android.gallery1.helpers.widgets.FlingLayout>
 
         <View
             android:id="@+id/bdrawer_view_image_dim"

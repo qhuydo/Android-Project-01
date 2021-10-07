@@ -24,20 +24,28 @@ fun MainActivity.navigateToViewImageFragment(
     mainViewModel.currentDisplayingItemPos = itemPosition
     mainViewModel.itemListFromTab = fromTab
 
-    pushScreen(ViewImageFragment::class.java)
+    supportFragmentManager.findFragmentById(R.id.fragment_container)?.let {
+        it.view?.alpha = 0f
+    }
+
+    pushScreen(ViewImageFragment::class.java,
+        shouldHideExistingFragment = false,
+        transition = FragmentTransaction.TRANSIT_FRAGMENT_FADE
+    )
 }
 
 private fun MainActivity.pushScreen(
     fragmentClass: Class<out Fragment>,
     bundle: Bundle? = null,
     @IdRes fragmentContainerId: Int = R.id.fragment_container,
-    transition: Int? = FragmentTransaction.TRANSIT_FRAGMENT_OPEN
+    transition: Int? = FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
+    shouldHideExistingFragment: Boolean = true
 ) {
     val fm = supportFragmentManager
     val tag = fragmentClass.name
     val fragmentToBeHidden = fm.findFragmentById(fragmentContainerId)
     fm.commit {
-        fragmentToBeHidden?.let { hide(it) }
+        fragmentToBeHidden?.let { if (shouldHideExistingFragment) hide(it) }
         add(fragmentContainerId, fragmentClass, bundle, tag)
         addToBackStack(tag)
         transition?.let { setTransition(it) }

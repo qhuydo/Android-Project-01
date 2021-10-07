@@ -2,6 +2,7 @@ package hcmus.android.gallery1.ui.base
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageButton
 import androidx.core.view.doOnLayout
@@ -106,21 +107,29 @@ abstract class BottomDrawerFragment<B : ViewDataBinding>(layoutId: Int) :
         return super.onBackPressed()
     }
 
-    protected fun showFullScreen() {
-        bottomDrawerView.animate()
-            .alpha(ALPHA_INVISIBLE)
-            .translationY(bottomSheetBehavior.peekHeight.toFloat())
-            .setInterpolator(DecelerateInterpolator())
-            .setDuration(DURATION_BOTTOM_SHEET_ANIMATION) //ms
-            .withEndAction { bottomDrawerView.gone() }
-            .start()
-
+    protected open fun showFullScreen() {
+        animateHideBottomDrawer()
         mainActivity?.showFullScreen()
-
         fullScreenMode = true
     }
 
-    protected fun hideFullScreen() {
+    private fun animateHideBottomDrawer() {
+        bottomDrawerView.animate()
+            .alpha(ALPHA_INVISIBLE)
+            .translationY(bottomSheetBehavior.peekHeight.toFloat())
+            .setInterpolator(AccelerateInterpolator())
+            .setDuration(DURATION_BOTTOM_SHEET_ANIMATION) //ms
+            .withEndAction { bottomDrawerView.gone() }
+            .start()
+    }
+
+    protected open fun hideFullScreen() {
+        animateShowBottomDrawer()
+        mainActivity?.hideFullScreen()
+        fullScreenMode = false
+    }
+
+    private fun animateShowBottomDrawer() {
         bottomDrawerView.animate()
             .alpha(ALPHA_VISIBLE)
             .translationY(0f)
@@ -128,9 +137,6 @@ abstract class BottomDrawerFragment<B : ViewDataBinding>(layoutId: Int) :
             .setDuration(DURATION_BOTTOM_SHEET_ANIMATION) //ms
             .withStartAction { bottomDrawerView.visible() }
             .start()
-
-        mainActivity?.hideFullScreen()
-        fullScreenMode = false
     }
 
 }

@@ -17,6 +17,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentMainBinding
+import hcmus.android.gallery1.helpers.ALPHA_INVISIBLE
+import hcmus.android.gallery1.helpers.ALPHA_VISIBLE
 import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.bottomNavIdToTabPosition
@@ -265,5 +267,19 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
         TAB.validTabs().firstOrNull { it == tab }?.let {
             viewModeRecyclerView.adapter?.notifyItemChanged(it.ordinal)
         }
+    }
+
+    internal fun animateHideHiddenRows() = with(binding.bottomDrawerMain.hiddenRows) {
+        animate().alpha(ALPHA_INVISIBLE)
+    }
+
+    internal fun animateShowHiddenRows() = with(binding.bottomDrawerMain.hiddenRows) {
+        animate()
+            .alpha(ALPHA_VISIBLE)
+            .apply {
+                duration = context?.resources?.getInteger(
+                    android.R.integer.config_longAnimTime
+                )?.toLong() ?: return@apply
+            }
     }
 }

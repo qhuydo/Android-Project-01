@@ -4,9 +4,9 @@
 
     <data>
 
-<!--        <variable-->
-<!--            name="item"-->
-<!--            type="hcmus.android.gallery1.data.Item" />-->
+        <!--        <variable-->
+        <!--            name="item"-->
+        <!--            type="hcmus.android.gallery1.data.Item" />-->
     </data>
 
     <FrameLayout
@@ -28,4 +28,5 @@
             tools:src="@tools:sample/avatars" />
 
     </FrameLayout>
+
 </layout>

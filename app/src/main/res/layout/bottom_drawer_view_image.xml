@@ -90,6 +90,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/second_row"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bdrawer_toolbar_height"
             android:divider="@drawable/empty_8dp"
@@ -148,6 +149,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/third_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

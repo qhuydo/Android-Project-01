@@ -113,7 +113,9 @@ class MainActivity : AppCompatActivity() {
     private fun addMainFragment() {
         mainFragment = MainFragment()
         supportFragmentManager.commit {
-            add(R.id.fragment_container, mainFragment, MainFragment::class.java.name)
+            val tag = MainFragment::class.java.name
+            add(R.id.fragment_container, mainFragment, tag)
+            // addToBackStack(tag)
         }
     }
 

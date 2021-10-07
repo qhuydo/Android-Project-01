@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentViewImageBinding
+import hcmus.android.gallery1.helpers.ALPHA_VISIBLE
 import hcmus.android.gallery1.ui.adapters.viewpager2.ImagePageAdapter
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
 
@@ -39,7 +40,6 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
             val pos = sharedViewModel.currentDisplayingItemPos
             arguments = Bundle().apply { putParcelable(ARGS_ITEM, items.getOrNull(pos)) }
         }
-
         super.onCreate(savedInstanceState)
     }
 
@@ -66,12 +66,20 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
             registerOnPageChangeCallback(onPageChangeCallback)
             setCurrentItem(sharedViewModel.currentDisplayingItemPos, false)
         }
+        flingLayout.onPositionChanged = { percent ->
+            previousFragment?.view?.alpha = percent
+        }
+        flingLayout.onViewDismissed = {
+            onViewDismissed()
+        }
     }
 
-    override fun onBackPressed() = super.onBackPressed().also {
-        if (it) {
-            sharedViewModel.currentDisplayingList = null
-        }
+    private fun onViewDismissed() {
+        forceBack = true
+        exitTransition = null
+        returnTransition = null
+        previousFragment?.view?.alpha = ALPHA_VISIBLE
+        activity?.onBackPressed()
     }
 
     override fun notifyItemRemoved() {

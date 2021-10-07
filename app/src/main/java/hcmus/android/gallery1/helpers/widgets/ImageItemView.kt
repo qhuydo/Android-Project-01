@@ -15,33 +15,16 @@ import hcmus.android.gallery1.helpers.extensions.gone
 import hcmus.android.gallery1.helpers.extensions.visible
 import hcmus.android.gallery1.ui.adapters.binding.loadGlideImage
 
-class ImageItemView : FrameLayout {
+class ImageItemView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null
+) : FrameLayout(context, attrs) {
 
     init {
         initView()
     }
 
-    lateinit var binding: ViewImageItemBinding
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(
-        context,
-        attrs
-    )
-
-    constructor(
-        context: Context,
-        attrs: AttributeSet?,
-        defStyleAttr: Int
-    ) : super(context, attrs, defStyleAttr)
-
-    constructor(
-        context: Context,
-        attrs: AttributeSet?,
-        defStyleAttr: Int,
-        defStyleRes: Int
-    ) : super(context, attrs, defStyleAttr, defStyleRes)
+    internal lateinit var binding: ViewImageItemBinding
 
     private fun initView() {
         binding = ViewImageItemBinding.inflate(

@@ -1,6 +1,5 @@
 package hcmus.android.gallery1.ui.base.image
 
-import android.opengl.Visibility
 import android.view.View
 import androidx.lifecycle.*
 import com.hadilq.liveevent.LiveEvent
@@ -9,6 +8,7 @@ import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.main.MainViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -31,8 +31,19 @@ abstract class ImageListViewModel(
     val navigateToImageView: LiveData<Int>
         get() = _navigateToImageView
 
+    private var shouldNavigateToImageView = true
+
     fun navigateToImageView(itemPosition: Int) {
-        _navigateToImageView.postValue(itemPosition)
+        if (shouldNavigateToImageView) {
+            shouldNavigateToImageView = false
+
+            _navigateToImageView.postValue(itemPosition)
+
+            viewModelScope.launch {
+                delay(1000L)
+                shouldNavigateToImageView = true
+            }
+        }
     }
 
     abstract fun loadData(callback: (() -> Unit)? = null)

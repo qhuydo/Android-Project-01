@@ -122,7 +122,7 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
         val omitDefaultBackPress = super.onBackPressed()
         if (!omitDefaultBackPress) {
             previousFragment?.view?.animate()?.alpha(ALPHA_VISIBLE)
-            // (previousFragment as? MainFragment)?.animateShowHiddenRows()
+            (previousFragment as? MainFragment)?.animateShowHiddenRows()
 
             mainActivity?.window?.statusBarColor = defaultStatusBarColor
             mainActivity?.setLightStatusBarFlag(defaultIsLightStatusBar)
