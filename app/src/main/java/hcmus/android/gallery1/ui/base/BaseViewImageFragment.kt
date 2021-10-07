@@ -4,24 +4,30 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.BottomDrawerViewImageBinding
-import hcmus.android.gallery1.helpers.RecyclerViewListState
-import hcmus.android.gallery1.helpers.TAB
+import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 import hcmus.android.gallery1.ui.image.view.ViewImageViewModel
+import hcmus.android.gallery1.ui.main.MainFragment
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: Int) :
@@ -44,6 +50,23 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
         )
     }
 
+    protected val previousFragment by lazy {
+        mainActivity?.supportFragmentManager?.run {
+            val tag = if (backStackEntryCount > 1) {
+                getBackStackEntryAt(backStackEntryCount - 2).name
+            } else MainFragment::class.java.name
+
+            findFragmentByTag(tag)
+        }
+    }
+
+    private var defaultStatusBarColor: Int = 0
+    private var defaultIsLightStatusBar: Boolean = false
+
+    private val currentStatusBarColor by lazy {
+        ContextCompat.getColor(requireContext(), R.color.system_ui_scrim_dark)
+    }
+
     protected lateinit var item: Item
 
     private lateinit var removeItemResultLauncher: ActivityResultLauncher<IntentSenderRequest>
@@ -62,10 +85,54 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
         viewModel.setItem(item)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        (previousFragment as? MainFragment)?.animateHideHiddenRows()
+
+        defaultStatusBarColor = mainActivity?.window?.statusBarColor ?: 0
+        defaultIsLightStatusBar = mainActivity?.window?.decorView?.isLightStatusBar() ?: true
+        mainActivity?.window?.statusBarColor = currentStatusBarColor
+        mainActivity?.setLightStatusBarFlagFromColor()
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onResume() {
+        previousFragment?.view?.alpha = ALPHA_INVISIBLE
+        super.onResume()
+    }
+
     override fun onDestroyView() {
         mainActivity?.hideFullScreen()
         mainActivity?.setLowProfileUI(false)
         super.onDestroyView()
+    }
+
+//    override fun onDetach() {
+//        super.onDetach()
+//        removeItemResultLauncher.unregister()
+//        copyItemResultLauncher.unregister()
+//        moveItemResultLauncher.unregister()
+//    }
+
+    override fun onBackPressed(): Boolean {
+        val omitDefaultBackPress = super.onBackPressed()
+        if (!omitDefaultBackPress) {
+            previousFragment?.view?.animate()?.alpha(ALPHA_VISIBLE)
+            // (previousFragment as? MainFragment)?.animateShowHiddenRows()
+
+            mainActivity?.window?.statusBarColor = defaultStatusBarColor
+            mainActivity?.setLightStatusBarFlag(defaultIsLightStatusBar)
+        }
+
+        return omitDefaultBackPress.also {
+            if (it) {
+                sharedViewModel.currentDisplayingList = null
+            }
+        }
     }
 
     override fun subscribeUi() = with(sharedViewModel) {
@@ -118,13 +185,24 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     }
 
     fun toggleFullScreenMode() {
-        if (bottomSheetBehavior.isNotCollapsed()) {
-            return
-        }
-        if (!fullScreenMode) {
-            showFullScreen()
-        } else {
-            hideFullScreen()
+        if (bottomSheetBehavior.isNotCollapsed()) return
+        if (!fullScreenMode) showFullScreen() else hideFullScreen()
+    }
+
+    override fun showFullScreen() {
+        getBottomDrawer().secondRow.invisible()
+        getBottomDrawer().thirdRow.invisible()
+
+        super.showFullScreen()
+    }
+
+    override fun hideFullScreen() {
+        super.hideFullScreen()
+
+        lifecycleScope.launch {
+            delay(DURATION_BOTTOM_SHEET_ANIMATION)
+            getBottomDrawer().secondRow.visible()
+            getBottomDrawer().thirdRow.visible()
         }
     }
 

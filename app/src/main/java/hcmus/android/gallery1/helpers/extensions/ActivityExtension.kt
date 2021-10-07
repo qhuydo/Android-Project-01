@@ -2,6 +2,7 @@ package hcmus.android.gallery1.helpers.extensions
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -97,3 +98,27 @@ fun AppCompatActivity.goToAppSetting() {
         startActivityForResult(intent, DEFAULT_SETTINGS_REQUEST_CODE)
     }
 }
+
+fun AppCompatActivity.setLightStatusBarFlagFromColor() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val statusBarColor = window?.statusBarColor ?: return
+
+        if (statusBarColor.isColorDark()) {
+            unsetLightStatusBar(window?.decorView ?: return)
+        } else {
+            setLightStatusBar(window?.decorView ?: return)
+        }
+    }
+}
+
+fun AppCompatActivity.setLightStatusBarFlag(isLightStatusBar: Boolean) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+        if (!isLightStatusBar) {
+            unsetLightStatusBar(window?.decorView ?: return)
+        } else {
+            setLightStatusBar(window?.decorView ?: return)
+        }
+    }
+}
+

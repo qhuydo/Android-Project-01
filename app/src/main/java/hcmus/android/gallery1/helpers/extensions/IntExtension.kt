@@ -1,6 +1,8 @@
 package hcmus.android.gallery1.helpers.extensions
 
+import android.graphics.Color
 import android.view.Surface
+import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.*
@@ -21,4 +23,11 @@ fun @receiver:IdRes Int.viewIdToViewMode(): String = when (this) {
     R.id.btn_viewmode_item_grid_5 -> VIEW_ITEM_GRID_S
     R.id.btn_viewmode_collection_grid_2 -> VIEW_COLLECTION_GRID
     else -> VIEW_LIST
+}
+
+fun @receiver:ColorInt Int.isColorDark(): Boolean {
+    val darkness = 1 - (0.299 * Color.red(this)
+            + 0.587 * Color.green(this)
+            + 0.114 * Color.blue(this)) / 255.0
+    return darkness >= 0.5
 }
