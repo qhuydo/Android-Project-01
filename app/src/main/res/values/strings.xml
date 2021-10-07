@@ -88,9 +88,14 @@
     <string name="no_edit_app_found">No valid app has been found</string>
 
     <!-- About dialog -->
-    <string name="about_intro">
-        A simple photo viewing and editing app. Part of the Introduction to Android course. There\'s also a nice secret album included: tap and hold "About" button in the bottom drawer to open. Tap and hold "Move" button on an image/video to move it into here.
-    </string>
+    <string name="repo_url_desc">&lt;a href="https://github.com/84436/Android-Project-01">
+        this link&lt;/a></string>
+    <string name="about_intro">"&lt;p>This is the modified version of GalleryOne.
+        If you would like to see the original upstream version, please visit %1$s.
+        &lt;br/>&lt;/p>
+        A simple photo viewing and editing app. Part of the Introduction to Android course.
+        There's also a nice secret album included: tap and hold About button in the bottom drawer
+        to open. Tap and hold Move button on an image/video to move it into here.     "</string>
     <string name="about_people">
         fit@hcmus: 18CLC-KTPM2\n
         18127221 Bùi Văn Thiện\n

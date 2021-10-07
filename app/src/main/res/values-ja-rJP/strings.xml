@@ -24,7 +24,7 @@
     <string name="bdrawer_viewmode_grid_5">小</string>
     <string name="bdrawer_more_theme">テーマ</string>
     <string name="bdrawer_more_language">言語</string>
-    <string name="bdrawer_more_about">このアプリについて</string>
+    <string name="bdrawer_more_about">アプリ情報</string>
     <string name="action_close_viewer">クローズ</string>
     <string name="action_delete">削除</string>
     <string name="action_favorite">「お気に入り」に追加</string>

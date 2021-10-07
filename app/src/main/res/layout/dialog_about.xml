@@ -1,36 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <data>
 
+        <import type="android.text.Html" />
+    </data>
+
+    <ScrollView
+        android:id="@+id/about_dialog_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:divider="@drawable/empty_16dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="32dp"
-        android:showDividers="middle">
+        android:layout_height="wrap_content">
 
-        <ImageView
+        <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/wordmark_about" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:divider="@drawable/empty_16dp"
             android:gravity="center"
-            android:text="@string/about_intro" />
+            android:orientation="vertical"
+            android:padding="32dp"
+            android:showDividers="middle">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/about_people"
-            android:typeface="monospace" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/wordmark_about" />
 
-    </LinearLayout>
-</ScrollView>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:linksClickable="true"
+                android:text="@{Html.fromHtml(@string/about_intro(@string/repo_url_desc))}" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/about_people"
+                android:typeface="monospace" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

@@ -43,7 +43,11 @@
     <string name="info_file_size">Kích thước file</string>
     <string name="info_file_path">Đường dẫn</string>
     <string name="about_intro">
-        Một trình xem và sửa ảnh đơn giản. Một phần của môn Phát triển ứng dụng Android. App này cũng có đi kèm một cái album bí mật: nhấn giữ nút "Thông tin" để vào. Nhấn giữ nút "Di chuyển" khi đang xem ảnh bất kì để chuyển nó vào album bí mật này.
+        &lt;p>Đây là phiên bản chỉnh sửa của GalleryOne,
+        phiên bản gốc của ứng dụng có thể truy cập tại %1$s.&lt;br/>&lt;/p>
+        Một trình xem và sửa ảnh đơn giản. Một phần của môn Phát triển ứng dụng Android.
+        App này cũng có đi kèm một cái album bí mật: nhấn giữ nút "Thông tin" để vào.
+        Nhấn giữ nút "Di chuyển" khi đang xem ảnh bất kì để chuyển nó vào album bí mật này.
     </string>
     <string name="about_people">
         fit@hcmus: 18CLC-KTPM2\n
@@ -79,4 +83,5 @@
     <string name="toast_moved">Đã di chuyển</string>
     <string name="edit_with">Chọn ứng dụng để chỉnh sửa</string>
     <string name="no_edit_app_found">Không tìm thấy ứng dụng chỉnh sửa</string>
+    <string name="repo_url_desc">&lt;a href="https://github.com/84436/Android-Project-01">đường link này&lt;/a></string>
 </resources>

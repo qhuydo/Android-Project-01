@@ -4,9 +4,9 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.databinding.DialogAboutBinding
 import hcmus.android.gallery1.databinding.FragmentMainBinding
 import hcmus.android.gallery1.helpers.ALPHA_INVISIBLE
 import hcmus.android.gallery1.helpers.ALPHA_VISIBLE
@@ -238,11 +239,14 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
     }
 
     fun handleBtnAbout() {
-        val aboutView = LayoutInflater.from(requireContext())
-            .inflate(R.layout.dialog_about, binding.root as ViewGroup, false)
+        val aboutView = DialogAboutBinding.inflate(
+            LayoutInflater.from(requireContext())
+        ).apply {
+            textView.movementMethod = LinkMovementMethod.getInstance()
+        }
 
         MaterialAlertDialogBuilder(requireContext())
-            .setView(aboutView)
+            .setView(aboutView.aboutDialogView)
             .show()
     }
 
