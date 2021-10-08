@@ -119,17 +119,16 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     override fun onDestroyView() {
         mainActivity?.hideFullScreen()
         mainActivity?.setLowProfileUI(false)
-        exoPlayer?.release()
-        exoPlayer = null
+        releaseExoPlayer()
         super.onDestroyView()
     }
 
-//    override fun onDetach() {
-//        super.onDetach()
-//        removeItemResultLauncher.unregister()
-//        copyItemResultLauncher.unregister()
-//        moveItemResultLauncher.unregister()
-//    }
+    override fun onDetach() {
+        super.onDetach()
+        removeItemResultLauncher.unregister()
+        copyItemResultLauncher.unregister()
+        moveItemResultLauncher.unregister()
+    }
 
     override fun onBackPressed(): Boolean {
         val omitDefaultBackPress = super.onBackPressed()
@@ -229,13 +228,15 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
         if (item.getType() == ItemType.VIDEO) {
             getBottomDrawer().videoController.visible()
 
-            exoPlayer?.release()
+            releaseExoPlayer()
             exoPlayer = SimpleExoPlayer.Builder(requireContext()).build()
 
             val mediaItem = MediaItem.fromUri(item.getUri())
             exoPlayer?.apply {
                 setMediaItem(mediaItem)
             }
+
+            getBottomDrawer().exoController2.player = exoPlayer
 
             getCurrentImageItemView()?.let { view ->
                 view.binding.playerView.player = exoPlayer
@@ -244,13 +245,18 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
             }
 
         } else {
-            exoPlayer?.release()
-            exoPlayer = null
+            releaseExoPlayer()
             getBottomDrawer().videoController.gone()
         }
         TransitionManager.beginDelayedTransition(getBottomDrawer().bdrawerViewImage)
         changePeekHeight()
 
+    }
+
+    private fun releaseExoPlayer() {
+        exoPlayer?.release()
+        exoPlayer = null
+        getBottomDrawer().exoController2.player = null
     }
 
     fun closeViewer() {
