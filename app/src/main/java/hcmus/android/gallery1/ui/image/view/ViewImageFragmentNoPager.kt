@@ -3,6 +3,7 @@ package hcmus.android.gallery1.ui.image.view
 import android.widget.ImageButton
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentViewImageNopagerBinding
+import hcmus.android.gallery1.helpers.extensions.visible
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
 
 class ViewImageFragmentNoPager : BaseViewImageFragment<FragmentViewImageNopagerBinding>(
@@ -21,8 +22,7 @@ class ViewImageFragmentNoPager : BaseViewImageFragment<FragmentViewImageNopagerB
             item.observe(viewLifecycleOwner) {
                 if (it != null) {
                     this@ViewImageFragmentNoPager.item = it
-                    binding.photoViewModel = this
-                    binding.executePendingBindings()
+                    getBottomDrawer().bdrawerViewImage.visible()
                 }
             }
         }
@@ -30,6 +30,7 @@ class ViewImageFragmentNoPager : BaseViewImageFragment<FragmentViewImageNopagerB
 
     override fun bindData() {
         binding.fragment = this
+        binding.photoViewModel = viewModel
     }
 
     // A dirty workaround to disable (nearly) all buttons when an external URI is detected

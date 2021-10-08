@@ -1,10 +1,14 @@
 package hcmus.android.gallery1.ui.image.view
 
 import android.os.Bundle
+import android.transition.TransitionManager
 import androidx.viewpager2.widget.ViewPager2
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.data.ItemType
 import hcmus.android.gallery1.databinding.FragmentViewImageBinding
 import hcmus.android.gallery1.helpers.ALPHA_VISIBLE
+import hcmus.android.gallery1.helpers.extensions.gone
+import hcmus.android.gallery1.helpers.extensions.visible
 import hcmus.android.gallery1.ui.adapters.viewpager2.ImagePageAdapter
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
 
@@ -52,15 +56,25 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
         super.subscribeUi()
         item.observe(viewLifecycleOwner) {
             if (it != null) {
+                getBottomDrawer().bdrawerViewImage.visible()
                 this@ViewImageFragment.item = it
-                binding.photoViewModel = this
-                binding.executePendingBindings()
+
+                if (it.getType() == ItemType.VIDEO) {
+                    getBottomDrawer().videoController.visible()
+                } else {
+                    getBottomDrawer().videoController.gone()
+                }
+                TransitionManager.beginDelayedTransition(getBottomDrawer().bdrawerViewImage)
+                changePeekHeight()
+
             }
         }
     }
 
     override fun bindData() = binding.run {
         fragment = this@ViewImageFragment
+        photoViewModel = viewModel
+
         pagerImage.run {
             adapter = pagerAdapter
             registerOnPageChangeCallback(onPageChangeCallback)
@@ -91,5 +105,25 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
         }
 
         if (sharedViewModel.currentDisplayingList?.isEmpty() == true) closeViewer()
+    }
+
+    override fun calculatePeekHeight(): Int = with(binding.bdrawerViewImageLayout) {
+        val videoControllerHeight = if (item.getType() == ItemType.VIDEO) {
+            videoController.measuredHeight
+        }
+        else {
+            0
+        }
+        return listDivider.measuredHeight + topRow.measuredHeight + videoControllerHeight
+    }
+
+    // override the default to remove the peek height change
+    // peek height of bottom drawer will be set when the video model has loaded image/video.
+    override fun initBottomSheetBehaviour() {
+        // Bottom sheet behavior
+        bottomSheetBehavior.apply {
+            isFitToContents = true
+        }
+        mainActivity?.setViewPaddingInNavigationBarSide(bottomDrawerView)
     }
 }

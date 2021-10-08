@@ -273,17 +273,5 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
         }
     }
 
-    internal fun animateHideHiddenRows() = with(binding.bottomDrawerMain.hiddenRows) {
-        animate().alpha(ALPHA_INVISIBLE)
-    }
-
-    internal fun animateShowHiddenRows() = with(binding.bottomDrawerMain.hiddenRows) {
-        animate()
-            .alpha(ALPHA_VISIBLE)
-            .apply {
-                duration = context?.resources?.getInteger(
-                    android.R.integer.config_longAnimTime
-                )?.toLong() ?: return@apply
-            }
-    }
+    override fun getHiddenRows() = binding.bottomDrawerMain.hiddenRows
 }

@@ -1,5 +1,6 @@
 package hcmus.android.gallery1.ui.base
 
+import android.animation.LayoutTransition
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Build
@@ -29,6 +30,7 @@ import hcmus.android.gallery1.ui.main.MainFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
+
 
 abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: Int) :
     BottomDrawerFragment<B>(layoutId) {
@@ -90,7 +92,7 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (previousFragment as? MainFragment)?.animateHideHiddenRows()
+        (previousFragment as? BottomDrawerFragment<*>)?.animateHideHiddenRows()
 
         defaultStatusBarColor = mainActivity?.window?.statusBarColor ?: 0
         defaultIsLightStatusBar = mainActivity?.window?.decorView?.isLightStatusBar() ?: true
@@ -122,7 +124,7 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
         val omitDefaultBackPress = super.onBackPressed()
         if (!omitDefaultBackPress) {
             previousFragment?.view?.animate()?.alpha(ALPHA_VISIBLE)
-            (previousFragment as? MainFragment)?.animateShowHiddenRows()
+            (previousFragment as? BottomDrawerFragment<*>)?.animateShowHiddenRows()
 
             mainActivity?.window?.statusBarColor = defaultStatusBarColor
             mainActivity?.setLightStatusBarFlag(defaultIsLightStatusBar)
@@ -172,6 +174,10 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
         }
 
         bottomDrawerDim = getBottomDrawerDimView()
+
+        getBottomDrawer().bdrawerViewImage.layoutTransition = LayoutTransition().apply {
+            setAnimateParentHierarchy(false)
+        }
     }
 
     private fun registerResultLaunchers() {
@@ -190,9 +196,10 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     }
 
     override fun showFullScreen() {
-        getBottomDrawer().secondRow.invisible()
-        getBottomDrawer().thirdRow.invisible()
-
+        getBottomDrawer().apply {
+            secondRow.gone()
+            thirdRow.gone()
+        }
         super.showFullScreen()
     }
 

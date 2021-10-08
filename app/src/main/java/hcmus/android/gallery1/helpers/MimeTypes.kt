@@ -38,10 +38,10 @@ private fun checkExtension(path: String?, extensions: Array<String>): Boolean {
     return false
 }
 
-fun checkImageMimeType(mimeType: String?): Boolean {
-    return mimeType?.contains("image") ?: false
+fun String?.checkImageMimeType(): Boolean {
+    return this?.contains("image") ?: false
 }
 
-fun checkVideoMimeType(mimeType: String?): Boolean {
-    return mimeType?.contains("video") ?: false
+fun String?.checkVideoMimeType(): Boolean {
+    return this?.contains("video") ?: false
 }

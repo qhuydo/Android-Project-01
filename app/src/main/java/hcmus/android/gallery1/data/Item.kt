@@ -23,11 +23,11 @@ data class Item(
     val mimeType: String
 ) : Parcelable {
 
-    fun getType() = when (mimeType) {
-        in imageMimeTypes -> ItemType.STATIC_IMAGE
-        in videoMimeTypes -> ItemType.VIDEO
-        in gifMimeTypes -> ItemType.GIF
-        in svgMimeTypes -> ItemType.SVG
+    fun getType() = when {
+        mimeType.checkVideoMimeType() -> ItemType.VIDEO
+        mimeType in imageMimeTypes -> ItemType.STATIC_IMAGE
+        mimeType in gifMimeTypes -> ItemType.GIF
+        mimeType in svgMimeTypes -> ItemType.SVG
         else -> ItemType.UNKNOWN
     }
 
@@ -38,8 +38,8 @@ data class Item(
 
     private fun uriFromMimeType(): Uri {
         val contentUri = when {
-            checkImageMimeType(mimeType) -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            checkVideoMimeType(mimeType) -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+            mimeType.checkImageMimeType() -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            mimeType.checkVideoMimeType() -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
             else -> MediaStore.Files.getContentUri("external")
         }
 

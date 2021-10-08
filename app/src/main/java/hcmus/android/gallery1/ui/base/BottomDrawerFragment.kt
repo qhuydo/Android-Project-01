@@ -38,8 +38,8 @@ abstract class BottomDrawerFragment<B : ViewDataBinding>(layoutId: Int) :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initBottomDrawer()
+        super.onViewCreated(view, savedInstanceState)
     }
 
     /**
@@ -82,18 +82,22 @@ abstract class BottomDrawerFragment<B : ViewDataBinding>(layoutId: Int) :
         bottomSheetBehavior.apply {
 
             // measure the peek height
-            bottomDrawerView.doOnLayout {
-                peekHeight = calculatePeekHeight()
-                if (mainActivity?.isBottomNavigationBar == true) {
-                    peekHeight += navigationBarHeight
-                }
-                paddingContainerToFitWithPeekHeight(peekHeight)
-            }
+            changePeekHeight()
 
             isFitToContents = true
             // halfExpandedRatio = (490/1000f) // magic
         }
         mainActivity?.setViewPaddingInNavigationBarSide(bottomDrawerView)
+    }
+
+    protected fun changePeekHeight() = with(bottomSheetBehavior) {
+        bottomDrawerView.doOnLayout {
+            peekHeight = calculatePeekHeight()
+            if (mainActivity?.isBottomNavigationBar == true) {
+                peekHeight += navigationBarHeight
+            }
+            paddingContainerToFitWithPeekHeight(peekHeight)
+        }
     }
 
     // TODO: give me a better name or clearer explanation
@@ -139,4 +143,22 @@ abstract class BottomDrawerFragment<B : ViewDataBinding>(layoutId: Int) :
             .start()
     }
 
+    open fun getHiddenRows(): View? = null
+
+    open fun animateHideHiddenRows() {
+        getHiddenRows()
+            ?.animate()
+            ?.alpha(ALPHA_INVISIBLE)
+    }
+
+    open fun animateShowHiddenRows() {
+        getHiddenRows()
+            ?.animate()
+            ?.alpha(ALPHA_VISIBLE)
+            ?.apply {
+                duration = context?.resources?.getInteger(
+                    android.R.integer.config_longAnimTime
+                )?.toLong() ?: return@apply
+            }
+    }
 }

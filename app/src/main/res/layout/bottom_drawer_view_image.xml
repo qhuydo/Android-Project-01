@@ -19,16 +19,40 @@
         android:id="@+id/bdrawer_view_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:background="@color/background2"
         android:elevation="8dp"
         android:orientation="vertical"
+        android:visibility="gone"
         app:behavior_peekHeight="@dimen/bdrawer_peek_height"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        app:layout_anchorGravity="bottom"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="visible">
 
         <!-- DRAGGABLE SHEET HINT -->
         <include
             android:id="@+id/list_divider"
             layout="@layout/divider" />
+
+        <LinearLayout
+            android:id="@+id/video_controller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:divider="@drawable/empty_8dp"
+            android:orientation="horizontal"
+            android:showDividers="middle"
+            android:visibility="gone">
+
+            <ImageButton
+                android:id="@+id/btn_bdrawer_view_image_expand2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:src="@drawable/ic_bdrawer_up" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/top_row"
@@ -60,13 +84,13 @@
 
             <ImageButton
                 android:id="@+id/btn_favorite"
+                srcFromFavouriteState="@{photoViewModel.isFavourite}"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
                 android:contentDescription="@string/action_favorite"
                 android:onClick="@{() -> fm.toggleFavorite()}"
-                srcFromFavouriteState="@{photoViewModel.isFavourite}"
                 tools:src="@drawable/ic_favorite" />
 
             <ImageButton

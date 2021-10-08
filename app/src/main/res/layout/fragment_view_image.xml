@@ -40,6 +40,7 @@
             android:visibility="gone" />
 
         <include
+            app:layout_anchorGravity="bottom"
             android:id="@+id/bdrawer_view_image_layout"
             layout="@layout/bottom_drawer_view_image"
             app:fm="@{fragment}"

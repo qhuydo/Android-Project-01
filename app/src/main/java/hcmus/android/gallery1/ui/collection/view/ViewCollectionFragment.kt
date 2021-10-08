@@ -2,7 +2,6 @@ package hcmus.android.gallery1.ui.collection.view
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -14,7 +13,6 @@ import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.helpers.navigation.navigateToViewImageFragment
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
-import hcmus.android.gallery1.ui.base.collection.CollectionListViewModel
 import hcmus.android.gallery1.ui.main.MainFragment
 import timber.log.Timber
 
@@ -130,6 +128,8 @@ class ViewCollectionFragment :
     override fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {
         binding.recyclerView.padding(bottom = peekHeight)
     }
+
+    override fun getHiddenRows() = binding.bdrawerImageList.viewmodeAll.root
 
     private fun initRecyclerView(viewMode: String) {
         binding.recyclerView.apply {
