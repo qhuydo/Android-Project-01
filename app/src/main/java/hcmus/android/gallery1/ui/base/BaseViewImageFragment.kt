@@ -5,6 +5,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,13 +18,18 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.data.ItemType
 import hcmus.android.gallery1.databinding.BottomDrawerViewImageBinding
 import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.helpers.extensions.*
+import hcmus.android.gallery1.helpers.widgets.ImageItemView
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 import hcmus.android.gallery1.ui.image.view.ViewImageViewModel
 import hcmus.android.gallery1.ui.main.MainFragment
@@ -70,6 +76,7 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     }
 
     protected lateinit var item: Item
+    protected var exoPlayer: ExoPlayer? = null
 
     private lateinit var removeItemResultLauncher: ActivityResultLauncher<IntentSenderRequest>
 
@@ -78,6 +85,8 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     abstract fun getBottomDrawerDimView(): View
 
     abstract fun notifyItemRemoved()
+
+    abstract fun getCurrentImageItemView(): ImageItemView?
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,6 +119,8 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     override fun onDestroyView() {
         mainActivity?.hideFullScreen()
         mainActivity?.setLowProfileUI(false)
+        exoPlayer?.release()
+        exoPlayer = null
         super.onDestroyView()
     }
 
@@ -211,6 +222,35 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
             getBottomDrawer().secondRow.visible()
             getBottomDrawer().thirdRow.visible()
         }
+    }
+
+    protected fun setUpVideoPlayer() {
+
+        if (item.getType() == ItemType.VIDEO) {
+            getBottomDrawer().videoController.visible()
+
+            exoPlayer?.release()
+            exoPlayer = SimpleExoPlayer.Builder(requireContext()).build()
+
+            val mediaItem = MediaItem.fromUri(item.getUri())
+            exoPlayer?.apply {
+                setMediaItem(mediaItem)
+            }
+
+            getCurrentImageItemView()?.let { view ->
+                view.binding.playerView.player = exoPlayer
+                exoPlayer?.prepare()
+                // exoPlayer?.play()
+            }
+
+        } else {
+            exoPlayer?.release()
+            exoPlayer = null
+            getBottomDrawer().videoController.gone()
+        }
+        TransitionManager.beginDelayedTransition(getBottomDrawer().bdrawerViewImage)
+        changePeekHeight()
+
     }
 
     fun closeViewer() {

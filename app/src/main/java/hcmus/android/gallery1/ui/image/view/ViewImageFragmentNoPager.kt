@@ -4,6 +4,7 @@ import android.widget.ImageButton
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentViewImageNopagerBinding
 import hcmus.android.gallery1.helpers.extensions.visible
+import hcmus.android.gallery1.helpers.widgets.ImageItemView
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
 
 class ViewImageFragmentNoPager : BaseViewImageFragment<FragmentViewImageNopagerBinding>(
@@ -23,6 +24,7 @@ class ViewImageFragmentNoPager : BaseViewImageFragment<FragmentViewImageNopagerB
                 if (it != null) {
                     this@ViewImageFragmentNoPager.item = it
                     getBottomDrawer().bdrawerViewImage.visible()
+                    setUpVideoPlayer()
                 }
             }
         }
@@ -50,4 +52,7 @@ class ViewImageFragmentNoPager : BaseViewImageFragment<FragmentViewImageNopagerB
     }
 
     override fun notifyItemRemoved() = closeViewer()
+
+    override fun getCurrentImageItemView(): ImageItemView = binding.image
+
 }

@@ -1,14 +1,15 @@
 package hcmus.android.gallery1.ui.image.view
 
 import android.os.Bundle
-import android.transition.TransitionManager
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.exoplayer2.ui.PlayerView
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.data.ItemType
 import hcmus.android.gallery1.databinding.FragmentViewImageBinding
 import hcmus.android.gallery1.helpers.ALPHA_VISIBLE
-import hcmus.android.gallery1.helpers.extensions.gone
 import hcmus.android.gallery1.helpers.extensions.visible
+import hcmus.android.gallery1.helpers.widgets.ImageItemView
 import hcmus.android.gallery1.ui.adapters.viewpager2.ImagePageAdapter
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
 
@@ -16,15 +17,28 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
     R.layout.fragment_view_image
 ) {
 
+//    private var currentItemView: ImageItemView? = null
+
     private val pagerAdapter by lazy {
-        ImagePageAdapter(sharedViewModel.currentDisplayingList, ImagePageAdapter.Callback {
-            toggleFullScreenMode()
+        ImagePageAdapter(sharedViewModel.currentDisplayingList, object : ImagePageAdapter.Callback {
+            override fun onClick(item: Item?) {
+                toggleFullScreenMode()
+            }
+
+            override fun onVideoViewClicked(videoView: PlayerView, item: Item?) {
+                if (videoView.isControllerVisible) {
+                    showFullScreen()
+                } else {
+                    hideFullScreen()
+                }
+            }
         })
     }
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
+
             sharedViewModel.apply {
                 currentDisplayingItemPos = position
                 currentDisplayingList?.getOrNull(position)?.let {
@@ -58,15 +72,7 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
             if (it != null) {
                 getBottomDrawer().bdrawerViewImage.visible()
                 this@ViewImageFragment.item = it
-
-                if (it.getType() == ItemType.VIDEO) {
-                    getBottomDrawer().videoController.visible()
-                } else {
-                    getBottomDrawer().videoController.gone()
-                }
-                TransitionManager.beginDelayedTransition(getBottomDrawer().bdrawerViewImage)
-                changePeekHeight()
-
+                setUpVideoPlayer()
             }
         }
     }
@@ -110,8 +116,7 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
     override fun calculatePeekHeight(): Int = with(binding.bdrawerViewImageLayout) {
         val videoControllerHeight = if (item.getType() == ItemType.VIDEO) {
             videoController.measuredHeight
-        }
-        else {
+        } else {
             0
         }
         return listDivider.measuredHeight + topRow.measuredHeight + videoControllerHeight
@@ -125,5 +130,9 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
             isFitToContents = true
         }
         mainActivity?.setViewPaddingInNavigationBarSide(bottomDrawerView)
+    }
+
+    override fun getCurrentImageItemView(): ImageItemView? {
+        return binding.pagerImage.findViewWithTag(item.id)
     }
 }

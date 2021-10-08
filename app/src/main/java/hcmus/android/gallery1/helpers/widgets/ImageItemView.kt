@@ -38,26 +38,40 @@ class ImageItemView @JvmOverloads constructor(
 
     }
 
-    fun goneAllExcept(view: View) {
+    private fun goneAllExcept(view: View) {
         listOf(
             binding.glideView,
-            binding.subscaleView
+            binding.subscaleView,
+            binding.playerView
         ).forEach { it.gone() }
         view.visible()
     }
-}
 
-@BindingAdapter("item")
-fun ImageItemView.bindItem(item: Item?) = item?.let {
-    // binding.item = item
-    when (item.getType()) {
-        ItemType.STATIC_IMAGE -> {
-            binding.subscaleView.setImage(ImageSource.uri(item.getUri()))
-            goneAllExcept(binding.subscaleView)
+    private fun bindItemInternal(item: Item) {
+        when (item.getType()) {
+            ItemType.STATIC_IMAGE -> {
+                binding.subscaleView.setImage(ImageSource.uri(item.getUri()))
+                goneAllExcept(binding.subscaleView)
+            }
+            ItemType.VIDEO -> {
+                goneAllExcept(binding.playerView)
+            }
+            else -> {
+                binding.glideView.loadGlideImage(item)
+                goneAllExcept(binding.glideView)
+            }
         }
-        else -> {
-            binding.glideView.loadGlideImage(item)
-            goneAllExcept(binding.glideView)
+    }
+
+    override fun onViewRemoved(child: View?) {
+        super.onViewRemoved(child)
+    }
+
+    companion object {
+        @BindingAdapter("item")
+        fun ImageItemView.bindItem(item: Item?) = item?.let {
+            // binding.item = item
+            bindItemInternal(item)
         }
     }
 }

@@ -2,9 +2,10 @@ package hcmus.android.gallery1.ui.adapters.viewpager2
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.exoplayer2.ui.PlayerView
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.widgets.ImageItemView
-import hcmus.android.gallery1.helpers.widgets.bindItem
+import hcmus.android.gallery1.helpers.widgets.ImageItemView.Companion.bindItem
 
 class ImagePageAdapter(
     private val itemList: List<Item>?,
@@ -18,22 +19,32 @@ class ImagePageAdapter(
 
     override fun onBindViewHolder(holder: ImagePageViewHolder, position: Int) {
         val item = itemList?.getOrNull(position)
-        holder.bind(item)
-        callback?.let { holder.itemView.setOnClickListener { callback.onClick(item) } }
+        holder.bind(item, callback)
     }
 
     override fun getItemCount(): Int = itemList?.size ?: 0
 
-
-    class Callback(private val onClickFn: (item: Item?) -> Unit) {
-        fun onClick(item: Item?) = onClickFn.invoke(item)
+    interface Callback {
+        fun onClick(item: Item?)
+        fun onVideoViewClicked(videoView: PlayerView, item: Item?)
     }
 }
 
 class ImagePageViewHolder internal constructor(private val imageItemView: ImageItemView) :
     RecyclerView.ViewHolder(imageItemView) {
-    internal fun bind(item: Item?) {
-        imageItemView.bindItem(item)
+    internal fun bind(item: Item?, callback: ImagePageAdapter.Callback?) {
+        item?.let {
+            imageItemView.apply {
+                tag = item.id
+                bindItem(item)
+            }
+            callback?.let {
+                itemView.setOnClickListener { callback.onClick(item) }
+                imageItemView.binding.playerView.setOnClickListener {
+                    callback.onVideoViewClicked(imageItemView.binding.playerView, item)
+                }
+            }
+        }
     }
 
     companion object {
