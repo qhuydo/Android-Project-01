@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -14,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:useDefaultMargins="true"
         tools:showIn="@layout/bottom_drawer_view_image">
 
         <LinearLayout
@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/info_file_name"
+                android:textAlignment="viewStart"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -35,8 +36,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:textAlignment="viewEnd"
                 android:text="@{item.fileName}"
-                android:textAlignment="textEnd"
                 android:textSize="16sp"
                 tools:text="@string/placeholder_card_details" />
 
@@ -51,6 +52,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textAlignment="viewStart"
                 android:text="@string/info_timestamp"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -60,8 +62,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:textAlignment="viewEnd"
                 android:text="@{String.valueOf(item.dateModified)}"
-                android:textAlignment="textEnd"
                 android:textSize="16sp"
                 tools:text="@string/placeholder_card_details" />
         </LinearLayout>
@@ -76,6 +78,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textAlignment="viewStart"
                 android:text="@string/info_resolution"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -86,7 +89,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:textAlignment="textEnd"
+                android:textAlignment="viewEnd"
                 android:textSize="16sp"
                 tools:text="@string/placeholder_card_details" />
         </LinearLayout>
@@ -100,6 +103,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textAlignment="viewStart"
                 android:text="@string/info_file_size"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -109,8 +113,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:textAlignment="viewEnd"
                 android:text="@{@plurals/info_file_size_value((int)item.fileSize, (int)item.fileSize)}"
-                android:textAlignment="textEnd"
                 android:textSize="16sp"
                 tools:text="@string/placeholder_card_details" />
         </LinearLayout>
@@ -124,6 +128,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textAlignment="viewStart"
                 android:text="@string/info_file_path"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -133,8 +138,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:textAlignment="viewEnd"
                 android:text="@{item.filePath}"
-                android:textAlignment="textEnd"
                 android:textSize="16sp"
                 tools:text="@tools:sample/lorem/random" />
         </LinearLayout>

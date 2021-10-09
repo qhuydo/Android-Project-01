@@ -82,9 +82,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/divider_large"
+            android:paddingStart="@dimen/divider_large"
             android:paddingTop="@dimen/divider"
-            android:paddingRight="@dimen/divider_large"
+            android:paddingEnd="@dimen/divider_large"
             android:paddingBottom="@dimen/divider">
 
             <TextView
@@ -121,8 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:divider="@drawable/empty_8dp"
-                android:orientation="horizontal"
-                android:showDividers="middle">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_new_album"
@@ -141,6 +140,7 @@
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginHorizontal="4dp"
                     android:layout_weight="1"
                     android:onClick="@{() -> fragment.handleBtnNewVideo()}"
                     android:text="@string/bdrawer_action_new_video"
@@ -178,8 +178,7 @@
                 android:layout_height="wrap_content"
                 android:divider="@drawable/empty_8dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:showDividers="middle">
+                android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_more_theme"
@@ -200,6 +199,7 @@
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginHorizontal="4dp"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="center|top"
