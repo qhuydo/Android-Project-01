@@ -108,7 +108,7 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
         defaultStatusBarColor = mainActivity?.window?.statusBarColor ?: 0
         defaultIsLightStatusBar = mainActivity?.window?.decorView?.isLightStatusBar() ?: true
         mainActivity?.window?.statusBarColor = currentStatusBarColor
-        mainActivity?.setLightStatusBarFlag(true)
+        mainActivity?.setLightStatusBarFlag(false)
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -244,7 +244,7 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
 
     protected fun setUpVideoPlayer() {
 
-        if (item.getType() == ItemType.VIDEO) {
+        if (item.isVideo()) {
             getBottomDrawer().videoController.visible()
             hideFullScreen()
 

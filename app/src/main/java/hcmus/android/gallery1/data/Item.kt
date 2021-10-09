@@ -31,6 +31,8 @@ data class Item(
         else -> ItemType.UNKNOWN
     }
 
+    fun isVideo() = getType() == ItemType.VIDEO
+
     // fun isExifImage() = getType() == ItemType.STATIC_IMAGE && mimeType in exifMimeTypes
 
     // Fetch URI

@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="item"
             type="hcmus.android.gallery1.data.Item" />
@@ -32,6 +34,20 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription"
                 tools:src="@tools:sample/backgrounds/scenic" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_video_item"
+                android:visibility="@{item.isVideo() ? View.VISIBLE : View.GONE}"
+                app:layout_constraintDimensionRatio="W, 1.1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.2"
+                tools:ignore="ContentDescription" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

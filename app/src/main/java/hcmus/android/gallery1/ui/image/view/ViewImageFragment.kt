@@ -114,7 +114,7 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
     }
 
     override fun calculatePeekHeight(): Int = with(binding.bdrawerViewImageLayout) {
-        val videoControllerHeight = if (item.getType() == ItemType.VIDEO) {
+        val videoControllerHeight = if (item.isVideo()) {
             videoController.measuredHeight
         } else {
             0
