@@ -5,12 +5,14 @@ import androidx.lifecycle.*
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.repository.FavouriteRepository
 import hcmus.android.gallery1.repository.PhotoRepository
+import hcmus.android.gallery1.repository.PreferenceRepository
 import kotlinx.coroutines.launch
 
 class ViewImageViewModel private constructor(
     application: Application,
     private val photoRepository: PhotoRepository,
-    private val favouriteRepository: FavouriteRepository
+    private val favouriteRepository: FavouriteRepository,
+    private val preferenceRepository: PreferenceRepository
 ) : AndroidViewModel(application) {
 
     private val _item = MutableLiveData<Item>(null)
@@ -21,6 +23,13 @@ class ViewImageViewModel private constructor(
         it?.let { favouriteRepository.isFavourite2(it.id) }
     }
 
+    val isAudioMuted = preferenceRepository.muteAudioLiveData
+
+    fun changeAudioMuteStatus()  {
+        preferenceRepository.muteAudio = !preferenceRepository.muteAudio
+    }
+
+
     fun setItem(item: Item) = viewModelScope.launch {
         _item.value = photoRepository.getItem(item.id)
     }
@@ -29,12 +38,18 @@ class ViewImageViewModel private constructor(
     class Factory(
         private val application: Application,
         private val photoRepository: PhotoRepository,
-        private val favouriteRepository: FavouriteRepository
+        private val favouriteRepository: FavouriteRepository,
+        private val preferenceRepository: PreferenceRepository
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ViewImageViewModel::class.java)) {
-                return ViewImageViewModel(application, photoRepository, favouriteRepository) as T
+                return ViewImageViewModel(
+                    application,
+                    photoRepository,
+                    favouriteRepository,
+                    preferenceRepository
+                ) as T
             }
             throw IllegalArgumentException("")
         }

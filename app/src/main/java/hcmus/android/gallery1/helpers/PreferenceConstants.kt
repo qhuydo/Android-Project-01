@@ -14,6 +14,7 @@ const val TAB_SECRET = "secret"
 const val KEY_THEME = "theme"
 const val KEY_LANGUAGE = "language"
 const val KEY_FAVORITES = "favorites"
+const val KEY_MUTE_AUDIO = "mute_audio"
 
 const val VIEW_MODE_OF = "view_mode_"
 

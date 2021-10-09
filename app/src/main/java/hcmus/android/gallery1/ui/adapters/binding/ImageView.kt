@@ -41,3 +41,15 @@ fun ImageView.setFavouriteDrawableFromState(isFavourite: Boolean?) {
     setImageResource(resId)
     invalidate()
 }
+
+@BindingAdapter("scrFromMuteAudioState")
+fun ImageView.setMuteAudioDrawableFromState(isMute: Boolean?) {
+    val resId = if (isMute == true) {
+        R.drawable.ic_video_audio_off
+    } else {
+        R.drawable.ic_video_audio_on
+    }
+
+    setImageResource(resId)
+    invalidate()
+}

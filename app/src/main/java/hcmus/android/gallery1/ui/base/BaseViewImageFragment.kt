@@ -46,14 +46,15 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     private val favouritesViewModel by activityViewModels<FavouritesViewModel> {
         FavouritesViewModel.Factory(
             mainActivity!!.favouriteRepository,
-            mainActivity!!.preferenceRepository
+            preferenceRepository
         )
     }
     protected val viewModel by viewModels<ViewImageViewModel> {
         ViewImageViewModel.Factory(
             requireActivity().application,
             mainActivity!!.photoRepository,
-            mainActivity!!.favouriteRepository
+            mainActivity!!.favouriteRepository,
+            preferenceRepository
         )
     }
 
@@ -78,6 +79,8 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     protected var exoPlayer: ExoPlayer? = null
 
     private lateinit var removeItemResultLauncher: ActivityResultLauncher<IntentSenderRequest>
+    private lateinit var copyItemResultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var moveItemResultLauncher: ActivityResultLauncher<Intent>
 
     abstract fun getBottomDrawer(): BottomDrawerViewImageBinding
 
@@ -105,7 +108,7 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
         defaultStatusBarColor = mainActivity?.window?.statusBarColor ?: 0
         defaultIsLightStatusBar = mainActivity?.window?.decorView?.isLightStatusBar() ?: true
         mainActivity?.window?.statusBarColor = currentStatusBarColor
-        mainActivity?.setLightStatusBarFlagFromColor()
+        mainActivity?.setLightStatusBarFlag(true)
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -197,6 +200,23 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
                 sharedViewModel.deletePendingItem()
             }
         }
+
+        copyItemResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+//            if (result.resultCode == RESULT_OK) {
+//                 toast(R.string.toast_copied)
+//            }
+        }
+
+        moveItemResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+//            if (result.resultCode == RESULT_OK) {
+//                toast(R.string.toast_moved)
+//                closeViewer()
+//            }
+        }
     }
 
     fun toggleFullScreenMode() {
@@ -236,6 +256,7 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
             val mediaItem = MediaItem.fromUri(item.getUri())
             exoPlayer?.apply {
                 setMediaItem(mediaItem)
+                exoPlayer?.muteAudio(isMuted = viewModel.isAudioMuted.value ?: false)
             }
 
             getBottomDrawer().exoController2.player = exoPlayer
@@ -339,8 +360,9 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
     }
 
     fun copyAsFile() {
-
-
+//        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+//        intent.addCategory(Intent.CATEGORY_DEFAULT)
+//        copyItemResultLauncher.launch(intent)
     }
 
     fun moveAsFile() {
@@ -358,6 +380,11 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
                 }
             }
         }
+    }
+
+    fun toggleMuteAudio() = with(viewModel) {
+        changeAudioMuteStatus()
+        exoPlayer?.muteAudio(viewModel.isAudioMuted.value ?: false)
     }
 
 }

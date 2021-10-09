@@ -106,6 +106,12 @@ class PreferenceRepository private constructor(applicationContext: Context) {
             setViewMode(TAB_DATE, value)
         }
 
+    val muteAudioLiveData = prefs.asLiveData(KEY_MUTE_AUDIO, false)
+
+    var muteAudio: Boolean
+        get() = prefs.getBoolean(KEY_MUTE_AUDIO, false)
+        set(value) = prefs.edit(commit = true) { putBoolean(KEY_MUTE_AUDIO, value) }
+
     fun isValidViewMode(tab: String, mode: String): Boolean {
         if (tab !in validTabs) return false
         return when (tab) {
