@@ -37,7 +37,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-
 abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: Int) :
     BottomDrawerFragment<B>(layoutId) {
     companion object {
@@ -227,9 +226,12 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
 
         if (item.getType() == ItemType.VIDEO) {
             getBottomDrawer().videoController.visible()
+            hideFullScreen()
 
             releaseExoPlayer()
-            exoPlayer = SimpleExoPlayer.Builder(requireContext()).build()
+            exoPlayer = SimpleExoPlayer.Builder(requireContext())
+                .setSeekForwardIncrementMs(10_000) // ms
+                .build()
 
             val mediaItem = MediaItem.fromUri(item.getUri())
             exoPlayer?.apply {
