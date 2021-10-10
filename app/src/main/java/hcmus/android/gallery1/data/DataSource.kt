@@ -203,7 +203,8 @@ class DataSource(private val applicationContext: Context) {
     fun getItems(collectionId: Long? = null): List<Item> {
 
         val customSelection = if (collectionId != null) {
-            "($SELECTION_ONLY_IMAGES_OR_VIDEO) AND (${MediaStore.Files.FileColumns.BUCKET_ID} = $collectionId)"
+            "($SELECTION_ONLY_IMAGES_OR_VIDEO) " +
+                    "AND (${MediaStore.Files.FileColumns.BUCKET_ID} = $collectionId)"
         } else {
             SELECTION_ONLY_IMAGES_OR_VIDEO
         }
@@ -291,6 +292,13 @@ class DataSource(private val applicationContext: Context) {
         val list = getItems(selection) { true }
         if (list.isEmpty()) return null
         return list.first()
+    }
+
+    fun getItemById(ids: List<Long>): List<Item> {
+        val selection = "($SELECTION_ONLY_IMAGES_OR_VIDEO) " +
+                "AND (${MediaStore.Files.FileColumns._ID} IN (${ids.joinToString()}))"
+
+        return getItems(selection) { true }
     }
 
 }

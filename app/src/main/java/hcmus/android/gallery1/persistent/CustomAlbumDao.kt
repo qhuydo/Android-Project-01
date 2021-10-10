@@ -1,10 +1,12 @@
 package hcmus.android.gallery1.persistent
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import hcmus.android.gallery1.data.CustomAlbum
 import hcmus.android.gallery1.data.CustomAlbumCrossRef
 import hcmus.android.gallery1.data.CustomAlbumInfo
 import hcmus.android.gallery1.data.CustomAlbumItem
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class CustomAlbumDao {
@@ -12,6 +14,14 @@ abstract class CustomAlbumDao {
     @Transaction
     @Query("select * from custom_album_info")
     abstract suspend fun getAllAlbums(): List<CustomAlbum>
+
+    @Transaction
+    @Query("select * from custom_album_info")
+    abstract fun getAllAlbumsAsLiveData(): LiveData<List<CustomAlbum>>
+
+    @Transaction
+    @Query("select * from custom_album_info")
+    abstract fun getAllAlbumsAsFlow(): Flow<List<CustomAlbum>>
 
     suspend fun insert(customAlbum: CustomAlbum) {
 
