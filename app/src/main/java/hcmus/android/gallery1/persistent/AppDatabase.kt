@@ -1,9 +1,8 @@
 package hcmus.android.gallery1.persistent
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
 import hcmus.android.gallery1.data.CustomAlbumCrossRef
 import hcmus.android.gallery1.data.CustomAlbumInfo
 import hcmus.android.gallery1.data.CustomAlbumItem
@@ -16,8 +15,11 @@ import hcmus.android.gallery1.data.Favourite
         CustomAlbumInfo::class,
         CustomAlbumCrossRef::class
     ],
-    version = 1,
-    exportSchema = true
+    version = 2,
+    exportSchema = true,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2, spec = AppDatabase.MigrationSpec1To2::class)
+    ]
 )
 abstract class AppDatabase : RoomDatabase() {
 
@@ -41,4 +43,10 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
     }
+
+    @DeleteColumn(
+        tableName = "custom_album_info",
+        columnName = "thumbnail_id"
+    )
+    class MigrationSpec1To2 : AutoMigrationSpec
 }

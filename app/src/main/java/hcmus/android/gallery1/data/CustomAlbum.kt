@@ -60,10 +60,9 @@ data class CustomAlbumInfo(
     // @ColumnInfo(name = "date_modified")
     // var dateModified: Long = System.currentTimeMillis(),
 
-    // Id of the MediaItem to be used as a thumbnail of the album
-    // retrieved from BaseColumns._ID column in MediaStore
-    @ColumnInfo(name = "thumbnail_id")
-    var thumbnailId: Long = -1 // -1: not assigning value yet
+    @ColumnInfo(name = "thumbnail_uri", defaultValue = "")
+    var thumbnailUri: String = ""
+
 )
 
 @Entity(tableName = "custom_album_item")
