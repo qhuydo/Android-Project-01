@@ -16,7 +16,17 @@ data class CustomAlbum(
         entity = CustomAlbumItem::class,
     )
     val albumItems: List<CustomAlbumItem>
-)
+) {
+    fun toCollection() = Collection(
+        id = albumInfo.id,
+        name = albumInfo.name,
+        type = Collection.TYPE_CUSTOM,
+        thumbnailUri = albumInfo.thumbnailUri,
+        itemCount = albumItems.size,
+        dateCreated = albumInfo.dateCreated,
+        itemIds = albumItems.map { it.id }
+    )
+}
 
 @Entity(
     tableName = "custom_album_cross_ref",

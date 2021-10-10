@@ -11,14 +11,26 @@ data class Collection(
     val type: String,
     val thumbnailUri: String,
     var itemCount: Int,
+    val dateCreated: Long = 0L,
 
     // Lazy-load fields
-    var items: List<Item> = emptyList()
+    var itemIds: List<Long> = emptyList()
 ) : Parcelable {
+
+    fun toCustomAlbum() = CustomAlbum(
+        CustomAlbumInfo(
+            id = id,
+            name = name,
+            dateCreated = dateCreated,
+            thumbnailUri = thumbnailUri
+        ),
+        albumItems = itemIds.map { id -> CustomAlbumItem(id) }
+    )
 
     companion object {
         const val TYPE_ALBUM = "album"
         const val TYPE_DATE = "date"
+        const val TYPE_CUSTOM = "custom"
 
         val diffCallback = object : DiffUtil.ItemCallback<Collection> () {
             override fun areContentsTheSame(oldItem: Collection, newItem: Collection): Boolean {
