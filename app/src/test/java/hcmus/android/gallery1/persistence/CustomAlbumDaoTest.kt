@@ -59,6 +59,18 @@ class CustomAlbumDaoTest : LocalDatabase() {
     }
 
     @Test
+    fun insertCustomAlbum_nameExisted() {
+        runBlocking {
+            // same name with testCustomAlbum1
+            val newAlbum = CustomAlbumInfo(name = "a")
+
+            val albumId = dao.insertInfo(newAlbum)
+            val items = dao.getAllAlbums().firstOrNull { it.albumInfo.name == "a" }?.albumItems
+            assertThat(items?.size, equalTo(3))
+        }
+    }
+
+    @Test
     fun insertItemIntoAlbum() = runBlocking {
         val newItem = CustomAlbumItem(id = System.currentTimeMillis())
         val albumId = dao.getAllAlbums().first().albumInfo.id

@@ -112,4 +112,7 @@ abstract class CustomAlbumDao {
 
     @Query("select count(*) from custom_album_cross_ref where album_id=:albumId and item_id=:itemId")
     abstract suspend fun containsItemInAlbum(itemId: Long, albumId: Long): Boolean
+
+    @Query("select * from custom_album_info where id=:id")
+    abstract suspend fun getAlbumInfo(id: Long): List<CustomAlbumInfo>
 }
