@@ -14,7 +14,7 @@ import com.hadilq.liveevent.LiveEvent
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.repository.CustomAlbumRepository
-// import hcmus.android.gallery1.repository.InsertAlbumResult
+import hcmus.android.gallery1.repository.InsertAlbumResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -134,6 +134,10 @@ class MainViewModel private constructor(
         }
     }
 
+    fun addNewCustomAlbum(albumName: String): LiveData<InsertAlbumResult> {
+        return customAlbumRepository.insertNewAlbum(albumName)
+            .asLiveData(viewModelScope.coroutineContext)
+    }
 
     @Suppress("UNCHECKED_CAST")
     class Factory(

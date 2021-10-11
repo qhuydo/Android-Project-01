@@ -21,7 +21,7 @@ class ViewImageViewModel private constructor(
 
     val isFavourite = Transformations.switchMap(_item) {
         it?.let { favouriteRepository.isFavourite2(it.id) }
-    }
+    }.distinctUntilChanged()
 
     val isAudioMuted = preferenceRepository.muteAudioLiveData
 
