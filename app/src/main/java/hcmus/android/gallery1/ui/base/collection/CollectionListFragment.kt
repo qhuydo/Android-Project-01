@@ -1,9 +1,10 @@
 package hcmus.android.gallery1.ui.base.collection
 
+import androidx.annotation.LayoutRes
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import hcmus.android.gallery1.R
-import hcmus.android.gallery1.databinding.FragmentMainColllectionListBinding
+import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
@@ -16,10 +17,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-abstract class CollectionListFragment(private val tab: TAB = TAB.ALBUM) :
-    BaseFragment<FragmentMainColllectionListBinding>(R.layout.fragment_main_colllection_list),
-    ScrollableToTop {
-
+abstract class CollectionListFragment<B : ViewDataBinding>(
+    @LayoutRes layoutId: Int,
+    private val tab: TAB = TAB.ALBUM
+) : BaseFragment<B>(layoutId), ScrollableToTop {
 
     private val adapterCallback = CollectionListAdapter.Callback { collection ->
         collectionViewModel().navigateToCollectionDetails(collection)
@@ -28,18 +29,17 @@ abstract class CollectionListFragment(private val tab: TAB = TAB.ALBUM) :
     protected val collectionListAdapter = CollectionListAdapter(callback = adapterCallback)
 
     override fun scrollToTop() {
-        binding.recyclerView.smoothScrollToPosition(0)
+        getAlbumRecyclerView().smoothScrollToPosition(0)
     }
 
-    override fun bindData() = with(binding) {
-        viewModel = collectionViewModel()
+    override fun bindData() {
 
-        albumPullToRefresh.listener = PullToRefreshLayout.Listener {
+        getPullToRefreshLayout()?.listener = PullToRefreshLayout.Listener {
             lifecycleScope.launch {
                 delay(PullToRefreshLayout.REFRESH_MIN_DELAY)
                 collectionViewModel().loadData {
                     collectionListAdapter.notifyDataSetChanged()
-                    binding.albumPullToRefresh.setRefreshing(false)
+                    getPullToRefreshLayout()?.setRefreshing(false)
                 }
             }
         }
@@ -54,19 +54,17 @@ abstract class CollectionListFragment(private val tab: TAB = TAB.ALBUM) :
         }
         viewMode.observe(viewLifecycleOwner) {
             if (it != null) {
-                initRecyclerView(it)
+                getAlbumRecyclerView().initRecyclerView(it, collectionListAdapter)
             }
         }
         startObservingContentChange()
     }
 
-    private fun initRecyclerView(viewMode: String) {
-        binding.recyclerView.apply {
-            adapter = collectionListAdapter
-            collectionListAdapter.changeCompactLayout(viewMode.isCompactLayout())
-            val spanCount = requireContext().getSpanCountOf(tab.key, viewMode)
-            layoutManager = GridLayoutManager(requireContext(), spanCount)
-        }
+    protected fun RecyclerView.initRecyclerView(viewMode: String, adapter: CollectionListAdapter) {
+        this.adapter = adapter
+        adapter.changeCompactLayout(viewMode.isCompactLayout())
+        val spanCount = requireContext().getSpanCountOf(tab.key, viewMode)
+        layoutManager = GridLayoutManager(requireContext(), spanCount)
     }
 
     private fun startObservingContentChange() {
@@ -78,5 +76,9 @@ abstract class CollectionListFragment(private val tab: TAB = TAB.ALBUM) :
     }
 
     abstract fun collectionViewModel(): CollectionListViewModel
+
+    abstract fun getAlbumRecyclerView(): RecyclerView
+
+    abstract fun getPullToRefreshLayout(): PullToRefreshLayout?
 
 }
