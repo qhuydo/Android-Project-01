@@ -84,4 +84,9 @@
     <string name="edit_with">Chọn ứng dụng để chỉnh sửa</string>
     <string name="no_edit_app_found">Không tìm thấy ứng dụng chỉnh sửa</string>
     <string name="repo_url_desc">&lt;a href="https://github.com/84436/Android-Project-01">đường link này&lt;/a></string>
+    <string name="dialog_new_album_error_blank_name">Xin hãy nhập tên album</string>
+    <string name="dialog_new_album_error_name_existed">Tên đã được sử dụng. Xin hãy nhập tên khác</string>
+    <string name="dialog_new_album_title">Album mới</string>
+    <string name="dialog_new_album_create_button">Tạo album</string>
+    <string name="dialog_new_album_placeholder">Nhập tên album mới</string>
 </resources>

@@ -115,4 +115,12 @@
     <string name="refresh">Refresh</string>
     <string name="refreshing">Refreshing</string>
 
+    <string name="dialog_new_album_title">New album</string>
+    <string name="dialog_new_album_placeholder">Enter new album name</string>
+    <string name="dialog_new_album_error_blank_name">This album needs a name</string>
+    <string name="dialog_new_album_error_name_existed">This name is already being used.
+        Please try a different name</string>
+    <string name="dialog_new_album_create_button">Create album</string>
+    <string name="dialog_new_album_cancel_button" translatable="false">@android:string/cancel</string>
+
 </resources>

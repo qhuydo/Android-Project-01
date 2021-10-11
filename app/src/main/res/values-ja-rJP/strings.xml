@@ -62,4 +62,9 @@
     <string name="toast_moved">移動済み</string>
     <string name="edit_with">他のアプリで編集</string>
     <string name="no_edit_app_found">有効なアプリが見つかりません</string>
+    <string name="dialog_new_album_error_blank_name">このアルバムに名前を付けてください</string>
+    <string name="dialog_new_album_error_name_existed">この名前は既に使用されました。別の名前を入力してください。</string>
+    <string name="dialog_new_album_title">新しいアルバム</string>
+    <string name="dialog_new_album_create_button">アルバムを作成</string>
+    <string name="dialog_new_album_placeholder">新しいアルバム名を入力してください</string>
 </resources>
