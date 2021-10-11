@@ -70,6 +70,11 @@
         <item quantity="other">%d bytes</item>
     </plurals>
 
+    <!-- Bottom drawer: View custom album -->
+    <string name="action_add_photo">Add photo</string>
+    <string name="action_rename_custom_album">Rename</string>
+    <string name="action_delete_custom_album">Remove</string>
+
     <string name="action_favorite_add_confirm">Added to favorites</string>
     <string name="action_favorite_remove_confirm">Removed from favorites</string>
     <string name="action_delete_confirm">Image deleted</string>

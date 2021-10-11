@@ -21,6 +21,8 @@ fun ImageView.loadGlideImage(item: Item?) {
 @BindingAdapter("loadGlideImage")
 fun ImageView.loadGlideImage(uri: String?) {
     uri?.let {
+        if (uri.isBlank()) return@let
+
         Glide.with(context)
             .load(uri)
             .error(R.drawable.placeholder_item)
