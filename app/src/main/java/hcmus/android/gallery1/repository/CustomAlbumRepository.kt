@@ -39,9 +39,9 @@ class CustomAlbumRepositoryImpl private constructor(
 
     override fun getCustomAlbum() = customAlbumDao
         .getAllAlbumsAsFlow()
-        .distinctUntilChanged()
-        .map { it.map { album -> album.toCollection() } }
         .flowOn(dispatcher)
+        .map { it.map { album -> album.toCollection() } }
+        .flowOn(Dispatchers.Default)
 
     override fun insertNewAlbum (name: String): Flow<InsertAlbumResult> {
         return flow {

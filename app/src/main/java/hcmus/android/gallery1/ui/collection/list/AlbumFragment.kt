@@ -9,6 +9,7 @@ class AlbumFragment : CollectionListFragment(tab = TAB.ALBUM) {
     val viewModel by activityViewModels<AlbumViewModel> {
         AlbumViewModel.Factory(
             mainActivity!!.collectionRepository,
+            mainActivity!!.customAlbumRepository,
             mainActivity!!.preferenceRepository
         )
     }

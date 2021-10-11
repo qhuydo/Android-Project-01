@@ -144,7 +144,11 @@ class MainActivity : AppCompatActivity() {
             AllPhotosViewModel.Factory(photoRepository, preferenceRepository)
         }
         val albumViewModel by viewModels<AlbumViewModel> {
-            AlbumViewModel.Factory(collectionRepository, preferenceRepository)
+            AlbumViewModel.Factory(
+                collectionRepository,
+                customAlbumRepository,
+                preferenceRepository
+            )
         }
         val dateViewModel by viewModels<DateCollectionViewModel> {
             DateCollectionViewModel.Factory(collectionRepository, preferenceRepository)
