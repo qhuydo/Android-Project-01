@@ -25,7 +25,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
-import hcmus.android.gallery1.data.ItemType
 import hcmus.android.gallery1.databinding.BottomDrawerViewImageBinding
 import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.helpers.extensions.*

@@ -17,9 +17,7 @@ import hcmus.android.gallery1.data.DataSource
 import hcmus.android.gallery1.databinding.ActivityMainBinding
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.persistent.AppDatabase.Companion.getDatabaseInstance
-import hcmus.android.gallery1.repository.CollectionRepositoryImpl
-import hcmus.android.gallery1.repository.FavouriteRepositoryImpl
-import hcmus.android.gallery1.repository.PhotoRepositoryImpl
+import hcmus.android.gallery1.repository.*
 import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
 import hcmus.android.gallery1.ui.collection.list.DateCollectionViewModel
@@ -43,13 +41,16 @@ class MainActivity : AppCompatActivity() {
     val photoRepository by lazy { PhotoRepositoryImpl.getInstance(mediaStoreSource) }
     val collectionRepository by lazy { CollectionRepositoryImpl.getInstance(mediaStoreSource) }
     val preferenceRepository by lazy { (application as GalleryOneApplication).preferenceRepository }
+    val customAlbumRepository by lazy {
+        CustomAlbumRepositoryImpl.getInstance(database.customAlbumDao)
+    }
+
     val orientation by lazy { resources.configuration.orientation }
 
     internal val mainViewModel by viewModels<MainViewModel> {
         MainViewModel.Factory(
             application,
-            photoRepository,
-            collectionRepository
+            customAlbumRepository
         )
     }
 

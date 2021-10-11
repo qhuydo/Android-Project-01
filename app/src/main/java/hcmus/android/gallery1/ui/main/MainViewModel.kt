@@ -13,8 +13,8 @@ import androidx.lifecycle.*
 import com.hadilq.liveevent.LiveEvent
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.TAB
-import hcmus.android.gallery1.repository.CollectionRepository
-import hcmus.android.gallery1.repository.PhotoRepository
+import hcmus.android.gallery1.repository.CustomAlbumRepository
+// import hcmus.android.gallery1.repository.InsertAlbumResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -25,8 +25,7 @@ typealias RemovedItemInfo = Triple<Item, Long, String>
 
 class MainViewModel private constructor(
     application: Application,
-    private val repository: PhotoRepository,
-    private val collectionRepository: CollectionRepository,
+    private val customAlbumRepository: CustomAlbumRepository
 ) : AndroidViewModel(application) {
 
     private var contentObserver: ContentObserver? = null
@@ -139,12 +138,11 @@ class MainViewModel private constructor(
     @Suppress("UNCHECKED_CAST")
     class Factory(
         private val application: Application,
-        private val repository: PhotoRepository,
-        private val collectionRepository: CollectionRepository,
+        private val customAlbumRepository: CustomAlbumRepository
     ) : ViewModelProvider.AndroidViewModelFactory(application) {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-                return MainViewModel(application, repository, collectionRepository) as T
+                return MainViewModel(application, customAlbumRepository) as T
             }
             throw IllegalArgumentException()
         }

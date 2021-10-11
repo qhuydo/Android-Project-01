@@ -22,8 +22,7 @@ abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId
     protected val sharedViewModel by activityViewModels<MainViewModel> {
         MainViewModel.Factory(
             requireActivity().application,
-            mainActivity!!.photoRepository,
-            mainActivity!!.collectionRepository
+            mainActivity!!.customAlbumRepository
         )
     }
 
