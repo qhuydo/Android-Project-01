@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Transformation
+import android.widget.FrameLayout
 import androidx.customview.widget.ViewDragHelper.INVALID_POINTER
 import hcmus.android.gallery1.helpers.extensions.dpToPixel
 import kotlin.math.abs
@@ -16,25 +17,13 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
 
-class PullToRefreshLayout: ViewGroup {
+class PullToRefreshLayout @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null
+) : ViewGroup(context, attrs) {
 
-    constructor(context: Context?) : super(context) { init() }
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init() }
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
-        init()
-    }
-
-    constructor(
-        context: Context?,
-        attrs: AttributeSet?,
-        defStyleAttr: Int,
-        defStyleRes: Int
-    ) : super(context, attrs, defStyleAttr, defStyleRes) {
-        init()
+    init {
+        init(context)
     }
 
     companion object {
@@ -45,12 +34,12 @@ class PullToRefreshLayout: ViewGroup {
         const val REFRESH_MIN_DELAY = 1000L // ms
     }
 
-    val totalDragDistance by lazy { context.dpToPixel(MAX_DRAG_DISTANCE) }
+    var totalDragDistance: Int = 0
 
     private var targetView: View? = null
-    private val decelerateInterpolator by lazy { DecelerateInterpolator(FACTOR) }
-    private val scaledTouchSlop by lazy { ViewConfiguration.get(context).scaledTouchSlop }
-    private val refreshView by lazy { RefreshView(context) }
+    private lateinit var decelerateInterpolator: DecelerateInterpolator
+    private lateinit var refreshView: RefreshView
+    private var scaledTouchSlop: Int = 0
 
     private var targetPaddingTop = 0
     private var targetPaddingLeft = 0
@@ -100,7 +89,12 @@ class PullToRefreshLayout: ViewGroup {
         }
     }
 
-    private fun init() {
+    private fun init(context: Context) {
+        totalDragDistance = context.dpToPixel(MAX_DRAG_DISTANCE)
+        decelerateInterpolator = DecelerateInterpolator(FACTOR)
+        scaledTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
+        refreshView = RefreshView(context)
+
         addView(refreshView)
         setWillNotDraw(true)
         isChildrenDrawingOrderEnabled = true
@@ -232,8 +226,9 @@ class PullToRefreshLayout: ViewGroup {
                     min(extraOS, slingshotDist * 2) / slingshotDist
                 )
 
-                val tensionPercent = (tensionSlingshotPercent / 4 - (tensionSlingshotPercent / 4).toDouble()
-                    .pow(2.0)).toFloat() * 2f
+                val tensionPercent =
+                    (tensionSlingshotPercent / 4 - (tensionSlingshotPercent / 4).toDouble()
+                        .pow(2.0)).toFloat() * 2f
 
                 val extraMove = slingshotDist * tensionPercent / 2
                 val targetY = (slingshotDist * boundedDragPercent + extraMove).toInt()
@@ -270,7 +265,7 @@ class PullToRefreshLayout: ViewGroup {
         return true
     }
 
-    private fun canChildScrollUp() = targetView?.canScrollVertically( -1) == true
+    private fun canChildScrollUp() = targetView?.canScrollVertically(-1) == true
 
     private fun setTargetOffsetTop(offset: Int) {
         targetView?.offsetTopAndBottom(offset)

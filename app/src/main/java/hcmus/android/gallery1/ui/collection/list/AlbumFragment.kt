@@ -58,5 +58,9 @@ class AlbumFragment : CollectionListFragment<FragmentMainAlbumBinding>(
 
     override fun getPullToRefreshLayout() = binding.albumPullToRefresh
 
+    override fun scrollToTop() {
+        binding.scrollView.smoothScrollTo(0, 0)
+    }
+
 }
 
