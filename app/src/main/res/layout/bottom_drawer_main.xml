@@ -129,7 +129,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:enabled="false"
                     android:onClick="@{() -> fragment.handleBtnNewAlbum()}"
                     android:text="@string/bdrawer_action_new_album"
                     app:icon="@drawable/ic_action_new_album"

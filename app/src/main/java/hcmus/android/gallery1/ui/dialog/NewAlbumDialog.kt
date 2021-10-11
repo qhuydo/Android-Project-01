@@ -57,11 +57,10 @@ class NewAlbumDialog private constructor() : DialogFragment() {
     companion object {
         fun AppCompatActivity.showNewAlbumDialog(
             callback: Callback
-        ) {
-            NewAlbumDialog().also {
-                it.callback = callback
-                it.show(supportFragmentManager, it::class.java.name)
-            }
+        ) = NewAlbumDialog().also {
+            it.callback = callback
+            it.show(supportFragmentManager, it::class.java.name)
         }
+
     }
 }

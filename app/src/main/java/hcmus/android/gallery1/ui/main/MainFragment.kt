@@ -1,5 +1,6 @@
 package hcmus.android.gallery1.ui.main
 
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -18,20 +20,18 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.DialogAboutBinding
 import hcmus.android.gallery1.databinding.FragmentMainBinding
-import hcmus.android.gallery1.helpers.ALPHA_INVISIBLE
-import hcmus.android.gallery1.helpers.ALPHA_VISIBLE
 import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB
-import hcmus.android.gallery1.helpers.extensions.bottomNavIdToTabPosition
-import hcmus.android.gallery1.helpers.extensions.collapse
-import hcmus.android.gallery1.helpers.extensions.padding
-import hcmus.android.gallery1.helpers.extensions.toast
+import hcmus.android.gallery1.helpers.extensions.*
+import hcmus.android.gallery1.repository.InsertAlbumResult
 import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.adapters.recyclerview.ButtonGroupViewModeAdapter
 import hcmus.android.gallery1.ui.adapters.recyclerview.OnViewModeSelectedCallback
 import hcmus.android.gallery1.ui.adapters.viewpager2.TabFragmentAdapter
 import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
+import hcmus.android.gallery1.ui.dialog.NewAlbumDialog
+import hcmus.android.gallery1.ui.dialog.NewAlbumDialog.Companion.showNewAlbumDialog
 import java.lang.ref.WeakReference
 
 class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment_main) {
@@ -72,7 +72,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
         }
     }
 
-    private var dialogToDismiss = WeakReference<AlertDialog>(null)
+    private var dialogToDismiss = WeakReference<Any>(null)
 
     override fun calculatePeekHeight(): Int = with(binding.bottomDrawerMain) {
         listDivider.measuredHeight + topRow.measuredHeight
@@ -99,7 +99,11 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
     }
 
     override fun onPause() {
-        dialogToDismiss.get()?.dismiss()
+        when (val dialog = dialogToDismiss.get()) {
+            is Dialog -> dialog.dismiss()
+            is DialogFragment -> dialog.dismiss()
+        }
+        dialogToDismiss.clear()
         super.onPause()
     }
 
@@ -184,7 +188,26 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
     ////////////////////////////////////////////////////////////////////////////////
 
     fun handleBtnNewAlbum() {
-        toast("Not implemented")
+        val callback = object : NewAlbumDialog.Callback {
+
+            override fun onButtonNewAlbumClicked(dialog: NewAlbumDialog, text: String) {
+
+                sharedViewModel.addNewCustomAlbum(text).observeOnce(
+                    viewLifecycleOwner
+                ) { result ->
+                    when (result) {
+                        InsertAlbumResult.SUCCEED -> dialog.dismiss()
+                        InsertAlbumResult.FAILED_BLANK_NAME -> dialog.setErrorBlankName()
+                        InsertAlbumResult.FAILED_EXISTED_NAME -> dialog.setErrorExistedName()
+                        InsertAlbumResult.FAILED_OTHER -> {}
+                    }
+                }
+            }
+
+            override fun onButtonCancelClicked(dialog: NewAlbumDialog) = dialog.dismiss()
+        }
+
+        dialogToDismiss = WeakReference(mainActivity!!.showNewAlbumDialog(callback))
     }
 
     fun handleBtnNewPhoto() {
