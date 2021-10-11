@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="hcmus.android.gallery1.ui.collection.list.AlbumViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
+            android:id="@+id/album_pull_to_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="8dp"
+                    android:paddingTop="8dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/custom_album_text"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:text="@string/text_custom_album"
+                        android:visibility="@{viewModel.customAlbumVisibility}" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/custom_album_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.customAlbumVisibility}"
+                        tools:itemCount="3"
+                        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        tools:listitem="@layout/list_collection"
+                        tools:spanCount="@integer/collection_grid" />
+
+                    <View
+                        android:visibility="@{viewModel.customAlbumVisibility}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/divider"
+                        android:layout_marginBottom="@dimen/divider"
+                        android:background="@color/bottom_sheet_divider" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/album_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        tools:listitem="@layout/list_collection"
+                        tools:spanCount="@integer/collection_grid" />
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout>
+
+        <include
+            android:id="@+id/tab_album_placeholder"
+            layout="@layout/empty_list_placeholder"
+            android:visibility="@{viewModel.placeholderVisibility}"
+            app:icon="@{@drawable/ic_tab_album}"
+            app:text="@{@string/placeholder_tab_album}"
+            tools:visibility="gone" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
