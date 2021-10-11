@@ -67,4 +67,6 @@
     <string name="dialog_new_album_title">新しいアルバム</string>
     <string name="dialog_new_album_create_button">アルバムを作成</string>
     <string name="dialog_new_album_placeholder">新しいアルバム名を入力してください</string>
+    <string name="text_custom_album">自分のアルバム</string>
+    <string name="dialog_new_album_cancel_button">@android:string/cancel</string>
 </resources>

@@ -121,6 +121,7 @@
     <string name="dialog_new_album_error_name_existed">This name is already being used.
         Please try a different name</string>
     <string name="dialog_new_album_create_button">Create album</string>
-    <string name="dialog_new_album_cancel_button" translatable="false">@android:string/cancel</string>
+    <string name="dialog_new_album_cancel_button">Cancel</string>
 
+    <string name="text_custom_album">Your album</string>
 </resources>

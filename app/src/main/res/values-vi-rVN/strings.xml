@@ -89,4 +89,6 @@
     <string name="dialog_new_album_title">Album mới</string>
     <string name="dialog_new_album_create_button">Tạo album</string>
     <string name="dialog_new_album_placeholder">Nhập tên album mới</string>
+    <string name="text_custom_album">Album của bạn</string>
+    <string name="dialog_new_album_cancel_button">@android:string/cancel</string>
 </resources>
