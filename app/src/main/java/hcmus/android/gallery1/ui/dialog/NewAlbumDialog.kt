@@ -5,19 +5,25 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.DialogNewAlbumBinding
+import hcmus.android.gallery1.helpers.extensions.observeOnce
+import hcmus.android.gallery1.repository.InsertAlbumResult
+import hcmus.android.gallery1.ui.main.MainActivity
+import hcmus.android.gallery1.ui.main.MainViewModel
 
 class NewAlbumDialog private constructor() : DialogFragment() {
 
+    private val mainActivity by lazy { requireActivity() as MainActivity }
     private lateinit var binding: DialogNewAlbumBinding
 
-    internal var callback: Callback? = null
-
-    interface Callback {
-        fun onButtonNewAlbumClicked(dialog: NewAlbumDialog, text: String)
-        fun onButtonCancelClicked(dialog: NewAlbumDialog)
+    private val sharedViewModel by activityViewModels<MainViewModel> {
+        MainViewModel.Factory(
+            requireActivity().application,
+            mainActivity.customAlbumRepository
+        )
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -27,15 +33,11 @@ class NewAlbumDialog private constructor() : DialogFragment() {
             false
         ).apply {
             btnNewAlbum.setOnClickListener {
-                callback?.onButtonNewAlbumClicked(
-                    this@NewAlbumDialog, textInput.text.toString()
-                ) ?: cancel()
+                onButtonNewAlbum()
             }
-
-            btnCancel.setOnClickListener {
-                callback?.onButtonCancelClicked(this@NewAlbumDialog) ?: cancel()
-            }
-
+            btnCancel.setOnClickListener { dismiss() }
+            lifecycleOwner = this@NewAlbumDialog
+            executePendingBindings()
         }
 
         return MaterialAlertDialogBuilder(requireContext())
@@ -44,21 +46,31 @@ class NewAlbumDialog private constructor() : DialogFragment() {
         // .apply { requestWindowFeature(Window.FEATURE_NO_TITLE) }
     }
 
-    private fun cancel() = dismiss()
+    private fun onButtonNewAlbum() {
+        val text = binding.textInput.text.toString()
+        sharedViewModel.addNewCustomAlbum(text).observeOnce(
+            this
+        ) { result ->
+            when (result) {
+                InsertAlbumResult.SUCCEED -> dismiss()
+                InsertAlbumResult.FAILED_BLANK_NAME -> setErrorBlankName()
+                InsertAlbumResult.FAILED_EXISTED_NAME -> setErrorExistedName()
+                InsertAlbumResult.FAILED_OTHER -> {
+                }
+            }
+        }
+    }
 
-    fun setErrorExistedName() = setError(R.string.dialog_new_album_error_name_existed)
+    private fun setErrorExistedName() = setError(R.string.dialog_new_album_error_name_existed)
 
-    fun setErrorBlankName() = setError(R.string.dialog_new_album_error_blank_name)
+    private fun setErrorBlankName() = setError(R.string.dialog_new_album_error_blank_name)
 
     private fun setError(@StringRes res: Int) {
         binding.textInputLayout.error = context?.getString(res)
     }
 
     companion object {
-        fun AppCompatActivity.showNewAlbumDialog(
-            callback: Callback
-        ) = NewAlbumDialog().also {
-            it.callback = callback
+        fun AppCompatActivity.showNewAlbumDialog() = NewAlbumDialog().also {
             it.show(supportFragmentManager, it::class.java.name)
         }
 

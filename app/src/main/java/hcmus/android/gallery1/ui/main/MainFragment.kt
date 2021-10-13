@@ -22,14 +22,12 @@ import hcmus.android.gallery1.databinding.FragmentMainBinding
 import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.*
-import hcmus.android.gallery1.repository.InsertAlbumResult
 import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.adapters.recyclerview.ButtonGroupViewModeAdapter
 import hcmus.android.gallery1.ui.adapters.recyclerview.OnViewModeSelectedCallback
 import hcmus.android.gallery1.ui.adapters.viewpager2.TabFragmentAdapter
 import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
-import hcmus.android.gallery1.ui.dialog.NewAlbumDialog
 import hcmus.android.gallery1.ui.dialog.NewAlbumDialog.Companion.showNewAlbumDialog
 import java.lang.ref.WeakReference
 
@@ -187,26 +185,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
     ////////////////////////////////////////////////////////////////////////////////
 
     fun handleBtnNewAlbum() {
-        val callback = object : NewAlbumDialog.Callback {
-
-            override fun onButtonNewAlbumClicked(dialog: NewAlbumDialog, text: String) {
-
-                sharedViewModel.addNewCustomAlbum(text).observeOnce(
-                    viewLifecycleOwner
-                ) { result ->
-                    when (result) {
-                        InsertAlbumResult.SUCCEED -> dialog.dismiss()
-                        InsertAlbumResult.FAILED_BLANK_NAME -> dialog.setErrorBlankName()
-                        InsertAlbumResult.FAILED_EXISTED_NAME -> dialog.setErrorExistedName()
-                        InsertAlbumResult.FAILED_OTHER -> {}
-                    }
-                }
-            }
-
-            override fun onButtonCancelClicked(dialog: NewAlbumDialog) = dialog.dismiss()
-        }
-
-        dialogToDismiss = WeakReference(mainActivity!!.showNewAlbumDialog(callback))
+        dialogToDismiss = WeakReference(mainActivity!!.showNewAlbumDialog())
     }
 
     fun handleBtnNewPhoto() {
