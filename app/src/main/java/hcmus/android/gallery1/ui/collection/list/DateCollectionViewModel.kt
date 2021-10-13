@@ -20,7 +20,7 @@ class DateCollectionViewModel private constructor(
 
     override fun loadData(callback: (() -> Unit)?) {
         viewModelScope.launch {
-            _collections.value = collectionRepository.getAllDateCollections().toMutableList()
+            mutableCollections.value = collectionRepository.getAllDateCollections().toMutableList()
             callback?.invoke()
         }
     }

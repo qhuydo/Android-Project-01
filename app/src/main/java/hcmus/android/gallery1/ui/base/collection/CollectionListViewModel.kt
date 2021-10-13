@@ -17,9 +17,9 @@ abstract class CollectionListViewModel(
 
     val viewMode = preferenceRepository.getViewMode(tab)
 
-    protected var _collections = MutableLiveData<MutableList<Collection>>()
+    protected var mutableCollections = MutableLiveData<MutableList<Collection>>()
     val collections: LiveData<MutableList<Collection>>
-        get() = _collections
+        get() = mutableCollections
 
     private var _navigateToCollectionDetails = LiveEvent<Collection>()
     val navigateToCollectionDetails: LiveData<Collection>

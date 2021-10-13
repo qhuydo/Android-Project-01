@@ -29,7 +29,7 @@ class AlbumViewModel private constructor(
 
     override fun loadData(callback: (() -> Unit)?) {
         viewModelScope.launch {
-            _collections.value = collectionRepository.getAllCollections().toMutableList()
+            mutableCollections.value = collectionRepository.getAllCollections().toMutableList()
             callback?.invoke()
         }
     }
