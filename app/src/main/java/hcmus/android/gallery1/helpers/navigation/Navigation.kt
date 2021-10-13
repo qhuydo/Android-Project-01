@@ -12,6 +12,7 @@ import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.collection.view.ViewCollectionFragment
+import hcmus.android.gallery1.ui.collection.view.ViewCustomAlbumFragment
 import hcmus.android.gallery1.ui.image.view.ViewImageFragment
 import hcmus.android.gallery1.ui.main.MainActivity
 
@@ -28,7 +29,8 @@ fun MainActivity.navigateToViewImageFragment(
         it.view?.alpha = 0f
     }
 
-    pushScreen(ViewImageFragment::class.java,
+    pushScreen(
+        ViewImageFragment::class.java,
         shouldHideExistingFragment = false,
         transition = FragmentTransaction.TRANSIT_FRAGMENT_FADE
     )
@@ -65,4 +67,12 @@ fun MainActivity.navigateToViewCollectionFragment(collection: Collection) {
         putParcelable(ViewCollectionFragment.ARGS_COLLECTION, collection)
     }
     pushScreen(ViewCollectionFragment::class.java, bundle)
+}
+
+fun MainActivity.navigateToViewCustomAlbumFragment(collectionId: Long) {
+
+    val bundle = Bundle().apply {
+        putLong(ViewCustomAlbumFragment.ARGS_COLLECTION_ID, collectionId)
+    }
+    pushScreen(ViewCustomAlbumFragment::class.java, bundle)
 }

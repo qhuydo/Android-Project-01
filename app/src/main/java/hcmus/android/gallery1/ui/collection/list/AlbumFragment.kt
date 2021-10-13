@@ -12,11 +12,10 @@ class AlbumFragment : CollectionListFragment<FragmentMainAlbumBinding>(
     tab = TAB.ALBUM
 ) {
     private val customAlbumCallback = CollectionListAdapter.Callback { collection ->
-        // collectionViewModel().navigateToCollectionDetails(collection)
+        collectionViewModel().navigateToCollectionDetails(collection)
     }
 
     private val customAlbumAdapter = CollectionListAdapter(callback = customAlbumCallback)
-
 
     val viewModel by activityViewModels<AlbumViewModel> {
         AlbumViewModel.Factory(

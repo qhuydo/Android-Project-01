@@ -5,11 +5,13 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
 import hcmus.android.gallery1.helpers.extensions.isCompactLayout
 import hcmus.android.gallery1.helpers.navigation.navigateToViewCollectionFragment
+import hcmus.android.gallery1.helpers.navigation.navigateToViewCustomAlbumFragment
 import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
 import hcmus.android.gallery1.ui.adapters.recyclerview.CollectionListAdapter
 import hcmus.android.gallery1.ui.base.BaseFragment
@@ -46,11 +48,17 @@ abstract class CollectionListFragment<B : ViewDataBinding>(
     }
 
     override fun subscribeUi() = with(collectionViewModel()) {
-        navigateToCollectionDetails.observe(viewLifecycleOwner) {
-            if (it == null) {
+        navigateToCollectionDetails.observe(viewLifecycleOwner) { collection ->
+            if (collection == null) {
                 return@observe
             }
-            mainActivity?.navigateToViewCollectionFragment(it)
+
+            when (collection.type) {
+                Collection.TYPE_CUSTOM -> mainActivity?.navigateToViewCustomAlbumFragment(
+                    collection.id
+                )
+                else -> mainActivity?.navigateToViewCollectionFragment(collection)
+            }
         }
         viewMode.observe(viewLifecycleOwner) {
             if (it != null) {
