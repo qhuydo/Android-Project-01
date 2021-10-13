@@ -18,8 +18,7 @@ abstract class ImageListViewModel(
 ) : ViewModel() {
 
     protected var _photos = MutableLiveData<MutableList<Item>>()
-    val photos: LiveData<MutableList<Item>>
-        get() = _photos
+    val photos: LiveData<MutableList<Item>> by this::_photos
 
     val placeholderVisibility = Transformations.map(photos) {
         if (photos.value?.isNotEmpty() == true) View.GONE else View.VISIBLE
@@ -28,8 +27,7 @@ abstract class ImageListViewModel(
     val viewMode = preferenceRepository.getViewMode(tab)
 
     private var _navigateToImageView = LiveEvent<Int>()
-    val navigateToImageView: LiveData<Int>
-        get() = _navigateToImageView
+    val navigateToImageView: LiveData<Int> by this::_navigateToImageView
 
     private var shouldNavigateToImageView = true
 
