@@ -23,6 +23,10 @@ abstract class CustomAlbumDao {
     @Query("select * from custom_album_info")
     abstract fun getAllAlbumsAsFlow(): Flow<List<CustomAlbum>>
 
+    @Transaction
+    @Query("select * from custom_album_info where id = :id")
+    abstract fun getAlbumAsFlow(id: Long): Flow<List<CustomAlbum>>
+
     suspend fun insert(customAlbum: CustomAlbum) {
 
         val albumId = insertInfo(customAlbum.albumInfo)

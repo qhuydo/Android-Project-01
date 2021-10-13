@@ -9,6 +9,7 @@ import timber.log.Timber
 
 interface CustomAlbumRepository {
     fun getCustomAlbum(): Flow<List<Collection>>
+    fun getCustomAlbum(id: Long): Flow<Collection?>
     fun insertNewAlbum(name: String): Flow<InsertAlbumResult>
 }
 
@@ -43,7 +44,12 @@ class CustomAlbumRepositoryImpl private constructor(
         .map { it.map { album -> album.toCollection() } }
         .flowOn(Dispatchers.Default)
 
-    override fun insertNewAlbum (name: String): Flow<InsertAlbumResult> {
+    override fun getCustomAlbum(id: Long) = customAlbumDao
+        .getAlbumAsFlow(id)
+        .map { it.firstOrNull()?.toCollection() }
+        .flowOn(dispatcher)
+
+    override fun insertNewAlbum(name: String): Flow<InsertAlbumResult> {
         return flow {
             if (name.isBlank()) {
                 emit(InsertAlbumResult.FAILED_BLANK_NAME)
@@ -57,8 +63,7 @@ class CustomAlbumRepositoryImpl private constructor(
 
             if (customAlbumDao.containsName(name)) {
                 emit(InsertAlbumResult.FAILED_EXISTED_NAME)
-            }
-            else {
+            } else {
                 val id = customAlbumDao.insertInfo(albumInfo)
                 customAlbumDao.getAlbumInfo(id).firstOrNull()?.let {
                     Timber.d("New album added: name = $name, id = $it.id")
