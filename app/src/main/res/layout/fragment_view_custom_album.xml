@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="hcmus.android.gallery1.ui.collection.view.ViewCustomAlbumViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/album_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:itemCount="10"
+            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/list_item"
+            tools:spanCount="@integer/item_grid_m" />
+
+        <View
+            android:id="@+id/bdrawer_dim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/bottom_drawer"
+            layout="@layout/bottom_drawer_view_custom_album"
+            app:collection="@{viewModel.customAlbum}"
+            app:viewMode="@{viewModel.viewMode}" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

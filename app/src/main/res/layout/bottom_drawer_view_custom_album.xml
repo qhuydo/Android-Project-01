@@ -34,7 +34,7 @@
         <!-- NAVBAR + EXPAND SHEET BUTTON -->
 
         <ImageButton
-            android:id="@+id/btn_close_secret"
+            android:id="@+id/btn_close_custom_album"
             android:layout_width="0dp"
             android:layout_height="@dimen/bdrawer_toolbar_height"
             android:background="@drawable/ripple_rect"
@@ -58,7 +58,7 @@
             app:layout_constraintEnd_toStartOf="@id/btn_bottom_sheet_expand"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintStart_toEndOf="@id/btn_close_secret"
+            app:layout_constraintStart_toEndOf="@id/btn_close_custom_album"
             app:layout_constraintTop_toBottomOf="@id/list_divider"
             tools:text="My Album" />
 
@@ -101,7 +101,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/guideline_end"
             app:layout_constraintStart_toEndOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/btn_close_secret" />
+            app:layout_constraintTop_toBottomOf="@id/btn_close_custom_album" />
 
         <include
             android:id="@+id/viewmode_all"
@@ -177,10 +177,10 @@
         </LinearLayout>
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/group"
+            android:id="@+id/custom_album_hidden_elements"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="text_view_mode,viewmode_all,list_divider,bottom_sheet_settings_hint,button_group" />
+            app:constraint_referenced_ids="text_view_mode,viewmode_all,bottom_sheet_settings_hint,button_group" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
