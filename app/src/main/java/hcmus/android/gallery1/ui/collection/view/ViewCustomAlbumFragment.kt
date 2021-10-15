@@ -4,7 +4,10 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentViewCustomAlbumBinding
+import hcmus.android.gallery1.helpers.extensions.toast
+import hcmus.android.gallery1.repository.RemoveAlbumResult
 import hcmus.android.gallery1.ui.base.BaseViewCollectionFragment
+import hcmus.android.gallery1.ui.dialog.RenameAlbumDialog.Companion.showRenameAlbumDialog
 
 class ViewCustomAlbumFragment :
     BaseViewCollectionFragment<FragmentViewCustomAlbumBinding>(R.layout.fragment_view_custom_album) {
@@ -17,7 +20,9 @@ class ViewCustomAlbumFragment :
         requireArguments().getLong(ARGS_COLLECTION_ID)
     }
 
-    private val viewModel by viewModels<ViewCustomAlbumViewModel> {
+    private val viewModel by viewModels<ViewCustomAlbumViewModel>(
+        ownerProducer = { this }
+    ) {
         ViewCustomAlbumViewModel.Factory(
             mainActivity!!.photoRepository,
             mainActivity!!.customAlbumRepository,
@@ -28,10 +33,16 @@ class ViewCustomAlbumFragment :
     override fun subscribeUi() = with(viewModel) {
         setCollection(collectionId)
         super.subscribeUi()
+        photos.observe(viewLifecycleOwner) {
+            if (it != null) {
+                enableButtonGroup()
+            }
+        }
     }
 
     override fun bindData() = with(binding) {
         viewModel = this@ViewCustomAlbumFragment.viewModel
+        fm = this@ViewCustomAlbumFragment
     }
 
     override fun calculatePeekHeight() = with(binding.bottomDrawer) {
@@ -53,4 +64,27 @@ class ViewCustomAlbumFragment :
     override fun getViewModeView() = binding.bottomDrawer.viewmodeAll
 
     override fun viewModel() = viewModel
+
+    private fun enableButtonGroup() = with(binding.bottomDrawer) {
+        listOf(
+            btnAddPhoto,
+            btnRemoveAlbum,
+            btnRenameAlbum,
+        ).forEach { it.isEnabled = true }
+    }
+
+    fun removeAlbum() {
+        viewModel.removeCollection().observe(viewLifecycleOwner) {
+            if (it == null) return@observe
+
+            when (it) {
+                RemoveAlbumResult.SUCCEED -> forceBackPress()
+                RemoveAlbumResult.FAILED -> toast("Failed")
+            }
+        }
+    }
+
+    fun renameAlbum() {
+        showRenameAlbumDialog()
+    }
 }

@@ -12,6 +12,10 @@
         <variable
             name="viewMode"
             type="String" />
+
+        <variable
+            name="fm"
+            type="hcmus.android.gallery1.ui.collection.view.ViewCustomAlbumFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -149,9 +153,11 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:enabled="false"
                 android:text="@string/action_add_photo"
                 app:icon="@drawable/ic_album_add_photo"
-                app:iconGravity="top" />
+                app:iconGravity="top"
+                tools:enabled="true" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_rename_album"
@@ -160,9 +166,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="8dp"
                 android:layout_weight="1"
+                android:enabled="false"
                 android:text="@string/action_rename_custom_album"
+                android:onClick="@{() -> fm.renameAlbum()}"
                 app:icon="@drawable/ic_rename_custom_album"
-                app:iconGravity="top" />
+                app:iconGravity="top"
+                tools:enabled="true" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_remove_album"
@@ -170,9 +179,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:enabled="false"
+                android:onClick="@{() -> fm.removeAlbum()}"
                 android:text="@string/action_delete_custom_album"
                 app:icon="@drawable/ic_remove_custom_album"
-                app:iconGravity="top" />
+                app:iconGravity="top"
+                tools:enabled="true" />
 
         </LinearLayout>
 

@@ -23,8 +23,10 @@ class AlbumViewModel private constructor(
         .getCustomAlbum()
         .asLiveData(viewModelScope.coroutineContext)
 
-    val customAlbumVisibility = Transformations.map(customAlbums) { albums ->
-        if (albums.isNotEmpty()) View.VISIBLE else View.GONE
+    val customAlbumVisibility = Transformations.switchMap(customAlbums) {
+        liveData {
+            emit(if (it.isNotEmpty()) View.VISIBLE else View.GONE)
+        }
     }
 
     override fun loadData(callback: (() -> Unit)?) {

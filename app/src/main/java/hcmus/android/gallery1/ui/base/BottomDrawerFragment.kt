@@ -111,6 +111,11 @@ abstract class BottomDrawerFragment<B : ViewDataBinding>(layoutId: Int) :
         return super.onBackPressed()
     }
 
+    protected fun forceBackPress() {
+        forceBack = true
+        activity?.onBackPressed()
+    }
+
     protected open fun showFullScreen() {
         animateHideBottomDrawer()
         mainActivity?.showFullScreen()

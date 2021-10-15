@@ -9,6 +9,10 @@
             name="viewModel"
             type="hcmus.android.gallery1.ui.collection.view.ViewCustomAlbumViewModel" />
 
+        <variable
+            name="fm"
+            type="hcmus.android.gallery1.ui.collection.view.ViewCustomAlbumFragment" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -35,6 +39,7 @@
             android:id="@+id/bottom_drawer"
             layout="@layout/bottom_drawer_view_custom_album"
             app:collection="@{viewModel.customAlbum}"
+            app:fm="@{fm}"
             app:viewMode="@{viewModel.viewMode}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
