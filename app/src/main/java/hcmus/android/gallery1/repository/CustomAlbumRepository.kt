@@ -11,6 +11,8 @@ interface CustomAlbumRepository {
     fun getCustomAlbum(): Flow<List<Collection>>
     fun getCustomAlbum(id: Long): Flow<Collection?>
     fun insertNewAlbum(name: String): Flow<InsertAlbumResult>
+    fun removeAlbum(id: Long): Flow<RemoveAlbumResult>
+    fun renameAlbum(id: Long, newName: String): Flow<RenameAlbumResult>
 }
 
 class CustomAlbumRepositoryImpl private constructor(
@@ -73,6 +75,33 @@ class CustomAlbumRepositoryImpl private constructor(
 
         }.flowOn(dispatcher)
     }
+
+    override fun removeAlbum(id: Long): Flow<RemoveAlbumResult> {
+        return flow { emit(customAlbumDao.deleteAlbum(id)) }
+            .map { if (it > 0) RemoveAlbumResult.SUCCEED else RemoveAlbumResult.FAILED }
+            .flowOn(dispatcher)
+    }
+
+    override fun renameAlbum(id: Long, newName: String): Flow<RenameAlbumResult> {
+        return flow {
+            if (newName.isBlank()) {
+                emit(RenameAlbumResult.FAILED_BLANK_NAME)
+                return@flow
+            }
+
+            when {
+                customAlbumDao.containsNameExcludingId(newName, id) -> {
+                    emit(RenameAlbumResult.FAILED_EXISTED_NAME)
+                }
+                customAlbumDao.updateAlbumName(newName, id) > 0 -> {
+                    emit(RenameAlbumResult.SUCCEED)
+                }
+                else -> {
+                    emit(RenameAlbumResult.FAILED_OTHER)
+                }
+            }
+        }
+    }
 }
 
 enum class InsertAlbumResult {
@@ -80,4 +109,16 @@ enum class InsertAlbumResult {
     FAILED_BLANK_NAME,
     FAILED_EXISTED_NAME,
     FAILED_OTHER
+}
+
+enum class RenameAlbumResult {
+    SUCCEED,
+    FAILED_BLANK_NAME,
+    FAILED_EXISTED_NAME,
+    FAILED_OTHER
+}
+
+enum class RemoveAlbumResult {
+    SUCCEED,
+    FAILED
 }

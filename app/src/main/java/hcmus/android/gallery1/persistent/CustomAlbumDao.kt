@@ -102,6 +102,10 @@ abstract class CustomAlbumDao {
     abstract suspend fun deleteAlbum(customAlbumInfo: CustomAlbumInfo)
 
     @Transaction
+    @Query("delete from custom_album_info where id=:id")
+    abstract suspend fun deleteAlbum(id: Long): Int
+
+    @Transaction
     @Delete
     abstract suspend fun deleteAlbumItem(item: CustomAlbumItem)
 
@@ -111,6 +115,9 @@ abstract class CustomAlbumDao {
     @Query("select count(*) from custom_album_info where name=:name")
     abstract suspend fun containsName(name: String): Boolean
 
+    @Query("select count(*) from custom_album_info where name=:name and id<>:id")
+    abstract suspend fun containsNameExcludingId(name: String, id: Long): Boolean
+
     @Query("select id from custom_album_info")
     abstract suspend fun allAlbumIds(): List<Long>
 
@@ -119,4 +126,7 @@ abstract class CustomAlbumDao {
 
     @Query("select * from custom_album_info where id=:id")
     abstract suspend fun getAlbumInfo(id: Long): List<CustomAlbumInfo>
+
+    @Query("update custom_album_info set name=:name where id=:id")
+    abstract suspend fun updateAlbumName(name: String, id: Long): Int
 }

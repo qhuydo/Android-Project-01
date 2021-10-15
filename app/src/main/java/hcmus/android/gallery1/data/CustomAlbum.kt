@@ -26,6 +26,10 @@ data class CustomAlbum(
         dateCreated = albumInfo.dateCreated,
         itemIds = albumItems.map { it.id }
     )
+
+    companion object {
+        const val INVALID_ID = -1L
+    }
 }
 
 @Entity(
