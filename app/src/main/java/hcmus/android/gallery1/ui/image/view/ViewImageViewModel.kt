@@ -29,7 +29,6 @@ class ViewImageViewModel private constructor(
         preferenceRepository.muteAudio = !preferenceRepository.muteAudio
     }
 
-
     fun setItem(item: Item) = viewModelScope.launch {
         _item.value = photoRepository.getItem(item.id)
     }

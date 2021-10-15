@@ -2,10 +2,9 @@ package hcmus.android.gallery1.ui.collection.view
 
 import androidx.lifecycle.*
 import hcmus.android.gallery1.data.Collection
+import hcmus.android.gallery1.data.CustomAlbum.Companion.INVALID_ID
 import hcmus.android.gallery1.helpers.TAB
-import hcmus.android.gallery1.repository.CustomAlbumRepository
-import hcmus.android.gallery1.repository.PhotoRepository
-import hcmus.android.gallery1.repository.PreferenceRepository
+import hcmus.android.gallery1.repository.*
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.main.MainViewModel
 import kotlinx.coroutines.launch
@@ -39,6 +38,14 @@ class ViewCustomAlbumViewModel private constructor(
                 }
             }
     }
+
+    fun removeCollection(): LiveData<RemoveAlbumResult> = customAlbumRepository
+        .removeAlbum(_customAlbum.value?.id ?: INVALID_ID)
+        .asLiveData(viewModelScope.coroutineContext)
+
+    fun renameCollection(newName: String): LiveData<RenameAlbumResult> = customAlbumRepository
+        .renameAlbum(_customAlbum.value?.id ?: INVALID_ID, newName)
+        .asLiveData(viewModelScope.coroutineContext)
 
     @Suppress("UNCHECKED_CAST")
     class Factory(
