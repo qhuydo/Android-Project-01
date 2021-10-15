@@ -2,6 +2,9 @@ package hcmus.android.gallery1.ui.base
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -24,9 +27,17 @@ abstract class BaseDialogFragment<B : ViewDataBinding>(@LayoutRes private val re
         )
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return binding.root
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DataBindingUtil.inflate(
-            requireActivity().layoutInflater,
+            layoutInflater,
             resId,
             null,
             false
@@ -44,4 +55,5 @@ abstract class BaseDialogFragment<B : ViewDataBinding>(@LayoutRes private val re
     }
 
     abstract fun bindData()
+
 }

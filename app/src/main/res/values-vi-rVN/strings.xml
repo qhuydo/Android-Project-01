@@ -94,4 +94,6 @@
     <string name="action_add_photo">Thêm ảnh</string>
     <string name="action_rename_custom_album">Đổi tên</string>
     <string name="action_delete_custom_album">Xóa album</string>
+    <string name="text_add_to_album">Thêm vào album</string>
+    <string name="dialog_rename_album_title">Đổi tên album</string>
 </resources>

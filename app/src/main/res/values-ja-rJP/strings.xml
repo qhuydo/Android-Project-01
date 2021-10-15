@@ -72,4 +72,6 @@
     <string name="action_add_photo">フォトを追加</string>
     <string name="action_rename_custom_album">名前を変更</string>
     <string name="action_delete_custom_album">削除</string>
+    <string name="text_add_to_album">アルバムに追加</string>
+    <string name="dialog_rename_album_title">アルバム名の変更</string>
 </resources>

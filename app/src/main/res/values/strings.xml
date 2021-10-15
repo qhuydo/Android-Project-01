@@ -129,4 +129,7 @@
     <string name="dialog_new_album_cancel_button">Cancel</string>
 
     <string name="text_custom_album">Your album</string>
+    <string name="text_add_to_album">Add to album</string>
+
+    <string name="dialog_rename_album_title">Rename album</string>
 </resources>

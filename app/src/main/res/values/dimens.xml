@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="dialog_root_padding_vertical">20dp</dimen>
     <dimen name="divider">8dp</dimen>
     <dimen name="divider_large">16dp</dimen>
     <dimen name="bdrawer_peek_height">76dp</dimen>

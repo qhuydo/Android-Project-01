@@ -12,7 +12,7 @@
         <TextView
             android:id="@+id/textView"
             style="@style/CustomAlbumDialogTitle"
-            android:text="@string/dialog_new_album_title"
+            android:text="@string/dialog_rename_album_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/text_input_layout"
             app:layout_constraintTop_toTopOf="parent" />
@@ -21,23 +21,24 @@
             android:id="@+id/text_input_layout"
             style="@style/CustomAlbumDialogTextInputLayout"
             app:hintEnabled="false"
-            app:layout_constraintBottom_toTopOf="@+id/btn_new_album"
+            app:layout_constraintBottom_toTopOf="@+id/btn_dialog_rename_album"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/btn_new_album"
+            app:layout_constraintStart_toStartOf="@+id/btn_dialog_rename_album"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:placeholderText="@string/dialog_new_album_placeholder">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_input"
-                android:hint="@string/dialog_new_album_placeholder"
-                style="@style/CustomAlbumDialogTextInput" />
+                style="@style/CustomAlbumDialogTextInput"
+                android:hint="@string/dialog_new_album_placeholder" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_new_album"
+            android:id="@+id/btn_dialog_rename_album"
             style="@style/CustomAlbumDialogPositiveButton"
-            android:text="@string/dialog_new_album_create_button"
+            android:enabled="false"
+            android:text="@android:string/ok"
             app:icon="@drawable/ic_check"
             app:iconGravity="textStart"
             app:layout_constraintBottom_toTopOf="@+id/btn_cancel"
@@ -51,7 +52,7 @@
             app:iconGravity="textStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/btn_new_album" />
+            app:layout_constraintStart_toStartOf="@+id/btn_dialog_rename_album" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
