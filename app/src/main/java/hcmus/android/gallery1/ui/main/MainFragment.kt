@@ -69,8 +69,6 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
         }
     }
 
-    private var dialogToDismiss = WeakReference<Any>(null)
-
     override fun calculatePeekHeight(): Int = with(binding.bottomDrawerMain) {
         listDivider.measuredHeight + topRow.measuredHeight
     }
@@ -93,15 +91,6 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
         initViewPager()
         initNavbar()
         initViewModeSelectors()
-    }
-
-    override fun onPause() {
-        when (val dialog = dialogToDismiss.get()) {
-            is Dialog -> dialog.dismiss()
-            is DialogFragment -> dialog.dismiss()
-        }
-        dialogToDismiss.clear()
-        super.onPause()
     }
 
     override fun onDestroyView() {
@@ -246,9 +235,11 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment
             textView.movementMethod = LinkMovementMethod.getInstance()
         }
 
-        MaterialAlertDialogBuilder(requireContext())
-            .setView(aboutView.aboutDialogView)
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(aboutView.root)
             .show()
+
+        dialogToDismiss = WeakReference(dialog)
     }
 
     fun handleBtnSecret(): Boolean {

@@ -1,49 +1,21 @@
 package hcmus.android.gallery1.ui.dialog
 
-import android.app.Dialog
-import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.DialogNewAlbumBinding
 import hcmus.android.gallery1.helpers.extensions.observeOnce
 import hcmus.android.gallery1.repository.InsertAlbumResult
-import hcmus.android.gallery1.ui.main.MainActivity
-import hcmus.android.gallery1.ui.main.MainViewModel
+import hcmus.android.gallery1.ui.base.BaseDialogFragment
 
-class NewAlbumDialog private constructor() : DialogFragment() {
+class NewAlbumDialog :
+    BaseDialogFragment<DialogNewAlbumBinding>(R.layout.dialog_new_album) {
 
-    private val mainActivity by lazy { requireActivity() as MainActivity }
-    private lateinit var binding: DialogNewAlbumBinding
-
-    private val sharedViewModel by activityViewModels<MainViewModel> {
-        MainViewModel.Factory(
-            requireActivity().application,
-            mainActivity.customAlbumRepository
-        )
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = DialogNewAlbumBinding.inflate(
-            requireActivity().layoutInflater,
-            null,
-            false
-        ).apply {
-            btnNewAlbum.setOnClickListener {
-                onButtonNewAlbum()
-            }
-            btnCancel.setOnClickListener { dismiss() }
-            lifecycleOwner = this@NewAlbumDialog
-            executePendingBindings()
+    override fun bindData() = with(binding) {
+        btnNewAlbum.setOnClickListener {
+            onButtonNewAlbum()
         }
-
-        return MaterialAlertDialogBuilder(requireContext())
-            .setView(binding.root)
-            .create()
-        // .apply { requestWindowFeature(Window.FEATURE_NO_TITLE) }
+        btnCancel.setOnClickListener { dismiss() }
     }
 
     private fun onButtonNewAlbum() {

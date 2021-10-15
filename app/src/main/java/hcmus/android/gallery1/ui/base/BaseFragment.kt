@@ -1,5 +1,6 @@
 package hcmus.android.gallery1.ui.base
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import hcmus.android.gallery1.helpers.extensions.animateFadeUp
 import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.main.MainViewModel
+import java.lang.ref.WeakReference
 
 abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId: Int) : Fragment() {
 
@@ -25,6 +27,8 @@ abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId
             mainActivity!!.customAlbumRepository
         )
     }
+
+    protected var dialogToDismiss = WeakReference<Any>(null)
 
     open fun onBackPressed(): Boolean = false
 
@@ -55,6 +59,19 @@ abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId
         binding.executePendingBindings()
         binding.lifecycleOwner = this
         subscribeUi()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        dismissCurrentlyDisplayedDialog()
+    }
+
+    private fun dismissCurrentlyDisplayedDialog() {
+        when (val dialog = dialogToDismiss.get()) {
+            is Dialog -> dialog.dismiss()
+            // is DialogFragment -> dialog.dismissAllowingStateLoss()
+        }
+        dialogToDismiss.clear()
     }
 
     fun animateFadeUp() = view?.animateFadeUp()
