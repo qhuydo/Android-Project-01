@@ -2,6 +2,7 @@ package hcmus.android.gallery1.ui.collection.list
 
 import android.view.View
 import androidx.lifecycle.*
+import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.repository.CollectionRepository
 import hcmus.android.gallery1.repository.CustomAlbumRepository
@@ -11,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class AlbumViewModel private constructor(
     private val collectionRepository: CollectionRepository,
-    customAlbumRepository: CustomAlbumRepository,
+    private val customAlbumRepository: CustomAlbumRepository,
     preferenceRepository: PreferenceRepository
 ) : CollectionListViewModel(TAB.ALBUM, preferenceRepository) {
 
@@ -34,6 +35,10 @@ class AlbumViewModel private constructor(
             mutableCollections.value = collectionRepository.getAllCollections().toMutableList()
             callback?.invoke()
         }
+    }
+
+    fun addItemIntoCustomAlbums(item: Item, customAlbums: List<Long>) {
+        customAlbumRepository.addItemToAlbum(item, customAlbums)
     }
 
     @Suppress("UNCHECKED_CAST")

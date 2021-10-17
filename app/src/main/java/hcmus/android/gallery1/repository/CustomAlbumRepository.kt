@@ -2,8 +2,10 @@ package hcmus.android.gallery1.repository
 
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.CustomAlbumInfo
+import hcmus.android.gallery1.data.CustomAlbumItem
+import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.persistent.CustomAlbumDao
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 
@@ -13,6 +15,7 @@ interface CustomAlbumRepository {
     fun insertNewAlbum(name: String): Flow<InsertAlbumResult>
     fun removeAlbum(id: Long): Flow<RemoveAlbumResult>
     fun renameAlbum(id: Long, newName: String): Flow<RenameAlbumResult>
+    fun addItemToAlbum(item: Item, collectionIds: List<Long>)
 }
 
 class CustomAlbumRepositoryImpl private constructor(
@@ -38,7 +41,8 @@ class CustomAlbumRepositoryImpl private constructor(
     }
 
     private val dispatcher = Dispatchers.IO
-    // private val scope = Job() + dispatcher
+    private val coroutineContext = Job() + dispatcher
+    private val scope = CoroutineScope(coroutineContext)
 
     override fun getCustomAlbum() = customAlbumDao
         .getAllAlbumsAsFlow()
@@ -100,6 +104,16 @@ class CustomAlbumRepositoryImpl private constructor(
                     emit(RenameAlbumResult.FAILED_OTHER)
                 }
             }
+        }
+    }
+
+    override fun addItemToAlbum(item: Item, collectionIds: List<Long>) {
+        scope.launch {
+            customAlbumDao.insertItemIntoAlbum(
+                CustomAlbumItem(item.id),
+                collectionIds
+            )
+            customAlbumDao.updateAlbumThumbnail(item.getUri().toString(), collectionIds)
         }
     }
 }
