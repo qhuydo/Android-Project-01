@@ -141,14 +141,14 @@
                 android:src="@drawable/ic_action_copy" />
 
             <ImageButton
-                android:id="@+id/btn_move"
+                android:id="@+id/btn_add_item_into_albums"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
-                android:contentDescription="@string/action_move"
-                android:onClick="@{() -> fm.moveAsFile()}"
-                android:src="@drawable/ic_action_move" />
+                android:contentDescription="@string/text_add_to_album"
+                android:onClick="@{() -> fm.addToAlbum()}"
+                android:src="@drawable/ic_action_new_album" />
 
             <ImageButton
                 android:id="@+id/btn_slideshow"

@@ -41,7 +41,7 @@ class ViewImageFragmentNoPager : BaseViewImageFragment<FragmentViewImageNopagerB
         val toDisableBtns: List<ImageButton> = listOf(
             it.btnDelete,
             it.btnCopy,
-            it.btnMove,
+            it.btnAddItemIntoAlbums,
             it.btnSlideshow,
             it.btnFavorite
         )

@@ -29,6 +29,9 @@ import hcmus.android.gallery1.databinding.BottomDrawerViewImageBinding
 import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.helpers.widgets.ImageItemView
+import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
+import hcmus.android.gallery1.ui.dialog.AddToAlbumDialog.Companion.showAddToAlbumDialog
+import hcmus.android.gallery1.ui.dialog.NewAlbumDialog.Companion.showNewAlbumDialog
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 import hcmus.android.gallery1.ui.image.view.ViewImageViewModel
 import hcmus.android.gallery1.ui.main.MainFragment
@@ -53,6 +56,14 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
             requireActivity().application,
             mainActivity!!.photoRepository,
             mainActivity!!.favouriteRepository,
+            preferenceRepository
+        )
+    }
+
+    private val albumViewModel by activityViewModels<AlbumViewModel> {
+        AlbumViewModel.Factory(
+            mainActivity!!.collectionRepository,
+            mainActivity!!.customAlbumRepository,
             preferenceRepository
         )
     }
@@ -364,9 +375,19 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: I
 //        copyItemResultLauncher.launch(intent)
     }
 
-    fun moveAsFile() {
+    fun addToAlbum() {
 
+        albumViewModel.customAlbums.observeOnce(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                displayAddToAlbumDialog()
+            } else {
+                displayCreateNewAlbumDialog()
+            }
+        }
     }
+
+    private fun displayAddToAlbumDialog() = mainActivity!!.showAddToAlbumDialog(item)
+    private fun displayCreateNewAlbumDialog() = mainActivity!!.showNewAlbumDialog()
 
     fun toggleFavorite() {
         favouritesViewModel.toggleFavourite(item).observe(viewLifecycleOwner) {
