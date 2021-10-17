@@ -27,7 +27,8 @@ abstract class CustomAlbumDao {
     @Query("select * from custom_album_info where id = :id")
     abstract fun getAlbumAsFlow(id: Long): Flow<List<CustomAlbum>>
 
-    suspend fun insert(customAlbum: CustomAlbum) {
+    @Transaction
+    open suspend fun insert(customAlbum: CustomAlbum) {
 
         val albumId = insertInfo(customAlbum.albumInfo)
         customAlbum.albumInfo.id = albumId
@@ -43,7 +44,8 @@ abstract class CustomAlbumDao {
         })
     }
 
-    suspend fun insertItemIntoAlbum(items: List<CustomAlbumItem>, albumId: Long) {
+    @Transaction
+    open suspend fun insertItemIntoAlbum(items: List<CustomAlbumItem>, albumId: Long) {
         insertAllItems(items)
         insertAllCustomAlbumCrossRefs(items.map {
             CustomAlbumCrossRef(
@@ -53,7 +55,8 @@ abstract class CustomAlbumDao {
         })
     }
 
-    suspend fun insertItemIntoAlbum(item: CustomAlbumItem, albumIds: List<Long>) {
+    @Transaction
+    open suspend fun insertItemIntoAlbum(item: CustomAlbumItem, albumIds: List<Long>) {
         insertItem(item)
         insertAllCustomAlbumCrossRefs(albumIds.map {
             CustomAlbumCrossRef(
@@ -66,7 +69,8 @@ abstract class CustomAlbumDao {
     /**
      * inefficient, don't use this
      */
-    suspend fun insertItemIntoAlbum(items: List<CustomAlbumItem>, albumIds: List<Long>) {
+    @Transaction
+    open suspend fun insertItemIntoAlbum(items: List<CustomAlbumItem>, albumIds: List<Long>) {
         insertAllItems(items)
         items.forEach { item ->
             insertAllCustomAlbumCrossRefs(albumIds.map { albumId ->
@@ -75,15 +79,16 @@ abstract class CustomAlbumDao {
         }
     }
 
-    suspend fun insertItemIntoAlbum(item: CustomAlbumItem, albumId: Long) {
+    @Transaction
+    open suspend fun insertItemIntoAlbum(item: CustomAlbumItem, albumId: Long) {
         insertItem(item)
         insertCustomAlbumCrossRef(CustomAlbumCrossRef(albumId = albumId, itemId = item.id))
     }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun insertAllItems(items: List<CustomAlbumItem>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun insertItem(customAlbumItems: CustomAlbumItem)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -129,4 +134,7 @@ abstract class CustomAlbumDao {
 
     @Query("update custom_album_info set name=:name where id=:id")
     abstract suspend fun updateAlbumName(name: String, id: Long): Int
+
+    @Query("update custom_album_info set thumbnail_uri=:thumbnailUri where id in (:albumIds)")
+    abstract fun updateAlbumThumbnail(thumbnailUri: String, albumIds: List<Long>)
 }
