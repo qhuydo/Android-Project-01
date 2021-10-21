@@ -61,7 +61,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/ripple_rect"
                 android:onClick="@{() -> fm.toggleMuteAudio()}"
-                android:src="@drawable/ic_video_audio_on" />
+                android:src="@drawable/ic_video_audio_on"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 
@@ -90,7 +91,7 @@
                 android:background="@drawable/ripple_rect"
                 android:contentDescription="@string/action_delete"
                 android:onClick="@{() -> fm.deleteImage()}"
-                android:src="@drawable/ic_action_delete" />
+                android:src="@drawable/ic_action_delete_outline" />
 
             <ImageButton
                 android:id="@+id/btn_favorite"
@@ -148,7 +149,7 @@
                 android:background="@drawable/ripple_rect"
                 android:contentDescription="@string/text_add_to_album"
                 android:onClick="@{() -> fm.addToAlbum()}"
-                android:src="@drawable/ic_action_new_album" />
+                android:src="@drawable/ic_action_new_album_outline" />
 
             <ImageButton
                 android:id="@+id/btn_slideshow"
@@ -167,7 +168,7 @@
                 android:background="@drawable/ripple_rect"
                 android:contentDescription="@string/action_edit"
                 android:onClick="@{() -> fm.openEditor()}"
-                android:src="@drawable/ic_action_edit" />
+                android:src="@drawable/ic_action_edit_outline" />
 
             <ImageButton
                 android:id="@+id/btn_wallpaper"
