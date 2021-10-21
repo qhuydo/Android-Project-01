@@ -39,8 +39,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-abstract class BaseViewImageFragment<B : ViewDataBinding>(@LayoutRes layoutId: Int) :
-    BottomDrawerFragment<B>(layoutId) {
+abstract class BaseViewImageFragment<B : ViewDataBinding>(
+    @LayoutRes layoutId: Int,
+    screenConstant: ScreenConstant
+) : BottomDrawerFragment<B>(layoutId, screenConstant) {
     companion object {
         const val ARGS_ITEM = "item"
     }

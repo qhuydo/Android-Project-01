@@ -8,13 +8,15 @@ import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.data.ItemType
 import hcmus.android.gallery1.databinding.FragmentViewImageBinding
 import hcmus.android.gallery1.helpers.ALPHA_VISIBLE
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.extensions.visible
 import hcmus.android.gallery1.helpers.widgets.ImageItemView
 import hcmus.android.gallery1.ui.adapters.viewpager2.ImagePageAdapter
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
 
 class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
-    R.layout.fragment_view_image
+    R.layout.fragment_view_image,
+    screenConstant = ScreenConstant.IMAGE_VIEW
 ) {
 
 //    private var currentItemView: ImageItemView? = null

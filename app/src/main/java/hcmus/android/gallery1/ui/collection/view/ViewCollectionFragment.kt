@@ -5,11 +5,14 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.databinding.FragmentViewCollectionBinding
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.ui.base.BaseViewCollectionFragment
 
-class ViewCollectionFragment :
-    BaseViewCollectionFragment<FragmentViewCollectionBinding>(R.layout.fragment_view_collection) {
+class ViewCollectionFragment : BaseViewCollectionFragment<FragmentViewCollectionBinding>(
+    R.layout.fragment_view_collection,
+    ScreenConstant.COLLECTION_VIEW
+) {
 
     companion object {
         const val ARGS_COLLECTION = "collection"

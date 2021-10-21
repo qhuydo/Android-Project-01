@@ -14,8 +14,10 @@ import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.helpers.extensions.gone
 import hcmus.android.gallery1.helpers.extensions.visible
 
-abstract class BottomDrawerFragment<B : ViewDataBinding>(layoutId: Int) :
-    BaseFragment<B>(layoutId) {
+abstract class BottomDrawerFragment<B : ViewDataBinding>(
+    layoutId: Int,
+    screenConstant: ScreenConstant
+) : BaseFragment<B>(layoutId, screenConstant) {
 
     protected var fullScreenMode: Boolean = false
 

@@ -3,13 +3,15 @@ package hcmus.android.gallery1.ui.collection.list
 import androidx.fragment.app.activityViewModels
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentMainAlbumBinding
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.ui.adapters.recyclerview.CollectionListAdapter
 import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
 
 class AlbumFragment : CollectionListFragment<FragmentMainAlbumBinding>(
     R.layout.fragment_main_album,
-    tab = TAB.ALBUM
+    tab = TAB.ALBUM,
+    screenConstant = ScreenConstant.COLLECTION_LIST_ALBUM
 ) {
     private val customAlbumCallback = CollectionListAdapter.Callback { collection ->
         collectionViewModel().navigateToCollectionDetails(collection)

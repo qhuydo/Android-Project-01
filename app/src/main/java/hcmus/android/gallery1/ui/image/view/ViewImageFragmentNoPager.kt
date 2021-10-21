@@ -3,12 +3,14 @@ package hcmus.android.gallery1.ui.image.view
 import android.widget.ImageButton
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentViewImageNopagerBinding
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.extensions.visible
 import hcmus.android.gallery1.helpers.widgets.ImageItemView
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
 
 class ViewImageFragmentNoPager : BaseViewImageFragment<FragmentViewImageNopagerBinding>(
-    R.layout.fragment_view_image_nopager
+    R.layout.fragment_view_image_nopager,
+    ScreenConstant.IMAGE_VIEW_NO_PAGER
 ) {
     // private val CREATE_FILE: Int = 1
 

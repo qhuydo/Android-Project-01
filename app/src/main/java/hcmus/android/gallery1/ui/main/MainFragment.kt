@@ -1,6 +1,5 @@
 package hcmus.android.gallery1.ui.main
 
-import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +8,6 @@ import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -19,6 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.DialogAboutBinding
 import hcmus.android.gallery1.databinding.FragmentMainBinding
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.*
@@ -31,7 +30,10 @@ import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import hcmus.android.gallery1.ui.dialog.NewAlbumDialog.Companion.showNewAlbumDialog
 import java.lang.ref.WeakReference
 
-class MainFragment : BottomDrawerFragment<FragmentMainBinding>(R.layout.fragment_main) {
+class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
+    R.layout.fragment_main,
+    ScreenConstant.MAIN
+) {
 
     companion object {
         const val BUNDLE_POS = "pos"

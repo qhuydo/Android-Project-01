@@ -6,14 +6,17 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.viewModels
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.DialogRenameAlbumBinding
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.extensions.observeOnce
 import hcmus.android.gallery1.repository.RenameAlbumResult
 import hcmus.android.gallery1.ui.base.BaseDialogFragment
 import hcmus.android.gallery1.ui.collection.view.ViewCustomAlbumFragment
 import hcmus.android.gallery1.ui.collection.view.ViewCustomAlbumViewModel
 
-class RenameAlbumDialog :
-    BaseDialogFragment<DialogRenameAlbumBinding>(R.layout.dialog_rename_album) {
+class RenameAlbumDialog : BaseDialogFragment<DialogRenameAlbumBinding>(
+    R.layout.dialog_rename_album,
+    ScreenConstant.DIALOG_RENAME
+) {
 
     private val viewModel by viewModels<ViewCustomAlbumViewModel>(
         ownerProducer = { requireParentFragment() }

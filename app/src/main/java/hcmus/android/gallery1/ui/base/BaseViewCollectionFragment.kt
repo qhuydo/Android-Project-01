@@ -8,6 +8,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.databinding.ButtonGroupViewmodeItemBinding
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.helpers.navigation.navigateToViewImageFragment
@@ -16,8 +17,10 @@ import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.main.MainFragment
 import timber.log.Timber
 
-abstract class BaseViewCollectionFragment<B : ViewDataBinding>(@LayoutRes resId: Int) :
-    BottomDrawerFragment<B>(resId) {
+abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
+    @LayoutRes resId: Int,
+    screenConstant: ScreenConstant
+) : BottomDrawerFragment<B>(resId, screenConstant) {
 
     private val mainFragment by lazy {
         activity?.supportFragmentManager?.findFragmentByTag(MainFragment::class.java.name)

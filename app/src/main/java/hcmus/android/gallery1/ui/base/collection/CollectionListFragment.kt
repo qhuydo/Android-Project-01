@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.data.Collection
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
@@ -21,8 +22,9 @@ import timber.log.Timber
 
 abstract class CollectionListFragment<B : ViewDataBinding>(
     @LayoutRes layoutId: Int,
-    private val tab: TAB = TAB.ALBUM
-) : BaseFragment<B>(layoutId), ScrollableToTop {
+    private val tab: TAB = TAB.ALBUM,
+    screenConstant: ScreenConstant = ScreenConstant.COLLECTION_LIST_ALBUM,
+) : BaseFragment<B>(layoutId, screenConstant), ScrollableToTop {
 
     private val adapterCallback = CollectionListAdapter.Callback { collection ->
         collectionViewModel().navigateToCollectionDetails(collection)

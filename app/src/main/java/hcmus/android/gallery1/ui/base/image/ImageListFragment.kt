@@ -5,6 +5,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.R
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.ScrollableToTop
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
@@ -16,8 +17,9 @@ import timber.log.Timber
 
 abstract class ImageListFragment<B : ViewDataBinding>(
     @LayoutRes layoutId: Int = R.layout.fragment_main_all_photos,
-    private val tab: TAB = TAB.ALL
-) : BaseFragment<B>(layoutId), ScrollableToTop {
+    private val tab: TAB = TAB.ALL,
+    screenConstant: ScreenConstant = ScreenConstant.IMAGE_LIST_ALL
+) : BaseFragment<B>(layoutId, screenConstant), ScrollableToTop {
 
     private val itemListAdapterCallback = ItemListAdapter.Callback { _, itemPos ->
         imageListViewModel().navigateToImageView(itemPos)

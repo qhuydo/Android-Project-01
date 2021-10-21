@@ -4,6 +4,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.observeOnce
 import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
@@ -14,7 +15,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class AllPhotosFragment: ImageListFragment<FragmentMainAllPhotosBinding>(tab = TAB.ALL) {
+class AllPhotosFragment: ImageListFragment<FragmentMainAllPhotosBinding>(
+    tab = TAB.ALL,
+    screenConstant = ScreenConstant.IMAGE_LIST_ALL
+) {
 
     private val viewModel by activityViewModels<AllPhotosViewModel> {
         AllPhotosViewModel.Factory(

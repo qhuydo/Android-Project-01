@@ -4,13 +4,16 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentViewCustomAlbumBinding
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.extensions.toast
 import hcmus.android.gallery1.repository.RemoveAlbumResult
 import hcmus.android.gallery1.ui.base.BaseViewCollectionFragment
 import hcmus.android.gallery1.ui.dialog.RenameAlbumDialog.Companion.showRenameAlbumDialog
 
-class ViewCustomAlbumFragment :
-    BaseViewCollectionFragment<FragmentViewCustomAlbumBinding>(R.layout.fragment_view_custom_album) {
+class ViewCustomAlbumFragment : BaseViewCollectionFragment<FragmentViewCustomAlbumBinding>(
+    R.layout.fragment_view_custom_album,
+    ScreenConstant.COLLECTION_VIEW_CUSTOM_ALBUM
+) {
 
     companion object {
         const val ARGS_COLLECTION_ID = "collection_id"

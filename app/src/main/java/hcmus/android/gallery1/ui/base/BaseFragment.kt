@@ -10,12 +10,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.extensions.animateFadeUp
 import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.main.MainViewModel
 import java.lang.ref.WeakReference
 
-abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId: Int) : Fragment() {
+abstract class BaseFragment<B : ViewDataBinding>(
+    @LayoutRes private val layoutId: Int,
+    protected val screenId: ScreenConstant
+) : Fragment() {
 
     protected val mainActivity by lazy { requireActivity() as? MainActivity }
     protected val preferenceRepository by lazy { mainActivity!!.preferenceRepository }
