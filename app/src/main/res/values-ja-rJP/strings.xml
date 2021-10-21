@@ -69,9 +69,11 @@
     <string name="dialog_new_album_placeholder">新しいアルバム名を入力してください</string>
     <string name="text_custom_album">自分のアルバム</string>
     <string name="dialog_new_album_cancel_button">@android:string/cancel</string>
+    <string name="dialog_rename_album_cancel_button">@android:string/cancel</string>
     <string name="action_add_photo">フォトを追加</string>
     <string name="action_rename_custom_album">名前を変更</string>
     <string name="action_delete_custom_album">削除</string>
     <string name="text_add_to_album">アルバムに追加</string>
     <string name="dialog_rename_album_title">アルバム名の変更</string>
+    <string name="dialog_new_album_rename_button">@android:string/ok</string>
 </resources>

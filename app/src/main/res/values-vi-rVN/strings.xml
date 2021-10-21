@@ -91,9 +91,11 @@
     <string name="dialog_new_album_placeholder">Nhập tên album mới</string>
     <string name="text_custom_album">Album của bạn</string>
     <string name="dialog_new_album_cancel_button">@android:string/cancel</string>
+    <string name="dialog_rename_album_cancel_button">@android:string/cancel</string>
     <string name="action_add_photo">Thêm ảnh</string>
     <string name="action_rename_custom_album">Đổi tên</string>
     <string name="action_delete_custom_album">Xóa album</string>
     <string name="text_add_to_album">Thêm vào album</string>
     <string name="dialog_rename_album_title">Đổi tên album</string>
+    <string name="dialog_new_album_rename_button">OK</string>
 </resources>

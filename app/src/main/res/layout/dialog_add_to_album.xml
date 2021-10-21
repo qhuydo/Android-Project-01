@@ -58,7 +58,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
                 android:layout_weight="1"
-                android:text="@android:string/cancel"
+                android:text="@string/dialog_new_album_cancel_button"
                 app:icon="@drawable/ic_close"
                 app:iconGravity="textStart" />
 
@@ -70,7 +70,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
                 android:layout_weight="1"
-                android:text="@android:string/ok"
+                android:text="@string/dialog_new_album_rename_button"
                 app:icon="@drawable/ic_check"
                 app:iconGravity="textStart" />
 
