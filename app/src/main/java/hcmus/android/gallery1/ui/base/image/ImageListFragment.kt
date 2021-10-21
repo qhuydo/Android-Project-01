@@ -23,7 +23,7 @@ abstract class ImageListFragment<B : ViewDataBinding>(
         imageListViewModel().navigateToImageView(itemPos)
     }
     protected val itemListAdapter: ItemListAdapter by lazy {
-        ItemListAdapter(requireContext(), callback = itemListAdapterCallback)
+        ItemListAdapter(callback = itemListAdapterCallback)
     }
 
     abstract fun imageListViewModel(): ImageListViewModel

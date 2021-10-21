@@ -31,7 +31,7 @@ abstract class BaseViewCollectionFragment<B : ViewDataBinding>(@LayoutRes resId:
     }
 
     private val itemListAdapter: ItemListAdapter by lazy {
-        ItemListAdapter(requireContext(), callback = itemListAdapterCallback)
+        ItemListAdapter(callback = itemListAdapterCallback)
     }
 
     abstract fun getPhotoRecyclerView(): RecyclerView
