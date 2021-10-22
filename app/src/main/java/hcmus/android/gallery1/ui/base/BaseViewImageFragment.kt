@@ -88,7 +88,7 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(
     }
 
     protected lateinit var item: Item
-    protected var exoPlayer: ExoPlayer? = null
+    private var exoPlayer: ExoPlayer? = null
 
     private lateinit var removeItemResultLauncher: ActivityResultLauncher<IntentSenderRequest>
     private lateinit var copyItemResultLauncher: ActivityResultLauncher<Intent>

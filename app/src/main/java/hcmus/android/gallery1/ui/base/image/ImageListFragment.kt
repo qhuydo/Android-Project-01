@@ -37,7 +37,12 @@ abstract class ImageListFragment<B : ViewDataBinding>(
         imageListViewModel().navigateToImageView.observe(viewLifecycleOwner) {
             if (it != null) {
                 imageListViewModel().setCurrentDisplayingList(sharedViewModel)
-                mainActivity?.navigateToViewImageFragment(tab, it, imageListViewModel())
+                mainActivity?.navigateToViewImageFragment(
+                    tab,
+                    screenConstant,
+                    it,
+                    imageListViewModel()
+                )
             }
         }
 

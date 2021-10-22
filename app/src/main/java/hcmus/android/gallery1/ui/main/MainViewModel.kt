@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import androidx.lifecycle.*
 import com.hadilq.liveevent.LiveEvent
 import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.repository.CustomAlbumRepository
 import hcmus.android.gallery1.repository.InsertAlbumResult
@@ -38,6 +39,8 @@ class MainViewModel private constructor(
     var currentDisplayingItemPos: Int = 0
         internal set
     var itemListFromTab: TAB? = null
+        internal set
+    var itemListScreenConstant: ScreenConstant? = null
         internal set
 
     private val _permissionNeededForDelete = MutableLiveData<IntentSender?>()

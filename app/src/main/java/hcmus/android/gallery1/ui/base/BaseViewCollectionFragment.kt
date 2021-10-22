@@ -53,7 +53,7 @@ abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
 
         navigateToImageView.observe(viewLifecycleOwner) {
             if (it != null) {
-                mainActivity?.navigateToViewImageFragment(tab, it, this)
+                mainActivity?.navigateToViewImageFragment(tab, screenConstant, it, this)
             }
         }
 

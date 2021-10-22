@@ -8,6 +8,7 @@ import androidx.fragment.app.commit
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
@@ -18,12 +19,16 @@ import hcmus.android.gallery1.ui.main.MainActivity
 
 fun MainActivity.navigateToViewImageFragment(
     fromTab: TAB,
+    screenConstant: ScreenConstant,
     itemPosition: Int,
     imageListViewModel: ImageListViewModel
 ) {
     imageListViewModel.setCurrentDisplayingList(mainViewModel)
-    mainViewModel.currentDisplayingItemPos = itemPosition
-    mainViewModel.itemListFromTab = fromTab
+    mainViewModel.apply {
+        currentDisplayingItemPos = itemPosition
+        itemListFromTab = fromTab
+        itemListScreenConstant = screenConstant
+    }
 
     supportFragmentManager.findFragmentById(R.id.fragment_container)?.let {
         it.view?.alpha = 0f

@@ -18,7 +18,7 @@ import java.lang.ref.WeakReference
 
 abstract class BaseFragment<B : ViewDataBinding>(
     @LayoutRes private val layoutId: Int,
-    protected val screenId: ScreenConstant
+    protected val screenConstant: ScreenConstant
 ) : Fragment() {
 
     protected val mainActivity by lazy { requireActivity() as? MainActivity }

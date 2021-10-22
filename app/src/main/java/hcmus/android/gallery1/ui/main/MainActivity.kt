@@ -17,7 +17,10 @@ import hcmus.android.gallery1.data.DataSource
 import hcmus.android.gallery1.databinding.ActivityMainBinding
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.persistent.AppDatabase.Companion.getDatabaseInstance
-import hcmus.android.gallery1.repository.*
+import hcmus.android.gallery1.repository.CollectionRepositoryImpl
+import hcmus.android.gallery1.repository.CustomAlbumRepositoryImpl
+import hcmus.android.gallery1.repository.FavouriteRepositoryImpl
+import hcmus.android.gallery1.repository.PhotoRepositoryImpl
 import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
 import hcmus.android.gallery1.ui.collection.list.DateCollectionViewModel
@@ -53,7 +56,6 @@ class MainActivity : AppCompatActivity() {
             customAlbumRepository
         )
     }
-
 
     // the navigation bar is on the side
     var isSideNavigationBar: Boolean = false
@@ -159,18 +161,6 @@ class MainActivity : AppCompatActivity() {
         dateViewModel.init()
     }
 
-    /* override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission granted. Please restart the app once.", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
-            }
-            return
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    } */
-
     override fun onBackPressed() {
         val currentFragment = getCurrentFragment()
         if ((currentFragment as? BaseFragment<*>)?.onBackPressed() == true) {
@@ -191,8 +181,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         orientationEventListener?.disable()
+        super.onDestroy()
     }
 
     fun changeLanguage(lang: String) {
