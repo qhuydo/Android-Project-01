@@ -13,7 +13,7 @@ import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
 
 class AddPhotoIntoAlbumsDialog : BaseDialogFragment<DialogAddPhotoIntoAlbumsBinding>(
     R.layout.dialog_add_photo_into_albums,
-    ScreenConstant.DIALOG_ADD_TO_ALBUM
+    ScreenConstant.DIALOG_ADD_PHOTO_INTO_ALBUMS
 ) {
 
     private val viewModel by activityViewModels<AlbumViewModel> {

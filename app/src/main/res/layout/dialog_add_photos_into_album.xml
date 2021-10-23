@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="photosViewModel"
+            type="hcmus.android.gallery1.ui.image.list.AllPhotosViewModel" />
+    </data>
+
+
+    <LinearLayout
+        android:id="@+id/add_photo_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background2"
+        android:elevation="8dp"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp">
+
+            <View
+                android:background="@color/md_grey_300"
+                style="@style/divider" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <ImageButton
+                android:id="@+id/btn_back_to_main"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/bdrawer_toolbar_height"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:src="@drawable/ic_close"
+                tools:ignore="ContentDescription,UnusedAttribute" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/bdrawer_toolbar_height"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:text="@string/text_add_to_album"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                tools:text="Add photo" />
+
+            <ImageButton
+                android:id="@+id/btn_add_photo"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/bdrawer_toolbar_height"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:contentDescription="@string/text_add_to_album"
+                android:src="@drawable/ic_check"
+                android:tooltipText="@string/text_add_to_album"
+                tools:ignore="UnusedAttribute" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            loadItemsIntoRecyclerView="@{photosViewModel.photos}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="8dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toStartOf="@id/guideline_end"
+            app:layout_constraintStart_toEndOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/btn_back_to_main"
+            app:spanCount="@integer/item_grid_m"
+            tools:itemCount="10"
+            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/list_item"
+            tools:spanCount="@integer/item_grid_m" />
+
+    </LinearLayout>
+
+</layout>

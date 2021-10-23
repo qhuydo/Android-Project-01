@@ -1,5 +1,6 @@
 package hcmus.android.gallery1.ui.collection.view
 
+import android.animation.LayoutTransition
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
@@ -9,6 +10,7 @@ import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.extensions.toast
 import hcmus.android.gallery1.repository.RemoveAlbumResult
 import hcmus.android.gallery1.ui.base.BaseViewCollectionFragment
+import hcmus.android.gallery1.ui.dialog.AddPhotosIntoAlbumDialog.Companion.showAddPhotosIntoAlbumDialog
 import hcmus.android.gallery1.ui.dialog.RenameAlbumDialog.Companion.showRenameAlbumDialog
 
 class ViewCustomAlbumFragment : BaseViewCollectionFragment<FragmentViewCustomAlbumBinding>(
@@ -33,6 +35,12 @@ class ViewCustomAlbumFragment : BaseViewCollectionFragment<FragmentViewCustomAlb
             preferenceRepository
         )
     }
+
+//    private val photosViewModel by activityViewModels<AllPhotosViewModel>()
+//
+//    private val addPhotoAdapter by lazy {
+//        ItemListAdapter(isCompactLayout = false)
+//    }
 
     override fun subscribeUi() = with(viewModel) {
         setCollection(collectionId)
@@ -68,11 +76,14 @@ class ViewCustomAlbumFragment : BaseViewCollectionFragment<FragmentViewCustomAlb
 
     override fun initBottomDrawerElements() {
         binding.bottomDrawer.apply {
-            bottomDrawerView = bdrawerViewCustomCollection
-            bottomSheetBehavior = BottomSheetBehavior.from(bdrawerViewCustomCollection)
+            bottomDrawerView = container
+            bottomSheetBehavior = BottomSheetBehavior.from(container)
             bottomSheetExpandButton = btnBottomSheetExpand
         }
         bottomDrawerDim = binding.bdrawerDim
+        binding.bottomDrawer.container.layoutTransition = LayoutTransition().apply {
+            setAnimateParentHierarchy(false)
+        }
     }
 
     override fun getHiddenRows() = binding.bottomDrawer.customAlbumHiddenElements
@@ -103,5 +114,9 @@ class ViewCustomAlbumFragment : BaseViewCollectionFragment<FragmentViewCustomAlb
 
     fun renameAlbum() {
         showRenameAlbumDialog()
+    }
+
+    fun switchBottomView() {
+        showAddPhotosIntoAlbumDialog()
     }
 }
