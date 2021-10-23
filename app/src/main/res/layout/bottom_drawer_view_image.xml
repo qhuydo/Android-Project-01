@@ -142,6 +142,15 @@
                 android:src="@drawable/ic_action_copy" />
 
             <ImageButton
+                android:id="@+id/btn_remove_item_from_album"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rect"
+                android:src="@drawable/ic_action_remove_from_custom_album"
+                android:visibility="gone" />
+
+            <ImageButton
                 android:id="@+id/btn_add_item_into_albums"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

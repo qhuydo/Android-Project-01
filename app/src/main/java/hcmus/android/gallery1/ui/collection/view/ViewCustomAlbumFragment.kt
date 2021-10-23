@@ -4,6 +4,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentViewCustomAlbumBinding
+import hcmus.android.gallery1.helpers.RecyclerViewListState
 import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.extensions.toast
 import hcmus.android.gallery1.repository.RemoveAlbumResult
@@ -39,6 +40,19 @@ class ViewCustomAlbumFragment : BaseViewCollectionFragment<FragmentViewCustomAlb
         photos.observe(viewLifecycleOwner) {
             if (it != null) {
                 enableButtonGroup()
+            }
+        }
+        listStateChangeEvent.observe(viewLifecycleOwner) {
+            when (it) {
+                is RecyclerViewListState.ItemInserted -> {
+                    itemListAdapter.notifyItemInserted(it.position)
+                }
+
+                is RecyclerViewListState.ItemRemoved -> {
+                    itemListAdapter.notifyItemRemoved(it.position)
+                }
+                else -> {
+                }
             }
         }
     }

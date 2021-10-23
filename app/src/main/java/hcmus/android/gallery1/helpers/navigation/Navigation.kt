@@ -15,11 +15,12 @@ import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.collection.view.ViewCollectionFragment
 import hcmus.android.gallery1.ui.collection.view.ViewCustomAlbumFragment
 import hcmus.android.gallery1.ui.image.view.ViewImageFragment
+import hcmus.android.gallery1.ui.image.view.ViewImageFromCustomAlbumFragment
 import hcmus.android.gallery1.ui.main.MainActivity
 
 fun MainActivity.navigateToViewImageFragment(
     fromTab: TAB,
-    screenConstant: ScreenConstant,
+    fromScreen: ScreenConstant,
     itemPosition: Int,
     imageListViewModel: ImageListViewModel
 ) {
@@ -27,15 +28,22 @@ fun MainActivity.navigateToViewImageFragment(
     mainViewModel.apply {
         currentDisplayingItemPos = itemPosition
         itemListFromTab = fromTab
-        itemListScreenConstant = screenConstant
+        itemListScreenConstant = fromScreen
     }
 
     supportFragmentManager.findFragmentById(R.id.fragment_container)?.let {
         it.view?.alpha = 0f
     }
 
+    val fragmentClass = if (fromScreen == ScreenConstant.COLLECTION_VIEW_CUSTOM_ALBUM) {
+        ViewImageFromCustomAlbumFragment::class.java
+    }
+    else {
+        ViewImageFragment::class.java
+    }
+
     pushScreen(
-        ViewImageFragment::class.java,
+        fragmentClass,
         shouldHideExistingFragment = false,
         transition = FragmentTransaction.TRANSIT_FRAGMENT_FADE
     )

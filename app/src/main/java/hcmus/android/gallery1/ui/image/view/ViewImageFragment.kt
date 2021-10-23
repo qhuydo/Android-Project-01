@@ -5,7 +5,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.exoplayer2.ui.PlayerView
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
-import hcmus.android.gallery1.data.ItemType
 import hcmus.android.gallery1.databinding.FragmentViewImageBinding
 import hcmus.android.gallery1.helpers.ALPHA_VISIBLE
 import hcmus.android.gallery1.helpers.ScreenConstant
@@ -14,10 +13,11 @@ import hcmus.android.gallery1.helpers.widgets.ImageItemView
 import hcmus.android.gallery1.ui.adapters.viewpager2.ImagePageAdapter
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
 
-class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
-    R.layout.fragment_view_image,
-    screenConstant = ScreenConstant.IMAGE_VIEW
-) {
+open class ViewImageFragment(screenConstant: ScreenConstant = ScreenConstant.IMAGE_VIEW) :
+    BaseViewImageFragment<FragmentViewImageBinding>(
+        R.layout.fragment_view_image,
+        screenConstant
+    ) {
 
 //    private var currentItemView: ImageItemView? = null
 
@@ -58,7 +58,11 @@ class ViewImageFragment : BaseViewImageFragment<FragmentViewImageBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedViewModel.currentDisplayingList?.let { items ->
             val pos = sharedViewModel.currentDisplayingItemPos
-            arguments = Bundle().apply { putParcelable(ARGS_ITEM, items.getOrNull(pos)) }
+            arguments = arguments?.apply {
+                putParcelable(ARGS_ITEM, items.getOrNull(pos))
+            } ?: Bundle().apply {
+                putParcelable(ARGS_ITEM, items.getOrNull(pos))
+            }
         }
         super.onCreate(savedInstanceState)
     }

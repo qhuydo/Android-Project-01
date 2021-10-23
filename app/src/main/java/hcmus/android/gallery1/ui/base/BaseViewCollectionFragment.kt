@@ -27,13 +27,13 @@ abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
                 as? MainFragment
     }
 
-    private val tab = TAB.ALL
+    protected val tab = TAB.ALL
 
     private val itemListAdapterCallback = ItemListAdapter.Callback { _, itemPosition ->
         viewModel().navigateToImageView(itemPosition)
     }
 
-    private val itemListAdapter: ItemListAdapter by lazy {
+    protected val itemListAdapter: ItemListAdapter by lazy {
         ItemListAdapter(callback = itemListAdapterCallback)
     }
 
@@ -64,23 +64,8 @@ abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
             }
         }
 
-        sharedViewModel.removedItem.observe(viewLifecycleOwner) {
-            if (it != null) {
-                val (item, _, fragmentName) = it
+        startObservingItemRemoveLiveData()
 
-                if (fragmentName != this::class.java.name) {
-                    Timber.d(
-                        "removedItem observe from ${
-                            this@BaseViewCollectionFragment::class.java.name
-                        }"
-                    )
-                    removeItemFromList(item) { itemPosition ->
-                        itemListAdapter.notifyItemRemoved(itemPosition)
-                    }
-                }
-            }
-
-        }
     }
 
     override fun initBottomDrawerElementsCallback() {
@@ -110,5 +95,25 @@ abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
     private fun closeCollection() {
         forceBack = true
         activity?.onBackPressed()
+    }
+
+    private fun startObservingItemRemoveLiveData() = with(viewModel()) {
+        sharedViewModel.removedItem.observe(viewLifecycleOwner) {
+            if (it != null) {
+                val (item, _, fragmentName) = it
+
+                if (fragmentName != this::class.java.name) {
+                    Timber.d(
+                        "removedItem observe from ${
+                            this@BaseViewCollectionFragment::class.java.name
+                        }"
+                    )
+                    removeItemFromList(item) { itemPosition ->
+                        itemListAdapter.notifyItemRemoved(itemPosition)
+                    }
+                }
+            }
+
+        }
     }
 }
