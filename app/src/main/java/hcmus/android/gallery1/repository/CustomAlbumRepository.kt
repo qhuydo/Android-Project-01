@@ -1,9 +1,7 @@
 package hcmus.android.gallery1.repository
 
+import hcmus.android.gallery1.data.*
 import hcmus.android.gallery1.data.Collection
-import hcmus.android.gallery1.data.CustomAlbumInfo
-import hcmus.android.gallery1.data.CustomAlbumItem
-import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.persistent.CustomAlbumDao
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -20,7 +18,8 @@ interface CustomAlbumRepository {
 }
 
 class CustomAlbumRepositoryImpl private constructor(
-    private val customAlbumDao: CustomAlbumDao
+    private val customAlbumDao: CustomAlbumDao,
+    private val mediaStoreSource: DataSource
 ) : CustomAlbumRepository {
 
     companion object {
@@ -28,12 +27,14 @@ class CustomAlbumRepositoryImpl private constructor(
         private var INSTANCE: CustomAlbumRepository? = null
 
         fun getInstance(
-            customAlbumDao: CustomAlbumDao
+            customAlbumDao: CustomAlbumDao,
+            mediaStoreSource: DataSource
         ): CustomAlbumRepository {
 
             return INSTANCE ?: synchronized(this) {
                 CustomAlbumRepositoryImpl(
-                    customAlbumDao
+                    customAlbumDao,
+                    mediaStoreSource
                 ).also {
                     INSTANCE = it
                 }
@@ -122,7 +123,18 @@ class CustomAlbumRepositoryImpl private constructor(
     override suspend fun removeItemFromAlbum(itemId: Long, albumId: Long) {
         withContext(coroutineContext) {
             customAlbumDao.deleteItemFromAlbum(listOf(itemId), albumId)
+            updateThumbnail(albumId)
         }
+    }
+
+    private fun updateThumbnail(albumId: Long) {
+        val itemId = customAlbumDao.getLastAddedItem(albumId)
+        val item = itemId?.let {
+            mediaStoreSource.getItemById(itemId)
+        }
+        customAlbumDao.updateAlbumThumbnail(
+            item?.getUri()?.toString() ?: "", listOf(albumId)
+        )
     }
 }
 

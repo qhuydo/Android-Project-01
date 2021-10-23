@@ -38,7 +38,7 @@
             android:id="@+id/btn_dialog_rename_album"
             style="@style/CustomAlbumDialogPositiveButton"
             android:enabled="false"
-            android:text="@android:string/ok"
+            android:text="@string/dialog_new_album_rename_button"
             app:icon="@drawable/ic_check"
             app:iconGravity="textStart"
             app:layout_constraintBottom_toTopOf="@+id/btn_cancel"

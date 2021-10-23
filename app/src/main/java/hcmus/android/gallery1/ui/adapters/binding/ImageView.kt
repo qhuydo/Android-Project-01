@@ -21,7 +21,11 @@ fun ImageView.loadGlideImage(item: Item?) {
 @BindingAdapter("loadGlideImage")
 fun ImageView.loadGlideImage(uri: String?) {
     uri?.let {
-        if (uri.isBlank()) return@let
+        if (uri.isBlank()) {
+            Glide.with(context)
+                .clear(this)
+            return@let
+        }
 
         Glide.with(context)
             .load(uri)

@@ -137,4 +137,8 @@ abstract class CustomAlbumDao {
 
     @Query("update custom_album_info set thumbnail_uri=:thumbnailUri where id in (:albumIds)")
     abstract fun updateAlbumThumbnail(thumbnailUri: String, albumIds: List<Long>)
+
+    @Query("select item_id from custom_album_cross_ref " +
+            "where album_id=:albumId order by date_added LIMIT 1")
+    abstract fun getLastAddedItem(albumId: Long): Long?
 }

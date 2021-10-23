@@ -57,7 +57,10 @@ data class CustomAlbumCrossRef(
     // Id of the MediaItem
     // retrieved from BaseColumns._ID column in MediaStore
     @ColumnInfo(name = "item_id", index = true)
-    val itemId: Long
+    val itemId: Long,
+
+    @ColumnInfo(name = "date_added", defaultValue = "0")
+    val dateAdded: Long = System.currentTimeMillis()
 )
 
 @Entity(tableName = "custom_album_info")

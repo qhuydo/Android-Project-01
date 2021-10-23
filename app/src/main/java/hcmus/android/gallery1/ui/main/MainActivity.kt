@@ -45,7 +45,10 @@ class MainActivity : AppCompatActivity() {
     val collectionRepository by lazy { CollectionRepositoryImpl.getInstance(mediaStoreSource) }
     val preferenceRepository by lazy { (application as GalleryOneApplication).preferenceRepository }
     val customAlbumRepository by lazy {
-        CustomAlbumRepositoryImpl.getInstance(database.customAlbumDao)
+        CustomAlbumRepositoryImpl.getInstance(
+            database.customAlbumDao,
+            mediaStoreSource
+        )
     }
 
     val orientation by lazy { resources.configuration.orientation }
