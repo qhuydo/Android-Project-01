@@ -5,9 +5,9 @@ import androidx.recyclerview.widget.ListAdapter
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
 
-class ItemListAdapter(
+open class ItemListAdapter(
     private var isCompactLayout: Boolean = false,
-    private val callback: Callback? = null
+    protected val callback: Callback? = null
 ) : ListAdapter<Item, ItemListViewHolder>(Item.diffCallback) {
 
     override fun getItemViewType(position: Int): Int {
@@ -36,7 +36,7 @@ class ItemListAdapter(
         notifyDataSetChanged()
     }
 
-    class Callback(private val onClickFn: (Item, Int) -> Unit) {
+    open class Callback(private val onClickFn: (Item, Int) -> Unit) {
         fun onClick(item: Item, position: Int) = onClickFn.invoke(item, position)
     }
 }
