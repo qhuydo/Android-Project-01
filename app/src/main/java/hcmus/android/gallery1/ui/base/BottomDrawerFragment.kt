@@ -110,6 +110,7 @@ abstract class BottomDrawerFragment<B : ViewDataBinding>(
             bottomSheetBehavior.collapse()
             return true
         }
+        mainActivity?.setLowProfileUI(false)
         return super.onBackPressed()
     }
 

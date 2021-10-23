@@ -6,12 +6,8 @@
     <data>
 
         <variable
-            name="collection"
-            type="hcmus.android.gallery1.data.Collection" />
-
-        <variable
-            name="viewMode"
-            type="String" />
+            name="viewModel"
+            type="hcmus.android.gallery1.ui.collection.view.ViewCustomAlbumViewModel" />
 
         <variable
             name="fm"
@@ -19,7 +15,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bdrawer_view_custom_collection"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background2"
@@ -28,7 +24,7 @@
         app:behavior_peekHeight="@dimen/bdrawer_peek_height"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <!-- DRAGGABLE SHEET HINT -->
+            <!-- DRAGGABLE SHEET HINT -->
         <include
             android:id="@+id/list_divider"
             layout="@layout/divider"
@@ -57,7 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/bdrawer_toolbar_height"
             android:gravity="center"
-            android:text="@{collection.name}"
+            android:text="@{viewModel.customAlbum.name}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintEnd_toStartOf="@id/btn_bottom_sheet_expand"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -115,7 +111,7 @@
             app:layout_constraintEnd_toStartOf="@id/guideline_end"
             app:layout_constraintStart_toEndOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/text_view_mode"
-            app:viewMode="@{viewMode}" />
+            app:viewMode="@{viewModel.viewMode}" />
 
         <View
             android:id="@+id/list_divider_view_mode"
@@ -154,6 +150,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:enabled="false"
+                android:onClick="@{() -> fm.switchBottomView()}"
                 android:text="@string/action_add_photo"
                 app:icon="@drawable/ic_album_add_photo"
                 app:iconGravity="top"
@@ -167,8 +164,8 @@
                 android:layout_marginHorizontal="8dp"
                 android:layout_weight="1"
                 android:enabled="false"
-                android:text="@string/action_rename_custom_album"
                 android:onClick="@{() -> fm.renameAlbum()}"
+                android:text="@string/action_rename_custom_album"
                 app:icon="@drawable/ic_rename_custom_album"
                 app:iconGravity="top"
                 tools:enabled="true" />
