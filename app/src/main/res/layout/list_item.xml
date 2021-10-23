@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:stateListAnimator="@animator/item_selection"
-        app:cardElevation="0dp">
+        android:stateListAnimator="@animator/item_selection">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
