@@ -150,7 +150,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:enabled="false"
-                android:onClick="@{() -> fm.switchBottomView()}"
+                android:onClick="@{() -> fm.addPhotosIntoAlbum()}"
                 android:text="@string/action_add_photo"
                 app:icon="@drawable/ic_album_add_photo"
                 app:iconGravity="top"

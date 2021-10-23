@@ -5,19 +5,48 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import hcmus.android.gallery1.databinding.DialogAddPhotosIntoAlbumBinding
-import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
+import hcmus.android.gallery1.ui.adapters.recyclerview.SelectableItemListAdapter
+import hcmus.android.gallery1.ui.collection.view.ViewCustomAlbumFragment
+import hcmus.android.gallery1.ui.collection.view.ViewCustomAlbumViewModel
 import hcmus.android.gallery1.ui.image.list.AllPhotosViewModel
+import hcmus.android.gallery1.ui.main.MainActivity
 
 class AddPhotosIntoAlbumDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogAddPhotosIntoAlbumBinding
 
     private val photosViewModel by activityViewModels<AllPhotosViewModel>()
-    private val itemAdapter by lazy { ItemListAdapter() }
+    private val mainActivity by lazy { requireActivity() as? MainActivity }
+    private val viewCustomAlbumViewModel by viewModels<ViewCustomAlbumViewModel>(
+        ownerProducer = {
+            parentFragmentManager.findFragmentByTag(ViewCustomAlbumFragment::class.java.name)
+                ?: this
+        }
+    ) {
+        ViewCustomAlbumViewModel.Factory(
+            mainActivity!!.photoRepository,
+            mainActivity!!.customAlbumRepository,
+            mainActivity!!.preferenceRepository
+        )
+    }
+
+    private val itemAdapter by lazy {
+        SelectableItemListAdapter(
+            selectionTriggerAction = SelectableItemListAdapter.SelectionTriggerAction.ON_CLICK,
+            callback = SelectableItemListAdapter.Callback(
+                onClickFn = { _, _ -> },
+                onSelectionFinished = {
+                    viewCustomAlbumViewModel.addItemsIntoCustomAlbums(it)
+                    dismiss()
+                }
+            )
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,10 +66,11 @@ class AddPhotosIntoAlbumDialog : BottomSheetDialogFragment() {
         return binding.root
     }
 
-    private fun bindData() {
-        binding.btnBackToMain.setOnClickListener { dismiss() }
-        binding.photosViewModel = photosViewModel
-        binding.recyclerView.adapter = itemAdapter
+    private fun bindData() = with(binding) {
+        btnBackToMain.setOnClickListener { dismiss() }
+        photosViewModel = this@AddPhotosIntoAlbumDialog.photosViewModel
+        recyclerView.adapter = itemAdapter
+        btnAddPhoto.setOnClickListener { itemAdapter.finishSelection() }
     }
 
     override fun onStart() {
@@ -49,8 +79,8 @@ class AddPhotosIntoAlbumDialog : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun Fragment.showAddPhotosIntoAlbumDialog() = AddPhotosIntoAlbumDialog().also {
-            it.show(childFragmentManager, AddPhotosIntoAlbumDialog::class.java.name)
+        fun AppCompatActivity.showAddPhotosIntoAlbumDialog() = AddPhotosIntoAlbumDialog().also {
+            it.show(supportFragmentManager, AddPhotosIntoAlbumDialog::class.java.name)
         }
     }
 }
