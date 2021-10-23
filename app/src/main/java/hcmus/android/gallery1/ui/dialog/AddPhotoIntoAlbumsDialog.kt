@@ -5,14 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Item
-import hcmus.android.gallery1.databinding.DialogAddToAlbumBinding
+import hcmus.android.gallery1.databinding.DialogAddPhotoIntoAlbumsBinding
 import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.ui.adapters.recyclerview.SelectableCollectionListAdapter
 import hcmus.android.gallery1.ui.base.BaseDialogFragment
 import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
 
-class AddToAlbumDialog : BaseDialogFragment<DialogAddToAlbumBinding>(
-    R.layout.dialog_add_to_album,
+class AddPhotoIntoAlbumsDialog : BaseDialogFragment<DialogAddPhotoIntoAlbumsBinding>(
+    R.layout.dialog_add_photo_into_albums,
     ScreenConstant.DIALOG_ADD_TO_ALBUM
 ) {
 
@@ -54,7 +54,7 @@ class AddToAlbumDialog : BaseDialogFragment<DialogAddToAlbumBinding>(
 
     override fun bindData() = with(binding) {
         customAlbumList.adapter = collectionListAdapter
-        viewModel = this@AddToAlbumDialog.viewModel
+        viewModel = this@AddPhotoIntoAlbumsDialog.viewModel
         actionCancel.setOnClickListener { dismiss() }
         actionAddToAlbum.setOnClickListener { collectionListAdapter.finishSelection() }
     }
@@ -65,7 +65,7 @@ class AddToAlbumDialog : BaseDialogFragment<DialogAddToAlbumBinding>(
     }
 
     companion object {
-        fun AppCompatActivity.showAddToAlbumDialog(item: Item) = AddToAlbumDialog().also {
+        fun AppCompatActivity.showAddToAlbumDialog(item: Item) = AddPhotoIntoAlbumsDialog().also {
             it.show(supportFragmentManager, it::class.java.name)
             it.setItem(item)
         }

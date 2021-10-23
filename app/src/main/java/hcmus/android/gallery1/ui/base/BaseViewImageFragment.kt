@@ -30,7 +30,7 @@ import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.helpers.widgets.ImageItemView
 import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
-import hcmus.android.gallery1.ui.dialog.AddToAlbumDialog.Companion.showAddToAlbumDialog
+import hcmus.android.gallery1.ui.dialog.AddPhotoIntoAlbumsDialog.Companion.showAddToAlbumDialog
 import hcmus.android.gallery1.ui.dialog.NewAlbumDialog.Companion.showNewAlbumDialog
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 import hcmus.android.gallery1.ui.image.view.ViewImageViewModel
