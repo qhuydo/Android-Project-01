@@ -51,16 +51,8 @@ class ViewCustomAlbumFragment : BaseViewCollectionFragment<FragmentViewCustomAlb
             }
         }
         listStateChangeEvent.observe(viewLifecycleOwner) {
-            when (it) {
-                is RecyclerViewListState.ItemInserted -> {
-                    itemListAdapter.notifyItemInserted(it.position)
-                }
-
-                is RecyclerViewListState.ItemRemoved -> {
-                    itemListAdapter.notifyItemRemoved(it.position)
-                }
-                else -> {
-                }
+            if (it is RecyclerViewListState.DataSetChanged) {
+                itemListAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -116,7 +108,7 @@ class ViewCustomAlbumFragment : BaseViewCollectionFragment<FragmentViewCustomAlb
         showRenameAlbumDialog()
     }
 
-    fun switchBottomView() {
-        showAddPhotosIntoAlbumDialog()
+    fun addPhotosIntoAlbum() {
+        mainActivity?.showAddPhotosIntoAlbumDialog()
     }
 }

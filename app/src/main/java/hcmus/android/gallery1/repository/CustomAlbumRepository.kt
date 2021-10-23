@@ -14,6 +14,7 @@ interface CustomAlbumRepository {
     fun removeAlbum(id: Long): Flow<RemoveAlbumResult>
     fun renameAlbum(id: Long, newName: String): Flow<RenameAlbumResult>
     fun addItemToAlbum(item: Item, collectionIds: List<Long>)
+    suspend fun addItemsToAlbum(items: List<Long>, collectionId: Long)
     suspend fun removeItemFromAlbum(itemId: Long, albumId: Long)
 }
 
@@ -106,6 +107,17 @@ class CustomAlbumRepositoryImpl private constructor(
                     emit(RenameAlbumResult.FAILED_OTHER)
                 }
             }
+        }
+    }
+
+    override suspend fun addItemsToAlbum(items: List<Long>, collectionId: Long) {
+        withContext(coroutineContext) {
+            if (items.isEmpty()) return@withContext
+            customAlbumDao.insertItemIntoAlbum(
+                items.map { CustomAlbumItem(it) },
+                collectionId
+            )
+            updateThumbnail(collectionId)
         }
     }
 

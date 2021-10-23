@@ -44,6 +44,8 @@ class ViewCustomAlbumViewModel private constructor(
                         _photos.value?.let {
                             it.clear()
                             it.addAll(photoList)
+                            _listStateChangeEvent.value = RecyclerViewListState.DataSetChanged
+
                         } ?: run {
                             _photos.value = photoList
                         }
@@ -63,6 +65,16 @@ class ViewCustomAlbumViewModel private constructor(
     fun removeItemFromCustomAlbum(item: Item) = liveData(viewModelScope.coroutineContext) {
         _customAlbum.value?.let { collection ->
             emit(removeItem(item, collection).also { _listStateChangeEvent.value = it })
+        }
+    }
+
+    fun addItemsIntoCustomAlbums(items: List<Long>) {
+        viewModelScope.launch {
+            customAlbum.value?.let { collection ->
+                customAlbumRepository.addItemsToAlbum(items, collection.id)
+                _listStateChangeEvent.value =
+                    RecyclerViewListState.ItemInserted(collection.itemIds.size)
+            }
         }
     }
 
