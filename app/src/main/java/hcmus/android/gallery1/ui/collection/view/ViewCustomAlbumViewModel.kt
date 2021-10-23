@@ -1,8 +1,11 @@
 package hcmus.android.gallery1.ui.collection.view
 
 import androidx.lifecycle.*
+import com.hadilq.liveevent.LiveEvent
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.CustomAlbum.Companion.INVALID_ID
+import hcmus.android.gallery1.data.Item
+import hcmus.android.gallery1.helpers.RecyclerViewListState
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.repository.*
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
@@ -16,7 +19,10 @@ class ViewCustomAlbumViewModel private constructor(
 ) : ImageListViewModel(TAB.ALL, preferenceRepository) {
 
     private val _customAlbum: MutableLiveData<Collection?> = MutableLiveData()
-    val customAlbum: LiveData<Collection?> by this::_customAlbum
+    val customAlbum: LiveData<Collection?> by ::_customAlbum
+
+    private var _listStateChangeEvent = LiveEvent<RecyclerViewListState>()
+    val listStateChangeEvent: LiveData<RecyclerViewListState> by ::_listStateChangeEvent
 
     override fun loadData(callback: (() -> Unit)?) {}
 
@@ -28,12 +34,19 @@ class ViewCustomAlbumViewModel private constructor(
         customAlbumRepository.getCustomAlbum(collectionId)
             .asLiveData(viewModelScope.coroutineContext)
             .apply {
-                observeForever {
+                observeForever { collection ->
                     viewModelScope.launch {
-                        _customAlbum.value = it
-                        _photos.value = photoRepository
-                            .getItemFromIds(it?.itemIds ?: emptyList())
+                        _customAlbum.value = collection
+                        val photoList = photoRepository
+                            .getItemFromIds(collection?.itemIds ?: emptyList())
                             .toMutableList()
+
+                        _photos.value?.let {
+                            it.clear()
+                            it.addAll(photoList)
+                        } ?: run {
+                            _photos.value = photoList
+                        }
                     }
                 }
             }
@@ -46,6 +59,25 @@ class ViewCustomAlbumViewModel private constructor(
     fun renameCollection(newName: String): LiveData<RenameAlbumResult> = customAlbumRepository
         .renameAlbum(_customAlbum.value?.id ?: INVALID_ID, newName)
         .asLiveData(viewModelScope.coroutineContext)
+
+    fun removeItemFromCustomAlbum(item: Item) = liveData(viewModelScope.coroutineContext) {
+        _customAlbum.value?.let { collection ->
+            emit(removeItem(item, collection).also { _listStateChangeEvent.value = it })
+        }
+    }
+
+    private suspend fun removeItem(
+        item: Item,
+        collection: Collection
+    ): RecyclerViewListState.ItemRemoved {
+
+        val newList = _photos.value ?: mutableListOf()
+        val idxToRemoved = newList.indexOfFirst { it.id == item.id }
+        customAlbumRepository.removeItemFromAlbum(item.id, collection.id)
+        newList.removeAt(idxToRemoved)
+
+        return RecyclerViewListState.ItemRemoved(idxToRemoved)
+    }
 
     @Suppress("UNCHECKED_CAST")
     class Factory(
