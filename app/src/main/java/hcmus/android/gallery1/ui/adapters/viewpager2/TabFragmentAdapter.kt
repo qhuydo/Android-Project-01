@@ -1,5 +1,6 @@
 package hcmus.android.gallery1.ui.adapters.viewpager2
 
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.adapter.FragmentViewHolder
@@ -28,12 +29,4 @@ class TabFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount() = fragments.size
 
-    override fun onBindViewHolder(
-        holder: FragmentViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
-    ) {
-        super.onBindViewHolder(holder, position, payloads)
-        holder.itemView.animateFadeUp()
-    }
 }

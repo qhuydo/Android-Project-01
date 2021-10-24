@@ -78,6 +78,4 @@ abstract class BaseFragment<B : ViewDataBinding>(
         dialogToDismiss.clear()
     }
 
-    fun animateFadeUp() = view?.animateFadeUp()
-
 }

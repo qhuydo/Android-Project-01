@@ -7,6 +7,8 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
+import com.google.android.material.transition.MaterialSharedAxis
 import hcmus.android.gallery1.databinding.ButtonGroupViewmodeItemBinding
 import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
@@ -76,7 +78,13 @@ abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
         getViewModeView().viewmodeItem.addOnButtonCheckedListener { _, checkedId, _ ->
             val viewMode = checkedId.viewIdToViewMode()
             preferenceRepository.setViewMode(tab.key, viewMode)
+            animateViewModeChange()
         }
+    }
+
+    private fun animateViewModeChange() {
+        val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y,true)
+        TransitionManager.beginDelayedTransition(getPhotoRecyclerView(), sharedAxis)
     }
 
     override fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {

@@ -55,18 +55,25 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
             super.onPageSelected(position)
 
             currentPosition = position
-            (pagerFragmentFromTab(TAB.fromPosition(position)) as? BaseFragment<*>)?.apply {
-                animateFadeUp()
-            }
+            fadeUpMainContainer()
 
             bottomSheetBehavior.collapse()
             viewModeRecyclerView.smoothScrollToPosition(position)
         }
     }
 
+    private fun fadeUpMainContainer() {
+        binding.mainFragmentContainer.apply {
+            invisible()
+            animateFadeUp()
+            visible()
+        }
+    }
+
     private val onViewModeSelectedCallback = object : OnViewModeSelectedCallback {
         override fun onViewModeSelected(tab: TAB, viewMode: String) {
             preferenceRepository.setViewMode(tab.key, viewMode)
+            fadeUpMainContainer()
             // tabFragmentAdapter.notifyItemChanged(tab.ordinal)
         }
     }

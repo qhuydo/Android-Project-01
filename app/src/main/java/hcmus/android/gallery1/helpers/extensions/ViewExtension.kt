@@ -2,8 +2,9 @@ package hcmus.android.gallery1.helpers.extensions
 
 import android.os.Build
 import android.view.View
-import android.view.animation.DecelerateInterpolator
-import hcmus.android.gallery1.helpers.ALPHA_VISIBLE
+import android.view.ViewGroup
+import androidx.transition.TransitionManager
+import com.google.android.material.transition.MaterialSharedAxis
 
 fun View.visible() {
     visibility = View.VISIBLE
@@ -38,18 +39,9 @@ fun View.padding(
     setPadding(l, t, r, b)
 }
 
-fun View?.animateFadeUp() = this?.apply{
-    // val animTime = context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
-    val animTime = 100L
-    alpha = 0.5f
-    translationY = 32f
-
-    animate()
-        .translationY(0f)
-        .setInterpolator(DecelerateInterpolator())
-        .alpha(ALPHA_VISIBLE)
-        .apply { duration = animTime }
-
+fun ViewGroup?.animateFadeUp() = this?.let {
+    val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y,true)
+    TransitionManager.beginDelayedTransition(it, sharedAxis)
 }
 
 @Suppress("DEPRECATION")
