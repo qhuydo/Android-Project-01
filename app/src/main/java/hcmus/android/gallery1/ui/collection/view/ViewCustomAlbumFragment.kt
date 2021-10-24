@@ -51,9 +51,7 @@ class ViewCustomAlbumFragment : BaseViewCollectionFragment<FragmentViewCustomAlb
             }
         }
         listStateChangeEvent.observe(viewLifecycleOwner) {
-            if (it is RecyclerViewListState.DataSetChanged) {
-                itemListAdapter.notifyDataSetChanged()
-            }
+            itemListAdapter.notifyDataSetChanged()
         }
     }
 

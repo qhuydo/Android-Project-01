@@ -85,8 +85,10 @@ class ViewCustomAlbumViewModel private constructor(
 
         val newList = _photos.value ?: mutableListOf()
         val idxToRemoved = newList.indexOfFirst { it.id == item.id }
+        if (idxToRemoved != -1) {
+            newList.removeAt(idxToRemoved)
+        }
         customAlbumRepository.removeItemFromAlbum(item.id, collection.id)
-        newList.removeAt(idxToRemoved)
 
         return RecyclerViewListState.ItemRemoved(idxToRemoved)
     }
