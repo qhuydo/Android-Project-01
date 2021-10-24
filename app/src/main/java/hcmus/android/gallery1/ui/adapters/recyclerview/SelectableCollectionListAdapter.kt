@@ -24,6 +24,7 @@ class SelectableCollectionListAdapter(
         }
 
         val item = getItem(position)
+        holder.itemView.isSelected = selectedCollections.contains(item.id)
         holder.bind(item)
         setListeners(holder, item)
     }
