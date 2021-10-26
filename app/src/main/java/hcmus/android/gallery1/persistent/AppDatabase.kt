@@ -1,6 +1,6 @@
 package hcmus.android.gallery1.persistent
 
-import android.content.Context
+import android.app.Application
 import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
 import hcmus.android.gallery1.data.CustomAlbumCrossRef
@@ -32,7 +32,7 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        fun Context.getDatabaseInstance(): AppDatabase {
+        fun Application.getDatabaseInstance(): AppDatabase {
 
             return INSTANCE ?: synchronized(AppDatabase::class) {
 

@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var mainFragment: MainFragment
 
     private val mediaStoreSource by lazy { DataSource.getInstance(applicationContext) }
-    private val database by lazy { getDatabaseInstance() }
+    private val database by lazy { application.getDatabaseInstance() }
     val favouriteRepository by lazy {
         FavouriteRepositoryImpl.getInstance(
             mediaStoreSource,
