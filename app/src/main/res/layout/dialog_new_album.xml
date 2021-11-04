@@ -45,7 +45,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cancel"
-            style="@style/CustomAlbumDialogNegativeButton"
+            android:theme="?materialButtonOutlinedStyle"
+            style="?Style.Button.CustomAlbumDialogNegative"
             android:text="@string/dialog_new_album_cancel_button"
             app:icon="@drawable/ic_close"
             app:iconGravity="textStart"

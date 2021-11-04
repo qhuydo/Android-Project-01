@@ -13,11 +13,7 @@
 
     <LinearLayout
         android:id="@+id/add_photo_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background2"
-        android:elevation="8dp"
-        android:orientation="vertical">
+        style="?Style.BottomDrawer">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -25,8 +21,8 @@
             android:paddingTop="8dp"
             android:paddingBottom="4dp">
 
-            <View
-                android:background="@color/md_grey_300"
+            <ImageView
+                android:background="@drawable/divider"
                 style="@style/divider" />
         </FrameLayout>
 
@@ -64,7 +60,8 @@
                 android:contentDescription="@string/text_add_to_album"
                 android:src="@drawable/ic_check"
                 android:tooltipText="@string/text_add_to_album"
-                tools:ignore="UnusedAttribute" />
+                tools:ignore="UnusedAttribute"
+                app:tint="?colorControlNormal" />
 
         </LinearLayout>
 
