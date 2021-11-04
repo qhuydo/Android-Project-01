@@ -14,6 +14,7 @@
 
     <!-- Bottom sheet divider -->
     <color name="bottom_sheet_divider">#e0e0e0</color>
+    <color name="bottom_sheet_toggle">#1F000000</color>
 
     <color name="control_highlight">#1F9C27B0</color>
     <color name="system_ui_scrim_dark">#66000000</color>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="Style.Button.CustomAlbumDialogNegative" format="reference" />
+    <attr name="Style.BottomDrawer" format="reference" />
 </resources>

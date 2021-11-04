@@ -2,10 +2,9 @@
 <resources>
 
     <style name="divider">
-        <item name="android:layout_width">32dp</item>
-        <item name="android:layout_height">4dp</item>
+        <item name="android:layout_width">44dp</item>
+        <item name="android:layout_height">6dp</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:background">?android:attr/listDivider</item>
     </style>
 
     <style name="CustomAlbumDialogTitle" parent="TextAppearance.AppCompat.Title">
@@ -48,5 +47,28 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">16dp</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Style.BottomDrawer.M3" parent="@style/Widget.Material3.BottomSheet.Modal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:elevation">8dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Style.BottomDrawer.M2" parent="@style/Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/background2</item>
+        <item name="android:elevation">8dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="StyleBottomDrawerImageButton">
+        <item name="tint">?colorOnSurface</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/ripple_rect</item>
     </style>
 </resources>

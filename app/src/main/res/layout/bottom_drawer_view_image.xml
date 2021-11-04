@@ -17,12 +17,8 @@
 
     <LinearLayout
         android:id="@+id/bdrawer_view_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="?Style.BottomDrawer"
         android:animateLayoutChanges="true"
-        android:background="@color/background2"
-        android:elevation="8dp"
-        android:orientation="vertical"
         android:visibility="gone"
         app:behavior_peekHeight="@dimen/bdrawer_peek_height"
         app:layout_anchorGravity="bottom"
@@ -53,13 +49,10 @@
                 app:controller_layout_id="@layout/video_controller_view_bottom_drawer"
                 app:show_timeout="0" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_audio"
+                style="@style/StyleBottomDrawerImageButton"
                 scrFromMuteAudioState="@{photoViewModel.isAudioMuted}"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
                 android:onClick="@{() -> fm.toggleMuteAudio()}"
                 android:src="@drawable/ic_video_audio_on"
                 tools:ignore="ContentDescription" />
@@ -73,53 +66,38 @@
             android:divider="@drawable/empty_8dp"
             android:orientation="horizontal">
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_close_viewer"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
+                style="@style/StyleBottomDrawerImageButton"
                 android:contentDescription="@string/action_close_viewer"
                 android:onClick="@{() -> fm.closeViewer()}"
                 android:src="@drawable/ic_back" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_delete"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
+                style="@style/StyleBottomDrawerImageButton"
                 android:contentDescription="@string/action_delete"
                 android:onClick="@{() -> fm.deleteImage()}"
                 android:src="@drawable/ic_action_delete_outline" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_favorite"
+                style="@style/StyleBottomDrawerImageButton"
                 srcFromFavouriteState="@{photoViewModel.isFavourite}"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
                 android:contentDescription="@string/action_favorite"
                 android:onClick="@{() -> fm.toggleFavorite()}"
                 tools:src="@drawable/ic_favorite" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_share"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
+                style="@style/StyleBottomDrawerImageButton"
                 android:contentDescription="@string/action_share"
                 android:onClick="@{() -> fm.shareImage()}"
                 android:src="@drawable/ic_action_share" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_bdrawer_view_image_expand"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
+                style="@style/StyleBottomDrawerImageButton"
                 android:src="@drawable/ic_bdrawer_up" />
 
         </LinearLayout>
@@ -131,60 +109,42 @@
             android:divider="@drawable/empty_8dp"
             android:orientation="horizontal">
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_copy"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
+                style="@style/StyleBottomDrawerImageButton"
                 android:contentDescription="@string/action_copy"
                 android:onClick="@{() -> fm.copyAsFile()}"
                 android:src="@drawable/ic_action_copy" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_remove_item_from_album"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
+                style="@style/StyleBottomDrawerImageButton"
                 android:src="@drawable/ic_action_remove_from_custom_album"
                 android:visibility="gone" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_add_item_into_albums"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
+                style="@style/StyleBottomDrawerImageButton"
                 android:contentDescription="@string/text_add_to_album"
                 android:onClick="@{() -> fm.addToAlbum()}"
                 android:src="@drawable/ic_action_new_album_outline" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_slideshow"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
+                style="@style/StyleBottomDrawerImageButton"
                 android:contentDescription="@string/action_slideshow"
                 android:src="@drawable/ic_action_slideshow" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_edit"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
+                style="@style/StyleBottomDrawerImageButton"
                 android:contentDescription="@string/action_edit"
                 android:onClick="@{() -> fm.openEditor()}"
                 android:src="@drawable/ic_action_edit_outline" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_wallpaper"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
+                style="@style/StyleBottomDrawerImageButton"
                 android:contentDescription="@string/action_wallpaper"
                 android:onClick="@{() -> fm.setAs()}"
                 android:src="@drawable/ic_action_wallpaper" />

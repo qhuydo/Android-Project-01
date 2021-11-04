@@ -70,12 +70,9 @@
 
             <ImageButton
                 android:id="@+id/btn_bottom_sheet_expand"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_rect"
-                android:src="@drawable/ic_bdrawer_up" />
+                android:src="@drawable/ic_bdrawer_up"
+                style="@style/StyleBottomDrawerImageButton" />
 
         </LinearLayout>
 
@@ -127,7 +124,7 @@
 
                 <Button
                     android:id="@+id/btn_new_album"
-                    style="?attr/materialButtonOutlinedStyle"
+                    style="?materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -138,7 +135,7 @@
 
                 <Button
                     android:id="@+id/btn_new_video"
-                    style="?attr/materialButtonOutlinedStyle"
+                    style="?materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="8dp"
@@ -150,7 +147,7 @@
 
                 <Button
                     android:id="@+id/btn_new_photo"
-                    style="?attr/materialButtonOutlinedStyle"
+                    style="?materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -183,7 +180,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_more_theme"
-                    style="?attr/materialButtonOutlinedStyle"
+                    style="?materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -197,7 +194,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_more_language"
-                    style="?attr/materialButtonOutlinedStyle"
+                    style="?materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="8dp"
@@ -212,7 +209,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_more_about"
-                    style="?attr/materialButtonOutlinedStyle"
+                    style="?materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

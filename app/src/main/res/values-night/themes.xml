@@ -66,5 +66,6 @@
         <item name="Style.Button.CustomAlbumDialogNegative">
             @style/Style.Button.CustomDialogNegative.M3
         </item>
+        <item name="Style.BottomDrawer">@style/Style.BottomDrawer.M3</item>
     </style>
 </resources>

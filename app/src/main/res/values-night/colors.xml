@@ -14,4 +14,5 @@
 
     <!-- Bottom sheet divider -->
     <color name="bottom_sheet_divider">#303030</color>
+    <color name="bottom_sheet_toggle">#1FFFFFFF</color>
 </resources>
