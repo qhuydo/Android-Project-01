@@ -14,7 +14,7 @@
         android:id="@+id/bdrawer_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background2"
+        android:background="?colorSurface"
         android:elevation="8dp"
         android:orientation="vertical"
         app:behavior_peekHeight="@dimen/bdrawer_peek_height"
@@ -39,10 +39,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                app:backgroundTint="@color/background2"
+                android:background="?colorSurface"
+                app:backgroundTint="?colorSurface"
                 app:elevation="0dp"
+                app:itemBackground="?colorSurface"
                 app:itemRippleColor="@color/control_highlight"
-                app:labelVisibilityMode="auto"
+                app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_drawer_navbar"
                 tools:visibility="visible" />
 
@@ -125,7 +127,7 @@
 
                 <Button
                     android:id="@+id/btn_new_album"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -136,7 +138,7 @@
 
                 <Button
                     android:id="@+id/btn_new_video"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="8dp"
@@ -148,7 +150,7 @@
 
                 <Button
                     android:id="@+id/btn_new_photo"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -181,7 +183,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_more_theme"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -195,7 +197,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_more_language"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="8dp"
@@ -210,7 +212,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_more_about"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
