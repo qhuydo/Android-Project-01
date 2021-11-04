@@ -51,5 +51,20 @@
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_primaryInverse</item>
         <item name="android:statusBarColor">@color/status_bar_dark</item>
+
+
+        <item name="bottomSheetStyle">@style/Widget.Material3.BottomSheet.Modal</item>
+        <item name="textInputOutlinedStyle">
+            @style/Widget.Material3.TextInputLayout.OutlinedBox
+        </item>
+        <item name="buttonStyle">@style/Widget.Material3.Button</item>
+
+        <item name="materialButtonOutlinedStyle">
+            @style/Widget.Material3.Button.OutlinedButton
+        </item>
+
+        <item name="Style.Button.CustomAlbumDialogNegative">
+            @style/Style.Button.CustomDialogNegative.M3
+        </item>
     </style>
 </resources>

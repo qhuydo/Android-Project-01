@@ -15,7 +15,7 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="CustomAlbumDialogTextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+    <style name="CustomAlbumDialogTextInputLayout">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">16dp</item>
@@ -29,13 +29,21 @@
         <item name="android:labelFor">@+id/text_input_layout</item>
     </style>
 
-    <style name="CustomAlbumDialogPositiveButton" parent="Widget.Material3.Button">
+    <style name="CustomAlbumDialogPositiveButton">
+        <item name="theme">?materialButtonStyle</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">8dp</item>
     </style>
 
-    <style name="CustomAlbumDialogNegativeButton" parent="Widget.Material3.Button.OutlinedButton">
+    <style name="Style.Button.CustomDialogNegative.M3" parent="@style/Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Style.Button.CustomDialogNegative.M2" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">16dp</item>

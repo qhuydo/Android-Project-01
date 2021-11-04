@@ -14,8 +14,8 @@
         android:id="@+id/bdrawer_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?colorSurface"
         android:elevation="8dp"
+        style="?bottomSheetStyle"
         android:orientation="vertical"
         app:behavior_peekHeight="@dimen/bdrawer_peek_height"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -39,14 +39,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:background="?colorSurface"
-                app:backgroundTint="?colorSurface"
                 app:elevation="0dp"
-                app:itemBackground="?colorSurface"
-                app:itemRippleColor="@color/control_highlight"
+                app:itemRippleColor="?colorControlHighlight"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_drawer_navbar"
                 tools:visibility="visible" />
+<!--                android:background="?colorSurface"-->
+<!--                app:backgroundTint="?colorSurface"-->
+<!--                app:itemBackground="?colorSurface"-->
 
             <!--            <com.google.android.material.tabs.TabLayout-->
             <!--                android:id="@+id/main_navbar"-->

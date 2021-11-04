@@ -62,5 +62,22 @@
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/status_bar_dark</item>
+
+        <item name="elevationOverlayEnabled">true</item>
+        <item name="elevationOverlayColor">?colorPrimary</item>
+
+        <item name="bottomSheetStyle">@style/Widget.Material3.BottomSheet.Modal</item>
+        <item name="textInputOutlinedStyle">
+            @style/Widget.Material3.TextInputLayout.OutlinedBox
+        </item>
+        <item name="buttonStyle">@style/Widget.Material3.Button</item>
+
+        <item name="materialButtonOutlinedStyle">
+            @style/Widget.Material3.Button.OutlinedButton
+        </item>
+
+        <item name="Style.Button.CustomAlbumDialogNegative">
+            @style/Style.Button.CustomDialogNegative.M3
+        </item>
     </style>
 </resources>
