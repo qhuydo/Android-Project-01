@@ -11,6 +11,7 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import com.google.android.material.color.DynamicColors
 import hcmus.android.gallery1.GalleryOneApplication
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.DataSource
@@ -130,7 +131,8 @@ class MainActivity : AppCompatActivity() {
         configLanguage(preferenceRepository.locale)
 
         // Layout
-        supportActionBar?.hide()
+        // supportActionBar?.hide()
+        DynamicColors.applyIfAvailable(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

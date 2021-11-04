@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.google.android.material.color.DynamicColors
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.DEFAULT_SETTINGS_REQ_CODE
 import hcmus.android.gallery1.databinding.ActivityStartBinding
@@ -21,7 +22,7 @@ class StartActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
-        supportActionBar?.hide()
+        // supportActionBar?.hide()
 
         if (hasReadExternalPermission() && hasWriteExternalPermission()) {
             toMainActivity()
@@ -32,6 +33,7 @@ class StartActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
             requestReadWriteExternalPermission()
         }
 
+        DynamicColors.applyIfAvailable(this)
         binding = ActivityStartBinding.inflate(layoutInflater)
         binding.buttonGrantPermission.setOnClickListener {
             if (hasReadExternalPermission() && hasWriteExternalPermission()) {
