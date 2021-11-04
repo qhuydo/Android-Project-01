@@ -9,7 +9,10 @@
     <style name="Theme.GalleryOne.Starting" parent="Theme.SplashScreen">
         <item name="postSplashScreenTheme">@style/Theme.GalleryOne</item>
         <item name="windowSplashScreenBackground">@color/background</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo2</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo3</item>
+        <item name="android:windowSplashScreenBrandingImage" tools:targetApi="s">
+            @drawable/branding
+        </item>
     </style>
 
     <!-- Base application theme. Make it inheritable to API 23 and API 27. -->
