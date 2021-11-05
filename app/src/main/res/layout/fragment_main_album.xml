@@ -38,7 +38,9 @@
                         style="@style/TextAppearance.AppCompat.Title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
                         android:paddingTop="8dp"
+                        android:paddingEnd="8dp"
                         android:text="@string/text_custom_album"
                         android:visibility="@{viewModel.customAlbumVisibility}" />
 
@@ -54,12 +56,23 @@
                         tools:listitem="@layout/list_collection"
                         tools:spanCount="@integer/collection_grid" />
 
-                    <View
+                    <com.google.android.material.divider.MaterialDivider
                         android:layout_width="wrap_content"
-                        android:layout_height="1dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/divider"
                         android:layout_marginBottom="@dimen/divider"
                         android:background="@color/bottom_sheet_divider"
+                        android:visibility="@{viewModel.customAlbumVisibility}" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/album_text"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/tab_album"
                         android:visibility="@{viewModel.customAlbumVisibility}" />
 
                     <androidx.recyclerview.widget.RecyclerView

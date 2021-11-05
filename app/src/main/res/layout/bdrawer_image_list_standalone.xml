@@ -48,7 +48,7 @@
                 android:layout_weight="3"
                 android:gravity="center"
                 android:text="@{collection.name}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textAppearance="?textAppearanceSubtitle1"
                 tools:text="Collection name" />
 
             <ImageButton
