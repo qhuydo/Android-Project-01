@@ -3,6 +3,7 @@ package hcmus.android.gallery1.ui.main
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Point
+import android.os.Build
 import android.os.Bundle
 import android.view.OrientationEventListener
 import android.view.Surface
@@ -12,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.google.android.material.color.DynamicColors
+import com.google.android.material.elevation.SurfaceColors
 import hcmus.android.gallery1.GalleryOneApplication
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.DataSource
@@ -139,6 +141,12 @@ class MainActivity : AppCompatActivity() {
         // navigation bar
         initNavigationBarProperties()
         hideFullScreen()
+
+        val surface3 = SurfaceColors.SURFACE_3.getColor(this)
+        window?.navigationBarColor = surface3
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window?.navigationBarDividerColor = surface3
+        }
 
         registerOrientationEventListener()
     }
