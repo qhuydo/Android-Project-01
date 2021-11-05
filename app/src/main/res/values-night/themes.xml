@@ -62,8 +62,6 @@
         <item name="Style.BottomDrawer">@style/Style.BottomDrawer.M2</item>
     </style>
 
-    <style name="Theme.GalleryOne" parent="Theme.GalleryOne.Material3.API21" />
-
     <style name="Theme.GalleryOne.Material3.API21" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
@@ -111,4 +109,10 @@
         </item>
         <item name="Style.BottomDrawer">@style/Style.BottomDrawer.M3</item>
     </style>
+
+    <style name="Theme.GalleryOne" parent="Theme.GalleryOne.Material3.API21" />
+
+    <style name="Theme.GalleryOne.Material2" parent="Theme.GalleryOne.Material2.API21" />
+
+    <style name="Theme.GalleryOne.Material3" parent="Theme.GalleryOne.Material3.API21" />
 </resources>

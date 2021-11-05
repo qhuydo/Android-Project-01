@@ -2,6 +2,8 @@ package hcmus.android.gallery1.repository
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
+import androidx.annotation.StyleRes
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.preference.PreferenceManager
@@ -22,6 +24,7 @@ class PreferenceRepository private constructor(applicationContext: Context) {
         val validViewsLimited = arrayOf(VIEW_LIST, VIEW_COLLECTION_GRID)
         val validThemes = arrayOf(THEME_FOLLOW_SYSTEM, THEME_DAY, THEME_NIGHT)
         val validLanguages = arrayOf(LANG_FOLLOW_SYSTEM, LANG_EN, LANG_VI, LANG_JA)
+        val validMaterialVersions = arrayOf(MATERIAL_2, MATERIAL_3)
 
         @Volatile
         private var INSTANCE: PreferenceRepository? = null
@@ -55,6 +58,22 @@ class PreferenceRepository private constructor(applicationContext: Context) {
             }
         }
 
+    var materialVersion: String
+        get() {
+            val defaultValue = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                MATERIAL_3
+            } else {
+                MATERIAL_2
+            }
+
+            return prefs.getString(KEY_MATERIAL_VERSION, defaultValue) as String
+        }
+        set(materialVersion) {
+            if (materialVersion in validMaterialVersions) {
+                prefs.edit(commit = true) { putString(KEY_MATERIAL_VERSION, materialVersion) }
+            }
+        }
+
     // Language
     var language: String
         get() {
@@ -75,11 +94,10 @@ class PreferenceRepository private constructor(applicationContext: Context) {
     // Theme (fetch actual resource ID)
     val themeR: Int
         get() {
-            return when (theme) {
-                THEME_DAY -> R.style.Theme_GalleryOne
-                THEME_NIGHT -> R.style.Theme_GalleryOne
-                else -> R.style.Theme_GalleryOne // fallback
+            if (materialVersion == MATERIAL_2) {
+                return R.style.Theme_GalleryOne_Material2
             }
+            return R.style.Theme_GalleryOne_Material3
         }
 
     var tabAllViewMode: String

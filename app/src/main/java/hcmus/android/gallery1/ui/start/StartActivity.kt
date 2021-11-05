@@ -38,8 +38,7 @@ class StartActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         binding.buttonGrantPermission.setOnClickListener {
             if (hasReadExternalPermission() && hasWriteExternalPermission()) {
                 toMainActivity()
-            }
-            else {
+            } else {
                 goToAppSetting()
             }
         }

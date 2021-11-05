@@ -124,4 +124,8 @@
     <!-- Start here -->
     <style name="Theme.GalleryOne" parent="Theme.GalleryOne.Material3.API21" />
 
+    <style name="Theme.GalleryOne.Material2" parent="Theme.GalleryOne.Material2.API21" />
+
+    <style name="Theme.GalleryOne.Material3" parent="Theme.GalleryOne.Material3.API21" />
+
 </resources>

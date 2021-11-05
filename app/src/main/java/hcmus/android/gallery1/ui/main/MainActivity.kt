@@ -18,6 +18,8 @@ import hcmus.android.gallery1.GalleryOneApplication
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.DataSource
 import hcmus.android.gallery1.databinding.ActivityMainBinding
+import hcmus.android.gallery1.helpers.MATERIAL_2
+import hcmus.android.gallery1.helpers.MATERIAL_3
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.persistent.AppDatabase.Companion.getDatabaseInstance
 import hcmus.android.gallery1.repository.CollectionRepositoryImpl
@@ -134,7 +136,7 @@ class MainActivity : AppCompatActivity() {
 
         // Layout
         // supportActionBar?.hide()
-        DynamicColors.applyIfAvailable(this)
+        setTheme(preferenceRepository.themeR)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -142,10 +144,13 @@ class MainActivity : AppCompatActivity() {
         initNavigationBarProperties()
         hideFullScreen()
 
-        val surface3 = SurfaceColors.SURFACE_3.getColor(this)
-        window?.navigationBarColor = surface3
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window?.navigationBarDividerColor = surface3
+        if (preferenceRepository.materialVersion == MATERIAL_3) {
+            DynamicColors.applyIfAvailable(this)
+            val surface3 = SurfaceColors.SURFACE_3.getColor(this)
+            window?.navigationBarColor = surface3
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                window?.navigationBarDividerColor = surface3
+            }
         }
 
         registerOrientationEventListener()

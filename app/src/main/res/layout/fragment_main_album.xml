@@ -59,7 +59,7 @@
                     <com.google.android.material.divider.MaterialDivider
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/divider"
+                        android:layout_marginTop="@dimen/divider_large"
                         android:layout_marginBottom="@dimen/divider"
                         android:background="@color/bottom_sheet_divider"
                         android:visibility="@{viewModel.customAlbumVisibility}" />

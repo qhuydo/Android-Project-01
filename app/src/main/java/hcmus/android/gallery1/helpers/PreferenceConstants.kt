@@ -15,6 +15,7 @@ const val KEY_THEME = "theme"
 const val KEY_LANGUAGE = "language"
 const val KEY_FAVORITES = "favorites"
 const val KEY_MUTE_AUDIO = "mute_audio"
+const val KEY_MATERIAL_VERSION = "material_version"
 
 const val VIEW_MODE_OF = "view_mode_"
 
@@ -44,6 +45,9 @@ const val NOT_EXIST = ""
 const val DURATION_BOTTOM_SHEET_ANIMATION = 240L // ms
 const val ALPHA_INVISIBLE = 0f
 const val ALPHA_VISIBLE = 1f
+
+const val MATERIAL_2 = "2"
+const val MATERIAL_3 = "3"
 
 enum class TAB(val key: String) {
     ALL(TAB_ALL),
