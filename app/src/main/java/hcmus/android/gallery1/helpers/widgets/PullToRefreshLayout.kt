@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Transformation
-import android.widget.FrameLayout
 import androidx.customview.widget.ViewDragHelper.INVALID_POINTER
 import hcmus.android.gallery1.helpers.extensions.dpToPixel
 import kotlin.math.abs
@@ -38,13 +37,8 @@ class PullToRefreshLayout @JvmOverloads constructor(
 
     private var targetView: View? = null
     private lateinit var decelerateInterpolator: DecelerateInterpolator
-    private lateinit var refreshView: RefreshView
+    var refreshView: RefreshView? = null
     private var scaledTouchSlop: Int = 0
-
-    private var targetPaddingTop = 0
-    private var targetPaddingLeft = 0
-    private var targetPaddingRight = 0
-    private var targetPaddingBottom = 0
 
     private var currentOffsetTop = 0
     private var currentDragPercent = 0f
@@ -57,6 +51,8 @@ class PullToRefreshLayout @JvmOverloads constructor(
     private var notify = false
     private var from = 0
     private var fromDragPercent = 0f
+
+    var shouldUpdateTargetView = false
 
     var listener: Listener? = null
 
@@ -74,7 +70,7 @@ class PullToRefreshLayout @JvmOverloads constructor(
 
             val offset = targetTop - (targetView?.top ?: 0)
             currentDragPercent = fromDragPercent - (fromDragPercent - 1.0f) * interpolatedTime
-            refreshView.setDraggingPercent(currentDragPercent)
+            refreshView?.setDraggingPercent(currentDragPercent)
             setTargetOffsetTop(offset)
         }
     }
@@ -84,7 +80,7 @@ class PullToRefreshLayout @JvmOverloads constructor(
         override fun onAnimationStart(animation: Animation) {}
         override fun onAnimationRepeat(animation: Animation) {}
         override fun onAnimationEnd(animation: Animation) {
-            refreshView.stopRefreshing()
+            refreshView?.stopRefreshing()
             currentOffsetTop = targetView?.top ?: 0
         }
     }
@@ -101,7 +97,8 @@ class PullToRefreshLayout @JvmOverloads constructor(
     }
 
     private fun setUpTargetView() {
-        if (targetView != null) return
+        if (targetView != null && !shouldUpdateTargetView) return
+        shouldUpdateTargetView = false
 
         if (childCount > 0) {
 
@@ -110,10 +107,6 @@ class PullToRefreshLayout @JvmOverloads constructor(
                 if (childView != refreshView) {
                     childView.apply {
                         targetView = this
-                        targetPaddingTop = paddingTop
-                        targetPaddingLeft = paddingLeft
-                        targetPaddingRight = paddingRight
-                        targetPaddingBottom = paddingBottom
                     }
                 }
             }
@@ -136,7 +129,7 @@ class PullToRefreshLayout @JvmOverloads constructor(
         )
 
         targetView?.measure(newWidthMeasureSpec, newHeightMeasureSpec)
-        refreshView.measure(newWidthMeasureSpec, newHeightMeasureSpec)
+        refreshView?.measure(newWidthMeasureSpec, newHeightMeasureSpec)
     }
 
     override fun onLayout(p0: Boolean, p1: Int, p2: Int, p3: Int, p4: Int) {
@@ -157,7 +150,7 @@ class PullToRefreshLayout @JvmOverloads constructor(
             top + height - bottom + currentOffsetTop
         )
 
-        refreshView.layout(left, top, left + width - right, top + height - bottom)
+        refreshView?.layout(left, top, left + width - right, top + height - bottom)
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
@@ -233,7 +226,7 @@ class PullToRefreshLayout @JvmOverloads constructor(
                 val extraMove = slingshotDist * tensionPercent / 2
                 val targetY = (slingshotDist * boundedDragPercent + extraMove).toInt()
 
-                refreshView.setDraggingPercent(currentDragPercent)
+                refreshView?.setDraggingPercent(currentDragPercent)
                 setTargetOffsetTop(targetY - currentOffsetTop)
             }
 
@@ -301,7 +294,7 @@ class PullToRefreshLayout @JvmOverloads constructor(
             setUpTargetView()
             isRefreshing = refreshing
             if (isRefreshing) {
-                refreshView.setDraggingPercent(1f)
+                refreshView?.setDraggingPercent(1f)
                 animateOffsetToCorrectPosition()
             } else {
                 animateOffsetToStartPosition()
@@ -317,26 +310,20 @@ class PullToRefreshLayout @JvmOverloads constructor(
         animateToCorrectPosition.duration = MAX_OFFSET_ANIMATION_DURATION
         animateToCorrectPosition.interpolator = decelerateInterpolator
 
-        refreshView.clearAnimation()
-        refreshView.startAnimation(animateToCorrectPosition)
+        refreshView?.clearAnimation()
+        refreshView?.startAnimation(animateToCorrectPosition)
 
         if (isRefreshing) {
-            refreshView.startRefreshing()
+            refreshView?.startRefreshing()
             if (notify) {
                 listener?.onRefresh()
             }
         } else {
-            refreshView.stopRefreshing()
+            refreshView?.stopRefreshing()
             animateOffsetToStartPosition()
         }
 
         currentOffsetTop = targetView?.top ?: 0
-        targetView?.setPadding(
-            targetPaddingLeft,
-            targetPaddingTop,
-            targetPaddingRight,
-            totalDragDistance
-        )
     }
 
     private fun moveToStart(interpolatedTime: Float) {
@@ -345,14 +332,8 @@ class PullToRefreshLayout @JvmOverloads constructor(
         val offset = targetTop - (targetView?.top ?: 0)
 
         currentDragPercent = targetPercent
-        refreshView.setDraggingPercent(currentDragPercent)
+        refreshView?.setDraggingPercent(currentDragPercent)
 
-        targetView?.setPadding(
-            targetPaddingLeft,
-            targetPaddingTop,
-            targetPaddingRight,
-            paddingBottom + targetTop
-        )
         setTargetOffsetTop(offset)
     }
 
@@ -368,7 +349,7 @@ class PullToRefreshLayout @JvmOverloads constructor(
             setAnimationListener(toStartListener)
         }
 
-        refreshView.apply {
+        refreshView?.apply {
             clearAnimation()
             startAnimation(animateToStartPosition)
         }

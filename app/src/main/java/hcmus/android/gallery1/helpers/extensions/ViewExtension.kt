@@ -40,6 +40,7 @@ fun View.padding(
 }
 
 fun ViewGroup?.animateFadeUp() = this?.let {
+    TransitionManager.endTransitions(it)
     val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y,true)
     TransitionManager.beginDelayedTransition(it, sharedAxis)
 }

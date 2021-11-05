@@ -25,7 +25,6 @@ import hcmus.android.gallery1.repository.PreferenceRepository
 import hcmus.android.gallery1.ui.adapters.recyclerview.ButtonGroupViewModeAdapter
 import hcmus.android.gallery1.ui.adapters.recyclerview.OnViewModeSelectedCallback
 import hcmus.android.gallery1.ui.adapters.viewpager2.TabFragmentAdapter
-import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
 import hcmus.android.gallery1.ui.dialog.NewAlbumDialog.Companion.showNewAlbumDialog
 import java.lang.ref.WeakReference
@@ -48,6 +47,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
     private val tabFragmentAdapter by lazy { TabFragmentAdapter(this) }
 
     private var currentPosition = TAB.ALL.ordinal
+    private var peekHeight = -1
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
 
@@ -73,7 +73,9 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
     private val onViewModeSelectedCallback = object : OnViewModeSelectedCallback {
         override fun onViewModeSelected(tab: TAB, viewMode: String) {
             preferenceRepository.setViewMode(tab.key, viewMode)
-            fadeUpMainContainer()
+            (pagerFragmentFromTab(TAB.ALL) as? ChildOfMainFragment)?.animateFadeUp()
+
+            // fadeUpMainContainer()
             // tabFragmentAdapter.notifyItemChanged(tab.ordinal)
         }
     }
@@ -158,6 +160,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
                 if (currentPosition != viewPager2.currentItem) {
                     // viewPager2.currentItem = currentPosition
                     viewPager2.setCurrentItem(currentPosition, false)
+
                 } else {
                     (currentViewPagerFragment() as? ScrollableToTop)?.scrollToTop()
                 }
@@ -168,7 +171,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
         }
         bottomNavigationView.setOnApplyWindowInsetsListener(null)
 
-        mainActivity?.setViewPaddingWindowInset(viewPager2)
+        // mainActivity?.setViewPaddingInNavigationBarSide(viewPager2)
     }
 
     // Bottom drawer: view mode selectors
@@ -177,7 +180,19 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
     }
 
     override fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {
-        viewPager2.padding(bottom = peekHeight)
+        // viewPager2.padding(bottom = peekHeight)
+        this.peekHeight = peekHeight
+        paddingChildPager(currentViewPagerFragment() as? ChildOfMainFragment)
+    }
+
+    fun paddingChildPager(childOfMainFragment: ChildOfMainFragment?) {
+        if (peekHeight < 0) return
+        childOfMainFragment?.apply {
+            paddingContainerToFitWithPeekHeight(peekHeight)
+            paddingContainerInStatusBarSide()
+            view?.invalidate()
+            view?.requestLayout()
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -265,7 +280,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
     )
 
     private fun Fragment.currentViewPagerFragment(): Fragment? {
-        return childFragmentManager.findFragmentByTag("f${viewPager2.currentItem}")
+        return childFragmentManager.findFragmentByTag("f${currentPosition}")
     }
 
     internal fun notifyViewModeChange(tab: TAB) {

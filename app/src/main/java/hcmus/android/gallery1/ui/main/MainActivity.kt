@@ -285,7 +285,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setViewPaddingInStatusBarSide(view: View) {
+    fun setViewPaddingInStatusBarSide(view: View?) = view?.let {
         val px = statusBarHeight
         view.setPadding(view.paddingLeft, px, view.paddingRight, view.paddingBottom)
     }

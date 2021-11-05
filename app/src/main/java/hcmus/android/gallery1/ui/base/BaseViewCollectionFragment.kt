@@ -83,7 +83,7 @@ abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
     }
 
     private fun animateViewModeChange() {
-        val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y,true)
+        val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y, true)
         TransitionManager.beginDelayedTransition(getPhotoRecyclerView(), sharedAxis)
     }
 
