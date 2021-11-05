@@ -98,4 +98,8 @@
     <string name="text_add_to_album">Thêm vào album</string>
     <string name="dialog_rename_album_title">Đổi tên album</string>
     <string name="dialog_new_album_rename_button">OK</string>
+    <string name="settings_theme_default">Mặc định</string>
+    <string name="settings_theme_day">Sáng</string>
+    <string name="settings_theme_night">Tối</string>
+
 </resources>

@@ -76,4 +76,8 @@
     <string name="text_add_to_album">アルバムに追加</string>
     <string name="dialog_rename_album_title">アルバム名の変更</string>
     <string name="dialog_new_album_rename_button">@android:string/ok</string>
+    <string name="settings_theme_default">デフォルト</string>
+    <string name="settings_theme_day">ライト</string>
+    <string name="settings_theme_night">ダーク</string>
+
 </resources>

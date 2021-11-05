@@ -1,0 +1,6 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item android:drawable="@drawable/ic_brightness_outline" android:state_selected="false"/>
+  <item android:drawable="@drawable/ic_brightness_baseline" android:state_selected="true"/>
+
+</selector>

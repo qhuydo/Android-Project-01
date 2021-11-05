@@ -134,4 +134,8 @@
     <string name="dialog_rename_album_title">Rename album</string>
     <string name="dialog_rename_album_cancel_button">Cancel</string>
     <string name="dialog_new_album_rename_button">OK</string>
+
+    <string name="settings_theme_default">Follow system</string>
+    <string name="settings_theme_day">Day</string>
+    <string name="settings_theme_night">Night</string>
 </resources>

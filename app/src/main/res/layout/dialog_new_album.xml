@@ -29,8 +29,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_input"
-                android:hint="@string/dialog_new_album_placeholder"
-                style="@style/CustomAlbumDialogTextInput" />
+                style="@style/CustomAlbumDialogTextInput"
+                android:hint="@string/dialog_new_album_placeholder" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -45,9 +45,9 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cancel"
-            android:theme="?materialButtonOutlinedStyle"
             style="?Style.Button.CustomAlbumDialogNegative"
             android:text="@string/dialog_new_album_cancel_button"
+            android:theme="?materialButtonOutlinedStyle"
             app:icon="@drawable/ic_close"
             app:iconGravity="textStart"
             app:layout_constraintBottom_toBottomOf="parent"

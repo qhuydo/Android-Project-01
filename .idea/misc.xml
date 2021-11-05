@@ -77,6 +77,7 @@
         <entry key="app/src/main/res/layout/dialog_about.xml" value="0.27314814814814814" />
         <entry key="app/src/main/res/layout/dialog_add_photos_into_album.xml" value="0.10925925925925926" />
         <entry key="app/src/main/res/layout/dialog_add_to_album.xml" value="0.4" />
+        <entry key="app/src/main/res/layout/dialog_change_theme.xml" value="0.536" />
         <entry key="app/src/main/res/layout/dialog_new_album.xml" value="0.4" />
         <entry key="app/src/main/res/layout/dialog_rename_album.xml" value="0.2" />
         <entry key="app/src/main/res/layout/divider.xml" value="0.8368794326241135" />
