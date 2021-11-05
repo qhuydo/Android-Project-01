@@ -75,7 +75,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
     private val onViewModeSelectedCallback = object : OnViewModeSelectedCallback {
         override fun onViewModeSelected(tab: TAB, viewMode: String) {
             preferenceRepository.setViewMode(tab.key, viewMode)
-            (pagerFragmentFromTab(TAB.ALL) as? ChildOfMainFragment)?.animateFadeUp()
+            (pagerFragmentFromTab(tab) as? ChildOfMainFragment)?.animateFadeUp()
 
             // fadeUpMainContainer()
             // tabFragmentAdapter.notifyItemChanged(tab.ordinal)

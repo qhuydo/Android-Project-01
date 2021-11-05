@@ -6,7 +6,7 @@
     </style>
 
     <!-- Base application theme. -->
-    <style name="Theme.GalleryOne.Material2.API21" parent="Theme.Material3.DayNight">
+    <style name="Theme.GalleryOne.Material2.API21" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/md_purple_200</item>
         <item name="colorPrimaryVariant">@color/md_purple_700</item>
@@ -17,8 +17,49 @@
         <item name="colorSecondaryVariant">@color/md_purple_A200</item>
         <item name="colorOnSecondary">@color/md_white_1000</item>
 
+        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_dark_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_dark_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_dark_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_dark_onTertiaryContainer</item>
+        <item name="colorError">@color/md_theme_dark_error</item>
+        <item name="colorErrorContainer">@color/md_theme_dark_errorContainer</item>
+        <item name="colorOnError">@color/md_theme_dark_onError</item>
+        <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_dark_background</item>
+        <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
+        <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_dark_outline</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/md_theme_dark_primaryInverse</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/status_bar_dark</item>
+
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+
+        <item name="elevationOverlayEnabled">false</item>
+
+        <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
+        <item name="textInputOutlinedStyle">
+            @style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
+        </item>
+        <item name="buttonStyle">@style/Widget.MaterialComponents.Button</item>
+
+        <item name="materialButtonOutlinedStyle">
+            @style/Widget.MaterialComponents.Button.OutlinedButton
+        </item>
+
+        <item name="Style.Button.CustomAlbumDialogNegative">
+            @style/Style.Button.CustomDialogNegative.M2
+        </item>
+        <item name="Style.BottomDrawer">@style/Style.BottomDrawer.M2</item>
     </style>
 
     <style name="Theme.GalleryOne" parent="Theme.GalleryOne.Material3.API21" />
@@ -42,18 +83,18 @@
         <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
         <item name="android:colorBackground">@color/md_theme_dark_background</item>
         <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
-        <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorSurface">@color/background2</item>
         <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
         <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
         <item name="colorOutline">@color/md_theme_dark_outline</item>
-        <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
+        <item name="colorOnSurfaceInverse">@color/background</item>
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_primaryInverse</item>
         <item name="android:statusBarColor">@color/status_bar_dark</item>
 
         <item name="android:windowTranslucentStatus">true</item>
-        <item  name="android:windowActivityTransitions">true</item>
+        <item name="android:windowActivityTransitions">true</item>
 
         <item name="bottomSheetStyle">@style/Widget.Material3.BottomSheet.Modal</item>
         <item name="textInputOutlinedStyle">

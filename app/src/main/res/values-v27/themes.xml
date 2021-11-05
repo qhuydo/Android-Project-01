@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.GalleryOne.API27" parent="Theme.GalleryOne.API23">
+    <style name="Theme.GalleryOne.Material2.API27" parent="Theme.GalleryOne.Material2.API23">
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:navigationBarDividerColor">?colorSurface</item>
     </style>
 
-    <style name="Theme.GalleryOne" parent="Theme.GalleryOne.API27" />
+    <style name="Theme.GalleryOne.Material3.API27" parent="Theme.GalleryOne.Material3.API23">
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:navigationBarDividerColor">?colorSurface</item>
+    </style>
+
+    <style name="Theme.GalleryOne" parent="Theme.GalleryOne.Material3.API27" />
 </resources>

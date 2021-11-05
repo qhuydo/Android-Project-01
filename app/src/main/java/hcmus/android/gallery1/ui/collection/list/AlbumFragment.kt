@@ -2,6 +2,7 @@ package hcmus.android.gallery1.ui.collection.list
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.transition.TransitionManager
 import hcmus.android.gallery1.R
@@ -96,7 +97,7 @@ class AlbumFragment : CollectionListFragment<FragmentMainAlbumBinding>(
     }
 
     override fun animateFadeUp() {
-        binding.scrollView.apply {
+        (binding.root as? ViewGroup)?.apply {
             invisible()
             animateFadeUp()
             visible()
@@ -104,7 +105,7 @@ class AlbumFragment : CollectionListFragment<FragmentMainAlbumBinding>(
     }
 
     override fun onPause() {
-        TransitionManager.endTransitions(binding.scrollView)
+        TransitionManager.endTransitions(binding.root as? ViewGroup)
         super.onPause()
     }
 }
