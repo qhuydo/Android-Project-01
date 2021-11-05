@@ -62,6 +62,8 @@
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/status_bar_dark</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item  name="android:windowActivityTransitions">true</item>
 
         <item name="elevationOverlayEnabled">true</item>
         <item name="elevationOverlayColor">?colorPrimary</item>

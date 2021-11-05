@@ -52,6 +52,8 @@
         <item name="colorPrimaryInverse">@color/md_theme_dark_primaryInverse</item>
         <item name="android:statusBarColor">@color/status_bar_dark</item>
 
+        <item name="android:windowTranslucentStatus">true</item>
+        <item  name="android:windowActivityTransitions">true</item>
 
         <item name="bottomSheetStyle">@style/Widget.Material3.BottomSheet.Modal</item>
         <item name="textInputOutlinedStyle">
