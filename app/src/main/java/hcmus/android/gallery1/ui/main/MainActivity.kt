@@ -210,9 +210,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun changeTheme(theme: String) {
-        if (theme != preferenceRepository.theme) {
-            preferenceRepository.theme = theme
+    fun changeTheme(theme: String, materialVersion: String) {
+        val shouldRestart = (theme != preferenceRepository.theme
+                || materialVersion != preferenceRepository.materialVersion)
+
+        preferenceRepository.theme = theme
+        preferenceRepository.materialVersion = materialVersion
+
+        if (shouldRestart) {
             restartSelf()
         }
     }

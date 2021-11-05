@@ -28,6 +28,7 @@ import hcmus.android.gallery1.ui.adapters.recyclerview.ButtonGroupViewModeAdapte
 import hcmus.android.gallery1.ui.adapters.recyclerview.OnViewModeSelectedCallback
 import hcmus.android.gallery1.ui.adapters.viewpager2.TabFragmentAdapter
 import hcmus.android.gallery1.ui.base.BottomDrawerFragment
+import hcmus.android.gallery1.ui.dialog.ChangeThemeDialog.Companion.showChangeThemeDialog
 import hcmus.android.gallery1.ui.dialog.NewAlbumDialog.Companion.showNewAlbumDialog
 import java.lang.ref.WeakReference
 
@@ -228,16 +229,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
     }
 
     fun handleBtnSetTheme() {
-        val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.bdrawer_more_theme)
-            .setSingleChoiceItems(
-                resources.getStringArray(R.array.settings_theme),
-                PreferenceRepository.validThemes.indexOf(preferenceRepository.theme)
-            ) { _, which ->
-                (activity as? MainActivity)?.changeTheme(PreferenceRepository.validThemes[which])
-            }
-            .show()
-        dialogToDismiss = WeakReference(dialog)
+        dialogToDismiss = WeakReference(mainActivity!!.showChangeThemeDialog())
     }
 
     fun handleBtnSetLanguage() {
