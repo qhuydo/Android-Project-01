@@ -138,4 +138,6 @@
     <string name="settings_theme_default">Follow system</string>
     <string name="settings_theme_day">Day</string>
     <string name="settings_theme_night">Night</string>
+    <string name="material_2">Material 2</string>
+    <string name="material_3">Material 3</string>
 </resources>

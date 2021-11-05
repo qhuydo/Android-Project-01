@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/divider"
                 android:layout_marginBottom="@dimen/divider_large"
-                app:dividerColor="@color/bottom_sheet_divider" />
+                app:dividerColor="?colorOutline" />
 
             <!-- GridLayout gap: https://stackoverflow.com/a/53421508 -->
             <include

@@ -1,6 +1,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/ic_mode_night_outline" android:state_selected="false" />
-    <item android:drawable="@drawable/ic_mode_night_baseline" android:state_selected="true" />
+    <item android:drawable="@drawable/ic_mode_night_baseline" android:state_selected="true"/>
+    <item android:drawable="@drawable/ic_mode_night_baseline" android:state_checked="true"/>
+    <item android:drawable="@drawable/ic_mode_night_outline"/>
 
 </selector>

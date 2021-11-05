@@ -61,8 +61,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/divider_large"
                         android:layout_marginBottom="@dimen/divider"
-                        android:background="@color/bottom_sheet_divider"
-                        android:visibility="@{viewModel.customAlbumVisibility}" />
+                        android:visibility="@{viewModel.customAlbumVisibility}"
+                        app:dividerColor="?colorOutline" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/album_text"

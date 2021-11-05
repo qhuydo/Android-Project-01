@@ -28,17 +28,20 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dialog_change_theme_title"
+            app:selectionRequired="true"
             app:singleSelection="true">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_default_mode"
                 style="?materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:text="@string/settings_theme_default"
                 app:icon="@drawable/ic_settings_theme_default"
                 app:iconGravity="textStart" />
@@ -46,9 +49,10 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_day_mode"
                 style="?materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:text="@string/settings_theme_day"
                 app:icon="@drawable/ic_settings_theme_day"
                 app:iconGravity="textStart" />
@@ -56,9 +60,10 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_night_mode"
                 style="?materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:text="@string/settings_theme_night"
                 app:icon="@drawable/ic_settings_theme_night"
                 app:iconGravity="textStart" />
@@ -73,6 +78,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dialog_change_theme_daynight"
+            app:selectionRequired="true"
             app:singleSelection="true">
 
             <com.google.android.material.button.MaterialButton
@@ -81,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/settings_theme_default" />
+                android:text="@string/material_2" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_material3"
@@ -89,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/settings_theme_day" />
+                android:text="@string/material_3" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
