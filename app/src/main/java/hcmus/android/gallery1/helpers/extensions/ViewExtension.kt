@@ -44,25 +44,3 @@ fun ViewGroup?.animateFadeUp() = this?.let {
     val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y,true)
     TransitionManager.beginDelayedTransition(it, sharedAxis)
 }
-
-@Suppress("DEPRECATION")
-fun setLightStatusBar(view: View) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        view.systemUiVisibility = view.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-    }
-}
-
-@Suppress("DEPRECATION")
-fun unsetLightStatusBar(view: View) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        view.systemUiVisibility = view.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-    }
-}
-
-@Suppress("DEPRECATION")
-fun View.isLightStatusBar(): Boolean {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        return systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR > 0
-    }
-    return true
-}

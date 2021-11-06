@@ -80,13 +80,6 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(
         }
     }
 
-    private var defaultStatusBarColor: Int = 0
-    private var defaultIsLightStatusBar: Boolean = false
-
-    private val currentStatusBarColor by lazy {
-        ContextCompat.getColor(requireContext(), R.color.system_ui_scrim_dark)
-    }
-
     protected lateinit var item: Item
     private var exoPlayer: ExoPlayer? = null
 
@@ -117,11 +110,6 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(
     ): View? {
         (previousFragment as? BottomDrawerFragment<*>)?.animateHideHiddenRows()
 
-        defaultStatusBarColor = mainActivity?.window?.statusBarColor ?: 0
-        defaultIsLightStatusBar = mainActivity?.window?.decorView?.isLightStatusBar() ?: true
-        mainActivity?.window?.statusBarColor = currentStatusBarColor
-        mainActivity?.setLightStatusBarFlag(false)
-
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -149,9 +137,6 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(
         if (!omitDefaultBackPress) {
             previousFragment?.view?.animate()?.alpha(ALPHA_VISIBLE)
             (previousFragment as? BottomDrawerFragment<*>)?.animateShowHiddenRows()
-
-            mainActivity?.window?.statusBarColor = defaultStatusBarColor
-            mainActivity?.setLightStatusBarFlag(defaultIsLightStatusBar)
         }
 
         return omitDefaultBackPress.also {

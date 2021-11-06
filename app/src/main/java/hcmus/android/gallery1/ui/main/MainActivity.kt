@@ -11,6 +11,9 @@ import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.commit
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.elevation.SurfaceColors
@@ -85,6 +88,10 @@ class MainActivity : AppCompatActivity() {
         statusBarHeight()
     }
 
+    private val windowInsetsController by lazy {
+        WindowCompat.getInsetsController(window, binding.root)
+    }
+
     private var orientationEventListener: OrientationEventListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -141,6 +148,7 @@ class MainActivity : AppCompatActivity() {
 
         // navigation bar
         initNavigationBarProperties()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         hideFullScreen()
 
         configNavigationBarColour()
@@ -334,4 +342,19 @@ class MainActivity : AppCompatActivity() {
         val px = statusBarHeight
         view.setPadding(view.paddingLeft, px, view.paddingRight, view.paddingBottom)
     }
+
+    fun hideFullScreen() {
+        windowInsetsController?.show(
+            WindowInsetsCompat.Type.systemBars()
+        )
+        windowInsetsController?.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+    }
+
+    fun showFullScreen() {
+        windowInsetsController?.hide(
+            WindowInsetsCompat.Type.systemBars()
+        )
+    }
+
 }

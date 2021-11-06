@@ -2,7 +2,6 @@ package hcmus.android.gallery1.helpers.extensions
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.provider.Settings
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -23,42 +22,10 @@ fun AppCompatActivity.getCurrentFragment(): Fragment? {
 
 fun AppCompatActivity.restartSelf() {
     finish()
-    overridePendingTransition( 0, 0)
+    overridePendingTransition(0, 0)
     startActivity(intent?.apply {
         addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
     })
-}
-
-
-@Suppress("DEPRECATION")
-fun AppCompatActivity.hideFullScreen() {
-    val flag = window?.decorView?.systemUiVisibility
-    flag?.let {
-        window?.decorView?.systemUiVisibility = (flag
-                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION.inv()
-                and View.SYSTEM_UI_FLAG_FULLSCREEN.inv()
-                and View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY.inv()
-                and View.SYSTEM_UI_FLAG_IMMERSIVE.inv())
-    }
-}
-
-@Suppress("DEPRECATION")
-fun AppCompatActivity.showFullScreen() {
-    val flag = window?.decorView?.systemUiVisibility
-    flag?.let {
-        window?.decorView?.systemUiVisibility = (flag
-                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                or View.SYSTEM_UI_FLAG_IMMERSIVE)
-    }
-
 }
 
 // Temporarily turn on "lights out" mode for status bar and navigation bar.
@@ -98,27 +65,3 @@ fun AppCompatActivity.goToAppSetting() {
         startActivityForResult(intent, DEFAULT_SETTINGS_REQUEST_CODE)
     }
 }
-
-fun AppCompatActivity.setLightStatusBarFlagFromColor() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        val statusBarColor = window?.statusBarColor ?: return
-
-        if (statusBarColor.isColorDark()) {
-            unsetLightStatusBar(window?.decorView ?: return)
-        } else {
-            setLightStatusBar(window?.decorView ?: return)
-        }
-    }
-}
-
-fun AppCompatActivity.setLightStatusBarFlag(isLightStatusBar: Boolean) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-        if (!isLightStatusBar) {
-            unsetLightStatusBar(window?.decorView ?: return)
-        } else {
-            setLightStatusBar(window?.decorView ?: return)
-        }
-    }
-}
-
