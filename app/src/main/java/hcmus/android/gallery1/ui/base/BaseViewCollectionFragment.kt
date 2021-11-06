@@ -88,7 +88,11 @@ abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
     }
 
     override fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {
-        getPhotoRecyclerView().padding(bottom = peekHeight)
+        getPhotoRecyclerView().setPadding(0, 0, 0, peekHeight)
+        mainActivity?.setViewPaddingInNavigationBarSide(
+            binding.root,
+            usePaddingBottomNavigationBar = false
+        )
     }
 
     private fun initRecyclerView(viewMode: String) {

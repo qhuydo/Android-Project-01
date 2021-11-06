@@ -2,7 +2,6 @@ package hcmus.android.gallery1.ui.main
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.method.LinkMovementMethod
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.DialogAboutBinding
@@ -174,7 +172,10 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
         }
         bottomNavigationView.setOnApplyWindowInsetsListener(null)
 
-        // mainActivity?.setViewPaddingInNavigationBarSide(viewPager2)
+        mainActivity?.setViewPaddingInNavigationBarSide(
+            binding.root,
+            usePaddingBottomNavigationBar = false
+        )
     }
 
     // Bottom drawer: view mode selectors
@@ -184,6 +185,10 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
 
     override fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {
         // viewPager2.padding(bottom = peekHeight)
+        mainActivity?.setViewPaddingInNavigationBarSide(
+            binding.root,
+            usePaddingBottomNavigationBar = false
+        )
         this.peekHeight = peekHeight
         paddingChildPager(currentViewPagerFragment() as? ChildOfMainFragment)
     }

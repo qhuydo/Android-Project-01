@@ -135,7 +135,11 @@ open class ViewImageFragment(screenConstant: ScreenConstant = ScreenConstant.IMA
         bottomSheetBehavior.apply {
             isFitToContents = true
         }
-        mainActivity?.setViewPaddingInNavigationBarSide(bottomDrawerView)
+        mainActivity?.setViewPaddingInNavigationBarSide(
+            bottomDrawerView,
+            usePaddingLeftSideSideNavigationBar = false,
+            usePaddingRightSideNavigationBar = false
+        )
     }
 
     override fun getCurrentImageItemView(): ImageItemView? {

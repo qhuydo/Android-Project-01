@@ -89,7 +89,12 @@ abstract class BottomDrawerFragment<B : ViewDataBinding>(
             isFitToContents = true
             // halfExpandedRatio = (490/1000f) // magic
         }
-        // mainActivity?.setViewPaddingInNavigationBarSide(bottomDrawerView)
+        mainActivity?.setViewPaddingInNavigationBarSide(
+            bottomDrawerView,
+            usePaddingLeftSideSideNavigationBar = false,
+            usePaddingRightSideNavigationBar = false
+        )
+
     }
 
     protected fun changePeekHeight() = with(bottomSheetBehavior) {

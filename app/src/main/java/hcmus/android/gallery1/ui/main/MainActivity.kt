@@ -18,7 +18,6 @@ import hcmus.android.gallery1.GalleryOneApplication
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.DataSource
 import hcmus.android.gallery1.databinding.ActivityMainBinding
-import hcmus.android.gallery1.helpers.MATERIAL_2
 import hcmus.android.gallery1.helpers.MATERIAL_3
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.persistent.AppDatabase.Companion.getDatabaseInstance
@@ -144,16 +143,37 @@ class MainActivity : AppCompatActivity() {
         initNavigationBarProperties()
         hideFullScreen()
 
-        if (preferenceRepository.materialVersion == MATERIAL_3) {
-            DynamicColors.applyIfAvailable(this)
-            val surface3 = SurfaceColors.SURFACE_3.getColor(this)
-            window?.navigationBarColor = surface3
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                window?.navigationBarDividerColor = surface3
-            }
-        }
+        configNavigationBarColour()
 
         registerOrientationEventListener()
+    }
+
+    private fun configNavigationBarColour() {
+        when {
+            preferenceRepository.materialVersion == MATERIAL_3 -> {
+                DynamicColors.applyIfAvailable(this)
+                val surface3 = SurfaceColors.SURFACE_3.getColor(this)
+                window?.navigationBarColor = surface3
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    window?.navigationBarDividerColor = surface3
+                }
+            }
+            isSideNavigationBar -> {
+//                window?.attributes?.flags?.let {
+//                    window?.attributes?.flags =
+//                        (it or WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
+//                                or WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//                }
+//                window?.navigationBarColor = Color.TRANSPARENT
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                    window?.decorView?.systemUiVisibility?.let {
+//                        window?.decorView?.systemUiVisibility =
+//                            it and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+//
+//                    }
+//                }
+            }
+        }
     }
 
     private fun initViewModel() {
@@ -289,18 +309,25 @@ class MainActivity : AppCompatActivity() {
         setViewPaddingInStatusBarSide(view)
     }
 
-    fun setViewPaddingInNavigationBarSide(view: View) {
+    fun setViewPaddingInNavigationBarSide(
+        view: View,
+        usePaddingBottomNavigationBar: Boolean = true,
+        usePaddingRightSideNavigationBar: Boolean = true,
+        usePaddingLeftSideSideNavigationBar: Boolean = true,
+    ) {
         val px = navigationBarHeight
-        val left = view.paddingLeft
-        val right = view.paddingRight
+        var left = view.paddingLeft
+        var right = view.paddingRight
         val top = view.paddingTop
-        val bottom = view.paddingBottom
+        var bottom = view.paddingBottom
 
         when {
-            isBottomNavigationBar -> view.setPadding(left, top, right, px)
-            isRightSideNavigationBar -> view.setPadding(left, top, px, bottom)
-            isSideNavigationBar -> view.setPadding(px, top, right, bottom)
+            isBottomNavigationBar && usePaddingBottomNavigationBar -> bottom = px
+            isRightSideNavigationBar && usePaddingRightSideNavigationBar -> right = px
+            isSideNavigationBar && usePaddingLeftSideSideNavigationBar -> left = px
         }
+
+        view.padding(left, top, right, bottom)
     }
 
     fun setViewPaddingInStatusBarSide(view: View?) = view?.let {
