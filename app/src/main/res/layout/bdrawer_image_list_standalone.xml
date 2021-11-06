@@ -17,9 +17,10 @@
 
     <LinearLayout
         android:id="@+id/bdrawer_image_list_standalone"
+        style="?Style.BottomDrawer"
+        paddingBottomSystemWindowInsets="@{true}"
         app:behavior_peekHeight="@dimen/bdrawer_peek_height"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        style="?Style.BottomDrawer">
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <!-- DRAGGABLE SHEET HINT -->
         <include
@@ -37,9 +38,9 @@
 
             <ImageButton
                 android:id="@+id/btn_close"
+                style="@style/StyleBottomDrawerImageButton"
                 android:contentDescription="@string/btn_secret_album_exit"
-                android:src="@drawable/ic_back"
-                style="@style/StyleBottomDrawerImageButton" />
+                android:src="@drawable/ic_back" />
 
             <TextView
                 android:id="@+id/collection_name"
@@ -53,8 +54,8 @@
 
             <ImageButton
                 android:id="@+id/btn_bottom_sheet_expand"
-                android:src="@drawable/ic_bdrawer_up"
-                style="@style/StyleBottomDrawerImageButton" />
+                style="@style/StyleBottomDrawerImageButton"
+                android:src="@drawable/ic_bdrawer_up" />
 
         </LinearLayout>
 

@@ -2,16 +2,19 @@ package hcmus.android.gallery1.ui.collection.list
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.transition.TransitionManager
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentMainColllectionListBinding
 import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
+import hcmus.android.gallery1.helpers.extensions.addPadding
 import hcmus.android.gallery1.helpers.extensions.animateFadeUp
 import hcmus.android.gallery1.helpers.extensions.invisible
-import hcmus.android.gallery1.helpers.extensions.padding
 import hcmus.android.gallery1.helpers.extensions.visible
+import hcmus.android.gallery1.ui.adapters.binding.doOnApplyWindowInsets
 import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
 import hcmus.android.gallery1.ui.main.ChildOfMainFragment
 import hcmus.android.gallery1.ui.main.MainFragment
@@ -55,16 +58,16 @@ class DateCollectionFragment : CollectionListFragment<FragmentMainColllectionLis
     override fun getPullToRefreshLayout() = binding.albumPullToRefresh
 
     override fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {
-        binding.recyclerView.padding(bottom = peekHeight)
-    }
-
-    override fun paddingContainerInStatusBarSide() {
-        mainActivity?.setViewPaddingInStatusBarSide(binding.recyclerView)
-        binding.albumPullToRefresh.apply {
-            shouldUpdateTargetView = true
-            mainActivity?.setViewPaddingInStatusBarSide(refreshView)
+        binding.recyclerView.doOnApplyWindowInsets { view, windowInsets, padding, _, _ ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(
+                top = padding.top + insets.top,
+                bottom = padding.bottom + insets.bottom + peekHeight
+            )
         }
     }
+
+    override fun paddingContainerInStatusBarSide() {}
 
     override fun animateFadeUp() {
         binding.recyclerView.apply {

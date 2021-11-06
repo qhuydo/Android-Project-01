@@ -3,6 +3,8 @@ package hcmus.android.gallery1.ui.image.list
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +15,7 @@ import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
 import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout.Companion.REFRESH_MIN_DELAY
+import hcmus.android.gallery1.ui.adapters.binding.doOnApplyWindowInsets
 import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.main.ChildOfMainFragment
@@ -67,16 +70,16 @@ class AllPhotosFragment : ImageListFragment<FragmentMainAllPhotosBinding>(
     }
 
     override fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {
-        binding.recyclerView.padding(bottom = peekHeight)
-    }
-
-    override fun paddingContainerInStatusBarSide() {
-        mainActivity?.setViewPaddingInStatusBarSide(binding.recyclerView)
-        binding.allPhotoRefreshLayout.apply {
-            shouldUpdateTargetView = true
-            mainActivity?.setViewPaddingInStatusBarSide(refreshView)
+        binding.recyclerView.doOnApplyWindowInsets { view, windowInsets, padding, _, _ ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(
+                top = padding.top + insets.top,
+                bottom = padding.bottom + insets.bottom + peekHeight
+            )
         }
     }
+
+    override fun paddingContainerInStatusBarSide() {}
 
     override fun animateFadeUp() {
         binding.recyclerView.apply {

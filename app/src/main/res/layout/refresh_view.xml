@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
+        paddingTopSystemWindowInsets="@{true}"
+        android:paddingTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:gravity="center"
         android:orientation="vertical"
         tools:visibility="visible">
@@ -18,7 +19,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/refresh_text_view"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/refresh"

@@ -312,11 +312,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Use View.applySystemWindowInsetsPadding instead")
     fun setViewPaddingWindowInset(view: View) {
         setViewPaddingInNavigationBarSide(view)
         setViewPaddingInStatusBarSide(view)
     }
 
+    @Deprecated("Use View.applySystemWindowInsetsPadding instead")
     fun setViewPaddingInNavigationBarSide(
         view: View,
         usePaddingBottomNavigationBar: Boolean = true,
@@ -338,6 +340,7 @@ class MainActivity : AppCompatActivity() {
         view.padding(left, top, right, bottom)
     }
 
+    @Deprecated("Use View.applySystemWindowInsetsPadding instead")
     fun setViewPaddingInStatusBarSide(view: View?) = view?.let {
         val px = statusBarHeight
         view.setPadding(view.paddingLeft, px, view.paddingRight, view.paddingBottom)

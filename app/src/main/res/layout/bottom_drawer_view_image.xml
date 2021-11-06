@@ -18,6 +18,7 @@
     <LinearLayout
         android:id="@+id/bdrawer_view_image"
         style="?Style.BottomDrawer"
+        paddingBottomSystemWindowInsets="@{true}"
         android:animateLayoutChanges="true"
         android:visibility="gone"
         app:behavior_peekHeight="@dimen/bdrawer_peek_height"

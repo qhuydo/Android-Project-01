@@ -13,6 +13,7 @@
     <LinearLayout
         android:id="@+id/bdrawer_main"
         style="?Style.BottomDrawer"
+        paddingBottomSystemWindowInsets="@{true}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -38,8 +39,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                app:elevation="0dp"
                 android:elevation="0dp"
+                app:elevation="0dp"
                 app:itemRippleColor="?colorControlHighlight"
                 app:labelVisibilityMode="auto"
                 app:menu="@menu/bottom_drawer_navbar"

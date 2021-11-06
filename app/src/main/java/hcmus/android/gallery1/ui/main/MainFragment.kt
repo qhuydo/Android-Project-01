@@ -171,11 +171,6 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
             false
         }
         bottomNavigationView.setOnApplyWindowInsetsListener(null)
-
-        mainActivity?.setViewPaddingInNavigationBarSide(
-            binding.root,
-            usePaddingBottomNavigationBar = false
-        )
     }
 
     // Bottom drawer: view mode selectors
@@ -184,11 +179,6 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
     }
 
     override fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {
-        // viewPager2.padding(bottom = peekHeight)
-        mainActivity?.setViewPaddingInNavigationBarSide(
-            binding.root,
-            usePaddingBottomNavigationBar = false
-        )
         this.peekHeight = peekHeight
         paddingChildPager(currentViewPagerFragment() as? ChildOfMainFragment)
     }

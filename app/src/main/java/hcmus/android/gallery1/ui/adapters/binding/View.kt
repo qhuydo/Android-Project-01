@@ -2,14 +2,17 @@ package hcmus.android.gallery1.ui.adapters.binding
 
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.BindingAdapter
 
 @BindingAdapter(
-    "paddingLeftSystemWindowInsets",
-    "paddingTopSystemWindowInsets",
-    "paddingRightSystemWindowInsets",
-    "paddingBottomSystemWindowInsets",
+    value = [
+        "paddingLeftSystemWindowInsets",
+        "paddingTopSystemWindowInsets",
+        "paddingRightSystemWindowInsets",
+        "paddingBottomSystemWindowInsets",
+    ],
     requireAll = false
 )
 fun View.applySystemWindowInsetsPadding(
@@ -22,6 +25,7 @@ fun View.applySystemWindowInsetsPadding(
     applyRight: Boolean,
     applyBottom: Boolean
 ) {
+
     if (previousApplyLeft == applyLeft &&
         previousApplyTop == applyTop &&
         previousApplyRight == applyRight &&
@@ -30,11 +34,12 @@ fun View.applySystemWindowInsetsPadding(
         return
     }
 
-    doOnApplyWindowInsets { view, insets, padding, _, _ ->
-        val left = if (applyLeft) insets.systemWindowInsetLeft else 0
-        val top = if (applyTop) insets.systemWindowInsetTop else 0
-        val right = if (applyRight) insets.systemWindowInsetRight else 0
-        val bottom = if (applyBottom) insets.systemWindowInsetBottom else 0
+    doOnApplyWindowInsets { view, windowInsets, padding, _, _ ->
+        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        val left = if (applyLeft == true) insets.left else 0
+        val top = if (applyTop == true) insets.top else 0
+        val right = if (applyRight == true) insets.right else 0
+        val bottom = if (applyBottom == true) insets.bottom else 0
 
         view.setPadding(
             padding.left + left,
@@ -46,7 +51,7 @@ fun View.applySystemWindowInsetsPadding(
 }
 
 fun View.doOnApplyWindowInsets(
-    block: (View, WindowInsets, InitialPadding, InitialMargin, Int) -> Unit
+    block: (View, WindowInsetsCompat, InitialPadding, InitialMargin, Int) -> Unit
 ) {
     // Create a snapshot of the view's padding & margin states
     val initialPadding = recordInitialPaddingForView(this)
@@ -54,11 +59,11 @@ fun View.doOnApplyWindowInsets(
     val initialHeight = recordInitialHeightForView(this)
     // Set an actual OnApplyWindowInsetsListener which proxies to the given
     // lambda, also passing in the original padding & margin states
-    setOnApplyWindowInsetsListener { v, insets ->
+    ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
         block(v, insets, initialPadding, initialMargin, initialHeight)
-        // Always return the insets, so that children can also use them
         insets
     }
+
     // request some insets
     requestApplyInsetsWhenAttached()
 }
@@ -74,7 +79,7 @@ private fun recordInitialPaddingForView(view: View) = InitialPadding(
 
 private fun recordInitialMarginForView(view: View): InitialMargin {
     val lp = view.layoutParams as? ViewGroup.MarginLayoutParams
-        ?: throw IllegalArgumentException("Invalid view layout params")
+        ?: return InitialMargin(0, 0, 0, 0)
     return InitialMargin(lp.leftMargin, lp.topMargin, lp.rightMargin, lp.bottomMargin)
 }
 

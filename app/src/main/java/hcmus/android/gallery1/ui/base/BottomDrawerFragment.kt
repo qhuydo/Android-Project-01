@@ -11,8 +11,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.helpers.extensions.*
-import hcmus.android.gallery1.helpers.extensions.gone
-import hcmus.android.gallery1.helpers.extensions.visible
 
 abstract class BottomDrawerFragment<B : ViewDataBinding>(
     layoutId: Int,
@@ -89,12 +87,6 @@ abstract class BottomDrawerFragment<B : ViewDataBinding>(
             isFitToContents = true
             // halfExpandedRatio = (490/1000f) // magic
         }
-        mainActivity?.setViewPaddingInNavigationBarSide(
-            bottomDrawerView,
-            usePaddingLeftSideSideNavigationBar = false,
-            usePaddingRightSideNavigationBar = false
-        )
-
     }
 
     protected fun changePeekHeight() = with(bottomSheetBehavior) {

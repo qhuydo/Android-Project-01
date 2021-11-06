@@ -1,9 +1,9 @@
 package hcmus.android.gallery1.ui.base
 
-import android.os.Bundle
-import android.view.View
 import android.widget.ImageButton
 import androidx.annotation.LayoutRes
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +14,7 @@ import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.helpers.navigation.navigateToViewImageFragment
+import hcmus.android.gallery1.ui.adapters.binding.doOnApplyWindowInsets
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.main.MainFragment
@@ -43,11 +44,6 @@ abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
     abstract fun getButtonClose(): ImageButton
     abstract fun getViewModeView(): ButtonGroupViewmodeItemBinding
     abstract fun viewModel(): ImageListViewModel
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mainActivity?.setViewPaddingWindowInset(getPhotoRecyclerView())
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun subscribeUi() = with(viewModel()) {
 
@@ -88,11 +84,13 @@ abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
     }
 
     override fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {
-        getPhotoRecyclerView().setPadding(0, 0, 0, peekHeight)
-        mainActivity?.setViewPaddingInNavigationBarSide(
-            binding.root,
-            usePaddingBottomNavigationBar = false
-        )
+        getPhotoRecyclerView().doOnApplyWindowInsets { view, windowInsets, padding, _, _ ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(
+                top = padding.top + insets.top,
+                bottom = padding.bottom + insets.bottom + peekHeight
+            )
+        }
     }
 
     private fun initRecyclerView(viewMode: String) {

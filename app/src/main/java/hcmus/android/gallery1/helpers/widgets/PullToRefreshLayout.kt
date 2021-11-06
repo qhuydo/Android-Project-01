@@ -5,10 +5,10 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
-import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Transformation
+import android.widget.FrameLayout
 import androidx.customview.widget.ViewDragHelper.INVALID_POINTER
 import hcmus.android.gallery1.helpers.extensions.dpToPixel
 import kotlin.math.abs
@@ -19,7 +19,7 @@ import kotlin.math.pow
 class PullToRefreshLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : ViewGroup(context, attrs) {
+) : FrameLayout(context, attrs) {
 
     init {
         init(context)

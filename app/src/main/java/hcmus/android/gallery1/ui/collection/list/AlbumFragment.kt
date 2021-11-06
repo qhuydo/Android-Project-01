@@ -3,16 +3,16 @@ package hcmus.android.gallery1.ui.collection.list
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.transition.TransitionManager
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentMainAlbumBinding
 import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
-import hcmus.android.gallery1.helpers.extensions.animateFadeUp
-import hcmus.android.gallery1.helpers.extensions.invisible
-import hcmus.android.gallery1.helpers.extensions.padding
-import hcmus.android.gallery1.helpers.extensions.visible
+import hcmus.android.gallery1.helpers.extensions.*
+import hcmus.android.gallery1.ui.adapters.binding.doOnApplyWindowInsets
 import hcmus.android.gallery1.ui.adapters.recyclerview.CollectionListAdapter
 import hcmus.android.gallery1.ui.base.collection.CollectionListFragment
 import hcmus.android.gallery1.ui.main.ChildOfMainFragment
@@ -85,16 +85,16 @@ class AlbumFragment : CollectionListFragment<FragmentMainAlbumBinding>(
     }
 
     override fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {
-        binding.scrollView.padding(bottom = peekHeight)
-    }
-
-    override fun paddingContainerInStatusBarSide() {
-        mainActivity?.setViewPaddingInStatusBarSide(binding.scrollView)
-        binding.albumPullToRefresh.apply {
-            shouldUpdateTargetView = true
-            mainActivity?.setViewPaddingInStatusBarSide(refreshView)
+        binding.scrollView.doOnApplyWindowInsets { view, windowInsets, padding, _, _ ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(
+                top = padding.top + insets.top,
+                bottom = padding.bottom + insets.bottom + peekHeight
+            )
         }
     }
+
+    override fun paddingContainerInStatusBarSide() {}
 
     override fun animateFadeUp() {
         (binding.root as? ViewGroup)?.apply {
