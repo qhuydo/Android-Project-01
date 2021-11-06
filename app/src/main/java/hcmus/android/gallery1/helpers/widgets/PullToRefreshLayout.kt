@@ -9,6 +9,7 @@ import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Transformation
 import android.widget.FrameLayout
+import androidx.core.view.doOnLayout
 import androidx.customview.widget.ViewDragHelper.INVALID_POINTER
 import hcmus.android.gallery1.helpers.extensions.dpToPixel
 import kotlin.math.abs
@@ -27,7 +28,8 @@ class PullToRefreshLayout @JvmOverloads constructor(
 
     companion object {
         const val FACTOR = 2f
-        const val MAX_DRAG_DISTANCE = 60
+        const val MAX_DRAG_DISTANCE = 70
+        const val EXTRA_DISTANCE = 4
         const val DRAG_RATE = 0.5f
         const val MAX_OFFSET_ANIMATION_DURATION = 700L
         const val REFRESH_MIN_DELAY = 1000L // ms
@@ -86,10 +88,14 @@ class PullToRefreshLayout @JvmOverloads constructor(
     }
 
     private fun init(context: Context) {
-        totalDragDistance = context.dpToPixel(MAX_DRAG_DISTANCE)
         decelerateInterpolator = DecelerateInterpolator(FACTOR)
         scaledTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
         refreshView = RefreshView(context)
+        totalDragDistance = context.dpToPixel(MAX_DRAG_DISTANCE)
+
+        refreshView?.doOnLayout {
+            it.measuredHeight + context.dpToPixel(EXTRA_DISTANCE)
+        }
 
         addView(refreshView)
         setWillNotDraw(true)
