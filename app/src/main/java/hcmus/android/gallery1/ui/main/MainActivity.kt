@@ -1,14 +1,9 @@
 package hcmus.android.gallery1.ui.main
 
-import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
 import android.view.OrientationEventListener
-import android.view.Surface
-import android.view.View
-import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -28,12 +23,12 @@ import hcmus.android.gallery1.repository.CollectionRepositoryImpl
 import hcmus.android.gallery1.repository.CustomAlbumRepositoryImpl
 import hcmus.android.gallery1.repository.FavouriteRepositoryImpl
 import hcmus.android.gallery1.repository.PhotoRepositoryImpl
+import hcmus.android.gallery1.ui.adapters.binding.doOnApplyWindowInsets
 import hcmus.android.gallery1.ui.base.BaseFragment
 import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
 import hcmus.android.gallery1.ui.collection.list.DateCollectionViewModel
 import hcmus.android.gallery1.ui.image.list.AllPhotosViewModel
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -67,26 +62,9 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    // the navigation bar is on the side
-    var isSideNavigationBar: Boolean = false
-        private set
-
-    var isRightSideNavigationBar: Boolean = false
-        private set
-
-    // the navigation bar is at the bottom
-    var isBottomNavigationBar: Boolean = false
-        private set
-
     // the height of the navigation bar in pixels
     var navigationBarHeight: Int = 0
         private set
-
-    private var scheduledToRecreate = false
-
-    private val statusBarHeight by lazy {
-        statusBarHeight()
-    }
 
     private val windowInsetsController by lazy {
         WindowCompat.getInsetsController(window, binding.root)
@@ -146,14 +124,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // navigation bar
-        initNavigationBarProperties()
+        binding.root.doOnApplyWindowInsets { view, insetsCompat, _, _, _ ->
+            val insets = insetsCompat.getInsets(WindowInsetsCompat.Type.systemBars())
+            navigationBarHeight = insets.bottom
+        }
+
+        // window
         WindowCompat.setDecorFitsSystemWindows(window, false)
         hideFullScreen()
 
         configNavigationBarColour()
-
-        registerOrientationEventListener()
     }
 
     private fun configNavigationBarColour() {
@@ -165,21 +145,6 @@ class MainActivity : AppCompatActivity() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     window?.navigationBarDividerColor = surface3
                 }
-            }
-            isSideNavigationBar -> {
-//                window?.attributes?.flags?.let {
-//                    window?.attributes?.flags =
-//                        (it or WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
-//                                or WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//                }
-//                window?.navigationBarColor = Color.TRANSPARENT
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                    window?.decorView?.systemUiVisibility?.let {
-//                        window?.decorView?.systemUiVisibility =
-//                            it and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
-//
-//                    }
-//                }
             }
         }
     }
@@ -248,102 +213,6 @@ class MainActivity : AppCompatActivity() {
         if (shouldRestart) {
             restartSelf()
         }
-    }
-
-    private fun initNavigationBarProperties() {
-        val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-
-        val currentDisplay = windowManager.defaultDisplay
-
-        val appUsableSize = Point()
-        val realScreenSize = Point()
-        currentDisplay?.apply {
-            getSize(appUsableSize)
-            getRealSize(realScreenSize)
-        }
-
-        // navigation bar on the side
-        if (appUsableSize.x < realScreenSize.x) {
-            navigationBarHeight = realScreenSize.x - appUsableSize.x
-            isSideNavigationBar = true
-
-            if (windowManager.defaultDisplay.rotation == Surface.ROTATION_90) {
-                isRightSideNavigationBar = true
-            }
-        }
-
-        // navigation bar at the bottom
-        if (appUsableSize.y < realScreenSize.y) {
-            navigationBarHeight = realScreenSize.y - appUsableSize.y
-            isBottomNavigationBar = true
-        }
-
-    }
-
-    private fun registerOrientationEventListener() {
-        orientationEventListener = object : OrientationEventListener(this) {
-
-            override fun onOrientationChanged(orientation: Int) {
-                if (orientation == ORIENTATION_UNKNOWN) return
-
-                if (scheduledToRecreate) return
-
-                val rotation = windowManager.defaultDisplay.rotation
-                val application = application as GalleryOneApplication
-                if (application.lastRotation != rotation) {
-
-                    // TODO: add comment
-                    if (application.lastRotation.isHorizontalRotation()
-                        && rotation.isHorizontalRotation()
-                    ) {
-                        Timber.i("Rotation = ${rotation}, recreate()}")
-                        // mainFragment.collapseDrawer()
-                        recreate()
-                        scheduledToRecreate = true
-                    }
-
-                    application.lastRotation = rotation
-                }
-
-            }
-        }
-        if (orientationEventListener?.canDetectOrientation() == true) {
-            orientationEventListener?.enable()
-        }
-    }
-
-    @Deprecated("Use View.applySystemWindowInsetsPadding instead")
-    fun setViewPaddingWindowInset(view: View) {
-        setViewPaddingInNavigationBarSide(view)
-        setViewPaddingInStatusBarSide(view)
-    }
-
-    @Deprecated("Use View.applySystemWindowInsetsPadding instead")
-    fun setViewPaddingInNavigationBarSide(
-        view: View,
-        usePaddingBottomNavigationBar: Boolean = true,
-        usePaddingRightSideNavigationBar: Boolean = true,
-        usePaddingLeftSideSideNavigationBar: Boolean = true,
-    ) {
-        val px = navigationBarHeight
-        var left = view.paddingLeft
-        var right = view.paddingRight
-        val top = view.paddingTop
-        var bottom = view.paddingBottom
-
-        when {
-            isBottomNavigationBar && usePaddingBottomNavigationBar -> bottom = px
-            isRightSideNavigationBar && usePaddingRightSideNavigationBar -> right = px
-            isSideNavigationBar && usePaddingLeftSideSideNavigationBar -> left = px
-        }
-
-        view.padding(left, top, right, bottom)
-    }
-
-    @Deprecated("Use View.applySystemWindowInsetsPadding instead")
-    fun setViewPaddingInStatusBarSide(view: View?) = view?.let {
-        val px = statusBarHeight
-        view.setPadding(view.paddingLeft, px, view.paddingRight, view.paddingBottom)
     }
 
     fun hideFullScreen() {

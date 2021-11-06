@@ -33,10 +33,6 @@ abstract class BottomDrawerFragment<B : ViewDataBinding>(
         requireContext().resources.getDimension(R.dimen.bdrawer_peek_height)
     }
 
-    private val navigationBarHeight by lazy {
-        requireContext().navigationBarHeight()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initBottomDrawer()
         super.onViewCreated(view, savedInstanceState)
@@ -91,11 +87,9 @@ abstract class BottomDrawerFragment<B : ViewDataBinding>(
 
     protected fun changePeekHeight() = with(bottomSheetBehavior) {
         bottomDrawerView.doOnLayout {
-            peekHeight = calculatePeekHeight()
-            if (mainActivity?.isBottomNavigationBar == true) {
-                peekHeight += navigationBarHeight
-            }
-            paddingContainerToFitWithPeekHeight(peekHeight)
+            val peekHeightWithoutNavBar = calculatePeekHeight()
+            peekHeight = calculatePeekHeight() + (mainActivity?.navigationBarHeight ?: 0)
+            paddingContainerToFitWithPeekHeight(peekHeightWithoutNavBar)
         }
     }
 
