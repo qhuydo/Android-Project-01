@@ -34,7 +34,7 @@ class AddPhotoIntoAlbumsDialog : BaseDialogFragment<DialogAddPhotoIntoAlbumsBind
             true,
             SelectableCollectionListAdapter.SelectionTriggerAction.ON_CLICK,
             SelectableCollectionListAdapter.Callback(
-                onClickFn = {},
+                onClickFn = {_, _ ->},
                 onSelectionFinished = { list ->
                     item?.let { item ->
                         viewModel.addItemIntoCustomAlbums(item, list)

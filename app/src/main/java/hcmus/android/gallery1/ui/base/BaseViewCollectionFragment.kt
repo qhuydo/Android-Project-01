@@ -1,8 +1,14 @@
 package hcmus.android.gallery1.ui.base
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.annotation.LayoutRes
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.updatePadding
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +25,7 @@ import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.main.MainFragment
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
     @LayoutRes resId: Int,
@@ -45,9 +52,29 @@ abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
     abstract fun getViewModeView(): ButtonGroupViewmodeItemBinding
     abstract fun viewModel(): ImageListViewModel
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        arguments?.let {
+            it.getString(ARGS_TRANSITION_NAME)?.let { transitionName ->
+                ViewCompat.setTransitionName(binding.root, transitionName)
+                postponeEnterTransition(10000, TimeUnit.MILLISECONDS)
+            }
+        }
+        return view
+    }
+
     override fun subscribeUi() = with(viewModel()) {
 
-        photos.observeOnce(viewLifecycleOwner) { itemListAdapter.submitList(it) }
+        photos.observeOnce(viewLifecycleOwner) {
+            itemListAdapter.submitList(it)
+            (getPhotoRecyclerView().parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
+        }
 
         navigateToImageView.observe(viewLifecycleOwner) {
             if (it != null) {

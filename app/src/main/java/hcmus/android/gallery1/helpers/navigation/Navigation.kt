@@ -1,15 +1,22 @@
 package hcmus.android.gallery1.helpers.navigation
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.Hold
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
+import hcmus.android.gallery1.helpers.extensions.getCurrentFragment
+import hcmus.android.gallery1.ui.base.BaseFragment.Companion.ARGS_TRANSITION_NAME
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.collection.view.ViewCollectionFragment
@@ -37,33 +44,73 @@ fun MainActivity.navigateToViewImageFragment(
 
     val fragmentClass = if (fromScreen == ScreenConstant.COLLECTION_VIEW_CUSTOM_ALBUM) {
         ViewImageFromCustomAlbumFragment::class.java
-    }
-    else {
+    } else {
         ViewImageFragment::class.java
     }
 
-    pushScreen(
+    pushScreenInternal(
         fragmentClass,
         shouldHideExistingFragment = false,
         transition = FragmentTransaction.TRANSIT_FRAGMENT_FADE
     )
 }
 
-private fun MainActivity.pushScreen(
+private fun MainActivity.pushScreenInternal(
     fragmentClass: Class<out Fragment>,
     bundle: Bundle? = null,
     @IdRes fragmentContainerId: Int = R.id.fragment_container,
     transition: Int? = FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
-    shouldHideExistingFragment: Boolean = true
+    shouldHideExistingFragment: Boolean = true,
+    sharedElement: View? = null,
+    sharedElementName: String? = null
 ) {
     val fm = supportFragmentManager
     val tag = fragmentClass.name
     val fragmentToBeHidden = fm.findFragmentById(fragmentContainerId)
+
     fm.commit {
+
+        val targetFragment = if (sharedElement != null && sharedElementName != null) {
+            setReorderingAllowed(true)
+            val transform = MaterialContainerTransform(
+                this@pushScreenInternal, true
+            ).apply {
+                containerColor = MaterialColors.getColor(sharedElement, R.attr.colorSurface)
+                fadeMode = MaterialContainerTransform.FADE_MODE_THROUGH
+            }
+            val fragment = fragmentClass.classLoader?.let { classLoader ->
+                FragmentFactory().instantiate(classLoader, fragmentClass.name)
+            }?.apply {
+                sharedElementEnterTransition = transform
+                arguments = bundle?.also {
+                    it.putString(ARGS_TRANSITION_NAME, sharedElementName)
+                }
+            }
+
+            addSharedElement(sharedElement, sharedElementName)
+            getCurrentFragment()?.let {
+                val hold = Hold().apply {
+                    addTarget(it.requireView())
+                    duration = transform.duration
+                }
+                it.exitTransition = hold
+            }
+
+            fragment
+        } else {
+            null
+        }
+
         fragmentToBeHidden?.let { if (shouldHideExistingFragment) hide(it) }
-        add(fragmentContainerId, fragmentClass, bundle, tag)
+
+        targetFragment?.let {
+            add(fragmentContainerId, it, tag)
+        } ?: run {
+            add(fragmentContainerId, fragmentClass, bundle, tag)
+            transition?.let { setTransition(it) }
+        }
+
         addToBackStack(tag)
-        transition?.let { setTransition(it) }
     }
 }
 
@@ -71,21 +118,39 @@ fun MainActivity.navigateToViewImageFragmentNoPager(item: Item) {
     val bundle = Bundle().apply {
         putParcelable(BaseViewImageFragment.ARGS_ITEM, item)
     }
-    pushScreen(ViewImageFragment::class.java, bundle)
+    pushScreenInternal(ViewImageFragment::class.java, bundle)
 }
 
-fun MainActivity.navigateToViewCollectionFragment(collection: Collection) {
+fun MainActivity.navigateToViewCollectionFragment(
+    collection: Collection,
+    sharedElementView: View?,
+    sharedElementName: String?
+) {
 
     val bundle = Bundle().apply {
         putParcelable(ViewCollectionFragment.ARGS_COLLECTION, collection)
     }
-    pushScreen(ViewCollectionFragment::class.java, bundle)
+    pushScreenInternal(
+        ViewCollectionFragment::class.java,
+        bundle,
+        sharedElement = sharedElementView,
+        sharedElementName = sharedElementName
+    )
 }
 
-fun MainActivity.navigateToViewCustomAlbumFragment(collectionId: Long) {
+fun MainActivity.navigateToViewCustomAlbumFragment(
+    collectionId: Long,
+    itemView: View?,
+    sharedElementName: String?
+) {
 
     val bundle = Bundle().apply {
         putLong(ViewCustomAlbumFragment.ARGS_COLLECTION_ID, collectionId)
     }
-    pushScreen(ViewCustomAlbumFragment::class.java, bundle)
+    pushScreenInternal(
+        ViewCustomAlbumFragment::class.java,
+        bundle,
+        sharedElement = itemView,
+        sharedElementName = sharedElementName
+    )
 }

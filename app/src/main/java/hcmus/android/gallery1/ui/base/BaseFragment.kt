@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -15,11 +16,16 @@ import hcmus.android.gallery1.helpers.extensions.animateFadeUp
 import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.main.MainViewModel
 import java.lang.ref.WeakReference
+import java.util.concurrent.TimeUnit
 
 abstract class BaseFragment<B : ViewDataBinding>(
     @LayoutRes private val layoutId: Int,
     protected val screenConstant: ScreenConstant
 ) : Fragment() {
+
+    companion object {
+        const val ARGS_TRANSITION_NAME = "transition_name"
+    }
 
     protected val mainActivity by lazy { requireActivity() as? MainActivity }
     protected val preferenceRepository by lazy { mainActivity!!.preferenceRepository }

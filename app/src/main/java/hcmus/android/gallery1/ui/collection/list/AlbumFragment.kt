@@ -29,8 +29,9 @@ class AlbumFragment : CollectionListFragment<FragmentMainAlbumBinding>(
                 as? MainFragment
     }
 
-    private val customAlbumCallback = CollectionListAdapter.Callback { collection ->
+    private val customAlbumCallback = CollectionListAdapter.Callback { collection, holder ->
         collectionViewModel().navigateToCollectionDetails(collection)
+        takeSharedElement(holder, collection)
     }
 
     private val customAlbumAdapter = CollectionListAdapter(callback = customAlbumCallback)

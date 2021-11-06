@@ -1,6 +1,7 @@
 package hcmus.android.gallery1.ui.base.collection
 
 import androidx.annotation.LayoutRes
+import androidx.core.view.ViewCompat
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,10 +16,12 @@ import hcmus.android.gallery1.helpers.navigation.navigateToViewCollectionFragmen
 import hcmus.android.gallery1.helpers.navigation.navigateToViewCustomAlbumFragment
 import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
 import hcmus.android.gallery1.ui.adapters.recyclerview.CollectionListAdapter
+import hcmus.android.gallery1.ui.adapters.recyclerview.CollectionListViewHolder
 import hcmus.android.gallery1.ui.base.BaseFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.lang.ref.WeakReference
 
 abstract class CollectionListFragment<B : ViewDataBinding>(
     @LayoutRes layoutId: Int,
@@ -26,11 +29,14 @@ abstract class CollectionListFragment<B : ViewDataBinding>(
     screenConstant: ScreenConstant = ScreenConstant.COLLECTION_LIST_ALBUM,
 ) : BaseFragment<B>(layoutId, screenConstant), ScrollableToTop {
 
-    private val adapterCallback = CollectionListAdapter.Callback { collection ->
+    private val adapterCallback = CollectionListAdapter.Callback { collection, holder ->
         collectionViewModel().navigateToCollectionDetails(collection)
+        takeSharedElement(holder, collection)
     }
 
     protected val collectionListAdapter = CollectionListAdapter(callback = adapterCallback)
+    private var sharedElementView = WeakReference<CollectionListViewHolder>(null)
+    private var sharedElementName: String? = null
 
     override fun scrollToTop() {
         getAlbumRecyclerView().smoothScrollToPosition(0)
@@ -57,9 +63,17 @@ abstract class CollectionListFragment<B : ViewDataBinding>(
 
             when (collection.type) {
                 Collection.TYPE_CUSTOM -> mainActivity?.navigateToViewCustomAlbumFragment(
-                    collection.id
+                    collection.id,
+                    sharedElementView.get()?.itemView,
+                    sharedElementName
                 )
-                else -> mainActivity?.navigateToViewCollectionFragment(collection)
+                else -> {
+                    mainActivity?.navigateToViewCollectionFragment(
+                        collection,
+                        sharedElementView.get()?.itemView,
+                        sharedElementName
+                    )
+                }
             }
         }
         viewMode.observe(viewLifecycleOwner) {
@@ -91,4 +105,12 @@ abstract class CollectionListFragment<B : ViewDataBinding>(
 
     abstract fun getPullToRefreshLayout(): PullToRefreshLayout?
 
+    protected fun takeSharedElement(
+        holder: CollectionListViewHolder,
+        collection: Collection
+    ) {
+        sharedElementView = WeakReference(holder)
+        sharedElementName = "${collection.id}"
+        ViewCompat.setTransitionName(holder.itemView, sharedElementName)
+    }
 }

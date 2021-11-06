@@ -12,6 +12,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+const val CLICK_DELAY = 1000L
+
 abstract class ImageListViewModel(
     tab: TAB,
     preferenceRepository: PreferenceRepository
@@ -38,7 +40,7 @@ abstract class ImageListViewModel(
             _navigateToImageView.postValue(itemPosition)
 
             viewModelScope.launch {
-                delay(1000L)
+                delay(CLICK_DELAY)
                 shouldNavigateToImageView = true
             }
         }

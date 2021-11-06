@@ -93,6 +93,7 @@
         <entry key="app/src/main/res/layout/fragment_photo_details.xml" value="0.176" />
         <entry key="app/src/main/res/layout/fragment_secret.xml" value="0.1911231884057971" />
         <entry key="app/src/main/res/layout/fragment_secret_passcode.xml" value="0.1911231884057971" />
+        <entry key="app/src/main/res/layout/fragment_secure.xml" value="0.24230072463768115" />
         <entry key="app/src/main/res/layout/fragment_view_collection.xml" value="0.4" />
         <entry key="app/src/main/res/layout/fragment_view_custom_album.xml" value="0.1655982905982906" />
         <entry key="app/src/main/res/layout/fragment_view_image.xml" value="0.1911231884057971" />

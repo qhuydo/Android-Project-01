@@ -32,11 +32,12 @@ open class CollectionListAdapter(
         holder.bind(item)
 
         holder.itemView.setOnClickListener {
-            callback?.onClick(item)
+            callback?.onClick(item, holder)
         }
     }
 
-    open class Callback(private val onClickFn: (Collection) -> Unit) {
-        fun onClick(item: Collection) = onClickFn.invoke(item)
+    open class Callback(private val onClickFn: (Collection, CollectionListViewHolder) -> Unit) {
+        fun onClick(item: Collection, viewHolder: CollectionListViewHolder) =
+            onClickFn.invoke(item, viewHolder)
     }
 }

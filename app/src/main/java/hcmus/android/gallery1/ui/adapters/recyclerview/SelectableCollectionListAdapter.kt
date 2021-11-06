@@ -47,7 +47,7 @@ class SelectableCollectionListAdapter(
             if (isInSelectionState) {
                 selectCollection(holder, item)
             } else {
-                callback?.onClick(item)
+                callback?.onClick(item, holder)
             }
         }
     }
@@ -78,7 +78,7 @@ class SelectableCollectionListAdapter(
         }
     }
     class Callback(
-        onClickFn: (Collection) -> Unit,
+        onClickFn: (Collection, CollectionListViewHolder) -> Unit,
         private val onSelectionFinished: (List<Long>) -> Unit
     ) : CollectionListAdapter.Callback(onClickFn) {
         fun onSelectionFinished(items: List<Long>) = onSelectionFinished.invoke(items)

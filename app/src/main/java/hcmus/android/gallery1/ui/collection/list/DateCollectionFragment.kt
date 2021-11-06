@@ -10,7 +10,6 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentMainColllectionListBinding
 import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
-import hcmus.android.gallery1.helpers.extensions.addPadding
 import hcmus.android.gallery1.helpers.extensions.animateFadeUp
 import hcmus.android.gallery1.helpers.extensions.invisible
 import hcmus.android.gallery1.helpers.extensions.visible
