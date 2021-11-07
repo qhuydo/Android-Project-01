@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.ui.PlayerView
 import hcmus.android.gallery1.data.Item
-import hcmus.android.gallery1.helpers.widgets.ImageItemView
-import hcmus.android.gallery1.helpers.widgets.ImageItemView.Companion.bindItem
+import hcmus.android.gallery1.ui.widgets.ImageItemView
+import hcmus.android.gallery1.ui.widgets.ImageItemView.Companion.bindItem
 
 class ImagePageAdapter(
     private val itemList: List<Item>?,

@@ -3,7 +3,6 @@ package hcmus.android.gallery1.repository
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
-import androidx.annotation.StyleRes
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.preference.PreferenceManager

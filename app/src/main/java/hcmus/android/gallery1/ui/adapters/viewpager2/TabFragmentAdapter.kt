@@ -1,11 +1,8 @@
 package hcmus.android.gallery1.ui.adapters.viewpager2
 
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.adapter.FragmentViewHolder
 import hcmus.android.gallery1.helpers.TAB
-import hcmus.android.gallery1.helpers.extensions.animateFadeUp
 import hcmus.android.gallery1.ui.collection.list.AlbumFragment
 import hcmus.android.gallery1.ui.collection.list.DateCollectionFragment
 import hcmus.android.gallery1.ui.image.list.AllPhotosFragment

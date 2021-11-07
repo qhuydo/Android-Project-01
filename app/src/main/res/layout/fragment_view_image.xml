@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <hcmus.android.gallery1.helpers.widgets.FlingLayout
+        <hcmus.android.gallery1.ui.widgets.FlingLayout
             android:id="@+id/fling_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </hcmus.android.gallery1.helpers.widgets.FlingLayout>
+        </hcmus.android.gallery1.ui.widgets.FlingLayout>
 
         <View
             android:id="@+id/bdrawer_view_image_dim"

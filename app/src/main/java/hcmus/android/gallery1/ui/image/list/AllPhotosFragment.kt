@@ -13,13 +13,13 @@ import hcmus.android.gallery1.databinding.FragmentMainAllPhotosBinding
 import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.helpers.extensions.*
-import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
-import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout.Companion.REFRESH_MIN_DELAY
 import hcmus.android.gallery1.ui.adapters.binding.doOnApplyWindowInsets
 import hcmus.android.gallery1.ui.base.image.ImageListFragment
 import hcmus.android.gallery1.ui.base.image.ImageListViewModel
 import hcmus.android.gallery1.ui.main.ChildOfMainFragment
 import hcmus.android.gallery1.ui.main.MainFragment
+import hcmus.android.gallery1.ui.widgets.PullToRefreshLayout
+import hcmus.android.gallery1.ui.widgets.PullToRefreshLayout.Companion.REFRESH_MIN_DELAY
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber

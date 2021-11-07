@@ -5,8 +5,8 @@ import hcmus.android.gallery1.R
 import hcmus.android.gallery1.databinding.FragmentViewImageNopagerBinding
 import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.extensions.visible
-import hcmus.android.gallery1.helpers.widgets.ImageItemView
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
+import hcmus.android.gallery1.ui.widgets.ImageItemView
 
 class ViewImageFragmentNoPager : BaseViewImageFragment<FragmentViewImageNopagerBinding>(
     R.layout.fragment_view_image_nopager,

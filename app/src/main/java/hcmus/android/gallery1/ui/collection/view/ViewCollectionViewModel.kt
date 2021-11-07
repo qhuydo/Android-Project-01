@@ -2,7 +2,6 @@ package hcmus.android.gallery1.ui.collection.view
 
 import androidx.lifecycle.*
 import hcmus.android.gallery1.data.Collection
-import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.repository.PhotoRepository
 import hcmus.android.gallery1.repository.PreferenceRepository

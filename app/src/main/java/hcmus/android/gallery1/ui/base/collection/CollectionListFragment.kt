@@ -14,10 +14,10 @@ import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
 import hcmus.android.gallery1.helpers.extensions.isCompactLayout
 import hcmus.android.gallery1.helpers.navigation.navigateToViewCollectionFragment
 import hcmus.android.gallery1.helpers.navigation.navigateToViewCustomAlbumFragment
-import hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
 import hcmus.android.gallery1.ui.adapters.recyclerview.CollectionListAdapter
 import hcmus.android.gallery1.ui.adapters.recyclerview.CollectionListViewHolder
 import hcmus.android.gallery1.ui.base.BaseFragment
+import hcmus.android.gallery1.ui.widgets.PullToRefreshLayout
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber

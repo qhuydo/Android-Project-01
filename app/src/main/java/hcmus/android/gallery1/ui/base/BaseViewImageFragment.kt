@@ -13,7 +13,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
-import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -28,13 +27,13 @@ import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.databinding.BottomDrawerViewImageBinding
 import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.helpers.extensions.*
-import hcmus.android.gallery1.helpers.widgets.ImageItemView
 import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
 import hcmus.android.gallery1.ui.dialog.AddPhotoIntoAlbumsDialog.Companion.showAddToAlbumDialog
 import hcmus.android.gallery1.ui.dialog.NewAlbumDialog.Companion.showNewAlbumDialog
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
 import hcmus.android.gallery1.ui.image.view.ViewImageViewModel
 import hcmus.android.gallery1.ui.main.MainFragment
+import hcmus.android.gallery1.ui.widgets.ImageItemView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber

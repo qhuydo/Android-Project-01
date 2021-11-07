@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout
+        <hcmus.android.gallery1.ui.widgets.PullToRefreshLayout
             android:id="@+id/album_pull_to_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -89,7 +89,7 @@
 
             </androidx.core.widget.NestedScrollView>
 
-        </hcmus.android.gallery1.helpers.widgets.PullToRefreshLayout>
+        </hcmus.android.gallery1.ui.widgets.PullToRefreshLayout>
 
         <include
             android:id="@+id/tab_album_placeholder"

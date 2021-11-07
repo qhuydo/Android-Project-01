@@ -1,7 +1,8 @@
 package hcmus.android.gallery1.ui.image.list
 
-import androidx.lifecycle.*
-import hcmus.android.gallery1.data.Item
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import hcmus.android.gallery1.helpers.TAB
 import hcmus.android.gallery1.repository.PhotoRepository
 import hcmus.android.gallery1.repository.PreferenceRepository

@@ -9,9 +9,9 @@ import hcmus.android.gallery1.databinding.FragmentViewImageBinding
 import hcmus.android.gallery1.helpers.ALPHA_VISIBLE
 import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.extensions.visible
-import hcmus.android.gallery1.helpers.widgets.ImageItemView
 import hcmus.android.gallery1.ui.adapters.viewpager2.ImagePageAdapter
 import hcmus.android.gallery1.ui.base.BaseViewImageFragment
+import hcmus.android.gallery1.ui.widgets.ImageItemView
 
 open class ViewImageFragment(screenConstant: ScreenConstant = ScreenConstant.IMAGE_VIEW) :
     BaseViewImageFragment<FragmentViewImageBinding>(

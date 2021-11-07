@@ -8,8 +8,8 @@ import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.google.android.material.color.MaterialColors
-import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialContainerTransform
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.data.Collection
 import hcmus.android.gallery1.data.Item
