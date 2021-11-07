@@ -4,6 +4,7 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
 import android.view.View
 import android.widget.ImageButton
@@ -24,7 +25,6 @@ import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.start.StartActivity
 import java.util.*
 import kotlin.math.roundToInt
-import kotlin.math.roundToLong
 
 fun Context.getSpanCountOf(tab: String, viewMode: String): Int {
     if (tab !in validTabs || (viewMode !in validViews && viewMode !in validViewsLimited)) return 1
@@ -120,22 +120,23 @@ fun Context.defaultBottomSheetCallback(
                 bottomDrawerDim.gone()
                 val drawable = ContextCompat.getDrawable(
                     this@defaultBottomSheetCallback,
-                    R.drawable.ic_bdrawer_up
+                    R.drawable.ic_bdrawer_anim_down_to_up
                 )
                 bottomSheetExpandButton.setImageDrawable(drawable)
+                (drawable as? AnimatedVectorDrawable)?.start()
                 (bottomSheet.context as? MainActivity)?.setLowProfileUI(false)
             }
             BottomSheetBehavior.STATE_EXPANDED -> {
                 bottomDrawerDim.visible()
                 val drawable = ContextCompat.getDrawable(
                     this@defaultBottomSheetCallback,
-                    R.drawable.ic_bdrawer_down
+                    R.drawable.ic_bdrawer_anim_up_to_down
                 )
                 bottomSheetExpandButton.setImageDrawable(drawable)
+                (drawable as? AnimatedVectorDrawable)?.start()
                 (bottomSheet.context as? MainActivity)?.setLowProfileUI(true)
             }
-            else -> {
-            }
+            else -> { }
         }
     }
 
