@@ -40,7 +40,7 @@
         <item name="colorOnBackground">@color/foreground</item>
         <item name="colorSurface">@color/background2</item>
         <item name="colorOnSurface">@color/foreground2</item>
-        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
+        <item name="colorSurfaceVariant">@color/md_grey_300</item>
         <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
         <item name="colorOutline">@color/md_theme_light_outline</item>
         <item name="colorOnSurfaceInverse">@color/background</item>

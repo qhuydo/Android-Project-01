@@ -75,4 +75,7 @@
     <color name="md_theme_dark_primaryInverse">#6750A4</color>
     <color name="seed">#6750A4</color>
     <color name="error">#B3261E</color>
+
+    <color name="bottom_drawer_info_card_m2">@color/md_grey_200</color>
+    <color name="bottom_drawer_info_card_m3">?colorSurfaceVariant</color>
 </resources>

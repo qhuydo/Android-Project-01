@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 android:orientation="horizontal"
-                app:layoutManager=".helpers.widgets.LayoutManagerSmoothScrollOnly"
+                app:layoutManager=".ui.widgets.LayoutManagerSmoothScrollOnly"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/button_group_viewmode_collection" />
 

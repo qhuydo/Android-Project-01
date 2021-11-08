@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Primary background/foreground -->
-    <color name="background">@color/md_grey_900</color>
+    <color name="background">@color/md_black_1000</color>
     <color name="foreground">@color/md_grey_50</color>
     <!-- Secondary background/foreground (cards, etc.) -->
     <color name="background2">@color/md_grey_900</color>
@@ -15,4 +15,7 @@
     <!-- Bottom sheet divider -->
     <color name="bottom_sheet_divider">#303030</color>
     <color name="bottom_sheet_toggle">#1FFFFFFF</color>
+
+    <color name="bottom_drawer_info_card_m2">@color/md_grey_800</color>
+    <color name="bottom_drawer_info_card_m3">?colorSurfaceVariant</color>
 </resources>
