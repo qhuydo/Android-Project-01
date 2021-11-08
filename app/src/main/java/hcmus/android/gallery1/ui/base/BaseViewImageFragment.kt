@@ -31,6 +31,7 @@ import hcmus.android.gallery1.ui.collection.list.AlbumViewModel
 import hcmus.android.gallery1.ui.dialog.AddPhotoIntoAlbumsDialog.Companion.showAddToAlbumDialog
 import hcmus.android.gallery1.ui.dialog.NewAlbumDialog.Companion.showNewAlbumDialog
 import hcmus.android.gallery1.ui.image.list.FavouritesViewModel
+import hcmus.android.gallery1.ui.image.view.ViewImageBottomDrawerCallback
 import hcmus.android.gallery1.ui.image.view.ViewImageViewModel
 import hcmus.android.gallery1.ui.main.MainFragment
 import hcmus.android.gallery1.ui.widgets.ImageItemView
@@ -186,6 +187,14 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(
         getBottomDrawer().bdrawerViewImage.layoutTransition = LayoutTransition().apply {
             setAnimateParentHierarchy(false)
         }
+    }
+
+    override fun bottomSheetCallback(): BottomSheetBehavior.BottomSheetCallback {
+        return ViewImageBottomDrawerCallback(
+            bottomDrawerDim,
+            getBottomDrawer(),
+            bottomSheetBehavior
+        )
     }
 
     private fun registerResultLaunchers() {

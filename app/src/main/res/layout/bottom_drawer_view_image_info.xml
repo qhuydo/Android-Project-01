@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,141 +11,108 @@
             type="hcmus.android.gallery1.data.Item" />
     </data>
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        android:layout_marginTop="@dimen/divider_large"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:showIn="@layout/bottom_drawer_view_image">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical">
+            android:background="?colorSurfaceVariant"
+            android:orientation="vertical"
+            android:padding="16dp"
+            tools:showIn="@layout/bottom_drawer_view_image">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/info_file_name"
-                android:textAlignment="viewStart"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/info_file_name"
-                android:layout_width="0dp"
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/bottomDrawerInfoTitle"
+                    android:text="@string/info_file_name" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/info_file_name"
+                    style="@style/bottomDrawerInfoDescription"
+                    android:text="@{item.fileName}"
+                    tools:text="@string/placeholder_card_details" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textAlignment="viewEnd"
-                android:text="@{item.fileName}"
-                android:textSize="16sp"
-                tools:text="@string/placeholder_card_details" />
+                android:layout_gravity="center_vertical"
+                android:textColor="?colorOnPrimaryContainer">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/bottomDrawerInfoTitle"
+                    android:text="@string/info_timestamp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/info_timestamp"
+                    style="@style/bottomDrawerInfoDescription"
+                    android:text="@{String.valueOf(item.dateModified)}"
+                    tools:text="@string/placeholder_card_details" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="?colorOnPrimaryContainer"
+                android:visibility="gone">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/bottomDrawerInfoTitle"
+                    android:text="@string/info_resolution" />
+
+                <!-- todo get info resolution -->
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/info_resolution"
+                    style="@style/bottomDrawerInfoDescription"
+                    tools:text="@string/placeholder_card_details" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="?colorOnPrimaryContainer">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/bottomDrawerInfoTitle"
+                    android:text="@string/info_file_size" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/info_file_size"
+                    style="@style/bottomDrawerInfoDescription"
+                    android:text="@{@plurals/info_file_size_value((int)item.fileSize, (int)item.fileSize)}"
+                    tools:text="@string/placeholder_card_details" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/bottomDrawerInfoTitle"
+                    android:text="@string/info_file_path" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/info_file_path"
+                    style="@style/bottomDrawerInfoDescription"
+                    android:text="@{item.filePath}"
+                    tools:text="@tools:sample/lorem/random" />
+            </LinearLayout>
+
 
         </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="viewStart"
-                android:text="@string/info_timestamp"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/info_timestamp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textAlignment="viewEnd"
-                android:text="@{String.valueOf(item.dateModified)}"
-                android:textSize="16sp"
-                tools:text="@string/placeholder_card_details" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="viewStart"
-                android:text="@string/info_resolution"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <!-- todo get info resolution -->
-            <TextView
-                android:id="@+id/info_resolution"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textAlignment="viewEnd"
-                android:textSize="16sp"
-                tools:text="@string/placeholder_card_details" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="viewStart"
-                android:text="@string/info_file_size"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/info_file_size"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textAlignment="viewEnd"
-                android:text="@{@plurals/info_file_size_value((int)item.fileSize, (int)item.fileSize)}"
-                android:textSize="16sp"
-                tools:text="@string/placeholder_card_details" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="viewStart"
-                android:text="@string/info_file_path"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/info_file_path"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textAlignment="viewEnd"
-                android:text="@{item.filePath}"
-                android:textSize="16sp"
-                tools:text="@tools:sample/lorem/random" />
-        </LinearLayout>
-
-
-    </LinearLayout>
 </layout>
 
     

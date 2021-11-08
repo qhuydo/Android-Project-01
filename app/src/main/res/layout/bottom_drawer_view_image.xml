@@ -162,18 +162,18 @@
             android:paddingBottom="@dimen/divider_large">
 
             <!-- Uneven margin due to "optical perfection" tweaks -->
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/divider"
-                android:layout_marginBottom="@dimen/divider_large"
-                app:dividerColor="?colorOutline" />
+            <!--            <com.google.android.material.divider.MaterialDivider-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/divider"-->
+            <!--                android:layout_marginBottom="@dimen/divider_large"-->
+            <!--                app:dividerColor="?colorOutline" />-->
 
-            <!-- GridLayout gap: https://stackoverflow.com/a/53421508 -->
             <include
                 android:id="@+id/bdrawer_view_image_info"
                 layout="@layout/bottom_drawer_view_image_info"
                 app:item="@{photoViewModel.item}" />
+
         </LinearLayout>
 
     </LinearLayout>
