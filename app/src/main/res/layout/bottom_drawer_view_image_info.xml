@@ -12,9 +12,9 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_marginTop="@dimen/divider_large"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/divider_large">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,7 +54,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/info_timestamp"
                     style="@style/bottomDrawerInfoDescription"
-                    android:text="@{String.valueOf(item.dateModified)}"
+                    dateModifiedFromMediaStore="@{item.dateModified}"
                     tools:text="@string/placeholder_card_details" />
             </LinearLayout>
 
@@ -89,7 +89,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/info_file_size"
                     style="@style/bottomDrawerInfoDescription"
-                    android:text="@{@plurals/info_file_size_value((int)item.fileSize, (int)item.fileSize)}"
+                    byteCountToDisplaySize="@{item.fileSize}"
                     tools:text="@string/placeholder_card_details" />
             </LinearLayout>
 
