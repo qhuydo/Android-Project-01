@@ -4,24 +4,18 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
-import android.view.View
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.core.os.ConfigurationCompat
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.vmadalin.easypermissions.EasyPermissions
 import hcmus.android.gallery1.R
 import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validTabs
 import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validViews
 import hcmus.android.gallery1.repository.PreferenceRepository.Companion.validViewsLimited
-import hcmus.android.gallery1.ui.main.MainActivity
 import hcmus.android.gallery1.ui.start.StartActivity
 import java.util.*
 import kotlin.math.roundToInt
@@ -107,44 +101,7 @@ fun Context.toast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) =
     Toast.makeText(this, text, duration).show()
 
 fun Context.toast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) =
-    Toast.makeText(this, resId, duration)
-
-// https://blog.mindorks.com/android-bottomsheet-in-kotlin
-fun Context.defaultBottomSheetCallback(
-    bottomDrawerDim: View,
-    bottomSheetExpandButton: ImageButton
-) = object : BottomSheetBehavior.BottomSheetCallback() {
-    override fun onStateChanged(bottomSheet: View, newState: Int) {
-        when (newState) {
-            BottomSheetBehavior.STATE_COLLAPSED -> {
-                bottomDrawerDim.gone()
-                val drawable = ContextCompat.getDrawable(
-                    this@defaultBottomSheetCallback,
-                    R.drawable.ic_bdrawer_anim_down_to_up
-                )
-                bottomSheetExpandButton.setImageDrawable(drawable)
-                (drawable as? AnimatedVectorDrawable)?.start()
-                (bottomSheet.context as? MainActivity)?.setLowProfileUI(false)
-            }
-            BottomSheetBehavior.STATE_EXPANDED -> {
-                bottomDrawerDim.visible()
-                val drawable = ContextCompat.getDrawable(
-                    this@defaultBottomSheetCallback,
-                    R.drawable.ic_bdrawer_anim_up_to_down
-                )
-                bottomSheetExpandButton.setImageDrawable(drawable)
-                (drawable as? AnimatedVectorDrawable)?.start()
-                (bottomSheet.context as? MainActivity)?.setLowProfileUI(true)
-            }
-            else -> { }
-        }
-    }
-
-    override fun onSlide(bottomSheet: View, slideOffset: Float) {
-        bottomDrawerDim.visible()
-        bottomDrawerDim.alpha = 0.5f * slideOffset
-    }
-}
+    Toast.makeText(this, resId, duration).show()
 
 fun Context.hasReadExternalPermission(): Boolean =
     EasyPermissions.hasPermissions(this, READ_EXTERNAL_STORAGE)
