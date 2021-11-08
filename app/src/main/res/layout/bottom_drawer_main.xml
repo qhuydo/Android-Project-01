@@ -45,35 +45,13 @@
                 app:labelVisibilityMode="auto"
                 app:menu="@menu/bottom_drawer_navbar"
                 tools:visibility="visible" />
-            <!--                android:background="?colorSurface"-->
-            <!--                app:backgroundTint="?colorSurface"-->
-            <!--                app:itemBackground="?colorSurface"-->
-
-            <!--            <com.google.android.material.tabs.TabLayout-->
-            <!--                android:id="@+id/main_navbar"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:layout_weight="4"-->
-            <!--                android:background="@color/background2"-->
-            <!--                app:elevation="0dp"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:tabRippleColor="@color/control_higlight"-->
-            <!--                app:tabUnboundedRipple="true"-->
-            <!--                app:tabGravity="fill"-->
-            <!--                app:tabIndicator="@android:color/transparent"-->
-            <!--                app:tabMode="fixed"-->
-            <!--                app:tabPaddingEnd="0dp"-->
-            <!--                app:tabPaddingStart="0dp"-->
-            <!--                app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Caption"-->
-            <!--                tools:visibility="gone" />-->
 
             <ImageButton
                 android:id="@+id/btn_bottom_sheet_expand"
                 style="@style/StyleBottomDrawerImageButton"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_bdrawer_up" />
+                android:src="@drawable/ic_bdrawer_up"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 

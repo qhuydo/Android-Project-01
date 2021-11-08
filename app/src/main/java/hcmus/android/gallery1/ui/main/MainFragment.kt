@@ -117,6 +117,10 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
 
     override fun subscribeUi() {}
 
+    override fun bottomSheetCallback() = MainBottomDrawerCallback(
+        bottomDrawerDim, binding.bottomDrawerMain
+    )
+
     // Find all elements on screen
     private fun findElements() {
 

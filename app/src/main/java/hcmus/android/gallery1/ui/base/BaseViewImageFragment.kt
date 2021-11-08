@@ -192,8 +192,7 @@ abstract class BaseViewImageFragment<B : ViewDataBinding>(
     override fun bottomSheetCallback(): BottomSheetBehavior.BottomSheetCallback {
         return ViewImageBottomDrawerCallback(
             bottomDrawerDim,
-            getBottomDrawer(),
-            bottomSheetBehavior
+            getBottomDrawer()
         )
     }
 
