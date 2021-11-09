@@ -26,10 +26,11 @@ class ViewImageBottomDrawerCallback(
 
     override fun onStateCollapsed(bottomSheet: View, newState: Int) {
         super.onStateCollapsed(bottomSheet, newState)
-        infoLayout.translationY = bottomSheetHeight
+        infoLayout.translationY = infoLayout.measuredHeight.toFloat()
 
         secondRow.translationY = -(secondRow.measuredHeight * MIN_SLIDE_OFFSET
                 + bottomSheetHeight - secondRow.measuredHeight)
+
         secondRow.alpha = ALPHA_INVISIBLE
     }
 
@@ -38,7 +39,6 @@ class ViewImageBottomDrawerCallback(
         infoLayout.translationY = 0f
 
         secondRow.alpha = ALPHA_VISIBLE
-        secondRow.translationY = 0f
     }
 
     override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -64,9 +64,7 @@ class ViewImageBottomDrawerCallback(
     }
 
     private fun animateInfoLayout(slideOffset: Float) {
-        val y = infoLayout.measuredHeight * slideOffset +
-                bottomSheetHeight - infoLayout.measuredHeight
-
+        val y = infoLayout.measuredHeight - infoLayout.measuredHeight * slideOffset
         infoLayout.translationY = y
     }
 }
