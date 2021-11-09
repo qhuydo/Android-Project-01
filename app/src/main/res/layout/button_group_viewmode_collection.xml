@@ -14,7 +14,7 @@
         android:id="@+id/viewmode_collection"
         buttonViewModeCollectionState="@{viewMode}"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:selectionRequired="true"
         app:singleSelection="true"
         tools:visibility="visible">

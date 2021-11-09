@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -37,11 +36,11 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
 
     companion object {
         const val BUNDLE_POS = "pos"
-        val bottomNavItemIds = setOf(
-            R.id.menu_tab_all,
-            R.id.menu_tab_album,
-            R.id.menu_tab_date,
-            R.id.menu_tab_favorites,
+        val bottomNavItemIds = mapOf(
+            TAB.ALL to R.id.menu_tab_all,
+            TAB.ALBUM to R.id.menu_tab_album,
+            TAB.DATE to R.id.menu_tab_date,
+            TAB.FAV to R.id.menu_tab_favorites,
         )
     }
 
@@ -50,7 +49,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
     private var currentPosition = TAB.ALL.ordinal
     private var peekHeight = -1
 
-    private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+    private val tabChangeCallback = object : ViewPager2.OnPageChangeCallback() {
 
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
@@ -58,8 +57,19 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
             currentPosition = position
             fadeUpMainContainer()
 
-            bottomSheetBehavior.collapse()
-            viewModeRecyclerView.smoothScrollToPosition(position)
+            if (viewmodes.currentItem != position) {
+                bottomSheetBehavior.collapse()
+                viewmodes.currentItem = position
+            }
+        }
+    }
+
+    private val viewModeSelectorPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            if (position != currentPosition) {
+                bottomNavigationView.selectedItemId = bottomNavItemIds[TAB.fromPosition(position)]!!
+            }
         }
     }
 
@@ -89,8 +99,8 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
 
     // Hold all references to elements on screen
     private lateinit var bottomNavigationView: BottomNavigationView
-    private lateinit var viewPager2: ViewPager2
-    private lateinit var viewModeRecyclerView: RecyclerView
+    private lateinit var tabPages: ViewPager2
+    private lateinit var viewmodes: ViewPager2
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -107,7 +117,8 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewPager2.unregisterOnPageChangeCallback(onPageChangeCallback)
+        tabPages.unregisterOnPageChangeCallback(tabChangeCallback)
+        viewmodes.unregisterOnPageChangeCallback(viewModeSelectorPageChangeCallback)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -127,11 +138,10 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
         binding.bottomDrawerMain.apply {
             // Bottom drawer
             bottomNavigationView = mainNavbar
-            viewModeRecyclerView = binding.bottomDrawerMain.viewmode
+            viewmodes = binding.bottomDrawerMain.viewmode
         }
 
-        viewPager2 = binding.mainFragmentContainer
-
+        tabPages = binding.mainFragmentContainer
     }
 
     override fun initBottomDrawerElements() {
@@ -148,10 +158,10 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
         binding.fragment = this
     }
 
-    private fun initViewPager() = viewPager2.apply {
+    private fun initViewPager() = tabPages.apply {
         adapter = tabFragmentAdapter
         isUserInputEnabled = false
-        registerOnPageChangeCallback(onPageChangeCallback)
+        registerOnPageChangeCallback(tabChangeCallback)
     }
 
     // Bottom drawer: navbar
@@ -159,12 +169,12 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
         // Navbar behavior
 
         bottomNavigationView.setOnItemSelectedListener {
-            if (it.itemId in bottomNavItemIds) {
+            if (it.itemId in bottomNavItemIds.values) {
                 val currentPosition = it.itemId.bottomNavIdToTabPosition()
 
-                if (currentPosition != viewPager2.currentItem) {
+                if (currentPosition != tabPages.currentItem) {
                     // viewPager2.currentItem = currentPosition
-                    viewPager2.setCurrentItem(currentPosition, false)
+                    tabPages.setCurrentItem(currentPosition, false)
 
                 } else {
                     (currentViewPagerFragment() as? ScrollableToTop)?.scrollToTop()
@@ -179,7 +189,8 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
 
     // Bottom drawer: view mode selectors
     private fun initViewModeSelectors() {
-        viewModeRecyclerView.adapter = ButtonGroupViewModeAdapter(onViewModeSelectedCallback)
+        viewmodes.adapter = ButtonGroupViewModeAdapter(onViewModeSelectedCallback)
+        viewmodes.registerOnPageChangeCallback(viewModeSelectorPageChangeCallback)
     }
 
     override fun paddingContainerToFitWithPeekHeight(peekHeight: Int) {
@@ -278,7 +289,7 @@ class MainFragment : BottomDrawerFragment<FragmentMainBinding>(
 
     internal fun notifyViewModeChange(tab: TAB) {
         TAB.validTabs().firstOrNull { it == tab }?.let {
-            viewModeRecyclerView.adapter?.notifyItemChanged(it.ordinal)
+            viewmodes.adapter?.notifyItemChanged(it.ordinal)
         }
     }
 
