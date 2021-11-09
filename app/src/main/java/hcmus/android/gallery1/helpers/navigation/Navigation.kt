@@ -75,7 +75,9 @@ private fun MainActivity.pushScreenInternal(
             val transform = MaterialContainerTransform(
                 this@pushScreenInternal, true
             ).apply {
-                containerColor = MaterialColors.getColor(sharedElement, R.attr.colorSurface)
+                containerColor = MaterialColors.getColor(
+                    sharedElement, android.R.attr.colorBackground
+                )
                 fadeMode = MaterialContainerTransform.FADE_MODE_THROUGH
             }
             val fragment = fragmentClass.classLoader?.let { classLoader ->
