@@ -41,7 +41,6 @@
                 android:layout_weight="4"
                 android:elevation="0dp"
                 app:elevation="0dp"
-                app:itemRippleColor="?colorControlHighlight"
                 app:labelVisibilityMode="auto"
                 app:menu="@menu/bottom_drawer_navbar"
                 tools:visibility="visible" />

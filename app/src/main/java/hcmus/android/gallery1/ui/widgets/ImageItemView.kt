@@ -8,6 +8,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.databinding.BindingAdapter
 import com.davemorrissey.labs.subscaleview.ImageSource
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.ORIENTATION_USE_EXIF
 import hcmus.android.gallery1.data.Item
 import hcmus.android.gallery1.data.ItemType
 import hcmus.android.gallery1.databinding.ViewImageItemBinding
@@ -51,6 +52,7 @@ class ImageItemView @JvmOverloads constructor(
         when (item.getType()) {
             ItemType.STATIC_IMAGE -> {
                 binding.subscaleView.setImage(ImageSource.uri(item.getUri()))
+                binding.subscaleView.orientation = ORIENTATION_USE_EXIF
                 goneAllExcept(binding.subscaleView)
             }
             ItemType.VIDEO -> {

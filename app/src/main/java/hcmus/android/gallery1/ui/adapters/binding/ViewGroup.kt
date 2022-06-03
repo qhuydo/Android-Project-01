@@ -8,8 +8,6 @@ import hcmus.android.gallery1.helpers.*
 @BindingAdapter("buttonViewModeItemState")
 fun MaterialButtonToggleGroup.setButtonViewModeItemState(viewMode: String?) {
     if (viewMode != null) {
-
-
         check(
             when (viewMode) {
                 VIEW_LIST -> R.id.btn_viewmode_item_list

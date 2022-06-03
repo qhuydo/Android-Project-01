@@ -5,6 +5,8 @@ import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
 import android.text.format.DateUtils
+import androidx.core.database.getLongOrNull
+import androidx.core.database.getStringOrNull
 import java.util.*
 
 @SuppressLint("InlinedApi")
@@ -96,10 +98,11 @@ class DataSource(private val applicationContext: Context) {
                 if (collectionExists) {
                     continue
                 } else {
-                    val bucketDisplayName = cursor.getString(bucketDisplayRow)
-                    val id = cursor.getLong(idRow)
+                    val bucketDisplayName = cursor.getStringOrNull(bucketDisplayRow) ?: ""
 
+                    val id = cursor.getLong(idRow)
                     val bucketThumbnailUri = "$DEFAULT_CONTENT_URI/$id"
+
                     rows += Collection(
                         id = bucketId,
                         name = bucketDisplayName,

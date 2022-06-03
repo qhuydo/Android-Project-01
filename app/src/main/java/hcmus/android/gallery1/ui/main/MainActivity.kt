@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.root.doOnApplyWindowInsets { view, insetsCompat, _, _, _ ->
+        binding.root.doOnApplyWindowInsets { _, insetsCompat, _, _, _ ->
             val insets = insetsCompat.getInsets(WindowInsetsCompat.Type.systemBars())
             navigationBarHeight = insets.bottom
         }

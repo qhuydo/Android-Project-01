@@ -9,10 +9,7 @@ import androidx.core.view.doOnLayout
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hcmus.android.gallery1.R
-import hcmus.android.gallery1.helpers.ALPHA_INVISIBLE
-import hcmus.android.gallery1.helpers.ALPHA_VISIBLE
-import hcmus.android.gallery1.helpers.DURATION_BOTTOM_SHEET_ANIMATION
-import hcmus.android.gallery1.helpers.ScreenConstant
+import hcmus.android.gallery1.helpers.*
 import hcmus.android.gallery1.helpers.extensions.*
 import hcmus.android.gallery1.ui.widgets.bottomsheet.DefaultBottomDrawerCallback
 
@@ -95,7 +92,10 @@ abstract class BottomDrawerFragment<B : ViewDataBinding>(
     protected fun changePeekHeight() = with(bottomSheetBehavior) {
         bottomDrawerView.doOnLayout {
             val peekHeightWithoutNavBar = calculatePeekHeight()
-            peekHeight = calculatePeekHeight() + (mainActivity?.navigationBarHeight ?: 0)
+            peekHeight = when (preferenceRepository.materialVersion) {
+                MATERIAL_2 -> peekHeightWithoutNavBar + (mainActivity?.navigationBarHeight ?: 0)
+                else -> peekHeightWithoutNavBar
+            }
             paddingContainerToFitWithPeekHeight(peekHeightWithoutNavBar)
         }
     }

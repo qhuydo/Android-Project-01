@@ -18,7 +18,10 @@ import com.google.android.material.transition.MaterialSharedAxis
 import hcmus.android.gallery1.databinding.ButtonGroupViewmodeItemBinding
 import hcmus.android.gallery1.helpers.ScreenConstant
 import hcmus.android.gallery1.helpers.TAB
-import hcmus.android.gallery1.helpers.extensions.*
+import hcmus.android.gallery1.helpers.extensions.getSpanCountOf
+import hcmus.android.gallery1.helpers.extensions.isCompactLayout
+import hcmus.android.gallery1.helpers.extensions.observeOnce
+import hcmus.android.gallery1.helpers.extensions.viewIdToViewMode
 import hcmus.android.gallery1.helpers.navigation.navigateToViewImageFragment
 import hcmus.android.gallery1.ui.adapters.binding.doOnApplyWindowInsets
 import hcmus.android.gallery1.ui.adapters.recyclerview.ItemListAdapter
@@ -98,11 +101,15 @@ abstract class BaseViewCollectionFragment<B : ViewDataBinding>(
 
         getButtonClose().setOnClickListener { closeCollection() }
 
-        getViewModeView().viewmodeItem.addOnButtonCheckedListener { _, checkedId, _ ->
-            val viewMode = checkedId.viewIdToViewMode()
-            preferenceRepository.setViewMode(tab.key, viewMode)
-            animateViewModeChange()
-        }
+        getViewModeView().viewmodeItem
+            .apply { clearOnButtonCheckedListeners() }
+            .addOnButtonCheckedListener { _, checkedId, isChecked ->
+                if (isChecked) {
+                    val viewMode = checkedId.viewIdToViewMode()
+                    preferenceRepository.setViewMode(tab.key, viewMode)
+                    animateViewModeChange()
+                }
+            }
     }
 
     private fun animateViewModeChange() {

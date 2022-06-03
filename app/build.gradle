@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "30.0.3"
     buildFeatures {
         dataBinding true
@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId "hcmus.android.gallery1"
         minSdkVersion 21 // Android 5.x
-        targetSdkVersion 31 // Android 12.x
+        targetSdkVersion 32 // Android 12.x
         versionCode 1
         versionName "1.0"
 
@@ -29,7 +29,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -46,28 +46,28 @@ dependencies {
     // Kotlin + Core
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     // APIs for SplashScreen, including compatibility helpers on devices prior Android 12
-    implementation "androidx.core:core-splashscreen:1.0.0-alpha02"
+    implementation "androidx.core:core-splashscreen:1.0.0-rc01"
 
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
     // coroutines
-    def coroutine_version = '1.5.1'
+    def coroutine_version = '1.6.0'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version"
 
     // Material Components
-    implementation 'com.google.android.material:material:1.5.0-alpha05'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 
     // Architecture Components
-    def lifecycle_version = '2.4.0'
-    def room_version = '2.4.0-beta01'
+    def lifecycle_version = '2.4.1'
+    def room_version = '2.4.2'
     def arch_component_version = '2.1.0'
-    implementation 'androidx.fragment:fragment-ktx:1.3.6'
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
@@ -79,9 +79,9 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:$arch_component_version"
 
     // Preferences
-    implementation 'androidx.preference:preference-ktx:1.1.1'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
-    implementation 'androidx.preference:preference-ktx:1.1.1'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
 
     // Card View
     def cardview_version = "1.0.0"
@@ -90,6 +90,10 @@ dependencies {
     // Recyclerview
     def recyclerview_version = "1.2.1"
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+
+    // WorkManager
+    def work_manager_version = "2.7.1"
+    implementation "androidx.work:work-runtime-ktx:$work_manager_version"
 
     //glide
     def glide_version = "4.12.0"
@@ -110,7 +114,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // Exo player
-    def exo_player_version = "2.15.1"
+    def exo_player_version = "2.17.1"
     implementation "com.google.android.exoplayer:exoplayer-core:$exo_player_version"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exo_player_version"
 
